@@ -379,6 +379,23 @@
     gap: 8px;
     margin-top: 20px;
     margin-bottom: 4px;
+    flex-wrap: wrap;
+  }
+
+  .download-btn {
+    margin-left: auto;
+    color: var(--coral-dark);
+    background: rgba(255,84,96,0.1);
+    border-color: rgba(255,84,96,0.3);
+  }
+
+  .download-btn:hover {
+    background: rgba(255,84,96,0.18);
+  }
+
+  .download-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
   }
 
   .view-btn {
@@ -576,6 +593,8 @@
     </div>
     <nav>
       <a href="consulta.html" class="active">Consulta</a>
+      <a href="calculadora.html">Calculadora</a>
+      <a href="pendentes.html">Valores pendentes</a>
     </nav>
   </div>
 </div>
@@ -617,6 +636,7 @@
     <button type="button" class="view-btn active" id="viewListBtn" data-view="list">Lista</button>
     <button type="button" class="view-btn" id="viewGridBtn" data-view="grid">Grid</button>
     <button type="button" class="view-btn" id="viewTableBtn" data-view="table">Tabela</button>
+    <button type="button" class="view-btn download-btn" id="downloadPdfBtn">Baixar PDF</button>
   </div>
 
   <div class="results" id="results"></div>
@@ -625,8 +645,10 @@
 
 <footer></footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script>
-  const API_URL = 'https://script.google.com/macros/s/AKfycbxYOZiOaCRuYLQcwhNdi3eBNBgDbZLD8wvfScNg7Ogl5gdySx6vRwe17zdm44q3i_Th/exec';
+  const API_URL = 'https://script.google.com/macros/s/AKfycby51xkp8ka5boynUNZoXn4yktt-C_LzNRwD5dam6YeY4f6zEPsNJGlOyDuk4rDdUMtS7g/exec';
   const IMG_FOLDER = 'imagens/';
 
   const input = document.getElementById('handleInput');
@@ -643,8 +665,10 @@
   let currentView = 'list';
   let lastRendered = [];
   let lastTotal = 0;
+  let currentHandle = '';
 
   const viewToggle = document.getElementById('viewToggle');
+  const downloadPdfBtn = document.getElementById('downloadPdfBtn');
   const viewButtons = [
     document.getElementById('viewListBtn'),
     document.getElementById('viewGridBtn'),
