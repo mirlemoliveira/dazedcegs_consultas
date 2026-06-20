@@ -153,9 +153,8 @@
 
   .summary-banner {
     margin-top: 24px;
-    border-radius: 14px;
-    padding: 22px;
-    text-align: center;
+    border-radius: 16px;
+    padding: 24px;
     display: none;
   }
 
@@ -164,15 +163,32 @@
   }
 
   .summary-banner.pending {
-    background: rgba(255,84,96,0.12);
+    background: linear-gradient(135deg, rgba(255,84,96,0.10) 0%, rgba(255,84,96,0.16) 100%);
   }
+
+  .summary-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .summary-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .summary-banner.clear .summary-dot { background: var(--green); }
+  .summary-banner.pending .summary-dot { background: var(--coral-dark); }
 
   .summary-icon {
     font-family: 'Oswald', sans-serif;
-    font-size: 13px;
-    letter-spacing: 0.6px;
+    font-size: 12px;
+    letter-spacing: 1.2px;
     text-transform: uppercase;
-    margin-bottom: 6px;
+    font-weight: 600;
   }
 
   .summary-banner.clear .summary-icon { color: var(--green); }
@@ -180,12 +196,50 @@
 
   .summary-text {
     font-family: 'Oswald', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 18px;
   }
 
   .summary-banner.clear .summary-text { color: var(--green); }
   .summary-banner.pending .summary-text { color: var(--coral-dark); }
+
+  .summary-banner.clear .summary-text { margin-bottom: 0; }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .stat-card {
+    background: rgba(255,255,255,0.6);
+    border-radius: 10px;
+    padding: 12px 14px;
+    text-align: center;
+  }
+
+  .stat-card-value {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  .stat-card.is-multa .stat-card-value { color: var(--coral-dark); }
+
+  .stat-card-label {
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  @media (max-width: 480px) {
+    .stat-grid { grid-template-columns: 1fr; }
+  }
 
   .section-label {
     font-family: 'Oswald', sans-serif;
@@ -205,7 +259,7 @@
     border-left: 4px solid var(--coral-dark);
     border-radius: 10px;
     padding: 16px 18px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -219,6 +273,7 @@
     font-weight: 600;
     color: var(--ink);
     margin: 0 0 4px;
+    text-transform: uppercase;
   }
 
   .pending-meta {
@@ -227,17 +282,34 @@
   }
 
   .pending-multa {
-    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
     color: var(--coral-dark);
     font-weight: 600;
-    margin-top: 4px;
+    margin-top: 8px;
+    background: rgba(255,84,96,0.12);
+    padding: 4px 9px;
+    border-radius: 6px;
+  }
+
+  .pending-side {
+    text-align: right;
   }
 
   .pending-value {
     font-family: 'Oswald', sans-serif;
     font-size: 18px;
     font-weight: 600;
+    color: var(--ink);
+  }
+
+  .pending-total-row {
+    font-size: 11px;
     color: var(--coral-dark);
+    font-weight: 600;
+    margin-top: 2px;
   }
 
   .results { margin-top: 8px; }
@@ -258,7 +330,7 @@
     </div>
     <nav>
       <a href="cegs/">Consulta</a>
-      <a href="calculadora.html">Calculadora</a>
+      <a href="calculadora.html">Calculadoras</a>
       <a href="pendentes.html" class="active">Valores pendentes</a>
       <a href="sobras.html">Sobras Cegs</a>
     </nav>
@@ -288,8 +360,25 @@
   </div>
 
   <div class="summary-banner" id="summaryBanner">
-    <div class="summary-icon" id="summaryIcon"></div>
+    <div class="summary-header">
+      <div class="summary-dot"></div>
+      <div class="summary-icon" id="summaryIcon"></div>
+    </div>
     <div class="summary-text" id="summaryText"></div>
+    <div class="stat-grid" id="statGrid" style="display:none;">
+      <div class="stat-card">
+        <div class="stat-card-value" id="statItens">0</div>
+        <div class="stat-card-label">Itens</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-value" id="statEncargos">0</div>
+        <div class="stat-card-label">Encargos</div>
+      </div>
+      <div class="stat-card is-multa">
+        <div class="stat-card-value" id="statMulta">R$ 0</div>
+        <div class="stat-card-label">Multa total</div>
+      </div>
+    </div>
   </div>
 
   <div class="results" id="results"></div>
@@ -305,6 +394,10 @@
   const summaryBanner = document.getElementById('summaryBanner');
   const summaryIcon = document.getElementById('summaryIcon');
   const summaryText = document.getElementById('summaryText');
+  const statGrid = document.getElementById('statGrid');
+  const statItens = document.getElementById('statItens');
+  const statEncargos = document.getElementById('statEncargos');
+  const statMulta = document.getElementById('statMulta');
 
   function formatValor(v) {
     return (typeof v === 'number')
@@ -340,18 +433,17 @@
     if (resumo.temPendencia) {
       summaryBanner.className = 'summary-banner pending';
       summaryIcon.textContent = 'Atenção';
-      const partes = [];
-      if (resumo.itensPendentes) partes.push(resumo.itensPendentes + (resumo.itensPendentes === 1 ? ' item' : ' itens'));
-      if (resumo.encargosPendentes) partes.push(resumo.encargosPendentes + (resumo.encargosPendentes === 1 ? ' encargo' : ' encargos'));
-      let texto = 'Pendências em aberto: ' + partes.join(' e ');
-      if (resumo.totalMulta > 0) {
-        texto += ' · Multa por atraso: ' + formatValor(resumo.totalMulta);
-      }
-      summaryText.textContent = texto;
+      summaryText.textContent = 'Você tem pendências em aberto';
+
+      statGrid.style.display = 'grid';
+      statItens.textContent = resumo.itensPendentes || 0;
+      statEncargos.textContent = resumo.encargosPendentes || 0;
+      statMulta.textContent = formatValor(resumo.totalMulta || 0);
     } else {
       summaryBanner.className = 'summary-banner clear';
       summaryIcon.textContent = 'Tudo certo';
       summaryText.textContent = 'Nenhuma pendência em aberto';
+      statGrid.style.display = 'none';
     }
 
     const itensPendentes = (data.pedidos || []).filter(p => p.pagamento === 'Pendente');
@@ -366,8 +458,9 @@
       itensPendentes.forEach(p => {
         const card = document.createElement('div');
         card.className = 'pending-card';
+        const totalItem = (typeof p.valor === 'number' ? p.valor : 0) + (p.multa || 0);
         const multaTexto = p.multa > 0
-          ? `<div class="pending-multa">+${formatValor(p.multa)} de multa (${p.diasAtraso} ${p.diasAtraso === 1 ? 'dia' : 'dias'} de atraso)</div>`
+          ? `<div class="pending-multa">+${formatValor(p.multa)} · ${p.diasAtraso} ${p.diasAtraso === 1 ? 'dia de atraso' : 'dias de atraso'}</div>`
           : '';
         card.innerHTML = `
           <div>
@@ -375,7 +468,10 @@
             <div class="pending-meta">Membro: ${p.membro || '-'} &middot; Prazo: ${p.prazo || '-'}</div>
             ${multaTexto}
           </div>
-          <div class="pending-value">${formatValor(p.valor)}</div>
+          <div class="pending-side">
+            <div class="pending-value">${formatValor(totalItem)}</div>
+            ${p.multa > 0 ? `<div class="pending-total-row">valor + multa</div>` : ''}
+          </div>
         `;
         resultsEl.appendChild(card);
       });
@@ -390,12 +486,20 @@
       encargosPendentes.forEach(e => {
         const card = document.createElement('div');
         card.className = 'pending-card';
+        const totalEncargo = (typeof e.valor === 'number' ? e.valor : 0) + (e.multa || 0);
+        const multaTexto = e.multa > 0
+          ? `<div class="pending-multa">+${formatValor(e.multa)} · ${e.diasAtraso} ${e.diasAtraso === 1 ? 'dia de atraso' : 'dias de atraso'}</div>`
+          : '';
         card.innerHTML = `
           <div>
             <p class="pending-title">${e.tipo || 'Encargo'}</p>
             <div class="pending-meta">${e.origem || ''}${e.quantidade ? ' &middot; ' + e.quantidade + ' pçs' : ''}</div>
+            ${multaTexto}
           </div>
-          <div class="pending-value">${formatValor(e.valor)}</div>
+          <div class="pending-side">
+            <div class="pending-value">${formatValor(totalEncargo)}</div>
+            ${e.multa > 0 ? `<div class="pending-total-row">valor + multa</div>` : ''}
+          </div>
         `;
         resultsEl.appendChild(card);
       });
