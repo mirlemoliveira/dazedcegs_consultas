@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dazed Cegs - Consulta de Pedidos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky-1: #99B7D0;
+    --sky-2: #B9C8DF;
+    --cream: #EBE1D3;
+    --ink: #2B2B33;
+    --ink-soft: #5C6270;
+    --purple: #6F70A1;
+    --coral: #FF5460;
+    --coral-dark: #C23440;
+    --card-bg: rgba(255,255,255,0.86);
+    --line: rgba(43,43,51,0.14);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--sky-1) 0%, var(--sky-2) 55%, var(--sky-1) 100%);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+
+  .topbar {
+    padding: 22px 24px 0;
+  }
+
+  .topbar-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .wordmark-row {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo-img {
+    height: 56px;
+    width: auto;
+    display: block;
+  }
+
+  nav {
+    margin-top: 18px;
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid rgba(43,43,51,0.16);
+  }
+
+  nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    padding: 10px 14px;
+    border-bottom: 2px solid transparent;
+  }
+
+  nav a.active {
+    color: var(--ink);
+    border-bottom-color: var(--coral);
+  }
+
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 44px 20px 80px;
+  }
+
+  .hero {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .hero .eyebrow {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .hero h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 10px;
+    color: var(--ink);
+    letter-spacing: 0.3px;
+  }
+
+  .hero p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    max-width: 440px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .search-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 14px;
+    padding: 22px;
+  }
+
+  .search-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .at-prefix {
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--purple);
+    background: rgba(111,112,161,0.10);
+    border: 1px solid rgba(111,112,161,0.25);
+    border-radius: 8px;
+  }
+
+  #handleInput {
+    flex: 1;
+    padding: 0 14px;
+    font-size: 16px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--ink);
+    height: 46px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  #handleInput:focus {
+    outline: none;
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(111,112,161,0.15);
+  }
+
+  #searchBtn {
+    padding: 0 24px;
+    height: 46px;
+    background: var(--coral);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  #searchBtn:hover { background: var(--coral-dark); }
+  #searchBtn:disabled { opacity: 0.6; cursor: wait; }
+
+  .status-msg {
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+
+  .status-msg.error { color: var(--coral-dark); }
+
+  .filter-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+
+  .filter-row select {
+    flex: 1;
+    min-width: 140px;
+    height: 38px;
+    padding: 0 12px;
+    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .filter-row select:focus {
+    outline: none;
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(111,112,161,0.15);
+  }
+
+  .results {
+    margin-top: 28px;
+  }
+
+  .results.view-table {
+    width: 96vw;
+    max-width: 1100px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+
+  @media (max-width: 600px) {
+    .results.view-table {
+      width: 100vw;
+      max-width: 100vw;
+    }
+  }
+
+  .results-summary {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(43,43,51,0.16);
+  }
+
+  .order-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-left: 4px solid var(--purple);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .order-card.status-warehouse { border-left-color: #C9962F; }
+  .order-card.status-transito { border-left-color: var(--purple); }
+  .order-card.status-finalizado { border-left-color: #3E8F68; }
+  .order-card.status-pendente { border-left-color: var(--coral-dark); }
+
+  .order-thumb {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: rgba(111,112,161,0.08);
+  }
+
+  .order-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .order-thumb-empty {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    background: rgba(111,112,161,0.08);
+    flex-shrink: 0;
+  }
+
+  .order-main { flex: 1; min-width: 160px; }
+
+  .order-pob {
+    font-family: 'Oswald', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .order-meta {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  .order-meta span { color: var(--ink); font-weight: 600; }
+
+  .order-side {
+    text-align: right;
+    min-width: 100px;
+  }
+
+  .stamp {
+    display: inline-block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+  }
+
+  .stamp.status-warehouse { color: #8A6418; background: rgba(201,150,47,0.16); }
+  .stamp.status-transito { color: #4A4B82; background: rgba(111,112,161,0.16); }
+  .stamp.status-finalizado { color: #2A6B4C; background: rgba(62,143,104,0.16); }
+  .stamp.status-pendente { color: var(--coral-dark); background: rgba(255,84,96,0.14); }
+
+  .order-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .order-payment {
+    font-size: 11px;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  .order-payment.pago { color: #2A6B4C; }
+  .order-payment.pendente { color: var(--coral-dark); }
+
+  .view-toggle {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+  }
+
+  .download-btn {
+    margin-left: auto;
+    color: var(--coral-dark);
+    background: rgba(255,84,96,0.1);
+    border-color: rgba(255,84,96,0.3);
+  }
+
+  .download-btn:hover {
+    background: rgba(255,84,96,0.18);
+  }
+
+  .download-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+
+  .view-btn {
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    background: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .view-btn.active {
+    color: #fff;
+    background: var(--purple);
+    border-color: var(--purple);
+  }
+
+  .results.view-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 14px;
+  }
+
+  .results.view-grid .results-summary {
+    grid-column: 1 / -1;
+  }
+
+  .grid-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .grid-card-photo {
+    width: 100%;
+    aspect-ratio: 1;
+    background: rgba(111,112,161,0.08);
+  }
+
+  .grid-card-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .grid-card-body {
+    padding: 10px 12px 12px;
+  }
+
+  .grid-card-pob {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 0 0 6px;
+    line-height: 1.3;
+  }
+
+  .grid-card-value {
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .table-wrap {
+    background: var(--card-bg);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 10px;
+    overflow-x: auto;
+  }
+
+  table.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  table.order-table th {
+    text-align: left;
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(43,43,51,0.16);
+    white-space: nowrap;
+  }
+
+  table.order-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(43,43,51,0.08);
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  table.order-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .table-thumb {
+    width: 28px;
+    height: 28px;
+    border-radius: 5px;
+    overflow: hidden;
+    background: rgba(111,112,161,0.08);
+  }
+
+  .table-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .table-stamp {
+    display: inline-block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 3px 7px;
+    border-radius: 5px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .skeleton {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    height: 64px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    animation: shimmer 1.2s infinite;
+  }
+
+  @keyframes shimmer {
+    100% { left: 100%; }
+  }
+
+  footer {
+    text-align: center;
+    padding: 26px;
+    font-size: 12px;
+    color: rgba(43,43,51,0.55);
+  }
+
+  @media (max-width: 480px) {
+    .search-row { flex-direction: column; }
+    .at-prefix { justify-content: center; }
+    .order-side { text-align: left; }
+    .logo-img { height: 42px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="wordmark-row">
+      <img src="../imagens/logo.png" alt="Dazed Cegs" class="logo-img" />
+    </div>
+    <nav>
+      <a href="../cegs/" class="active">Consulta</a>
+      <a href="../calculadora.html">Calculadora</a>
+      <a href="../pendentes.html">Valores pendentes</a>
+      <a href="../sobras.html">Sobras Cegs</a>
+    </nav>
+  </div>
+</div>
+
+<main>
+  <div class="hero">
+    <h1>Consulta de itens</h1>
+    <p>Digite seu @ pra ver todos os seus itens cadastrados e o status de cada um.</p>
+  </div>
+
+  <div class="search-card">
+    <div class="search-row">
+      <div class="at-prefix">@</div>
+      <input
+        type="text"
+        id="handleInput"
+        placeholder="seu_usuario"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+      />
+      <button id="searchBtn">Buscar</button>
+    </div>
+    <div class="filter-row" id="filterRow" style="display:none;">
+      <select id="cegFilter">
+        <option value="">Todas as CEGs</option>
+      </select>
+      <select id="statusFilter">
+        <option value="">Todos os status</option>
+      </select>
+      <select id="pobFilter">
+        <option value="">Todos os itens</option>
+      </select>
+    </div>
+    <div class="status-msg" id="statusMsg"></div>
+  </div>
+
+  <div class="view-toggle" id="viewToggle" style="display:none;">
+    <button type="button" class="view-btn active" id="viewListBtn" data-view="list">Lista</button>
+    <button type="button" class="view-btn" id="viewGridBtn" data-view="grid">Grid</button>
+    <button type="button" class="view-btn" id="viewTableBtn" data-view="table">Tabela</button>
+    <button type="button" class="view-btn download-btn" id="downloadPdfBtn">Baixar PDF</button>
+  </div>
+
+  <div class="results" id="results"></div>
+</main>
+
+
+<footer></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script>
+  const API_URL = 'https://script.google.com/macros/s/AKfycby51xkp8ka5boynUNZoXn4yktt-C_LzNRwD5dam6YeY4f6zEPsNJGlOyDuk4rDdUMtS7g/exec';
+  const IMG_FOLDER = '../imagens/';
+
+  const input = document.getElementById('handleInput');
+  const btn = document.getElementById('searchBtn');
+  const statusMsg = document.getElementById('statusMsg');
+  const resultsEl = document.getElementById('results');
+  const statusFilter = document.getElementById('statusFilter');
+  const pobFilter = document.getElementById('pobFilter');
+  const cegFilter = document.getElementById('cegFilter');
+  const filterRow = document.getElementById('filterRow');
+
+  let allPedidos = [];
+  let cegsConfig = [];
+  let currentView = 'list';
+  let lastRendered = [];
+  let lastTotal = 0;
+  let currentHandle = '';
+
+  const viewToggle = document.getElementById('viewToggle');
+  const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+  const viewButtons = [
+    document.getElementById('viewListBtn'),
+    document.getElementById('viewGridBtn'),
+    document.getElementById('viewTableBtn')
+  ];
+
+  function statusClass(status) {
+    const s = (status || '').toLowerCase();
+    if (s.includes('finalizado') || s.includes('enviado joiner')) return 'status-finalizado';
+    if (s.includes('warehouse') || s.includes('gom') || s.includes('seller')) return 'status-warehouse';
+    if (s.includes('enviado') || s.includes('alfandega') || s.includes('alfândega') || s.includes('transito')) return 'status-transito';
+    if (s.includes('comprado') || s.includes('aguardando')) return 'status-pendente';
+    return 'status-transito';
+  }
+
+  function renderSkeleton() {
+    resultsEl.innerHTML = '';
+    resultsEl.classList.remove('view-grid', 'view-table');
+    filterRow.style.display = 'none';
+    viewToggle.style.display = 'none';
+    for (let i = 0; i < 3; i++) {
+      const sk = document.createElement('div');
+      sk.className = 'skeleton';
+      resultsEl.appendChild(sk);
+    }
+  }
+
+  function renderEmpty(handle) {
+    resultsEl.innerHTML = `
+      <div class="empty-state">
+        Nenhum item encontrado pra <strong>@${handle}</strong>.<br>
+        Confira se digitou certo ou fale com a gente.
+      </div>`;
+  }
+
+  function renderError(msg) {
+    resultsEl.innerHTML = '';
+    filterRow.style.display = 'none';
+    viewToggle.style.display = 'none';
+    statusMsg.textContent = msg;
+    statusMsg.classList.add('error');
+  }
+
+  function populateFilters(pedidos) {
+    const cegs = [...new Set(pedidos.map(p => p.ceg).filter(Boolean))].sort();
+    cegFilter.innerHTML = '<option value="">Todas as CEGs</option>' +
+      cegs.map(c => `<option value="${c}">${c}</option>`).join('');
+    updateDependentFilters();
+  }
+
+  function cegShowsPobFilter(cegNome) {
+    if (!cegNome) return true;
+    const cfg = cegsConfig.find(c => c.nome === cegNome);
+    return cfg ? !!cfg.showPobFilter : true;
+  }
+
+  function updateDependentFilters() {
+    const cegVal = cegFilter.value;
+    const scoped = cegVal ? allPedidos.filter(p => p.ceg === cegVal) : allPedidos;
+
+    const statuses = [...new Set(scoped.map(p => p.status).filter(Boolean))].sort();
+    statusFilter.innerHTML = '<option value="">Todos os status</option>' +
+      statuses.map(s => `<option value="${s}">${s}</option>`).join('');
+
+    const showPob = cegVal
+      ? cegShowsPobFilter(cegVal)
+      : cegsConfig.some(c => c.showPobFilter);
+
+    if (showPob) {
+      const pobs = [...new Set(scoped.map(p => p.pob).filter(Boolean))].sort();
+      pobFilter.innerHTML = '<option value="">Todos os itens</option>' +
+        pobs.map(p => `<option value="${p}">${p}</option>`).join('');
+      pobFilter.style.display = '';
+    } else {
+      pobFilter.value = '';
+      pobFilter.style.display = 'none';
+    }
+  }
+
+  function applyFilters() {
+    const cegVal = cegFilter.value;
+    const statusVal = statusFilter.value;
+    const pobVal = cegShowsPobFilter(cegVal) ? pobFilter.value : '';
+    const filtered = allPedidos.filter(p =>
+      (!cegVal || p.ceg === cegVal) &&
+      (!statusVal || p.status === statusVal) &&
+      (!pobVal || p.pob === pobVal)
+    );
+    renderCards(filtered, allPedidos.length);
+  }
+
+  function renderCards(pedidos, totalOriginal) {
+    lastRendered = pedidos;
+    lastTotal = totalOriginal;
+    resultsEl.innerHTML = '';
+    resultsEl.classList.remove('view-grid', 'view-table');
+
+    if (!pedidos || pedidos.length === 0) {
+      resultsEl.innerHTML = `
+        <div class="empty-state">
+          Nenhum item encontrado com esse filtro.
+        </div>`;
+      return;
+    }
+
+    const summary = document.createElement('div');
+    summary.className = 'results-summary';
+    const filtered = pedidos.length !== totalOriginal;
+    summary.textContent = pedidos.length + (pedidos.length === 1 ? ' item' : ' itens') + (filtered ? ` de ${totalOriginal}` : ' encontrados');
+    resultsEl.appendChild(summary);
+
+    if (currentView === 'grid') renderGrid(pedidos);
+    else if (currentView === 'table') renderTable(pedidos);
+    else renderList(pedidos);
+  }
+
+  function thumbHtml(p) {
+    const slug = p.pobSlug || '';
+    if (!slug) return '';
+    const folder = p.imgFolder ? IMG_FOLDER + p.imgFolder + '/' : IMG_FOLDER;
+    const imgSrc = folder + slug + '.png';
+    return `<img src="${imgSrc}" alt="${p.pob || ''}" data-slug="${slug}" data-folder="${p.imgFolder || ''}" data-ext-idx="0" onerror="window.__tryNextExt(this)" />`;
+  }
+
+  function formatValor(p) {
+    return (typeof p.valor === 'number')
+      ? p.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+      : (p.valor || '-');
+  }
+
+  function renderList(pedidos) {
+    pedidos.forEach(p => {
+      const cls = statusClass(p.status);
+      const card = document.createElement('div');
+      card.className = 'order-card ' + cls;
+      card.innerHTML = `
+        <div class="order-thumb">${thumbHtml(p)}</div>
+        <div class="order-main">
+          <p class="order-pob">${p.pob || 'Item'}</p>
+          <div class="order-meta">
+            Membro: <span>${p.membro || '-'}</span><br>
+            Prazo: <span>${p.prazo || '-'}</span>
+          </div>
+        </div>
+        <div class="order-side">
+          <div class="stamp ${cls}">${p.status || 'Sem status'}</div>
+          <div class="order-value">${formatValor(p)}</div>
+          <div class="order-payment ${(p.pagamento || '').toLowerCase()}">${p.pagamento || ''}</div>
+        </div>
+      `;
+      resultsEl.appendChild(card);
+    });
+  }
+
+  function renderGrid(pedidos) {
+    resultsEl.classList.add('view-grid');
+    pedidos.forEach(p => {
+      const cls = statusClass(p.status);
+      const card = document.createElement('div');
+      card.className = 'grid-card';
+      card.innerHTML = `
+        <div class="grid-card-photo">${thumbHtml(p)}</div>
+        <div class="grid-card-body">
+          <p class="grid-card-pob">${p.pob || 'Item'}</p>
+          <div class="grid-card-value">${formatValor(p)}</div>
+          <div class="stamp ${cls}">${p.status || 'Sem status'}</div>
+        </div>
+      `;
+      resultsEl.appendChild(card);
+    });
+  }
+
+  function renderTable(pedidos) {
+    resultsEl.classList.add('view-table');
+    const wrap = document.createElement('div');
+    wrap.className = 'table-wrap';
+    const rows = pedidos.map(p => {
+      const cls = statusClass(p.status);
+      return `
+        <tr>
+          <td><div class="table-thumb">${thumbHtml(p)}</div></td>
+          <td>${p.pob || 'Item'}</td>
+          <td>${p.membro || '-'}</td>
+          <td><span class="table-stamp ${cls}">${p.status || '-'}</span></td>
+          <td>${formatValor(p)}</td>
+          <td>${p.prazo || '-'}</td>
+          <td>${p.pagamento || '-'}</td>
+        </tr>`;
+    }).join('');
+    wrap.innerHTML = `
+      <table class="order-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Item</th>
+            <th>Membro</th>
+            <th>Status</th>
+            <th>Valor</th>
+            <th>Prazo</th>
+            <th>Pagamento</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+    resultsEl.appendChild(wrap);
+  }
+
+  function setView(view) {
+    currentView = view;
+    viewButtons.forEach(b => b.classList.toggle('active', b.dataset.view === view));
+    renderCards(lastRendered, lastTotal);
+  }
+
+  viewButtons.forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
+
+  function renderResults(data) {
+    allPedidos = data.pedidos || [];
+    cegsConfig = data.cegs || [];
+    if (allPedidos.length === 0) {
+      resultsEl.innerHTML = `
+        <div class="empty-state">
+          Nenhum item encontrado pra <strong>@${data.query}</strong>.<br>
+          Confira se digitou certo ou fale com a gente.
+        </div>`;
+      cegFilter.innerHTML = '<option value="">Todas as CEGs</option>';
+      statusFilter.innerHTML = '<option value="">Todos os status</option>';
+      pobFilter.innerHTML = '<option value="">Todos os itens</option>';
+      filterRow.style.display = 'none';
+      viewToggle.style.display = 'none';
+      return;
+    }
+    populateFilters(allPedidos);
+    cegFilter.value = '';
+    statusFilter.value = '';
+    pobFilter.value = '';
+    filterRow.style.display = 'flex';
+    viewToggle.style.display = 'flex';
+    renderCards(allPedidos, allPedidos.length);
+  }
+
+  window.__tryNextExt = function(imgEl) {
+    const exts = ['png', 'jpg', 'jpeg'];
+    let idx = parseInt(imgEl.getAttribute('data-ext-idx') || '0', 10) + 1;
+    const slug = imgEl.getAttribute('data-slug');
+    const folderAttr = imgEl.getAttribute('data-folder') || '';
+    const folder = folderAttr ? IMG_FOLDER + folderAttr + '/' : IMG_FOLDER;
+    if (idx < exts.length) {
+      imgEl.setAttribute('data-ext-idx', String(idx));
+      imgEl.src = folder + slug + '.' + exts[idx];
+    } else {
+      const parent = imgEl.parentElement;
+      imgEl.remove();
+      if (parent) parent.style.background = 'rgba(111,112,161,0.08)';
+    }
+  };
+
+  function downloadPdf() {
+    if (!allPedidos || allPedidos.length === 0) return;
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(16);
+    doc.text('Dazed Cegs - Itens de @' + currentHandle, 14, 18);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.text('Gerado em ' + new Date().toLocaleDateString('pt-BR'), 14, 25);
+
+    const rows = allPedidos.map(p => [
+      p.ceg || '-',
+      p.pob || '-',
+      p.membro || '-',
+      p.status || '-',
+      formatValor(p),
+      p.prazo || '-',
+      p.pagamento || '-'
+    ]);
+
+    doc.autoTable({
+      startY: 32,
+      head: [['CEG', 'Item', 'Membro', 'Status', 'Valor', 'Prazo', 'Pagamento']],
+      body: rows,
+      styles: { fontSize: 8, cellPadding: 2 },
+      headStyles: { fillColor: [111, 112, 161] },
+      margin: { left: 14, right: 14 }
+    });
+
+    doc.save('dazed-cegs-' + currentHandle + '.pdf');
+  }
+
+  downloadPdfBtn.addEventListener('click', downloadPdf);
+
+  async function search() {
+    const handle = input.value.trim().replace(/^@/, '');
+    if (!handle) {
+      statusMsg.textContent = 'Digite seu @ pra buscar.';
+      statusMsg.classList.add('error');
+      return;
+    }
+
+    currentHandle = handle;
+    statusMsg.textContent = '';
+    statusMsg.classList.remove('error');
+    btn.disabled = true;
+    renderSkeleton();
+
+    try {
+      const res = await fetch(`${API_URL}?at=${encodeURIComponent(handle)}`);
+      if (!res.ok) throw new Error('Falha na consulta');
+      const data = await res.json();
+      if (data.error) {
+        renderError(data.error);
+      } else {
+        renderResults(data);
+      }
+    } catch (err) {
+      renderError('Não foi possível consultar agora. Tenta de novo em instantes.');
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  btn.addEventListener('click', search);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') search();
+  });
+  statusFilter.addEventListener('change', applyFilters);
+  pobFilter.addEventListener('change', applyFilters);
+  cegFilter.addEventListener('change', () => {
+    updateDependentFilters();
+    applyFilters();
+  });
+</script>
+
+</body>
+</html>
