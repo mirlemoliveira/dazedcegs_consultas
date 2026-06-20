@@ -81,7 +81,7 @@
 
   .hero {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 32px;
   }
 
   .hero .eyebrow {
@@ -114,10 +114,9 @@
   .search-card {
     background: var(--card-bg);
     backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.6);
-    border-radius: 18px;
-    padding: 26px;
-    box-shadow: 0 4px 18px rgba(43,43,51,0.08);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 14px;
+    padding: 22px;
   }
 
   .search-row {
@@ -128,27 +127,26 @@
   .at-prefix {
     display: flex;
     align-items: center;
-    padding: 0 16px;
+    padding: 0 14px;
     font-family: 'Oswald', sans-serif;
     font-size: 18px;
     font-weight: 600;
     color: var(--purple);
     background: rgba(111,112,161,0.10);
     border: 1px solid rgba(111,112,161,0.25);
-    border-radius: 999px;
+    border-radius: 8px;
   }
 
   #handleInput {
     flex: 1;
-    padding: 0 18px;
+    padding: 0 14px;
     font-size: 16px;
     border: 1px solid var(--line);
-    border-radius: 999px;
+    border-radius: 8px;
     background: #fff;
     color: var(--ink);
     height: 46px;
     font-family: 'Inter', sans-serif;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
 
   #handleInput:focus {
@@ -158,29 +156,22 @@
   }
 
   #searchBtn {
-    padding: 0 26px;
+    padding: 0 24px;
     height: 46px;
     background: var(--coral);
     color: #fff;
     border: none;
-    border-radius: 999px;
+    border-radius: 8px;
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.6px;
     text-transform: uppercase;
     cursor: pointer;
     font-family: 'Oswald', sans-serif;
-    box-shadow: 0 4px 14px rgba(255,84,96,0.32);
-    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
   }
 
-  #searchBtn:hover {
-    background: var(--coral-dark);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(255,84,96,0.4);
-  }
-  #searchBtn:active { transform: translateY(0); }
-  #searchBtn:disabled { opacity: 0.6; cursor: wait; transform: none; }
+  #searchBtn:hover { background: var(--coral-dark); }
+  #searchBtn:disabled { opacity: 0.6; cursor: wait; }
 
   .status-msg {
     margin-top: 14px;
@@ -194,23 +185,22 @@
   .filter-row {
     display: flex;
     gap: 10px;
-    margin-top: 18px;
+    margin-top: 12px;
     flex-wrap: wrap;
   }
 
   .filter-row select {
     flex: 1;
     min-width: 140px;
-    height: 40px;
-    padding: 0 14px;
+    height: 38px;
+    padding: 0 12px;
     font-size: 13px;
     font-family: 'Inter', sans-serif;
     color: var(--ink);
     background: #fff;
     border: 1px solid var(--line);
-    border-radius: 999px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
 
   .filter-row select:focus {
@@ -220,26 +210,25 @@
   }
 
   .results {
-    margin-top: 36px;
+    margin-top: 28px;
   }
 
   .total-bar {
     display: none;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 26px;
+    gap: 8px;
+    margin-top: 18px;
     justify-content: center;
   }
 
   .total-badge {
     display: flex;
     align-items: baseline;
-    gap: 7px;
-    padding: 11px 20px;
+    gap: 6px;
+    padding: 9px 16px;
     border-radius: 999px;
-    background: rgba(255,255,255,0.78);
-    border: 1px solid rgba(255,255,255,0.7);
-    box-shadow: 0 3px 10px rgba(43,43,51,0.07);
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.6);
   }
 
   .total-badge-label {
@@ -253,7 +242,7 @@
 
   .total-badge-value {
     font-family: 'Oswald', sans-serif;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--ink);
   }
@@ -261,12 +250,6 @@
   .total-badge.is-total {
     background: var(--coral);
     border-color: var(--coral);
-    padding: 12px 24px;
-    box-shadow: 0 6px 18px rgba(255,84,96,0.35);
-  }
-
-  .total-badge.is-total .total-badge-value {
-    font-size: 17px;
   }
 
   .total-badge.is-total .total-badge-label,
@@ -302,23 +285,16 @@
   .order-card {
     background: var(--card-bg);
     backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.6);
+    border: 1px solid rgba(255,255,255,0.5);
     border-left: 4px solid var(--purple);
-    border-radius: 14px;
-    padding: 18px 22px;
-    margin-bottom: 14px;
+    border-radius: 10px;
+    padding: 10px 16px;
+    margin-bottom: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 16px;
     flex-wrap: wrap;
-    box-shadow: 0 2px 10px rgba(43,43,51,0.06);
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
-  }
-
-  .order-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(43,43,51,0.12);
   }
 
   .order-card.status-warehouse { border-left-color: #C9962F; }
@@ -327,11 +303,10 @@
   .order-card.status-pendente { border-left-color: var(--coral-dark); }
 
   .order-card-compact {
-    padding: 14px 16px;
+    padding: 12px 14px;
     margin-bottom: 0;
     align-items: center;
     gap: 10px;
-    border-radius: 12px;
   }
 
   .order-card-compact .order-pob {
@@ -453,7 +428,7 @@
   .view-toggle {
     display: flex;
     gap: 8px;
-    margin-top: 28px;
+    margin-top: 20px;
     margin-bottom: 4px;
     flex-wrap: wrap;
   }
@@ -467,41 +442,31 @@
 
   .download-btn:hover {
     background: rgba(255,84,96,0.18);
-    box-shadow: 0 4px 14px rgba(255,84,96,0.22);
   }
 
   .download-btn:disabled {
     opacity: 0.6;
     cursor: wait;
-    transform: none;
-    box-shadow: none;
   }
 
   .view-btn {
-    padding: 8px 16px;
+    padding: 7px 14px;
     font-size: 12px;
     font-weight: 600;
     font-family: 'Oswald', sans-serif;
     letter-spacing: 0.4px;
     text-transform: uppercase;
     color: var(--ink-soft);
-    background: rgba(255,255,255,0.55);
-    border: 1px solid rgba(255,255,255,0.7);
-    border-radius: 999px;
+    background: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 8px;
     cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
-  }
-
-  .view-btn:hover {
-    background: rgba(255,255,255,0.85);
-    transform: translateY(-1px);
   }
 
   .view-btn.active {
     color: #fff;
     background: var(--purple);
     border-color: var(--purple);
-    box-shadow: 0 4px 14px rgba(111,112,161,0.35);
   }
 
   .results.view-grid {
@@ -535,18 +500,11 @@
   .grid-card {
     background: var(--card-bg);
     backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.6);
-    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 10px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 2px 10px rgba(43,43,51,0.06);
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
-  }
-
-  .grid-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(43,43,51,0.12);
   }
 
   .grid-card-photo {
@@ -849,18 +807,10 @@
     statusMsg.classList.add('error');
   }
 
-  function escapeAttr(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/"/g, '&quot;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-  }
-
   function populateFilters(pedidos) {
-    const cegs = [...new Set(pedidos.map(p => (p.ceg || '').trim()).filter(Boolean))].sort();
+    const cegs = [...new Set(pedidos.map(p => p.ceg).filter(Boolean))].sort();
     cegFilter.innerHTML = '<option value="">Todas as CEGs</option>' +
-      cegs.map(c => `<option value="${escapeAttr(c)}">${c}</option>`).join('');
+      cegs.map(c => `<option value="${c}">${c}</option>`).join('');
     updateDependentFilters();
   }
 
@@ -872,20 +822,20 @@
 
   function updateDependentFilters() {
     const cegVal = cegFilter.value;
-    const scoped = cegVal ? allPedidos.filter(p => (p.ceg || '').trim() === cegVal) : allPedidos;
+    const scoped = cegVal ? allPedidos.filter(p => p.ceg === cegVal) : allPedidos;
 
-    const statuses = [...new Set(scoped.map(p => (p.status || '').trim()).filter(Boolean))].sort();
+    const statuses = [...new Set(scoped.map(p => p.status).filter(Boolean))].sort();
     statusFilter.innerHTML = '<option value="">Todos os status</option>' +
-      statuses.map(s => `<option value="${escapeAttr(s)}">${s}</option>`).join('');
+      statuses.map(s => `<option value="${s}">${s}</option>`).join('');
 
     const showPob = cegVal
       ? cegShowsPobFilter(cegVal)
       : cegsConfig.some(c => c.showPobFilter);
 
     if (showPob) {
-      const pobs = [...new Set(scoped.map(p => (p.pob || '').trim()).filter(Boolean))].sort();
+      const pobs = [...new Set(scoped.map(p => p.pob).filter(Boolean))].sort();
       pobFilter.innerHTML = '<option value="">Todos os itens</option>' +
-        pobs.map(p => `<option value="${escapeAttr(p)}">${p}</option>`).join('');
+        pobs.map(p => `<option value="${p}">${p}</option>`).join('');
       pobFilter.style.display = '';
     } else {
       pobFilter.value = '';
@@ -898,9 +848,9 @@
     const statusVal = statusFilter.value;
     const pobVal = cegShowsPobFilter(cegVal) ? pobFilter.value : '';
     const filtered = allPedidos.filter(p =>
-      (!cegVal || (p.ceg || '').trim() === cegVal) &&
-      (!statusVal || (p.status || '').trim() === statusVal) &&
-      (!pobVal || (p.pob || '').trim() === pobVal)
+      (!cegVal || p.ceg === cegVal) &&
+      (!statusVal || p.status === statusVal) &&
+      (!pobVal || p.pob === pobVal)
     );
     renderCards(filtered, allPedidos.length);
   }
@@ -926,9 +876,9 @@
     const totalGeralVal = totalPagoVal + totalPendenteVal;
 
     totalItensCount.textContent = pedidos.length;
-    totalPago.textContent = formatMoney(totalPagoVal);
-    totalPendente.textContent = formatMoney(totalPendenteVal);
-    totalGeral.textContent = formatMoney(totalGeralVal);
+    totalPago.textContent = formatValor(totalPagoVal);
+    totalPendente.textContent = formatValor(totalPendenteVal);
+    totalGeral.textContent = formatValor(totalGeralVal);
     totalBar.style.display = 'flex';
   }
 
@@ -966,14 +916,10 @@
     return `<img src="${imgSrc}" alt="${p.pob || ''}" data-slug="${slug}" data-folder="${p.imgFolder || ''}" data-ext-idx="0" onerror="window.__tryNextExt(this)" />`;
   }
 
-  function formatMoney(v) {
-    return (typeof v === 'number')
-      ? v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-      : (v || '-');
-  }
-
   function formatValor(p) {
-    return formatMoney(p && p.valor);
+    return (typeof p.valor === 'number')
+      ? p.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+      : (p.valor || '-');
   }
 
   function renderList(pedidos) {
@@ -981,13 +927,15 @@
       const cls = statusClass(p.status);
       const card = document.createElement('div');
       card.className = 'order-card ' + cls;
+      const prazoLine = p.pagamento === 'Pendente'
+        ? `<br>Prazo: <span>${p.prazo || '-'}</span>`
+        : '';
       card.innerHTML = `
         <div class="order-thumb">${thumbHtml(p)}</div>
         <div class="order-main">
           <p class="order-pob">${p.pob || 'Item'}</p>
           <div class="order-meta">
-            Membro: <span>${p.membro || '-'}</span><br>
-            Prazo: <span>${p.prazo || '-'}</span>
+            Membro: <span>${p.membro || '-'}</span>${prazoLine}
           </div>
         </div>
         <div class="order-side">
@@ -1036,7 +984,7 @@
           <td>${p.membro || '-'}</td>
           <td><span class="table-stamp ${cls}">${p.status || '-'}</span></td>
           <td>${formatValor(p)}</td>
-          <td>${p.prazo || '-'}</td>
+          <td>${p.pagamento === 'Pendente' ? (p.prazo || '-') : '-'}</td>
           <td>${p.pagamento || '-'}</td>
         </tr>`;
     }).join('');
@@ -1128,7 +1076,7 @@
       p.membro || '-',
       p.status || '-',
       formatValor(p),
-      p.prazo || '-',
+      p.pagamento === 'Pendente' ? (p.prazo || '-') : '-',
       p.pagamento || '-'
     ]);
 
