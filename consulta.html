@@ -216,6 +216,31 @@
 
   .status-msg.error { color: var(--coral-dark); }
 
+  .filter-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .filter-row select {
+    flex: 1;
+    height: 38px;
+    padding: 0 12px;
+    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .filter-row select:focus {
+    outline: none;
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(111,112,161,0.15);
+  }
+
   .results {
     margin-top: 28px;
   }
@@ -414,6 +439,14 @@
       />
       <button id="searchBtn">Buscar</button>
     </div>
+    <div class="filter-row" id="filterRow" style="display:none;">
+      <select id="statusFilter">
+        <option value="">Todos os status</option>
+      </select>
+      <select id="pobFilter">
+        <option value="">Todas as CEGs</option>
+      </select>
+    </div>
     <div class="status-msg" id="statusMsg"></div>
   </div>
 
@@ -430,6 +463,11 @@
   const btn = document.getElementById('searchBtn');
   const statusMsg = document.getElementById('statusMsg');
   const resultsEl = document.getElementById('results');
+  const statusFilter = document.getElementById('statusFilter');
+  const pobFilter = document.getElementById('pobFilter');
+  const filterRow = document.getElementById('filterRow');
+
+  let allPedidos = [];
 
   function statusClass(status) {
     const s = (status || '').toLowerCase();
@@ -442,6 +480,7 @@
 
   function renderSkeleton() {
     resultsEl.innerHTML = '';
+    filterRow.style.display = 'none';
     for (let i = 0; i < 3; i++) {
       const sk = document.createElement('div');
       sk.className = 'skeleton';
@@ -459,23 +498,48 @@
 
   function renderError(msg) {
     resultsEl.innerHTML = '';
+    filterRow.style.display = 'none';
     statusMsg.textContent = msg;
     statusMsg.classList.add('error');
   }
 
-  function renderResults(data) {
+  function populateFilters(pedidos) {
+    const statuses = [...new Set(pedidos.map(p => p.status).filter(Boolean))].sort();
+    const pobs = [...new Set(pedidos.map(p => p.pob).filter(Boolean))].sort();
+
+    statusFilter.innerHTML = '<option value="">Todos os status</option>' +
+      statuses.map(s => `<option value="${s}">${s}</option>`).join('');
+    pobFilter.innerHTML = '<option value="">Todas as CEGs</option>' +
+      pobs.map(p => `<option value="${p}">${p}</option>`).join('');
+  }
+
+  function applyFilters() {
+    const statusVal = statusFilter.value;
+    const pobVal = pobFilter.value;
+    const filtered = allPedidos.filter(p =>
+      (!statusVal || p.status === statusVal) &&
+      (!pobVal || p.pob === pobVal)
+    );
+    renderCards(filtered, allPedidos.length);
+  }
+
+  function renderCards(pedidos, totalOriginal) {
     resultsEl.innerHTML = '';
-    if (!data.pedidos || data.pedidos.length === 0) {
-      renderEmpty(data.query);
+    if (!pedidos || pedidos.length === 0) {
+      resultsEl.innerHTML = `
+        <div class="empty-state">
+          Nenhum item encontrado com esse filtro.
+        </div>`;
       return;
     }
 
     const summary = document.createElement('div');
     summary.className = 'results-summary';
-    summary.textContent = data.total + (data.total === 1 ? ' item encontrado' : ' itens encontrados');
+    const filtered = pedidos.length !== totalOriginal;
+    summary.textContent = pedidos.length + (pedidos.length === 1 ? ' item' : ' itens') + (filtered ? ` de ${totalOriginal}` : ' encontrados');
     resultsEl.appendChild(summary);
 
-    data.pedidos.forEach(p => {
+    pedidos.forEach(p => {
       const cls = statusClass(p.status);
       const card = document.createElement('div');
       card.className = 'order-card ' + cls;
@@ -484,7 +548,6 @@
         ? p.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
         : (p.valor || '-');
 
-      const exts = ['png', 'jpg', 'jpeg'];
       const slug = p.pobSlug || '';
       const imgSrc = slug ? IMG_FOLDER + slug + '.png' : '';
 
@@ -507,6 +570,26 @@
       `;
       resultsEl.appendChild(card);
     });
+  }
+
+  function renderResults(data) {
+    allPedidos = data.pedidos || [];
+    if (allPedidos.length === 0) {
+      resultsEl.innerHTML = `
+        <div class="empty-state">
+          Nenhum item encontrado pra <strong>@${data.query}</strong>.<br>
+          Confira se digitou certo ou fale com a gente.
+        </div>`;
+      statusFilter.innerHTML = '<option value="">Todos os status</option>';
+      pobFilter.innerHTML = '<option value="">Todas as CEGs</option>';
+      filterRow.style.display = 'none';
+      return;
+    }
+    populateFilters(allPedidos);
+    statusFilter.value = '';
+    pobFilter.value = '';
+    filterRow.style.display = 'flex';
+    renderCards(allPedidos, allPedidos.length);
   }
 
   window.__tryNextExt = function(imgEl) {
@@ -554,6 +637,8 @@
   input.addEventListener('keydown', e => {
     if (e.key === 'Enter') search();
   });
+  statusFilter.addEventListener('change', applyFilters);
+  pobFilter.addEventListener('change', applyFilters);
 </script>
 
 </body>
