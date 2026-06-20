@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)file:///C:/Users/mirle/Downloads/consulta_6.html -->
+<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dazed Cegs - Consulta de Pedidos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link href="./Dazed Cegs - Consulta de Pedidos_files/css2" rel="stylesheet">
+<style>
+  :root {
+    --sky-1: #99B7D0;
+    --sky-2: #B9C8DF;
+    --cream: #EBE1D3;
+    --ink: #2B2B33;
+    --ink-soft: #5C6270;
+    --purple: #6F70A1;
+    --coral: #FF5460;
+    --coral-dark: #C23440;
+    --card-bg: rgba(255,255,255,0.86);
+    --line: rgba(43,43,51,0.14);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--sky-1) 0%, var(--sky-2) 55%, var(--sky-1) 100%);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+
+  .topbar {
+    padding: 22px 24px 0;
+  }
+
+  .topbar-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .wordmark {
+    position: relative;
+    display: inline-block;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    letter-spacing: 1px;
+    color: var(--cream);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .wordmark::before {
+    content: "";
+    position: absolute;
+    left: -10px;
+    right: -10px;
+    top: 50%;
+    height: 2px;
+    background: var(--purple);
+    transform: translateY(-1px);
+  }
+
+  .wordmark-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+  }
+
+  .wordmark-tick {
+    width: 2px;
+    height: 30px;
+    background: var(--purple);
+    margin-bottom: 2px;
+  }
+
+  .cegs-label {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--coral);
+    margin-top: 2px;
+    margin-left: 2px;
+  }
+
+  nav {
+    margin-top: 18px;
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid rgba(43,43,51,0.16);
+  }
+
+  nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    padding: 10px 14px;
+    border-bottom: 2px solid transparent;
+  }
+
+  nav a.active {
+    color: var(--ink);
+    border-bottom-color: var(--coral);
+  }
+
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 44px 20px 80px;
+  }
+
+  .hero {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .hero .eyebrow {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .hero h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 10px;
+    color: var(--ink);
+    letter-spacing: 0.3px;
+  }
+
+  .hero p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    max-width: 440px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .search-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 14px;
+    padding: 22px;
+  }
+
+  .search-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .at-prefix {
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--purple);
+    background: rgba(111,112,161,0.10);
+    border: 1px solid rgba(111,112,161,0.25);
+    border-radius: 8px;
+  }
+
+  #handleInput {
+    flex: 1;
+    padding: 0 14px;
+    font-size: 16px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--ink);
+    height: 46px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  #handleInput:focus {
+    outline: none;
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(111,112,161,0.15);
+  }
+
+  #searchBtn {
+    padding: 0 24px;
+    height: 46px;
+    background: var(--coral);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  #searchBtn:hover { background: var(--coral-dark); }
+  #searchBtn:disabled { opacity: 0.6; cursor: wait; }
+
+  .status-msg {
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+
+  .status-msg.error { color: var(--coral-dark); }
+
+  .results {
+    margin-top: 28px;
+  }
+
+  .results-summary {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(43,43,51,0.16);
+  }
+
+  .order-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-left: 4px solid var(--purple);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .order-card.status-warehouse { border-left-color: #C9962F; }
+  .order-card.status-transito { border-left-color: var(--purple); }
+  .order-card.status-finalizado { border-left-color: #3E8F68; }
+  .order-card.status-pendente { border-left-color: var(--coral-dark); }
+
+  .order-thumb {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: rgba(111,112,161,0.08);
+  }
+
+  .order-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .order-thumb-empty {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    background: rgba(111,112,161,0.08);
+    flex-shrink: 0;
+  }
+
+  .order-main { flex: 1; min-width: 160px; }
+
+  .order-pob {
+    font-family: 'Oswald', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .order-meta {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  .order-meta span { color: var(--ink); font-weight: 600; }
+
+  .order-side {
+    text-align: right;
+    min-width: 140px;
+  }
+
+  .stamp {
+    display: inline-block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+  }
+
+  .stamp.status-warehouse { color: #8A6418; background: rgba(201,150,47,0.16); }
+  .stamp.status-transito { color: #4A4B82; background: rgba(111,112,161,0.16); }
+  .stamp.status-finalizado { color: #2A6B4C; background: rgba(62,143,104,0.16); }
+  .stamp.status-pendente { color: var(--coral-dark); background: rgba(255,84,96,0.14); }
+
+  .order-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .order-payment {
+    font-size: 12px;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  .order-payment.pago { color: #2A6B4C; }
+  .order-payment.pendente { color: var(--coral-dark); }
+
+  .empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .skeleton {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    height: 64px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    animation: shimmer 1.2s infinite;
+  }
+
+  @keyframes shimmer {
+    100% { left: 100%; }
+  }
+
+  footer {
+    text-align: center;
+    padding: 26px;
+    font-size: 12px;
+    color: rgba(43,43,51,0.55);
+  }
+
+  @media (max-width: 480px) {
+    .search-row { flex-direction: column; }
+    .at-prefix { justify-content: center; }
+    .order-side { text-align: left; }
+    .wordmark { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="wordmark-row">
+      <span class="wordmark">Dazed</span>
+      <span class="wordmark-tick"></span>
+      <span class="cegs-label">CEGS</span>
+    </div>
+    <nav>
+      <a href="file:///C:/Users/mirle/Downloads/consulta.html" class="active">Consulta</a>
+    </nav>
+  </div>
+</div>
+
+<main>
+  <div class="hero">
+    <h1>Consulta de itens</h1>
+    <p>Digite seu @ pra ver todos os seus itens cadastrados e o status de cada um.</p>
+  </div>
+
+  <div class="search-card">
+    <div class="search-row">
+      <div class="at-prefix">@</div>
+      <input type="text" id="handleInput" placeholder="seu_usuario" autocomplete="off" autocapitalize="off" spellcheck="false">
+      <button id="searchBtn">Buscar</button>
+    </div>
+    <div class="status-msg" id="statusMsg"></div>
+  </div>
+
+  <div class="results" id="results"></div>
+</main>
+
+<footer></footer>
+
+<script>
+  const API_URL = 'https://script.google.com/macros/s/AKfycbxYOZiOaCRuYLQcwhNdi3eBNBgDbZLD8wvfScNg7Ogl5gdySx6vRwe17zdm44q3i_Th/exec';
+  const IMG_FOLDER = 'imagens/';
+
+  const input = document.getElementById('handleInput');
+  const btn = document.getElementById('searchBtn');
+  const statusMsg = document.getElementById('statusMsg');
+  const resultsEl = document.getElementById('results');
+
+  function statusClass(status) {
+    const s = (status || '').toLowerCase();
+    if (s.includes('finalizado') || s.includes('enviado joiner')) return 'status-finalizado';
+    if (s.includes('warehouse') || s.includes('gom') || s.includes('seller')) return 'status-warehouse';
+    if (s.includes('enviado') || s.includes('alfandega') || s.includes('alfândega') || s.includes('transito')) return 'status-transito';
+    if (s.includes('comprado') || s.includes('aguardando')) return 'status-pendente';
+    return 'status-transito';
+  }
+
+  function renderSkeleton() {
+    resultsEl.innerHTML = '';
+    for (let i = 0; i < 3; i++) {
+      const sk = document.createElement('div');
+      sk.className = 'skeleton';
+      resultsEl.appendChild(sk);
+    }
+  }
+
+  function renderEmpty(handle) {
+    resultsEl.innerHTML = `
+      <div class="empty-state">
+        Nenhum item encontrado pra <strong>@${handle}</strong>.<br>
+        Confira se digitou certo ou fale com a gente.
+      </div>`;
+  }
+
+  function renderError(msg) {
+    resultsEl.innerHTML = '';
+    statusMsg.textContent = msg;
+    statusMsg.classList.add('error');
+  }
+
+  function renderResults(data) {
+    resultsEl.innerHTML = '';
+    if (!data.pedidos || data.pedidos.length === 0) {
+      renderEmpty(data.query);
+      return;
+    }
+
+    const summary = document.createElement('div');
+    summary.className = 'results-summary';
+    summary.textContent = data.total + (data.total === 1 ? ' item encontrado' : ' itens encontrados');
+    resultsEl.appendChild(summary);
+
+    data.pedidos.forEach(p => {
+      const cls = statusClass(p.status);
+      const card = document.createElement('div');
+      card.className = 'order-card ' + cls;
+
+      const valor = (typeof p.valor === 'number')
+        ? p.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+        : (p.valor || '-');
+
+      const exts = ['png', 'jpg', 'jpeg'];
+      const slug = p.pobSlug || '';
+      const imgSrc = slug ? IMG_FOLDER + slug + '.png' : '';
+
+      card.innerHTML = `
+        <div class="order-thumb">
+          ${slug ? `<img src="${imgSrc}" alt="${p.pob || ''}" data-slug="${slug}" data-ext-idx="0" onerror="window.__tryNextExt(this)" />` : `<div class="order-thumb-empty"></div>`}
+        </div>
+        <div class="order-main">
+          <p class="order-pob">${p.pob || 'Item'}</p>
+          <div class="order-meta">
+            Membro: <span>${p.membro || '-'}</span><br>
+            Prazo: <span>${p.prazo || '-'}</span>
+          </div>
+        </div>
+        <div class="order-side">
+          <div class="stamp ${cls}">${p.status || 'Sem status'}</div>
+          <div class="order-value">${valor}</div>
+          <div class="order-payment ${(p.pagamento || '').toLowerCase()}">${p.pagamento || ''}</div>
+        </div>
+      `;
+      resultsEl.appendChild(card);
+    });
+  }
+
+  window.__tryNextExt = function(imgEl) {
+    const exts = ['png', 'jpg', 'jpeg'];
+    let idx = parseInt(imgEl.getAttribute('data-ext-idx') || '0', 10) + 1;
+    const slug = imgEl.getAttribute('data-slug');
+    if (idx < exts.length) {
+      imgEl.setAttribute('data-ext-idx', String(idx));
+      imgEl.src = IMG_FOLDER + slug + '.' + exts[idx];
+    } else {
+      imgEl.replaceWith(Object.assign(document.createElement('div'), { className: 'order-thumb-empty' }));
+    }
+  };
+
+  async function search() {
+    const handle = input.value.trim().replace(/^@/, '');
+    if (!handle) {
+      statusMsg.textContent = 'Digite seu @ pra buscar.';
+      statusMsg.classList.add('error');
+      return;
+    }
+
+    statusMsg.textContent = '';
+    statusMsg.classList.remove('error');
+    btn.disabled = true;
+    renderSkeleton();
+
+    try {
+      const res = await fetch(`${API_URL}?at=${encodeURIComponent(handle)}`);
+      if (!res.ok) throw new Error('Falha na consulta');
+      const data = await res.json();
+      if (data.error) {
+        renderError(data.error);
+      } else {
+        renderResults(data);
+      }
+    } catch (err) {
+      renderError('Não foi possível consultar agora. Tenta de novo em instantes.');
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  btn.addEventListener('click', search);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') search();
+  });
+</script>
+
+
+
+</body></html>
