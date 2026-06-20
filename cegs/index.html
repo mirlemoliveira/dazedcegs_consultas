@@ -984,7 +984,6 @@
           <td>${p.membro || '-'}</td>
           <td><span class="table-stamp ${cls}">${p.status || '-'}</span></td>
           <td>${formatValor(p)}</td>
-          <td>${p.pagamento === 'Pendente' ? (p.prazo || '-') : '-'}</td>
           <td>${p.pagamento || '-'}</td>
         </tr>`;
     }).join('');
@@ -997,7 +996,6 @@
             <th>Membro</th>
             <th>Status</th>
             <th>Valor</th>
-            <th>Prazo</th>
             <th>Pagamento</th>
           </tr>
         </thead>
