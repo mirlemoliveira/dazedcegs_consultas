@@ -203,6 +203,23 @@
 
   .sobra-meta span { color: var(--ink); font-weight: 600; }
 
+  .sobra-stamp {
+    display: inline-block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 5px;
+    margin-top: 8px;
+  }
+
+  .sobra-stamp.status-warehouse { color: #8A6418; background: rgba(201,150,47,0.16); }
+  .sobra-stamp.status-transito { color: #4A4B82; background: rgba(111,112,161,0.16); }
+  .sobra-stamp.status-finalizado { color: #2A6B4C; background: rgba(62,143,104,0.16); }
+  .sobra-stamp.status-pendente { color: var(--coral-dark); background: rgba(255,84,96,0.14); }
+
   .sobra-side {
     text-align: right;
     display: flex;
@@ -319,6 +336,15 @@
 
   let allSobras = [];
 
+  function statusClass(status) {
+    const s = (status || '').toLowerCase();
+    if (s.includes('finalizado') || s.includes('enviado joiner')) return 'status-finalizado';
+    if (s.includes('warehouse') || s.includes('gom') || s.includes('seller')) return 'status-warehouse';
+    if (s.includes('enviado') || s.includes('alfandega') || s.includes('alfândega') || s.includes('transito')) return 'status-transito';
+    if (s.includes('comprado') || s.includes('aguardando')) return 'status-pendente';
+    return 'status-transito';
+  }
+
   function formatValor(v) {
     return (typeof v === 'number')
       ? v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -384,13 +410,17 @@
     resultsEl.appendChild(summary);
 
     itens.forEach(s => {
+      const cls = statusClass(s.status);
       const card = document.createElement('div');
       card.className = 'sobra-card';
       card.innerHTML = `
         <div class="sobra-thumb">${thumbHtml(s)}</div>
         <div class="sobra-main">
           <p class="sobra-pob">${s.pob || 'Item'}</p>
-          <div class="sobra-meta">Membro: <span>${s.membro || '-'}</span></div>
+          <div class="sobra-meta">
+            CEG: <span>${s.ceg || '-'}</span> &middot; Membro: <span>${s.membro || '-'}</span>
+          </div>
+          <div class="sobra-stamp ${cls}">${s.status || 'Sem status'}</div>
         </div>
         <div class="sobra-side">
           <div class="sobra-value">${formatValor(s.valor)}</div>
