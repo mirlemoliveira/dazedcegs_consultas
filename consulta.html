@@ -925,6 +925,44 @@
     }
   };
 
+  function downloadPdf() {
+    if (!allPedidos || allPedidos.length === 0) return;
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(16);
+    doc.text('Dazed Cegs - Itens de @' + currentHandle, 14, 18);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.text('Gerado em ' + new Date().toLocaleDateString('pt-BR'), 14, 25);
+
+    const rows = allPedidos.map(p => [
+      p.ceg || '-',
+      p.pob || '-',
+      p.membro || '-',
+      p.status || '-',
+      formatValor(p),
+      p.prazo || '-',
+      p.pagamento || '-'
+    ]);
+
+    doc.autoTable({
+      startY: 32,
+      head: [['CEG', 'Item', 'Membro', 'Status', 'Valor', 'Prazo', 'Pagamento']],
+      body: rows,
+      styles: { fontSize: 8, cellPadding: 2 },
+      headStyles: { fillColor: [111, 112, 161] },
+      margin: { left: 14, right: 14 }
+    });
+
+    doc.save('dazed-cegs-' + currentHandle + '.pdf');
+  }
+
+  downloadPdfBtn.addEventListener('click', downloadPdf);
+
   async function search() {
     const handle = input.value.trim().replace(/^@/, '');
     if (!handle) {
@@ -933,6 +971,7 @@
       return;
     }
 
+    currentHandle = handle;
     statusMsg.textContent = '';
     statusMsg.classList.remove('error');
     btn.disabled = true;
