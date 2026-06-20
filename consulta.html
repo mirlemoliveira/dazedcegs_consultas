@@ -788,8 +788,9 @@
   function thumbHtml(p) {
     const slug = p.pobSlug || '';
     if (!slug) return '';
-    const imgSrc = IMG_FOLDER + slug + '.png';
-    return `<img src="${imgSrc}" alt="${p.pob || ''}" data-slug="${slug}" data-ext-idx="0" onerror="window.__tryNextExt(this)" />`;
+    const folder = p.imgFolder ? IMG_FOLDER + p.imgFolder + '/' : IMG_FOLDER;
+    const imgSrc = folder + slug + '.png';
+    return `<img src="${imgSrc}" alt="${p.pob || ''}" data-slug="${slug}" data-folder="${p.imgFolder || ''}" data-ext-idx="0" onerror="window.__tryNextExt(this)" />`;
   }
 
   function formatValor(p) {
@@ -912,9 +913,11 @@
     const exts = ['png', 'jpg', 'jpeg'];
     let idx = parseInt(imgEl.getAttribute('data-ext-idx') || '0', 10) + 1;
     const slug = imgEl.getAttribute('data-slug');
+    const folderAttr = imgEl.getAttribute('data-folder') || '';
+    const folder = folderAttr ? IMG_FOLDER + folderAttr + '/' : IMG_FOLDER;
     if (idx < exts.length) {
       imgEl.setAttribute('data-ext-idx', String(idx));
-      imgEl.src = IMG_FOLDER + slug + '.' + exts[idx];
+      imgEl.src = folder + slug + '.' + exts[idx];
     } else {
       const parent = imgEl.parentElement;
       imgEl.remove();
