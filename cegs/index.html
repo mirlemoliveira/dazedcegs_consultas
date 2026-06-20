@@ -876,9 +876,9 @@
     const totalGeralVal = totalPagoVal + totalPendenteVal;
 
     totalItensCount.textContent = pedidos.length;
-    totalPago.textContent = formatValor(totalPagoVal);
-    totalPendente.textContent = formatValor(totalPendenteVal);
-    totalGeral.textContent = formatValor(totalGeralVal);
+    totalPago.textContent = formatMoney(totalPagoVal);
+    totalPendente.textContent = formatMoney(totalPendenteVal);
+    totalGeral.textContent = formatMoney(totalGeralVal);
     totalBar.style.display = 'flex';
   }
 
@@ -920,6 +920,12 @@
     return (typeof p.valor === 'number')
       ? p.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
       : (p.valor || '-');
+  }
+
+  function formatMoney(n) {
+    return (typeof n === 'number')
+      ? n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+      : 'R$ 0';
   }
 
   function renderList(pedidos) {
