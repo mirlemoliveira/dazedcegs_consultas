@@ -213,6 +213,50 @@
     margin-top: 28px;
   }
 
+  .total-bar {
+    display: none;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 18px;
+    justify-content: center;
+  }
+
+  .total-badge {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 9px 16px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.6);
+  }
+
+  .total-badge-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .total-badge-value {
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .total-badge.is-total {
+    background: var(--coral);
+    border-color: var(--coral);
+  }
+
+  .total-badge.is-total .total-badge-label,
+  .total-badge.is-total .total-badge-value {
+    color: #fff;
+  }
+
   .results.view-table {
     width: 96vw;
     max-width: 1100px;
@@ -656,6 +700,25 @@
     <div class="status-msg" id="statusMsg"></div>
   </div>
 
+  <div class="total-bar" id="totalBar">
+    <div class="total-badge">
+      <span class="total-badge-label">Itens</span>
+      <span class="total-badge-value" id="totalItensCount">0</span>
+    </div>
+    <div class="total-badge">
+      <span class="total-badge-label">Pago</span>
+      <span class="total-badge-value" id="totalPago">R$ 0</span>
+    </div>
+    <div class="total-badge">
+      <span class="total-badge-label">Pendente</span>
+      <span class="total-badge-value" id="totalPendente">R$ 0</span>
+    </div>
+    <div class="total-badge is-total">
+      <span class="total-badge-label">Total</span>
+      <span class="total-badge-value" id="totalGeral">R$ 0</span>
+    </div>
+  </div>
+
   <div class="view-toggle" id="viewToggle" style="display:none;">
     <button type="button" class="view-btn active" id="viewListBtn" data-view="list">Lista</button>
     <button type="button" class="view-btn" id="viewGridBtn" data-view="grid">Grid</button>
@@ -693,6 +756,11 @@
 
   const viewToggle = document.getElementById('viewToggle');
   const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+  const totalBar = document.getElementById('totalBar');
+  const totalItensCount = document.getElementById('totalItensCount');
+  const totalPago = document.getElementById('totalPago');
+  const totalPendente = document.getElementById('totalPendente');
+  const totalGeral = document.getElementById('totalGeral');
   const viewButtons = [
     document.getElementById('viewListBtn'),
     document.getElementById('viewGridBtn'),
@@ -713,6 +781,7 @@
     resultsEl.classList.remove('view-grid', 'view-table');
     filterRow.style.display = 'none';
     viewToggle.style.display = 'none';
+    totalBar.style.display = 'none';
     for (let i = 0; i < 3; i++) {
       const sk = document.createElement('div');
       sk.className = 'skeleton';
@@ -726,12 +795,14 @@
         Nenhum item encontrado pra <strong>@${handle}</strong>.<br>
         Confira se digitou certo ou fale com a gente.
       </div>`;
+    totalBar.style.display = 'none';
   }
 
   function renderError(msg) {
     resultsEl.innerHTML = '';
     filterRow.style.display = 'none';
     viewToggle.style.display = 'none';
+    totalBar.style.display = 'none';
     statusMsg.textContent = msg;
     statusMsg.classList.add('error');
   }
@@ -784,11 +855,39 @@
     renderCards(filtered, allPedidos.length);
   }
 
+  function updateTotalBar(pedidos) {
+    if (!pedidos || pedidos.length === 0) {
+      totalBar.style.display = 'none';
+      return;
+    }
+
+    let totalPagoVal = 0;
+    let totalPendenteVal = 0;
+
+    pedidos.forEach(p => {
+      const valor = typeof p.valor === 'number' ? p.valor : 0;
+      if (p.pagamento === 'Pago') {
+        totalPagoVal += valor;
+      } else {
+        totalPendenteVal += valor + (p.multa || 0);
+      }
+    });
+
+    const totalGeralVal = totalPagoVal + totalPendenteVal;
+
+    totalItensCount.textContent = pedidos.length;
+    totalPago.textContent = formatValor(totalPagoVal);
+    totalPendente.textContent = formatValor(totalPendenteVal);
+    totalGeral.textContent = formatValor(totalGeralVal);
+    totalBar.style.display = 'flex';
+  }
+
   function renderCards(pedidos, totalOriginal) {
     lastRendered = pedidos;
     lastTotal = totalOriginal;
     resultsEl.innerHTML = '';
     resultsEl.classList.remove('view-grid', 'view-table');
+    updateTotalBar(pedidos);
 
     if (!pedidos || pedidos.length === 0) {
       resultsEl.innerHTML = `
@@ -927,6 +1026,7 @@
       pobFilter.innerHTML = '<option value="">Todos os itens</option>';
       filterRow.style.display = 'none';
       viewToggle.style.display = 'none';
+      totalBar.style.display = 'none';
       return;
     }
     populateFilters(allPedidos);
