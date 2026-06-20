@@ -302,7 +302,7 @@
     </div>
     <nav>
       <a href="cegs/">Consulta</a>
-      <a href="calculadora.html">Calculadora</a>
+      <a href="calculadora.html">Calculadoras</a>
       <a href="pendentes.html">Valores pendentes</a>
       <a href="sobras.html" class="active">Sobras Cegs</a>
     </nav>
@@ -374,10 +374,8 @@
   };
 
   function whatsappLink(s) {
-    const valor = formatValor(s.valor);
-    const membroTexto = s.membro ? ` (${s.membro})` : '';
-    const cegTexto = s.ceg ? `POBs ${s.ceg}: ` : '';
-    const msg = `Oi! Quero garantir o item ${cegTexto}${s.pob}${membroTexto} por ${valor}`;
+    const valor = formatValor(s);
+    const msg = `Oi! Quero garantir o item ${s.pob} por ${valor}`;
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
   }
 
