@@ -260,7 +260,7 @@
 <main>
   <div class="hero">
     <h1>Valores pendentes</h1>
-    <p>Digite seu @ pra ver se você tem item, frete ou taxa em aberto.</p>
+    <p>Digite seu user pra ver se você tem item, frete ou taxa em aberto.</p>
   </div>
 
   <div class="search-card">
@@ -389,7 +389,7 @@
   async function search() {
     const handle = input.value.trim().replace(/^@/, '');
     if (!handle) {
-      statusMsg.textContent = 'Digite seu @ pra buscar.';
+      statusMsg.textContent = 'Digite seu user pra buscar.';
       statusMsg.classList.add('error');
       return;
     }
