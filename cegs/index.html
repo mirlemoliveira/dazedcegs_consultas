@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dazed Cegs - Consulta de Pedidos</title>
+<link rel="icon" type="image/png" href="../imagens/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -243,11 +244,11 @@
     border: 1px solid rgba(255,255,255,0.5);
     border-left: 4px solid var(--purple);
     border-radius: 10px;
-    padding: 16px 18px;
-    margin-bottom: 12px;
+    padding: 10px 16px;
+    margin-bottom: 8px;
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     gap: 16px;
     flex-wrap: wrap;
   }
@@ -258,24 +259,26 @@
   .order-card.status-pendente { border-left-color: var(--coral-dark); }
 
   .order-card-compact {
-    padding: 12px 14px;
+    padding: 10px 12px;
     margin-bottom: 0;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
   }
 
   .order-card-compact .order-pob {
-    font-size: 13px;
-    margin: 0 0 3px;
+    font-size: 12px;
+    margin: 0 0 2px;
   }
 
   .order-card-compact .order-meta {
-    font-size: 11px;
-    margin-bottom: 6px;
+    font-size: 10px;
+    margin-bottom: 5px;
   }
 
   .order-card-compact .stamp {
     margin-bottom: 0;
+    font-size: 9px;
+    padding: 2px 6px;
   }
 
   .order-card-compact .order-side {
@@ -288,7 +291,12 @@
   }
 
   .order-card-compact .order-value {
-    font-size: 14px;
+    font-size: 13px;
+  }
+
+  .order-card-compact .order-thumb {
+    width: 34px;
+    height: 34px;
   }
 
   .order-thumb {
@@ -330,7 +338,7 @@
   .order-meta {
     font-size: 13px;
     color: var(--ink-soft);
-    line-height: 1.6;
+    line-height: 1.4;
   }
 
   .order-meta span { color: var(--ink); font-weight: 600; }
@@ -347,9 +355,9 @@
     font-weight: 600;
     letter-spacing: 0.3px;
     text-transform: uppercase;
-    padding: 4px 8px;
+    padding: 3px 7px;
     border-radius: 5px;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
   }
 
   .stamp.status-warehouse { color: #8A6418; background: rgba(201,150,47,0.16); }
@@ -366,7 +374,7 @@
 
   .order-payment {
     font-size: 11px;
-    margin-top: 4px;
+    margin-top: 2px;
     font-weight: 500;
   }
 
@@ -419,15 +427,21 @@
 
   .results.view-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
   }
 
   .results.view-grid .results-summary {
     grid-column: 1 / -1;
   }
 
-  @media (max-width: 560px) {
+  @media (max-width: 700px) {
+    .results.view-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
     .results.view-grid {
       grid-template-columns: 1fr;
     }
