@@ -259,26 +259,26 @@
   .order-card.status-pendente { border-left-color: var(--coral-dark); }
 
   .order-card-compact {
-    padding: 10px 12px;
+    padding: 12px 14px;
     margin-bottom: 0;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
   }
 
   .order-card-compact .order-pob {
-    font-size: 12px;
-    margin: 0 0 2px;
+    font-size: 13px;
+    margin: 0 0 3px;
   }
 
   .order-card-compact .order-meta {
-    font-size: 10px;
-    margin-bottom: 5px;
+    font-size: 11px;
+    margin-bottom: 6px;
   }
 
   .order-card-compact .stamp {
     margin-bottom: 0;
-    font-size: 9px;
-    padding: 2px 6px;
+    font-size: 10px;
+    padding: 3px 7px;
   }
 
   .order-card-compact .order-side {
@@ -291,12 +291,12 @@
   }
 
   .order-card-compact .order-value {
-    font-size: 13px;
+    font-size: 14px;
   }
 
   .order-card-compact .order-thumb {
-    width: 34px;
-    height: 34px;
+    width: 40px;
+    height: 40px;
   }
 
   .order-thumb {
@@ -428,7 +428,11 @@
   .results.view-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    gap: 12px;
+    width: 96vw;
+    max-width: 1100px;
+    margin-left: 50%;
+    transform: translateX(-50%);
   }
 
   .results.view-grid .results-summary {
@@ -438,6 +442,8 @@
   @media (max-width: 700px) {
     .results.view-grid {
       grid-template-columns: repeat(2, 1fr);
+      width: 100vw;
+      max-width: 100vw;
     }
   }
 
