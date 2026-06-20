@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dazed Cegs - Sobras Cegs</title>
+<link rel="icon" type="image/png" href="imagens/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -124,15 +125,21 @@
 
   .results {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
   }
 
   .results .results-summary {
     grid-column: 1 / -1;
   }
 
-  @media (max-width: 560px) {
+  @media (max-width: 700px) {
+    .results {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
     .results {
       grid-template-columns: 1fr;
     }
@@ -144,23 +151,23 @@
     border: 1px solid rgba(255,255,255,0.5);
     border-left: 4px solid var(--purple);
     border-radius: 10px;
-    padding: 12px 14px;
+    padding: 10px 12px;
     margin-bottom: 0;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
   }
 
   .sobra-card-top {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
   }
 
   .sobra-thumb {
-    width: 44px;
-    height: 44px;
-    border-radius: 7px;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
     overflow: hidden;
     flex-shrink: 0;
     background: rgba(111,112,161,0.08);
@@ -177,15 +184,15 @@
 
   .sobra-pob {
     font-family: 'Oswald', sans-serif;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     color: var(--ink);
-    margin: 0 0 3px;
+    margin: 0 0 2px;
     text-transform: uppercase;
   }
 
   .sobra-meta {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--ink-soft);
   }
 
@@ -194,7 +201,7 @@
   .sobra-stamp {
     display: inline-block;
     font-family: 'Oswald', sans-serif;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 600;
     letter-spacing: 0.3px;
     text-transform: uppercase;
@@ -209,30 +216,31 @@
 
   .sobra-side {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
   }
 
   .sobra-value {
     font-family: 'Oswald', sans-serif;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     color: var(--ink);
   }
 
   .garantir-btn {
     display: inline-block;
-    padding: 7px 12px;
+    text-align: center;
+    padding: 6px 10px;
     background: var(--coral);
     color: #fff;
     text-decoration: none;
     border: none;
-    border-radius: 8px;
+    border-radius: 7px;
     font-family: 'Oswald', sans-serif;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.4px;
     text-transform: uppercase;
     cursor: pointer;
     white-space: nowrap;
