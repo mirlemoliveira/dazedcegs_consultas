@@ -1,459 +1,394 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dazed Cegs - Valores Pendentes</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --sky-1: #99B7D0;
-    --sky-2: #B9C8DF;
-    --cream: #EBE1D3;
-    --ink: #2B2B33;
-    --ink-soft: #5C6270;
-    --purple: #6F70A1;
-    --coral: #FF5460;
-    --coral-dark: #C23440;
-    --green: #2A6B4C;
-    --green-bg: #E1F0E8;
-    --card-bg: rgba(255,255,255,0.86);
-    --line: rgba(43,43,51,0.14);
+/**
+ * Dazed Cegs - API de Consulta de Pedidos
+ * ------------------------------------------------
+ * Le uma ou mais abas (CEGs) e expoe uma busca por @ da cliente.
+ *
+ * COMO PUBLICAR:
+ * 1. Na planilha, va em Extensoes > Apps Script
+ * 2. Apague o conteudo padrao e cole este arquivo inteiro
+ * 3. Clique em Implantar > Nova implantacao
+ * 4. Tipo: "App da Web"
+ * 5. Executar como: "Eu" / Quem pode acessar: "Qualquer pessoa"
+ * 6. Copie a URL gerada (termina em /exec) e cole no site
+ *
+ * COMO ADICIONAR UMA NOVA CEG (outra aba ou planilha):
+ * Adicione um novo objeto na lista CEGS abaixo. Cada CEG aponta para
+ * uma aba (sheetName) e diz se o filtro de POB deve aparecer para ela
+ * (showPobFilter). Se a CEG estiver em outra planilha (arquivo), use
+ * spreadsheetId para apontar para o ID daquele arquivo (entre /d/ e /edit
+ * na URL do Google Sheets); deixe null para usar a planilha atual.
+ */
+
+const CEGS = [
+  {
+    nome: 'POBS D:U',
+    spreadsheetId: null,
+    sheetName: 'POBS D:U',
+    showPobFilter: true,
+    imgFolder: 'pobs-du'
+  },
+  {
+    nome: 'POBS THE:SIN',
+    spreadsheetId: '1CBOalqr1eNuJCPn1GLOgj-F_jNJ-X3LRSCKsgG1Q-ag',
+    sheetName: 'POBS THE SIN',
+    showPobFilter: true,
+    imgFolder: 'pobs-the-sin'
+  }
+];
+
+/**
+ * Abas de frete e taxa. Cada uma representa um tipo de cobranca
+ * (taxa de item, frete internacional, etc) com uma coluna "NOME + @",
+ * quantidade, valor e uma coluna "VALIDACAO" (TRUE = pago).
+ * Algumas abas tem duas cobrancas na mesma linha (frete E taxa
+ * separados) -- por isso "campos" e uma lista.
+ */
+const CHARGE_SHEETS = [
+  {
+    nome: 'Taxa 1ª leva',
+    sheetName: 'TAXA LEVA PENDENTE',
+    nameCol: 13,
+    campos: [
+      { tipo: 'Taxa', qtyCol: 15, valorCol: 16, validacaoCol: 17 }
+    ]
+  },
+  {
+    nome: 'Frete 1ª leva internacional',
+    sheetName: '1 LEVA INTER - FRETE E TAXA',
+    nameCol: 13,
+    campos: [
+      { tipo: 'Frete', qtyCol: 15, valorCol: 16, validacaoCol: 17 }
+    ]
+  },
+  {
+    nome: 'Frete e taxa 2ª leva internacional',
+    sheetName: '2 LEVA INTER - FRETE E TAXA',
+    nameCol: 12,
+    campos: [
+      { tipo: 'Frete', qtyCol: 14, valorCol: 15, validacaoCol: 16 },
+      { tipo: 'Taxa', qtyCol: 14, valorCol: 17, validacaoCol: 18 }
+    ]
+  },
+  {
+    nome: 'Leva Alemanha',
+    sheetName: 'LEVA ITENS ALEMANHA',
+    nameCol: 11,
+    campos: [
+      { tipo: 'Frete + taxa', qtyCol: 13, valorCol: 14, validacaoCol: 15 }
+    ]
+  }
+];
+
+function doGet(e) {
+  const action = (e.parameter.action || '').trim();
+
+  if (action === 'sobras') {
+    return handleSobras_();
   }
 
-  * { box-sizing: border-box; }
+  const handleQuery = (e.parameter.at || '').trim();
+  const output = ContentService.createTextOutput();
+  output.setMimeType(ContentService.MimeType.JSON);
 
-  body {
-    margin: 0;
-    min-height: 100vh;
-    background: linear-gradient(160deg, var(--sky-1) 0%, var(--sky-2) 55%, var(--sky-1) 100%);
-    color: var(--ink);
-    font-family: 'Inter', -apple-system, sans-serif;
+  if (!handleQuery) {
+    output.setContent(JSON.stringify({ error: 'Informe o parametro @ (at).' }));
+    return output;
   }
 
-  .topbar { padding: 22px 24px 0; }
-  .topbar-inner { max-width: 720px; margin: 0 auto; }
+  const normalized = normalizeHandle(handleQuery);
+  const allOrders = readAllOrdersFromAllCegs_();
+  const matches = allOrders.filter(o => o.handleNormalized === normalized);
 
-  .wordmark {
-    position: relative;
-    display: inline-block;
-    font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-    font-size: 30px;
-    letter-spacing: 1px;
-    color: var(--cream);
-    text-transform: uppercase;
-    line-height: 1;
-  }
+  const allCharges = readAllCharges_();
+  const chargeMatches = allCharges.filter(c => c.handleNormalized === normalized);
+  const itemsPendentes = matches.filter(m => m.pagamento === 'Pendente').length;
 
-  .wordmark::before {
-    content: "";
-    position: absolute;
-    left: -10px;
-    right: -10px;
-    top: 50%;
-    height: 2px;
-    background: var(--purple);
-    transform: translateY(-1px);
-  }
-
-  .wordmark-row { display: flex; align-items: flex-end; gap: 10px; }
-  .wordmark-tick { width: 2px; height: 30px; background: var(--purple); margin-bottom: 2px; }
-
-  .cegs-label {
-    font-family: 'Oswald', sans-serif;
-    font-weight: 600;
-    font-size: 13px;
-    letter-spacing: 2px;
-    color: var(--coral);
-    margin-top: 2px;
-    margin-left: 2px;
-  }
-
-  nav {
-    margin-top: 18px;
-    display: flex;
-    gap: 4px;
-    border-bottom: 1px solid rgba(43,43,51,0.16);
-  }
-
-  nav a {
-    color: var(--ink-soft);
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-    padding: 10px 14px;
-    border-bottom: 2px solid transparent;
-  }
-
-  nav a.active { color: var(--ink); border-bottom-color: var(--coral); }
-
-  main {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 44px 20px 80px;
-  }
-
-  .hero { text-align: center; margin-bottom: 32px; }
-
-  .hero h1 {
-    font-family: 'Oswald', sans-serif;
-    font-size: 32px;
-    font-weight: 700;
-    margin: 0 0 10px;
-    color: var(--ink);
-    letter-spacing: 0.3px;
-  }
-
-  .hero p {
-    font-size: 14px;
-    color: var(--ink-soft);
-    max-width: 440px;
-    margin: 0 auto;
-    line-height: 1.6;
-  }
-
-  .search-card {
-    background: var(--card-bg);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.5);
-    border-radius: 14px;
-    padding: 22px;
-  }
-
-  .search-row { display: flex; gap: 10px; }
-
-  .at-prefix {
-    display: flex;
-    align-items: center;
-    padding: 0 14px;
-    font-family: 'Oswald', sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--purple);
-    background: rgba(111,112,161,0.10);
-    border: 1px solid rgba(111,112,161,0.25);
-    border-radius: 8px;
-  }
-
-  #handleInput {
-    flex: 1;
-    padding: 0 14px;
-    font-size: 16px;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: #fff;
-    color: var(--ink);
-    height: 46px;
-    font-family: 'Inter', sans-serif;
-  }
-
-  #handleInput:focus {
-    outline: none;
-    border-color: var(--purple);
-    box-shadow: 0 0 0 3px rgba(111,112,161,0.15);
-  }
-
-  #searchBtn {
-    padding: 0 24px;
-    height: 46px;
-    background: var(--coral);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.6px;
-    text-transform: uppercase;
-    cursor: pointer;
-    font-family: 'Oswald', sans-serif;
-  }
-
-  #searchBtn:hover { background: var(--coral-dark); }
-  #searchBtn:disabled { opacity: 0.6; cursor: wait; }
-
-  .status-msg {
-    margin-top: 14px;
-    font-size: 13px;
-    color: var(--ink-soft);
-    text-align: center;
-  }
-
-  .status-msg.error { color: var(--coral-dark); }
-
-  .summary-banner {
-    margin-top: 24px;
-    border-radius: 14px;
-    padding: 22px;
-    text-align: center;
-    display: none;
-  }
-
-  .summary-banner.clear {
-    background: var(--green-bg);
-  }
-
-  .summary-banner.pending {
-    background: rgba(255,84,96,0.12);
-  }
-
-  .summary-icon {
-    font-family: 'Oswald', sans-serif;
-    font-size: 13px;
-    letter-spacing: 0.6px;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-
-  .summary-banner.clear .summary-icon { color: var(--green); }
-  .summary-banner.pending .summary-icon { color: var(--coral-dark); }
-
-  .summary-text {
-    font-family: 'Oswald', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-  }
-
-  .summary-banner.clear .summary-text { color: var(--green); }
-  .summary-banner.pending .summary-text { color: var(--coral-dark); }
-
-  .section-label {
-    font-family: 'Oswald', sans-serif;
-    font-size: 12px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    margin: 28px 0 12px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(43,43,51,0.16);
-  }
-
-  .pending-card {
-    background: var(--card-bg);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.5);
-    border-left: 4px solid var(--coral-dark);
-    border-radius: 10px;
-    padding: 16px 18px;
-    margin-bottom: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-
-  .pending-title {
-    font-family: 'Oswald', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--ink);
-    margin: 0 0 4px;
-  }
-
-  .pending-meta {
-    font-size: 13px;
-    color: var(--ink-soft);
-  }
-
-  .pending-value {
-    font-family: 'Oswald', sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--coral-dark);
-  }
-
-  .results { margin-top: 8px; }
-
-  @media (max-width: 480px) {
-    .search-row { flex-direction: column; }
-    .at-prefix { justify-content: center; }
-    .wordmark { font-size: 24px; }
-  }
-</style>
-</head>
-<body>
-
-<div class="topbar">
-  <div class="topbar-inner">
-    <div class="wordmark-row">
-      <span class="wordmark">Dazed</span>
-      <span class="wordmark-tick"></span>
-      <span class="cegs-label">CEGS</span>
-    </div>
-    <nav>
-      <a href="consulta.html">Consulta</a>
-      <a href="calculadora.html">Calculadora</a>
-      <a href="pendentes.html" class="active">Valores pendentes</a>
-    </nav>
-  </div>
-</div>
-
-<main>
-  <div class="hero">
-    <h1>Valores pendentes</h1>
-    <p>Digite seu @ pra ver se você tem item, frete ou taxa em aberto.</p>
-  </div>
-
-  <div class="search-card">
-    <div class="search-row">
-      <div class="at-prefix">@</div>
-      <input
-        type="text"
-        id="handleInput"
-        placeholder="seu_usuario"
-        autocomplete="off"
-        autocapitalize="off"
-        spellcheck="false"
-      />
-      <button id="searchBtn">Buscar</button>
-    </div>
-    <div class="status-msg" id="statusMsg"></div>
-  </div>
-
-  <div class="summary-banner" id="summaryBanner">
-    <div class="summary-icon" id="summaryIcon"></div>
-    <div class="summary-text" id="summaryText"></div>
-  </div>
-
-  <div class="results" id="results"></div>
-</main>
-
-<script>
-  const API_URL = 'https://script.google.com/macros/s/AKfycby51xkp8ka5boynUNZoXn4yktt-C_LzNRwD5dam6YeY4f6zEPsNJGlOyDuk4rDdUMtS7g/exec';
-
-  const input = document.getElementById('handleInput');
-  const btn = document.getElementById('searchBtn');
-  const statusMsg = document.getElementById('statusMsg');
-  const resultsEl = document.getElementById('results');
-  const summaryBanner = document.getElementById('summaryBanner');
-  const summaryIcon = document.getElementById('summaryIcon');
-  const summaryText = document.getElementById('summaryText');
-
-  function formatValor(v) {
-    return (typeof v === 'number')
-      ? v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-      : (v || '-');
-  }
-
-  function renderSkeleton() {
-    resultsEl.innerHTML = '';
-    summaryBanner.style.display = 'none';
-  }
-
-  function renderError(msg) {
-    resultsEl.innerHTML = '';
-    summaryBanner.style.display = 'none';
-    statusMsg.textContent = msg;
-    statusMsg.classList.add('error');
-  }
-
-  function renderResults(data) {
-    resultsEl.innerHTML = '';
-
-    if ((data.total || 0) === 0 && (!data.encargos || data.encargos.length === 0)) {
-      resultsEl.innerHTML = `
-        <div class="status-msg error">Nenhum cadastro encontrado pra <strong>@${data.query}</strong>.</div>`;
-      summaryBanner.style.display = 'none';
-      return;
+  output.setContent(JSON.stringify({
+    query: handleQuery,
+    total: matches.length,
+    cegs: CEGS.map(c => ({ nome: c.nome, showPobFilter: c.showPobFilter })),
+    pedidos: matches.map(m => ({
+      ceg: m.ceg,
+      imgFolder: m.imgFolder,
+      pob: m.pob,
+      pobSlug: slugifyPob_(m.pob),
+      membro: m.membro,
+      nome: m.nome,
+      arroba: m.handle,
+      valor: m.valor,
+      prazo: m.prazo,
+      pagamento: m.pagamento,
+      status: m.status
+    })),
+    encargos: chargeMatches.map(c => ({
+      origem: c.origem,
+      tipo: c.tipo,
+      quantidade: c.quantidade,
+      valor: c.valor,
+      pagamento: c.pagamento
+    })),
+    resumoPendencias: {
+      itensPendentes: itemsPendentes,
+      encargosPendentes: chargeMatches.filter(c => c.pagamento === 'Pendente').length,
+      temPendencia: itemsPendentes > 0 || chargeMatches.some(c => c.pagamento === 'Pendente')
     }
+  }));
+  return output;
+}
 
-    const resumo = data.resumoPendencias || {};
-    summaryBanner.style.display = 'block';
+function handleSobras_() {
+  const output = ContentService.createTextOutput();
+  output.setMimeType(ContentService.MimeType.JSON);
 
-    if (resumo.temPendencia) {
-      summaryBanner.className = 'summary-banner pending';
-      summaryIcon.textContent = 'Atenção';
-      const partes = [];
-      if (resumo.itensPendentes) partes.push(resumo.itensPendentes + (resumo.itensPendentes === 1 ? ' item' : ' itens'));
-      if (resumo.encargosPendentes) partes.push(resumo.encargosPendentes + (resumo.encargosPendentes === 1 ? ' encargo' : ' encargos'));
-      summaryText.textContent = 'Pendências em aberto: ' + partes.join(' e ');
+  const sobras = readAllSobrasFromAllCegs_();
+
+  output.setContent(JSON.stringify({
+    total: sobras.length,
+    itens: sobras.map(s => ({
+      ceg: s.ceg,
+      imgFolder: s.imgFolder,
+      pob: s.pob,
+      pobSlug: slugifyPob_(s.pob),
+      membro: s.membro,
+      valor: s.valor,
+      prazo: s.prazo,
+      status: s.status
+    }))
+  }));
+  return output;
+}
+
+function slugifyPob_(name) {
+  return String(name || '')
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function formatPrazo_(valor) {
+  if (!valor) return '';
+  if (Object.prototype.toString.call(valor) === '[object Date]') {
+    const dia = String(valor.getDate()).padStart(2, '0');
+    const mes = String(valor.getMonth() + 1).padStart(2, '0');
+    return dia + '/' + mes;
+  }
+  return String(valor).trim();
+}
+
+function normalizeHandle(raw) {
+  return String(raw)
+    .replace(/^@/, '')
+    .trim()
+    .toLowerCase();
+}
+
+function extractNameAndHandle_(rawJoiner) {
+  const text = String(rawJoiner || '').trim();
+  // pega @ seguido (com ou sem espaco/tab) do identificador
+  const match = text.match(/@\s*([A-Za-z0-9_.]+)/);
+  let handle = '';
+  let nome = text;
+
+  if (match) {
+    handle = match[1];
+    nome = text.slice(0, match.index).replace(/[\t]+$/, '').trim();
+  } else {
+    // fallback: sem @, assume ultima "palavra" como handle
+    const parts = text.split(/\s+|\t+/).filter(Boolean);
+    if (parts.length > 1) {
+      handle = parts[parts.length - 1];
+      nome = parts.slice(0, -1).join(' ');
     } else {
-      summaryBanner.className = 'summary-banner clear';
-      summaryIcon.textContent = 'Tudo certo';
-      summaryText.textContent = 'Nenhuma pendência em aberto';
-    }
-
-    const itensPendentes = (data.pedidos || []).filter(p => p.pagamento === 'Pendente');
-    const encargosPendentes = (data.encargos || []).filter(e => e.pagamento === 'Pendente');
-
-    if (itensPendentes.length > 0) {
-      const label = document.createElement('div');
-      label.className = 'section-label';
-      label.textContent = 'Itens pendentes';
-      resultsEl.appendChild(label);
-
-      itensPendentes.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'pending-card';
-        card.innerHTML = `
-          <div>
-            <p class="pending-title">${p.pob || 'Item'}</p>
-            <div class="pending-meta">Membro: ${p.membro || '-'} &middot; Prazo: ${p.prazo || '-'}</div>
-          </div>
-          <div class="pending-value">${formatValor(p.valor)}</div>
-        `;
-        resultsEl.appendChild(card);
-      });
-    }
-
-    if (encargosPendentes.length > 0) {
-      const label = document.createElement('div');
-      label.className = 'section-label';
-      label.textContent = 'Frete e taxa pendentes';
-      resultsEl.appendChild(label);
-
-      encargosPendentes.forEach(e => {
-        const card = document.createElement('div');
-        card.className = 'pending-card';
-        card.innerHTML = `
-          <div>
-            <p class="pending-title">${e.tipo || 'Encargo'}</p>
-            <div class="pending-meta">${e.origem || ''}${e.quantidade ? ' &middot; ' + e.quantidade + ' pçs' : ''}</div>
-          </div>
-          <div class="pending-value">${formatValor(e.valor)}</div>
-        `;
-        resultsEl.appendChild(card);
-      });
+      nome = text;
     }
   }
+  return { nome: nome, handle: handle };
+}
 
-  async function search() {
-    const handle = input.value.trim().replace(/^@/, '');
-    if (!handle) {
-      statusMsg.textContent = 'Digite seu @ pra buscar.';
-      statusMsg.classList.add('error');
-      return;
-    }
-
-    statusMsg.textContent = '';
-    statusMsg.classList.remove('error');
-    btn.disabled = true;
-    renderSkeleton();
-
-    try {
-      const res = await fetch(`${API_URL}?at=${encodeURIComponent(handle)}`);
-      if (!res.ok) throw new Error('Falha na consulta');
-      const data = await res.json();
-      if (data.error) {
-        renderError(data.error);
-      } else {
-        renderResults(data);
-      }
-    } catch (err) {
-      renderError('Não foi possível consultar agora. Tenta de novo em instantes.');
-    } finally {
-      btn.disabled = false;
-    }
-  }
-
-  btn.addEventListener('click', search);
-  input.addEventListener('keydown', e => {
-    if (e.key === 'Enter') search();
+function readAllOrdersFromAllCegs_() {
+  let all = [];
+  CEGS.forEach(ceg => {
+    const ss = ceg.spreadsheetId
+      ? SpreadsheetApp.openById(ceg.spreadsheetId)
+      : SpreadsheetApp.getActiveSpreadsheet();
+    const sheet = ss.getSheetByName(ceg.sheetName);
+    if (!sheet) return;
+    const orders = readOrdersFromSheet_(sheet, ceg.nome, ceg.imgFolder);
+    all = all.concat(orders);
   });
-</script>
+  return all;
+}
 
-</body>
-</html>
+function readOrdersFromSheet_(sheet, cegNome, imgFolder) {
+  const data = sheet.getDataRange().getValues();
+
+  const orders = [];
+  let currentPob = '';
+
+  for (let i = 0; i < data.length; i++) {
+    const row = data[i];
+    const colB = row[1]; // Membro ou data ou vazio
+    const colC = row[2]; // Joiner + @
+    const colD = row[3]; // Telefone
+    const colE = row[4]; // Valor
+    const colF = row[5]; // Prazo
+    const colG = row[6]; // Pagamento
+    const colH = row[7]; // Status
+    const colJ = row[9]; // Foto Itens (nome do POB)
+
+    // linha de titulo do bloco: tem valor em J
+    if (colJ && String(colJ).trim() !== '') {
+      currentPob = String(colJ).trim();
+    }
+
+    // pula cabecalhos e linhas vazias
+    if (!colB || colB === 'Membro') continue;
+    if (Object.prototype.toString.call(colB) === '[object Date]') continue; // linha so com data
+    if (!colC) continue;
+
+    const { nome, handle } = extractNameAndHandle_(colC);
+    if (!handle) continue;
+
+    orders.push({
+      ceg: cegNome,
+      imgFolder: imgFolder || '',
+      pob: currentPob,
+      membro: String(colB).trim(),
+      nome: nome,
+      handle: '@' + handle,
+      handleNormalized: normalizeHandle(handle),
+      telefone: colD ? String(colD).trim() : '',
+      valor: colE,
+      prazo: formatPrazo_(colF),
+      pagamento: colG === true ? 'Pago' : 'Pendente',
+      status: colH ? String(colH).trim() : ''
+    });
+  }
+
+  return orders;
+}
+
+function readAllSobrasFromAllCegs_() {
+  let all = [];
+  CEGS.forEach(ceg => {
+    const ss = ceg.spreadsheetId
+      ? SpreadsheetApp.openById(ceg.spreadsheetId)
+      : SpreadsheetApp.getActiveSpreadsheet();
+    const sheet = ss.getSheetByName(ceg.sheetName);
+    if (!sheet) return;
+    const sobras = readSobrasFromSheet_(sheet, ceg.nome, ceg.imgFolder);
+    all = all.concat(sobras);
+  });
+  return all;
+}
+
+function readSobrasFromSheet_(sheet, cegNome, imgFolder) {
+  const data = sheet.getDataRange().getValues();
+
+  const sobras = [];
+  let currentPob = '';
+  const membrosValidos = ['Jungwon', 'Heeseung', 'Jay', 'Jake', 'Sunghoon', 'Sunoo', 'Ni-ki'];
+
+  for (let i = 0; i < data.length; i++) {
+    const row = data[i];
+    const colB = row[1]; // Membro ou data ou vazio
+    const colC = row[2]; // Joiner + @
+    const colE = row[4]; // Valor
+    const colF = row[5]; // Prazo
+    const colH = row[7]; // Status
+    const colJ = row[9]; // Foto Itens (nome do POB)
+
+    if (colJ && String(colJ).trim() !== '') {
+      currentPob = String(colJ).trim();
+    }
+
+    if (!colB) continue;
+    if (Object.prototype.toString.call(colB) === '[object Date]') continue;
+    const membroStr = String(colB).trim();
+    if (membrosValidos.indexOf(membroStr) === -1) continue; // ignora cabecalho, "set N", etc
+
+    // sobra: tem membro valido mas a coluna Joiner+@ esta vazia
+    if (colC && String(colC).trim() !== '') continue;
+
+    sobras.push({
+      ceg: cegNome,
+      imgFolder: imgFolder || '',
+      pob: currentPob,
+      membro: membroStr,
+      valor: colE,
+      prazo: formatPrazo_(colF),
+      status: colH ? String(colH).trim() : ''
+    });
+  }
+
+  return sobras;
+}
+
+function readAllCharges_() {
+  let all = [];
+  CHARGE_SHEETS.forEach(cs => {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const sheet = ss.getSheetByName(cs.sheetName);
+    if (!sheet) return;
+    const charges = readChargesFromSheet_(sheet, cs);
+    all = all.concat(charges);
+  });
+  return all;
+}
+
+function readChargesFromSheet_(sheet, cs) {
+  const data = sheet.getDataRange().getValues();
+  const charges = [];
+
+  for (let i = 0; i < data.length; i++) {
+    const row = data[i];
+    const nameRaw = row[cs.nameCol - 1];
+    if (!nameRaw || nameRaw === 'NOME + @') continue;
+    if (String(nameRaw).indexOf('@') === -1) continue;
+
+    const { nome, handle } = extractNameAndHandle_(nameRaw);
+    if (!handle) continue;
+
+    cs.campos.forEach(campo => {
+      const valor = row[campo.valorCol - 1];
+      if (valor === '' || valor === null || valor === undefined) return;
+      const quantidade = row[campo.qtyCol - 1];
+      const validacao = row[campo.validacaoCol - 1];
+
+      charges.push({
+        origem: cs.nome,
+        tipo: campo.tipo,
+        nome: nome,
+        handle: '@' + handle,
+        handleNormalized: normalizeHandle(handle),
+        quantidade: quantidade,
+        valor: valor,
+        pagamento: validacao === true ? 'Pago' : 'Pendente'
+      });
+    });
+  }
+
+  return charges;
+}
+
+/**
+ * Funcao auxiliar para testar dentro do editor do Apps Script.
+ * Selecione "testSearch" no menu de funcoes e clique em Executar.
+ */
+function testSearch() {
+  const fake = { parameter: { at: 'mheesfv_' } };
+  const result = doGet(fake);
+  Logger.log(result.getContent());
+}
+
+/**
+ * Funcao de diagnostico: lista as abas que o script enxerga
+ * e o nome da planilha vinculada. Use se uma aba nao for encontrada.
+ */
+function listarAbas() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  Logger.log('Nome da planilha: ' + ss.getName());
+  const sheets = ss.getSheets();
+  sheets.forEach(s => Logger.log('Aba: [' + s.getName() + ']'));
+}
