@@ -35,41 +35,8 @@
   .topbar { padding: 22px 24px 0; }
   .topbar-inner { max-width: 720px; margin: 0 auto; }
 
-  .wordmark {
-    position: relative;
-    display: inline-block;
-    font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-    font-size: 30px;
-    letter-spacing: 1px;
-    color: var(--cream);
-    text-transform: uppercase;
-    line-height: 1;
-  }
-
-  .wordmark::before {
-    content: "";
-    position: absolute;
-    left: -10px;
-    right: -10px;
-    top: 50%;
-    height: 2px;
-    background: var(--purple);
-    transform: translateY(-1px);
-  }
-
-  .wordmark-row { display: flex; align-items: flex-end; gap: 10px; }
-  .wordmark-tick { width: 2px; height: 30px; background: var(--purple); margin-bottom: 2px; }
-
-  .cegs-label {
-    font-family: 'Oswald', sans-serif;
-    font-weight: 600;
-    font-size: 13px;
-    letter-spacing: 2px;
-    color: var(--coral);
-    margin-top: 2px;
-    margin-left: 2px;
-  }
+  .wordmark-row { display: flex; align-items: center; }
+  .logo-img { height: 56px; width: auto; display: block; }
 
   nav {
     margin-top: 18px;
@@ -288,7 +255,7 @@
   @keyframes shimmer { 100% { left: 100%; } }
 
   @media (max-width: 480px) {
-    .wordmark { font-size: 24px; }
+    .logo-img { height: 42px; }
     .sobra-side { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; }
   }
 </style>
@@ -298,9 +265,7 @@
 <div class="topbar">
   <div class="topbar-inner">
     <div class="wordmark-row">
-      <span class="wordmark">Dazed</span>
-      <span class="wordmark-tick"></span>
-      <span class="cegs-label">CEGS</span>
+      <img src="imagens/logo.png" alt="Dazed Cegs" class="logo-img" />
     </div>
     <nav>
       <a href="consulta.html">Consulta</a>
