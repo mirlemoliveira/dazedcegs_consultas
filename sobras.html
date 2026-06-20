@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dazed Cegs - Sobras Cegs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky-1: #99B7D0;
+    --sky-2: #B9C8DF;
+    --cream: #EBE1D3;
+    --ink: #2B2B33;
+    --ink-soft: #5C6270;
+    --purple: #6F70A1;
+    --coral: #FF5460;
+    --coral-dark: #C23440;
+    --green: #2A6B4C;
+    --green-bg: #E1F0E8;
+    --card-bg: rgba(255,255,255,0.86);
+    --line: rgba(43,43,51,0.14);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--sky-1) 0%, var(--sky-2) 55%, var(--sky-1) 100%);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+
+  .topbar { padding: 22px 24px 0; }
+  .topbar-inner { max-width: 720px; margin: 0 auto; }
+
+  .wordmark {
+    position: relative;
+    display: inline-block;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    letter-spacing: 1px;
+    color: var(--cream);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .wordmark::before {
+    content: "";
+    position: absolute;
+    left: -10px;
+    right: -10px;
+    top: 50%;
+    height: 2px;
+    background: var(--purple);
+    transform: translateY(-1px);
+  }
+
+  .wordmark-row { display: flex; align-items: flex-end; gap: 10px; }
+  .wordmark-tick { width: 2px; height: 30px; background: var(--purple); margin-bottom: 2px; }
+
+  .cegs-label {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--coral);
+    margin-top: 2px;
+    margin-left: 2px;
+  }
+
+  nav {
+    margin-top: 18px;
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid rgba(43,43,51,0.16);
+  }
+
+  nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    padding: 10px 14px;
+    border-bottom: 2px solid transparent;
+  }
+
+  nav a.active { color: var(--ink); border-bottom-color: var(--coral); }
+
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 44px 20px 80px;
+  }
+
+  .hero { text-align: center; margin-bottom: 32px; }
+
+  .hero h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 10px;
+    color: var(--ink);
+    letter-spacing: 0.3px;
+  }
+
+  .hero p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    max-width: 440px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .filter-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin-bottom: 24px;
+  }
+
+  .filter-card select {
+    width: 100%;
+    height: 42px;
+    padding: 0 14px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .filter-card select:focus {
+    outline: none;
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(111,112,161,0.15);
+  }
+
+  .results-summary {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(43,43,51,0.16);
+  }
+
+  .sobra-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-left: 4px solid var(--purple);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .sobra-thumb {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: rgba(111,112,161,0.08);
+  }
+
+  .sobra-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .sobra-main { flex: 1; min-width: 160px; }
+
+  .sobra-pob {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 4px;
+    text-transform: uppercase;
+  }
+
+  .sobra-meta {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  .sobra-meta span { color: var(--ink); font-weight: 600; }
+
+  .sobra-side {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .sobra-value {
+    font-family: 'Oswald', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .garantir-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--coral);
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .garantir-btn:hover { background: var(--coral-dark); }
+
+  .empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.6;
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 14px;
+  }
+
+  .skeleton {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    height: 70px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    animation: shimmer 1.2s infinite;
+  }
+
+  @keyframes shimmer { 100% { left: 100%; } }
+
+  @media (max-width: 480px) {
+    .wordmark { font-size: 24px; }
+    .sobra-side { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="wordmark-row">
+      <span class="wordmark">Dazed</span>
+      <span class="wordmark-tick"></span>
+      <span class="cegs-label">CEGS</span>
+    </div>
+    <nav>
+      <a href="consulta.html">Consulta</a>
+      <a href="calculadora.html">Calculadora</a>
+      <a href="pendentes.html">Valores pendentes</a>
+      <a href="sobras.html" class="active">Sobras Cegs</a>
+    </nav>
+  </div>
+</div>
+
+<main>
+  <div class="hero">
+    <h1>Sobras Cegs</h1>
+    <p>Itens disponíveis sem dono ainda. Garanta o seu antes que acabe!</p>
+  </div>
+
+  <div class="filter-card">
+    <select id="membroFilter">
+      <option value="">Todos os membros</option>
+    </select>
+  </div>
+
+  <div class="results" id="results"></div>
+</main>
+
+<script>
+  const API_URL = 'https://script.google.com/macros/s/AKfycby51xkp8ka5boynUNZoXn4yktt-C_LzNRwD5dam6YeY4f6zEPsNJGlOyDuk4rDdUMtS7g/exec';
+  const IMG_FOLDER = 'imagens/';
+  const WHATSAPP_NUMBER = '5511980532575';
+
+  const resultsEl = document.getElementById('results');
+  const membroFilter = document.getElementById('membroFilter');
+
+  let allSobras = [];
+
+  function formatValor(v) {
+    return (typeof v === 'number')
+      ? v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+      : (v || '-');
+  }
+
+  function thumbHtml(s) {
+    const slug = s.pobSlug || '';
+    if (!slug) return '';
+    const folder = s.imgFolder ? IMG_FOLDER + s.imgFolder + '/' : IMG_FOLDER;
+    const imgSrc = folder + slug + '.png';
+    return `<img src="${imgSrc}" alt="${s.pob || ''}" data-slug="${slug}" data-folder="${s.imgFolder || ''}" data-ext-idx="0" onerror="window.__tryNextExt(this)" />`;
+  }
+
+  window.__tryNextExt = function(imgEl) {
+    const exts = ['png', 'jpg', 'jpeg'];
+    let idx = parseInt(imgEl.getAttribute('data-ext-idx') || '0', 10) + 1;
+    const slug = imgEl.getAttribute('data-slug');
+    const folderAttr = imgEl.getAttribute('data-folder') || '';
+    const folder = folderAttr ? IMG_FOLDER + folderAttr + '/' : IMG_FOLDER;
+    if (idx < exts.length) {
+      imgEl.setAttribute('data-ext-idx', String(idx));
+      imgEl.src = folder + slug + '.' + exts[idx];
+    } else {
+      const parent = imgEl.parentElement;
+      imgEl.remove();
+      if (parent) parent.style.background = 'rgba(111,112,161,0.08)';
+    }
+  };
+
+  function whatsappLink(s) {
+    const valor = formatValor(s);
+    const msg = `Oi! Quero garantir o item ${s.pob} por ${valor}`;
+    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  }
+
+  function renderSkeleton() {
+    resultsEl.innerHTML = '';
+    for (let i = 0; i < 4; i++) {
+      const sk = document.createElement('div');
+      sk.className = 'skeleton';
+      resultsEl.appendChild(sk);
+    }
+  }
+
+  function populateMembroFilter(itens) {
+    const membros = [...new Set(itens.map(s => s.membro).filter(Boolean))].sort();
+    membroFilter.innerHTML = '<option value="">Todos os membros</option>' +
+      membros.map(m => `<option value="${m}">${m}</option>`).join('');
+  }
+
+  function renderSobras(itens) {
+    resultsEl.innerHTML = '';
+
+    if (!itens || itens.length === 0) {
+      resultsEl.innerHTML = `<div class="empty-state">Nenhuma sobra disponível no momento.</div>`;
+      return;
+    }
+
+    const summary = document.createElement('div');
+    summary.className = 'results-summary';
+    summary.textContent = itens.length + (itens.length === 1 ? ' item disponível' : ' itens disponíveis');
+    resultsEl.appendChild(summary);
+
+    itens.forEach(s => {
+      const card = document.createElement('div');
+      card.className = 'sobra-card';
+      card.innerHTML = `
+        <div class="sobra-thumb">${thumbHtml(s)}</div>
+        <div class="sobra-main">
+          <p class="sobra-pob">${s.pob || 'Item'}</p>
+          <div class="sobra-meta">Membro: <span>${s.membro || '-'}</span></div>
+        </div>
+        <div class="sobra-side">
+          <div class="sobra-value">${formatValor(s.valor)}</div>
+          <a class="garantir-btn" href="${whatsappLink(s)}" target="_blank" rel="noopener">Quero garantir</a>
+        </div>
+      `;
+      resultsEl.appendChild(card);
+    });
+  }
+
+  function applyFilter() {
+    const val = membroFilter.value;
+    const filtered = val ? allSobras.filter(s => s.membro === val) : allSobras;
+    renderSobras(filtered);
+  }
+
+  membroFilter.addEventListener('change', applyFilter);
+
+  async function load() {
+    renderSkeleton();
+    try {
+      const res = await fetch(`${API_URL}?action=sobras`);
+      if (!res.ok) throw new Error('Falha ao carregar');
+      const data = await res.json();
+      allSobras = data.itens || [];
+      populateMembroFilter(allSobras);
+      renderSobras(allSobras);
+    } catch (err) {
+      resultsEl.innerHTML = `<div class="empty-state">Não foi possível carregar as sobras agora. Tenta de novo em instantes.</div>`;
+    }
+  }
+
+  load();
+</script>
+
+</body>
+</html>
