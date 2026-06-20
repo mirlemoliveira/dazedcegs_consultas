@@ -257,6 +257,40 @@
   .order-card.status-finalizado { border-left-color: #3E8F68; }
   .order-card.status-pendente { border-left-color: var(--coral-dark); }
 
+  .order-card-compact {
+    padding: 12px 14px;
+    margin-bottom: 0;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .order-card-compact .order-pob {
+    font-size: 13px;
+    margin: 0 0 3px;
+  }
+
+  .order-card-compact .order-meta {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+
+  .order-card-compact .stamp {
+    margin-bottom: 0;
+  }
+
+  .order-card-compact .order-side {
+    text-align: right;
+  }
+
+  .order-card-compact .order-main {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .order-card-compact .order-value {
+    font-size: 14px;
+  }
+
   .order-thumb {
     width: 40px;
     height: 40px;
@@ -385,12 +419,18 @@
 
   .results.view-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 14px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
 
   .results.view-grid .results-summary {
     grid-column: 1 / -1;
+  }
+
+  @media (max-width: 560px) {
+    .results.view-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   .grid-card {
@@ -792,13 +832,18 @@
     pedidos.forEach(p => {
       const cls = statusClass(p.status);
       const card = document.createElement('div');
-      card.className = 'grid-card';
+      card.className = 'order-card order-card-compact ' + cls;
       card.innerHTML = `
-        <div class="grid-card-photo">${thumbHtml(p)}</div>
-        <div class="grid-card-body">
-          <p class="grid-card-pob">${p.pob || 'Item'}</p>
-          <div class="grid-card-value">${formatValor(p)}</div>
+        <div class="order-thumb">${thumbHtml(p)}</div>
+        <div class="order-main">
+          <p class="order-pob">${p.pob || 'Item'}</p>
+          <div class="order-meta">
+            Membro: <span>${p.membro || '-'}</span>
+          </div>
           <div class="stamp ${cls}">${p.status || 'Sem status'}</div>
+        </div>
+        <div class="order-side">
+          <div class="order-value">${formatValor(p)}</div>
         </div>
       `;
       resultsEl.appendChild(card);
