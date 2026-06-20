@@ -247,6 +247,20 @@
     margin-top: 28px;
   }
 
+  .results.view-table {
+    width: 96vw;
+    max-width: 1100px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+
+  @media (max-width: 600px) {
+    .results.view-table {
+      width: 100vw;
+      max-width: 100vw;
+    }
+  }
+
   .results-summary {
     font-family: 'Oswald', sans-serif;
     font-size: 12px;
@@ -648,7 +662,7 @@
 
   function renderSkeleton() {
     resultsEl.innerHTML = '';
-    resultsEl.classList.remove('view-grid');
+    resultsEl.classList.remove('view-grid', 'view-table');
     filterRow.style.display = 'none';
     viewToggle.style.display = 'none';
     for (let i = 0; i < 3; i++) {
@@ -726,7 +740,7 @@
     lastRendered = pedidos;
     lastTotal = totalOriginal;
     resultsEl.innerHTML = '';
-    resultsEl.classList.remove('view-grid');
+    resultsEl.classList.remove('view-grid', 'view-table');
 
     if (!pedidos || pedidos.length === 0) {
       resultsEl.innerHTML = `
@@ -803,6 +817,7 @@
   }
 
   function renderTable(pedidos) {
+    resultsEl.classList.add('view-table');
     const wrap = document.createElement('div');
     wrap.className = 'table-wrap';
     const rows = pedidos.map(p => {
