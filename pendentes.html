@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dazed Cegs - Valores Pendentes</title>
+<link rel="icon" type="image/png" href="imagens/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -225,6 +226,13 @@
     color: var(--ink-soft);
   }
 
+  .pending-multa {
+    font-size: 12px;
+    color: var(--coral-dark);
+    font-weight: 600;
+    margin-top: 4px;
+  }
+
   .pending-value {
     font-family: 'Oswald', sans-serif;
     font-size: 18px;
@@ -335,7 +343,11 @@
       const partes = [];
       if (resumo.itensPendentes) partes.push(resumo.itensPendentes + (resumo.itensPendentes === 1 ? ' item' : ' itens'));
       if (resumo.encargosPendentes) partes.push(resumo.encargosPendentes + (resumo.encargosPendentes === 1 ? ' encargo' : ' encargos'));
-      summaryText.textContent = 'Pendências em aberto: ' + partes.join(' e ');
+      let texto = 'Pendências em aberto: ' + partes.join(' e ');
+      if (resumo.totalMulta > 0) {
+        texto += ' · Multa por atraso: ' + formatValor(resumo.totalMulta);
+      }
+      summaryText.textContent = texto;
     } else {
       summaryBanner.className = 'summary-banner clear';
       summaryIcon.textContent = 'Tudo certo';
@@ -354,10 +366,14 @@
       itensPendentes.forEach(p => {
         const card = document.createElement('div');
         card.className = 'pending-card';
+        const multaTexto = p.multa > 0
+          ? `<div class="pending-multa">+${formatValor(p.multa)} de multa (${p.diasAtraso} ${p.diasAtraso === 1 ? 'dia' : 'dias'} de atraso)</div>`
+          : '';
         card.innerHTML = `
           <div>
             <p class="pending-title">${p.pob || 'Item'}</p>
             <div class="pending-meta">Membro: ${p.membro || '-'} &middot; Prazo: ${p.prazo || '-'}</div>
+            ${multaTexto}
           </div>
           <div class="pending-value">${formatValor(p.valor)}</div>
         `;
