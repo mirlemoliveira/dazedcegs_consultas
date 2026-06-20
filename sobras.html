@@ -374,7 +374,7 @@
   };
 
   function whatsappLink(s) {
-    const valor = formatValor(s);
+    const valor = formatValor(s.valor);
     const msg = `Oi! Quero garantir o item ${s.pob} (CEG: ${s.ceg}, Membro: ${s.membro}) por ${valor}`;
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
   }
