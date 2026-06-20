@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dazed Cegs - Valores Pendentes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky-1: #99B7D0;
+    --sky-2: #B9C8DF;
+    --cream: #EBE1D3;
+    --ink: #2B2B33;
+    --ink-soft: #5C6270;
+    --purple: #6F70A1;
+    --coral: #FF5460;
+    --coral-dark: #C23440;
+    --green: #2A6B4C;
+    --green-bg: #E1F0E8;
+    --card-bg: rgba(255,255,255,0.86);
+    --line: rgba(43,43,51,0.14);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--sky-1) 0%, var(--sky-2) 55%, var(--sky-1) 100%);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+
+  .topbar { padding: 22px 24px 0; }
+  .topbar-inner { max-width: 720px; margin: 0 auto; }
+
+  .wordmark {
+    position: relative;
+    display: inline-block;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    letter-spacing: 1px;
+    color: var(--cream);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .wordmark::before {
+    content: "";
+    position: absolute;
+    left: -10px;
+    right: -10px;
+    top: 50%;
+    height: 2px;
+    background: var(--purple);
+    transform: translateY(-1px);
+  }
+
+  .wordmark-row { display: flex; align-items: flex-end; gap: 10px; }
+  .wordmark-tick { width: 2px; height: 30px; background: var(--purple); margin-bottom: 2px; }
+
+  .cegs-label {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--coral);
+    margin-top: 2px;
+    margin-left: 2px;
+  }
+
+  nav {
+    margin-top: 18px;
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid rgba(43,43,51,0.16);
+  }
+
+  nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    padding: 10px 14px;
+    border-bottom: 2px solid transparent;
+  }
+
+  nav a.active { color: var(--ink); border-bottom-color: var(--coral); }
+
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 44px 20px 80px;
+  }
+
+  .hero { text-align: center; margin-bottom: 32px; }
+
+  .hero h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 10px;
+    color: var(--ink);
+    letter-spacing: 0.3px;
+  }
+
+  .hero p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    max-width: 440px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .search-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 14px;
+    padding: 22px;
+  }
+
+  .search-row { display: flex; gap: 10px; }
+
+  .at-prefix {
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--purple);
+    background: rgba(111,112,161,0.10);
+    border: 1px solid rgba(111,112,161,0.25);
+    border-radius: 8px;
+  }
+
+  #handleInput {
+    flex: 1;
+    padding: 0 14px;
+    font-size: 16px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--ink);
+    height: 46px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  #handleInput:focus {
+    outline: none;
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(111,112,161,0.15);
+  }
+
+  #searchBtn {
+    padding: 0 24px;
+    height: 46px;
+    background: var(--coral);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  #searchBtn:hover { background: var(--coral-dark); }
+  #searchBtn:disabled { opacity: 0.6; cursor: wait; }
+
+  .status-msg {
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+
+  .status-msg.error { color: var(--coral-dark); }
+
+  .summary-banner {
+    margin-top: 24px;
+    border-radius: 14px;
+    padding: 22px;
+    text-align: center;
+    display: none;
+  }
+
+  .summary-banner.clear {
+    background: var(--green-bg);
+  }
+
+  .summary-banner.pending {
+    background: rgba(255,84,96,0.12);
+  }
+
+  .summary-icon {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .summary-banner.clear .summary-icon { color: var(--green); }
+  .summary-banner.pending .summary-icon { color: var(--coral-dark); }
+
+  .summary-text {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .summary-banner.clear .summary-text { color: var(--green); }
+  .summary-banner.pending .summary-text { color: var(--coral-dark); }
+
+  .section-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 28px 0 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(43,43,51,0.16);
+  }
+
+  .pending-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-left: 4px solid var(--coral-dark);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .pending-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 4px;
+  }
+
+  .pending-meta {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  .pending-value {
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--coral-dark);
+  }
+
+  .results { margin-top: 8px; }
+
+  @media (max-width: 480px) {
+    .search-row { flex-direction: column; }
+    .at-prefix { justify-content: center; }
+    .wordmark { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="wordmark-row">
+      <span class="wordmark">Dazed</span>
+      <span class="wordmark-tick"></span>
+      <span class="cegs-label">CEGS</span>
+    </div>
+    <nav>
+      <a href="consulta.html">Consulta</a>
+      <a href="calculadora.html">Calculadora</a>
+      <a href="pendentes.html" class="active">Valores pendentes</a>
+    </nav>
+  </div>
+</div>
+
+<main>
+  <div class="hero">
+    <h1>Valores pendentes</h1>
+    <p>Digite seu @ pra ver se você tem item, frete ou taxa em aberto.</p>
+  </div>
+
+  <div class="search-card">
+    <div class="search-row">
+      <div class="at-prefix">@</div>
+      <input
+        type="text"
+        id="handleInput"
+        placeholder="seu_usuario"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+      />
+      <button id="searchBtn">Buscar</button>
+    </div>
+    <div class="status-msg" id="statusMsg"></div>
+  </div>
+
+  <div class="summary-banner" id="summaryBanner">
+    <div class="summary-icon" id="summaryIcon"></div>
+    <div class="summary-text" id="summaryText"></div>
+  </div>
+
+  <div class="results" id="results"></div>
+</main>
+
+<script>
+  const API_URL = 'https://script.google.com/macros/s/AKfycbxYOZiOaCRuYLQcwhNdi3eBNBgDbZLD8wvfScNg7Ogl5gdySx6vRwe17zdm44q3i_Th/exec';
+
+  const input = document.getElementById('handleInput');
+  const btn = document.getElementById('searchBtn');
+  const statusMsg = document.getElementById('statusMsg');
+  const resultsEl = document.getElementById('results');
+  const summaryBanner = document.getElementById('summaryBanner');
+  const summaryIcon = document.getElementById('summaryIcon');
+  const summaryText = document.getElementById('summaryText');
+
+  function formatValor(v) {
+    return (typeof v === 'number')
+      ? v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+      : (v || '-');
+  }
+
+  function renderSkeleton() {
+    resultsEl.innerHTML = '';
+    summaryBanner.style.display = 'none';
+  }
+
+  function renderError(msg) {
+    resultsEl.innerHTML = '';
+    summaryBanner.style.display = 'none';
+    statusMsg.textContent = msg;
+    statusMsg.classList.add('error');
+  }
+
+  function renderResults(data) {
+    resultsEl.innerHTML = '';
+
+    if ((data.total || 0) === 0 && (!data.encargos || data.encargos.length === 0)) {
+      resultsEl.innerHTML = `
+        <div class="status-msg error">Nenhum cadastro encontrado pra <strong>@${data.query}</strong>.</div>`;
+      summaryBanner.style.display = 'none';
+      return;
+    }
+
+    const resumo = data.resumoPendencias || {};
+    summaryBanner.style.display = 'block';
+
+    if (resumo.temPendencia) {
+      summaryBanner.className = 'summary-banner pending';
+      summaryIcon.textContent = 'Atenção';
+      const partes = [];
+      if (resumo.itensPendentes) partes.push(resumo.itensPendentes + (resumo.itensPendentes === 1 ? ' item' : ' itens'));
+      if (resumo.encargosPendentes) partes.push(resumo.encargosPendentes + (resumo.encargosPendentes === 1 ? ' encargo' : ' encargos'));
+      summaryText.textContent = 'Pendências em aberto: ' + partes.join(' e ');
+    } else {
+      summaryBanner.className = 'summary-banner clear';
+      summaryIcon.textContent = 'Tudo certo';
+      summaryText.textContent = 'Nenhuma pendência em aberto';
+    }
+
+    const itensPendentes = (data.pedidos || []).filter(p => p.pagamento === 'Pendente');
+    const encargosPendentes = (data.encargos || []).filter(e => e.pagamento === 'Pendente');
+
+    if (itensPendentes.length > 0) {
+      const label = document.createElement('div');
+      label.className = 'section-label';
+      label.textContent = 'Itens pendentes';
+      resultsEl.appendChild(label);
+
+      itensPendentes.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'pending-card';
+        card.innerHTML = `
+          <div>
+            <p class="pending-title">${p.pob || 'Item'}</p>
+            <div class="pending-meta">Membro: ${p.membro || '-'} &middot; Prazo: ${p.prazo || '-'}</div>
+          </div>
+          <div class="pending-value">${formatValor(p.valor)}</div>
+        `;
+        resultsEl.appendChild(card);
+      });
+    }
+
+    if (encargosPendentes.length > 0) {
+      const label = document.createElement('div');
+      label.className = 'section-label';
+      label.textContent = 'Frete e taxa pendentes';
+      resultsEl.appendChild(label);
+
+      encargosPendentes.forEach(e => {
+        const card = document.createElement('div');
+        card.className = 'pending-card';
+        card.innerHTML = `
+          <div>
+            <p class="pending-title">${e.tipo || 'Encargo'}</p>
+            <div class="pending-meta">${e.origem || ''}${e.quantidade ? ' &middot; ' + e.quantidade + ' pçs' : ''}</div>
+          </div>
+          <div class="pending-value">${formatValor(e.valor)}</div>
+        `;
+        resultsEl.appendChild(card);
+      });
+    }
+  }
+
+  async function search() {
+    const handle = input.value.trim().replace(/^@/, '');
+    if (!handle) {
+      statusMsg.textContent = 'Digite seu @ pra buscar.';
+      statusMsg.classList.add('error');
+      return;
+    }
+
+    statusMsg.textContent = '';
+    statusMsg.classList.remove('error');
+    btn.disabled = true;
+    renderSkeleton();
+
+    try {
+      const res = await fetch(`${API_URL}?at=${encodeURIComponent(handle)}`);
+      if (!res.ok) throw new Error('Falha na consulta');
+      const data = await res.json();
+      if (data.error) {
+        renderError(data.error);
+      } else {
+        renderResults(data);
+      }
+    } catch (err) {
+      renderError('Não foi possível consultar agora. Tenta de novo em instantes.');
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  btn.addEventListener('click', search);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') search();
+  });
+</script>
+
+</body>
+</html>
