@@ -122,24 +122,45 @@
     border-bottom: 1px solid rgba(43,43,51,0.16);
   }
 
+  .results {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .results .results-summary {
+    grid-column: 1 / -1;
+  }
+
+  @media (max-width: 560px) {
+    .results {
+      grid-template-columns: 1fr;
+    }
+  }
+
   .sobra-card {
     background: var(--card-bg);
     backdrop-filter: blur(6px);
     border: 1px solid rgba(255,255,255,0.5);
     border-left: 4px solid var(--purple);
     border-radius: 10px;
-    padding: 16px 18px;
-    margin-bottom: 12px;
+    padding: 12px 14px;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sobra-card-top {
     display: flex;
     align-items: center;
-    gap: 14px;
-    flex-wrap: wrap;
+    gap: 10px;
   }
 
   .sobra-thumb {
-    width: 56px;
-    height: 56px;
-    border-radius: 8px;
+    width: 44px;
+    height: 44px;
+    border-radius: 7px;
     overflow: hidden;
     flex-shrink: 0;
     background: rgba(111,112,161,0.08);
@@ -152,19 +173,19 @@
     display: block;
   }
 
-  .sobra-main { flex: 1; min-width: 160px; }
+  .sobra-main { flex: 1; min-width: 0; }
 
   .sobra-pob {
     font-family: 'Oswald', sans-serif;
-    font-size: 16px;
+    font-size: 13px;
     font-weight: 600;
     color: var(--ink);
-    margin: 0 0 4px;
+    margin: 0 0 3px;
     text-transform: uppercase;
   }
 
   .sobra-meta {
-    font-size: 13px;
+    font-size: 11px;
     color: var(--ink-soft);
   }
 
@@ -179,7 +200,6 @@
     text-transform: uppercase;
     padding: 4px 8px;
     border-radius: 5px;
-    margin-top: 8px;
   }
 
   .sobra-stamp.status-warehouse { color: #8A6418; background: rgba(201,150,47,0.16); }
@@ -188,30 +208,29 @@
   .sobra-stamp.status-pendente { color: var(--coral-dark); background: rgba(255,84,96,0.14); }
 
   .sobra-side {
-    text-align: right;
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
+    justify-content: space-between;
     gap: 8px;
   }
 
   .sobra-value {
     font-family: 'Oswald', sans-serif;
-    font-size: 17px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--ink);
   }
 
   .garantir-btn {
     display: inline-block;
-    padding: 8px 16px;
+    padding: 7px 12px;
     background: var(--coral);
     color: #fff;
     text-decoration: none;
     border: none;
     border-radius: 8px;
     font-family: 'Oswald', sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.5px;
     text-transform: uppercase;
@@ -379,14 +398,16 @@
       const card = document.createElement('div');
       card.className = 'sobra-card';
       card.innerHTML = `
-        <div class="sobra-thumb">${thumbHtml(s)}</div>
-        <div class="sobra-main">
-          <p class="sobra-pob">${s.pob || 'Item'}</p>
-          <div class="sobra-meta">
-            CEG: <span>${s.ceg || '-'}</span> &middot; Membro: <span>${s.membro || '-'}</span>
+        <div class="sobra-card-top">
+          <div class="sobra-thumb">${thumbHtml(s)}</div>
+          <div class="sobra-main">
+            <p class="sobra-pob">${s.pob || 'Item'}</p>
+            <div class="sobra-meta">
+              ${s.ceg || '-'} &middot; ${s.membro || '-'}
+            </div>
           </div>
-          <div class="sobra-stamp ${cls}">${s.status || 'Sem status'}</div>
         </div>
+        <div class="sobra-stamp ${cls}">${s.status || 'Sem status'}</div>
         <div class="sobra-side">
           <div class="sobra-value">${formatValor(s.valor)}</div>
           <a class="garantir-btn" href="${whatsappLink(s)}" target="_blank" rel="noopener">Quero garantir</a>
