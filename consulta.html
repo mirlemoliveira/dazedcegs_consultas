@@ -220,10 +220,12 @@
     display: flex;
     gap: 10px;
     margin-top: 12px;
+    flex-wrap: wrap;
   }
 
   .filter-row select {
     flex: 1;
+    min-width: 140px;
     height: 38px;
     padding: 0 12px;
     font-size: 13px;
@@ -358,6 +360,150 @@
   .order-payment.pago { color: #2A6B4C; }
   .order-payment.pendente { color: var(--coral-dark); }
 
+  .view-toggle {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+    margin-bottom: 4px;
+  }
+
+  .view-btn {
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    background: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .view-btn.active {
+    color: #fff;
+    background: var(--purple);
+    border-color: var(--purple);
+  }
+
+  .results.view-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 14px;
+  }
+
+  .results.view-grid .results-summary {
+    grid-column: 1 / -1;
+  }
+
+  .grid-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .grid-card-photo {
+    width: 100%;
+    aspect-ratio: 1;
+    background: rgba(111,112,161,0.08);
+  }
+
+  .grid-card-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .grid-card-body {
+    padding: 10px 12px 12px;
+  }
+
+  .grid-card-pob {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 0 0 6px;
+    line-height: 1.3;
+  }
+
+  .grid-card-value {
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .table-wrap {
+    background: var(--card-bg);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 10px;
+    overflow-x: auto;
+  }
+
+  table.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  table.order-table th {
+    text-align: left;
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(43,43,51,0.16);
+    white-space: nowrap;
+  }
+
+  table.order-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(43,43,51,0.08);
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  table.order-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .table-thumb {
+    width: 28px;
+    height: 28px;
+    border-radius: 5px;
+    overflow: hidden;
+    background: rgba(111,112,161,0.08);
+  }
+
+  .table-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .table-stamp {
+    display: inline-block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 3px 7px;
+    border-radius: 5px;
+  }
+
   .empty-state {
     text-align: center;
     padding: 50px 20px;
@@ -440,18 +586,28 @@
       <button id="searchBtn">Buscar</button>
     </div>
     <div class="filter-row" id="filterRow" style="display:none;">
+      <select id="cegFilter">
+        <option value="">Todas as CEGs</option>
+      </select>
       <select id="statusFilter">
         <option value="">Todos os status</option>
       </select>
       <select id="pobFilter">
-        <option value="">Todas as CEGs</option>
+        <option value="">Todos os itens</option>
       </select>
     </div>
     <div class="status-msg" id="statusMsg"></div>
   </div>
 
+  <div class="view-toggle" id="viewToggle" style="display:none;">
+    <button type="button" class="view-btn active" id="viewListBtn" data-view="list">Lista</button>
+    <button type="button" class="view-btn" id="viewGridBtn" data-view="grid">Grid</button>
+    <button type="button" class="view-btn" id="viewTableBtn" data-view="table">Tabela</button>
+  </div>
+
   <div class="results" id="results"></div>
 </main>
+
 
 <footer></footer>
 
@@ -465,9 +621,21 @@
   const resultsEl = document.getElementById('results');
   const statusFilter = document.getElementById('statusFilter');
   const pobFilter = document.getElementById('pobFilter');
+  const cegFilter = document.getElementById('cegFilter');
   const filterRow = document.getElementById('filterRow');
 
   let allPedidos = [];
+  let cegsConfig = [];
+  let currentView = 'list';
+  let lastRendered = [];
+  let lastTotal = 0;
+
+  const viewToggle = document.getElementById('viewToggle');
+  const viewButtons = [
+    document.getElementById('viewListBtn'),
+    document.getElementById('viewGridBtn'),
+    document.getElementById('viewTableBtn')
+  ];
 
   function statusClass(status) {
     const s = (status || '').toLowerCase();
@@ -480,7 +648,9 @@
 
   function renderSkeleton() {
     resultsEl.innerHTML = '';
+    resultsEl.classList.remove('view-grid');
     filterRow.style.display = 'none';
+    viewToggle.style.display = 'none';
     for (let i = 0; i < 3; i++) {
       const sk = document.createElement('div');
       sk.className = 'skeleton';
@@ -499,24 +669,53 @@
   function renderError(msg) {
     resultsEl.innerHTML = '';
     filterRow.style.display = 'none';
+    viewToggle.style.display = 'none';
     statusMsg.textContent = msg;
     statusMsg.classList.add('error');
   }
 
   function populateFilters(pedidos) {
-    const statuses = [...new Set(pedidos.map(p => p.status).filter(Boolean))].sort();
-    const pobs = [...new Set(pedidos.map(p => p.pob).filter(Boolean))].sort();
+    const cegs = [...new Set(pedidos.map(p => p.ceg).filter(Boolean))].sort();
+    cegFilter.innerHTML = '<option value="">Todas as CEGs</option>' +
+      cegs.map(c => `<option value="${c}">${c}</option>`).join('');
+    updateDependentFilters();
+  }
 
+  function cegShowsPobFilter(cegNome) {
+    if (!cegNome) return true;
+    const cfg = cegsConfig.find(c => c.nome === cegNome);
+    return cfg ? !!cfg.showPobFilter : true;
+  }
+
+  function updateDependentFilters() {
+    const cegVal = cegFilter.value;
+    const scoped = cegVal ? allPedidos.filter(p => p.ceg === cegVal) : allPedidos;
+
+    const statuses = [...new Set(scoped.map(p => p.status).filter(Boolean))].sort();
     statusFilter.innerHTML = '<option value="">Todos os status</option>' +
       statuses.map(s => `<option value="${s}">${s}</option>`).join('');
-    pobFilter.innerHTML = '<option value="">Todas as CEGs</option>' +
-      pobs.map(p => `<option value="${p}">${p}</option>`).join('');
+
+    const showPob = cegVal
+      ? cegShowsPobFilter(cegVal)
+      : cegsConfig.some(c => c.showPobFilter);
+
+    if (showPob) {
+      const pobs = [...new Set(scoped.map(p => p.pob).filter(Boolean))].sort();
+      pobFilter.innerHTML = '<option value="">Todos os itens</option>' +
+        pobs.map(p => `<option value="${p}">${p}</option>`).join('');
+      pobFilter.style.display = '';
+    } else {
+      pobFilter.value = '';
+      pobFilter.style.display = 'none';
+    }
   }
 
   function applyFilters() {
+    const cegVal = cegFilter.value;
     const statusVal = statusFilter.value;
-    const pobVal = pobFilter.value;
+    const pobVal = cegShowsPobFilter(cegVal) ? pobFilter.value : '';
     const filtered = allPedidos.filter(p =>
+      (!cegVal || p.ceg === cegVal) &&
       (!statusVal || p.status === statusVal) &&
       (!pobVal || p.pob === pobVal)
     );
@@ -524,7 +723,11 @@
   }
 
   function renderCards(pedidos, totalOriginal) {
+    lastRendered = pedidos;
+    lastTotal = totalOriginal;
     resultsEl.innerHTML = '';
+    resultsEl.classList.remove('view-grid');
+
     if (!pedidos || pedidos.length === 0) {
       resultsEl.innerHTML = `
         <div class="empty-state">
@@ -539,22 +742,31 @@
     summary.textContent = pedidos.length + (pedidos.length === 1 ? ' item' : ' itens') + (filtered ? ` de ${totalOriginal}` : ' encontrados');
     resultsEl.appendChild(summary);
 
+    if (currentView === 'grid') renderGrid(pedidos);
+    else if (currentView === 'table') renderTable(pedidos);
+    else renderList(pedidos);
+  }
+
+  function thumbHtml(p) {
+    const slug = p.pobSlug || '';
+    if (!slug) return '';
+    const imgSrc = IMG_FOLDER + slug + '.png';
+    return `<img src="${imgSrc}" alt="${p.pob || ''}" data-slug="${slug}" data-ext-idx="0" onerror="window.__tryNextExt(this)" />`;
+  }
+
+  function formatValor(p) {
+    return (typeof p.valor === 'number')
+      ? p.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+      : (p.valor || '-');
+  }
+
+  function renderList(pedidos) {
     pedidos.forEach(p => {
       const cls = statusClass(p.status);
       const card = document.createElement('div');
       card.className = 'order-card ' + cls;
-
-      const valor = (typeof p.valor === 'number')
-        ? p.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-        : (p.valor || '-');
-
-      const slug = p.pobSlug || '';
-      const imgSrc = slug ? IMG_FOLDER + slug + '.png' : '';
-
       card.innerHTML = `
-        <div class="order-thumb">
-          ${slug ? `<img src="${imgSrc}" alt="${p.pob || ''}" data-slug="${slug}" data-ext-idx="0" onerror="window.__tryNextExt(this)" />` : `<div class="order-thumb-empty"></div>`}
-        </div>
+        <div class="order-thumb">${thumbHtml(p)}</div>
         <div class="order-main">
           <p class="order-pob">${p.pob || 'Item'}</p>
           <div class="order-meta">
@@ -564,7 +776,7 @@
         </div>
         <div class="order-side">
           <div class="stamp ${cls}">${p.status || 'Sem status'}</div>
-          <div class="order-value">${valor}</div>
+          <div class="order-value">${formatValor(p)}</div>
           <div class="order-payment ${(p.pagamento || '').toLowerCase()}">${p.pagamento || ''}</div>
         </div>
       `;
@@ -572,23 +784,88 @@
     });
   }
 
+  function renderGrid(pedidos) {
+    resultsEl.classList.add('view-grid');
+    pedidos.forEach(p => {
+      const cls = statusClass(p.status);
+      const card = document.createElement('div');
+      card.className = 'grid-card';
+      card.innerHTML = `
+        <div class="grid-card-photo">${thumbHtml(p)}</div>
+        <div class="grid-card-body">
+          <p class="grid-card-pob">${p.pob || 'Item'}</p>
+          <div class="grid-card-value">${formatValor(p)}</div>
+          <div class="stamp ${cls}">${p.status || 'Sem status'}</div>
+        </div>
+      `;
+      resultsEl.appendChild(card);
+    });
+  }
+
+  function renderTable(pedidos) {
+    const wrap = document.createElement('div');
+    wrap.className = 'table-wrap';
+    const rows = pedidos.map(p => {
+      const cls = statusClass(p.status);
+      return `
+        <tr>
+          <td><div class="table-thumb">${thumbHtml(p)}</div></td>
+          <td>${p.pob || 'Item'}</td>
+          <td>${p.membro || '-'}</td>
+          <td><span class="table-stamp ${cls}">${p.status || '-'}</span></td>
+          <td>${formatValor(p)}</td>
+          <td>${p.prazo || '-'}</td>
+          <td>${p.pagamento || '-'}</td>
+        </tr>`;
+    }).join('');
+    wrap.innerHTML = `
+      <table class="order-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Item</th>
+            <th>Membro</th>
+            <th>Status</th>
+            <th>Valor</th>
+            <th>Prazo</th>
+            <th>Pagamento</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+    resultsEl.appendChild(wrap);
+  }
+
+  function setView(view) {
+    currentView = view;
+    viewButtons.forEach(b => b.classList.toggle('active', b.dataset.view === view));
+    renderCards(lastRendered, lastTotal);
+  }
+
+  viewButtons.forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
+
   function renderResults(data) {
     allPedidos = data.pedidos || [];
+    cegsConfig = data.cegs || [];
     if (allPedidos.length === 0) {
       resultsEl.innerHTML = `
         <div class="empty-state">
           Nenhum item encontrado pra <strong>@${data.query}</strong>.<br>
           Confira se digitou certo ou fale com a gente.
         </div>`;
+      cegFilter.innerHTML = '<option value="">Todas as CEGs</option>';
       statusFilter.innerHTML = '<option value="">Todos os status</option>';
-      pobFilter.innerHTML = '<option value="">Todas as CEGs</option>';
+      pobFilter.innerHTML = '<option value="">Todos os itens</option>';
       filterRow.style.display = 'none';
+      viewToggle.style.display = 'none';
       return;
     }
     populateFilters(allPedidos);
+    cegFilter.value = '';
     statusFilter.value = '';
     pobFilter.value = '';
     filterRow.style.display = 'flex';
+    viewToggle.style.display = 'flex';
     renderCards(allPedidos, allPedidos.length);
   }
 
@@ -600,7 +877,9 @@
       imgEl.setAttribute('data-ext-idx', String(idx));
       imgEl.src = IMG_FOLDER + slug + '.' + exts[idx];
     } else {
-      imgEl.replaceWith(Object.assign(document.createElement('div'), { className: 'order-thumb-empty' }));
+      const parent = imgEl.parentElement;
+      imgEl.remove();
+      if (parent) parent.style.background = 'rgba(111,112,161,0.08)';
     }
   };
 
@@ -639,6 +918,10 @@
   });
   statusFilter.addEventListener('change', applyFilters);
   pobFilter.addEventListener('change', applyFilters);
+  cegFilter.addEventListener('change', () => {
+    updateDependentFilters();
+    applyFilters();
+  });
 </script>
 
 </body>
