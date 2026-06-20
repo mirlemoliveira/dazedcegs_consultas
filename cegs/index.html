@@ -566,7 +566,7 @@
 <main>
   <div class="hero">
     <h1>Consulta de itens</h1>
-    <p>Digite seu @ pra ver todos os seus itens cadastrados e o status de cada um.</p>
+    <p>Digite seu user pra ver todos os seus itens cadastrados e o status de cada um.</p>
   </div>
 
   <div class="search-card">
@@ -930,7 +930,7 @@
   async function search() {
     const handle = input.value.trim().replace(/^@/, '');
     if (!handle) {
-      statusMsg.textContent = 'Digite seu @ pra buscar.';
+      statusMsg.textContent = 'Digite seu user pra buscar.';
       statusMsg.classList.add('error');
       return;
     }
