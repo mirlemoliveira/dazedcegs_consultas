@@ -3,275 +3,360 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dazed Cegs - Sobras Cegs</title>
+<title>Dazed Cegs - Sobras</title>
 <link rel="icon" type="image/png" href="../imagens/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --sky-1: #99B7D0;
-    --sky-2: #B9C8DF;
-    --cream: #EBE1D3;
     --ink: #2B2B33;
     --ink-soft: #5C6270;
+    --ink-faint: #8A90A0;
     --purple: #6F70A1;
+    --purple-dark: #565780;
+    --purple-tint: #F1F1F7;
     --coral: #FF5460;
     --coral-dark: #C23440;
-    --green: #2A6B4C;
-    --green-bg: #E1F0E8;
-    --card-bg: rgba(255,255,255,0.86);
-    --line: rgba(43,43,51,0.14);
+    --amber: #8A6418;
+    --amber-bg: #FBEFD8;
+    --card-bg: #ffffff;
+    --line: rgba(43,43,51,0.10);
   }
 
   * { box-sizing: border-box; }
 
-  body {
+  html, body {
     margin: 0;
     min-height: 100vh;
-    background: linear-gradient(160deg, var(--sky-1) 0%, var(--sky-2) 55%, var(--sky-1) 100%);
+    background: #FCFBF9;
     color: var(--ink);
     font-family: 'Inter', -apple-system, sans-serif;
   }
 
-  .topbar { padding: 22px 24px 0; }
-  .topbar-inner { max-width: 720px; margin: 0 auto; }
+  a { text-decoration: none; color: inherit; }
 
-  .wordmark-row { display: flex; align-items: center; }
-  .logo-img { height: 56px; width: auto; display: block; }
-
-  nav {
-    margin-top: 18px;
+  /* ---------- TOP NAV ---------- */
+  .topnav {
     display: flex;
-    gap: 4px;
-    flex-wrap: wrap;
-    border-bottom: 1px solid rgba(43,43,51,0.16);
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 44px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
   }
 
-  nav a {
-    color: var(--ink-soft);
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-    padding: 10px 14px;
-    border-bottom: 2px solid transparent;
-  }
-
-  nav a.active { color: var(--ink); border-bottom-color: var(--coral); }
-
-  main {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 44px 20px 80px;
-  }
-
-  .hero { text-align: center; margin-bottom: 32px; }
-
-  .hero h1 {
+  .topnav-logo { display: flex; align-items: center; gap: 10px; }
+  .topnav-logo img { height: 38px; width: 38px; border-radius: 9px; display: block; }
+  .topnav-logo span {
     font-family: 'Oswald', sans-serif;
-    font-size: 32px;
+    font-size: 16px;
     font-weight: 700;
-    margin: 0 0 10px;
-    color: var(--ink);
     letter-spacing: 0.3px;
+    color: var(--ink);
   }
 
-  .hero p {
-    font-size: 14px;
+  .topnav-links { display: flex; align-items: center; gap: 6px; }
+
+  .topnav-link {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 14px;
+    border-radius: 9px;
+    font-size: 13.5px;
+    font-weight: 500;
     color: var(--ink-soft);
-    max-width: 440px;
-    margin: 0 auto;
-    line-height: 1.6;
+    transition: background 0.15s ease, color 0.15s ease;
   }
 
-  .filter-card {
-    background: var(--card-bg);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.5);
-    border-radius: 14px;
-    padding: 18px 22px;
+  .topnav-link svg { width: 16px; height: 16px; opacity: 0.75; }
+  .topnav-link:hover { background: var(--purple-tint); color: var(--ink); }
+  .topnav-link.active { color: var(--purple-dark); font-weight: 600; background: var(--purple-tint); }
+  .topnav-link.active svg { opacity: 1; }
+
+  .topnav-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--purple);
+    flex-shrink: 0;
+  }
+
+  .topnav-avatar svg { width: 18px; height: 18px; }
+
+  @media (max-width: 1024px) { .topnav-link span { display: none; } }
+  @media (max-width: 760px) {
+    .topnav { padding: 14px 18px; }
+    .topnav-logo span { display: none; }
+    .topnav-links { gap: 2px; }
+    .topnav-link { padding: 9px 9px; }
+  }
+
+  /* ---------- MAIN ---------- */
+  main {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 36px 32px 90px;
+  }
+
+  .page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 26px;
+    flex-wrap: wrap;
+  }
+
+  .page-header h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 27px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .page-header h1 svg { width: 22px; height: 22px; color: var(--coral); }
+
+  .page-header p {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin: 0;
+    line-height: 1.6;
+    max-width: 480px;
+  }
+
+  .btn-how {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 18px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--ink);
+    font-family: 'Oswald', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .btn-how:hover { background: var(--purple-tint); transform: scale(1.03); }
+  .btn-how svg { width: 14px; height: 14px; }
+
+  /* ---------- FILTER BAR ---------- */
+  .filter-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
     margin-bottom: 24px;
   }
 
-  .filter-card select {
-    width: 100%;
+  .filter-bar select {
     height: 42px;
     padding: 0 14px;
-    font-size: 14px;
+    font-size: 13px;
     font-family: 'Inter', sans-serif;
     color: var(--ink);
     background: #fff;
     border: 1px solid var(--line);
-    border-radius: 8px;
+    border-radius: 999px;
     cursor: pointer;
+    min-width: 150px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
 
-  .filter-card select:focus {
+  .filter-bar select:focus {
     outline: none;
     border-color: var(--purple);
     box-shadow: 0 0 0 3px rgba(111,112,161,0.15);
   }
 
+  .search-box {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 42px;
+    padding: 0 16px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+  }
+
+  .search-box svg { width: 15px; height: 15px; color: var(--ink-faint); flex-shrink: 0; }
+
+  .search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    background: transparent;
+  }
+
+  .search-box input::placeholder { color: var(--ink-faint); }
+
+  /* ---------- RESULTS SUMMARY ---------- */
   .results-summary {
     font-family: 'Oswald', sans-serif;
     font-size: 12px;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.2px;
     text-transform: uppercase;
-    color: var(--ink-soft);
-    margin-bottom: 14px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(43,43,51,0.16);
+    color: var(--ink-faint);
+    font-weight: 600;
+    margin-bottom: 16px;
   }
 
+  /* ---------- GRID ---------- */
   .results {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    width: 96vw;
-    max-width: 1100px;
-    margin-left: 50%;
-    transform: translateX(-50%);
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
   }
 
-  .results .results-summary {
-    grid-column: 1 / -1;
-  }
-
-  @media (max-width: 700px) {
-    .results {
-      grid-template-columns: repeat(2, 1fr);
-      width: 100vw;
-      max-width: 100vw;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .results {
-      grid-template-columns: 1fr;
-    }
-  }
+  @media (max-width: 1100px) { .results { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 900px) { .results { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 640px) { .results { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 420px) { .results { grid-template-columns: 1fr; } }
 
   .sobra-card {
     background: var(--card-bg);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.5);
-    border-left: 4px solid var(--purple);
-    border-radius: 10px;
-    padding: 12px 14px;
-    margin-bottom: 0;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    box-shadow: 0 1px 3px rgba(43,43,51,0.04);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
   }
 
-  .sobra-card-top {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  .sobra-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 26px rgba(43,43,51,0.1);
   }
 
-  .sobra-thumb {
-    width: 42px;
-    height: 42px;
-    border-radius: 7px;
-    overflow: hidden;
-    flex-shrink: 0;
-    background: rgba(111,112,161,0.08);
-  }
-
-  .sobra-thumb img {
+  .sobra-photo {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+    aspect-ratio: 1;
+    background: var(--purple-tint);
+    position: relative;
   }
 
-  .sobra-main { flex: 1; min-width: 0; }
+  .sobra-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-  .sobra-pob {
+  .sobra-stamp {
+    position: absolute;
+    top: 9px;
+    left: 9px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     font-family: 'Oswald', sans-serif;
-    font-size: 13px;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(4px);
+  }
+
+  .sobra-stamp.is-sobra { color: var(--purple-dark); }
+  .sobra-stamp.is-unica { color: var(--coral-dark); }
+
+  .sobra-body { padding: 12px 14px 14px; }
+
+  .sobra-membro {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13.5px;
     font-weight: 600;
     color: var(--ink);
-    margin: 0 0 3px;
-    text-transform: uppercase;
+    margin: 0 0 2px;
   }
 
   .sobra-meta {
-    font-size: 11px;
-    color: var(--ink-soft);
-  }
-
-  .sobra-meta span { color: var(--ink); font-weight: 600; }
-
-  .sobra-stamp {
-    display: inline-block;
-    font-family: 'Oswald', sans-serif;
-    font-size: 10px;
+    font-size: 11.5px;
+    color: var(--purple-dark);
     font-weight: 600;
-    letter-spacing: 0.3px;
-    text-transform: uppercase;
-    padding: 4px 8px;
-    border-radius: 5px;
+    margin-bottom: 2px;
   }
 
-  .sobra-stamp.status-warehouse { color: #8A6418; background: rgba(201,150,47,0.16); }
-  .sobra-stamp.status-transito { color: #4A4B82; background: rgba(111,112,161,0.16); }
-  .sobra-stamp.status-finalizado { color: #2A6B4C; background: rgba(62,143,104,0.16); }
-  .sobra-stamp.status-pendente { color: var(--coral-dark); background: rgba(255,84,96,0.14); }
-
-  .sobra-side {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 6px;
+  .sobra-pob {
+    font-size: 11px;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
   }
 
   .sobra-value {
     font-family: 'Oswald', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--ink);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--coral-dark);
+    margin-bottom: 10px;
   }
 
   .garantir-btn {
-    display: inline-block;
-    text-align: center;
-    padding: 7px 12px;
-    background: var(--coral);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 9px 10px;
+    background: var(--purple);
     color: #fff;
     text-decoration: none;
     border: none;
-    border-radius: 7px;
+    border-radius: 999px;
     font-family: 'Oswald', sans-serif;
-    font-size: 11px;
+    font-size: 11.5px;
     font-weight: 600;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
+    letter-spacing: 0.3px;
     cursor: pointer;
-    white-space: nowrap;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    box-shadow: 0 4px 12px rgba(111,112,161,0.28);
   }
 
-  .garantir-btn:hover { background: var(--coral-dark); }
+  .garantir-btn:hover {
+    background: var(--purple-dark);
+    transform: scale(1.045);
+    box-shadow: 0 6px 16px rgba(111,112,161,0.36);
+  }
+  .garantir-btn:active { transform: scale(0.97); }
+  .garantir-btn svg { width: 12px; height: 12px; }
 
+  /* ---------- EMPTY / SKELETON ---------- */
   .empty-state {
     text-align: center;
-    padding: 50px 20px;
+    padding: 60px 20px;
     color: var(--ink-soft);
     font-size: 14px;
     line-height: 1.6;
-    background: var(--card-bg);
-    border: 1px solid rgba(255,255,255,0.5);
-    border-radius: 14px;
+    grid-column: 1 / -1;
   }
 
   .skeleton {
     background: var(--card-bg);
-    border: 1px solid rgba(255,255,255,0.5);
-    border-radius: 10px;
-    padding: 16px 18px;
-    margin-bottom: 12px;
-    height: 70px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    height: 230px;
     position: relative;
     overflow: hidden;
   }
@@ -281,49 +366,175 @@
     position: absolute;
     top: 0; left: -100%;
     width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    background: linear-gradient(90deg, transparent, rgba(111,112,161,0.08), transparent);
     animation: shimmer 1.2s infinite;
   }
 
   @keyframes shimmer { 100% { left: 100%; } }
 
-  @media (max-width: 480px) {
-    .logo-img { height: 42px; }
-    .sobra-side { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; }
+  /* ---------- MODAL ---------- */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(43,43,51,0.45);
+    backdrop-filter: blur(2px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
   }
+
+  .modal-overlay.is-open { display: flex; }
+
+  .modal-box {
+    background: #fff;
+    border-radius: 20px;
+    max-width: 420px;
+    width: 100%;
+    padding: 28px;
+    box-shadow: 0 24px 60px rgba(43,43,51,0.25);
+  }
+
+  .modal-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+    background: var(--purple-tint);
+    color: var(--purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  .modal-icon svg { width: 21px; height: 21px; }
+
+  .modal-box h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: var(--ink);
+  }
+
+  .modal-box p {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    margin: 0 0 12px;
+  }
+
+  .modal-box p:last-of-type { margin-bottom: 0; }
+
+  .modal-close {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 999px;
+    border: none;
+    background: var(--purple);
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+
+  .modal-close:hover { background: var(--purple-dark); transform: scale(1.02); }
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="topbar-inner">
-    <div class="wordmark-row">
-      <img src="../imagens/logo.png" alt="Dazed Cegs" class="logo-img" />
-    </div>
-    <nav>
-      <a href="../home/">Home</a>
-      <a href="../cegs/">Consulta</a>
-      <a href="../calculadora/">Calculadoras</a>
-      <a href="../pendentes/">Valores pendentes</a>
-      <a href="../sobras/" class="active">Sobras Cegs</a>
-    </nav>
+<nav class="topnav">
+  <a class="topnav-logo" href="../home/">
+    <img src="../imagens/logo.png" alt="Dazed Cegs" />
+    <span>DAZED CEGs</span>
+  </a>
+  <div class="topnav-links">
+    <a href="../home/" class="topnav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="../cegs/" class="topnav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <span>Área do Joiner</span>
+    </a>
+    <a href="../regras/" class="topnav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+      <span>Regras Dazed CEGs</span>
+    </a>
+    <a href="../calculadora/" class="topnav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01"/></svg>
+      <span>Calculadoras</span>
+    </a>
+    <a href="../pendentes/" class="topnav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h11"/></svg>
+      <span>Pendências</span>
+    </a>
+    <a href="../sobras/" class="topnav-link active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.6 6.6L22 9.3l-5.5 4.6L18.2 21 12 17.3 5.8 21l1.7-7.1L2 9.3l7.4-.7z"/></svg>
+      <span>Sobras</span>
+    </a>
   </div>
-</div>
+  <div class="topnav-avatar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+  </div>
+</nav>
 
 <main>
-  <div class="hero">
-    <h1>Sobras Cegs</h1>
-    <p>Itens disponíveis sem dono ainda. Garanta o seu antes que acabe!</p>
+
+  <div class="page-header">
+    <div>
+      <h1>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.6 6.6L22 9.3l-5.5 4.6L18.2 21 12 17.3 5.8 21l1.7-7.1L2 9.3l7.4-.7z"/></svg>
+        Sobras DAZED
+      </h1>
+      <p>Itens disponíveis para reserva imediata. Encontre photocards, inclusões e merchs que ainda estão sem dono.</p>
+    </div>
+    <button type="button" class="btn-how" onclick="document.getElementById('howModal').classList.add('is-open')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 014.7 1.2c0 1.6-2.2 2-2.2 3.3M12 17h.01"/></svg>
+      Como funciona?
+    </button>
   </div>
 
-  <div class="filter-card">
+  <div class="filter-bar">
+    <select id="cegFilter">
+      <option value="">Todas as CEGs</option>
+    </select>
     <select id="membroFilter">
       <option value="">Todos os membros</option>
     </select>
+    <select id="sortFilter">
+      <option value="">Ordenar por</option>
+      <option value="menor">Menor preço</option>
+      <option value="maior">Maior preço</option>
+    </select>
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="text" id="searchInput" placeholder="Buscar item..." autocomplete="off" />
+    </div>
   </div>
 
+  <div class="results-summary" id="resultsSummary"></div>
+
   <div class="results" id="results"></div>
+
 </main>
+
+<div class="modal-overlay" id="howModal">
+  <div class="modal-box">
+    <div class="modal-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 014.7 1.2c0 1.6-2.2 2-2.2 3.3M12 17h.01"/></svg>
+    </div>
+    <h2>Como funcionam as sobras?</h2>
+    <p>Sobras são itens que já fazem parte de uma CEG, mas que ainda não têm um dono — geralmente porque sobraram do pedido original ou ninguém os reservou a tempo.</p>
+    <p>Você pode garantir qualquer item da lista clicando em "Reservar". Isso abre o WhatsApp com uma mensagem pronta pra equipe DAZED, já com o nome do item, a CEG e o valor.</p>
+    <p>Reservas são por ordem de chegada — quanto antes você falar com a gente, maior a chance de garantir o item.</p>
+    <button type="button" class="modal-close" onclick="document.getElementById('howModal').classList.remove('is-open')">Entendi</button>
+  </div>
+</div>
 
 <script>
   const API_URL = 'https://script.google.com/macros/s/AKfycby51xkp8ka5boynUNZoXn4yktt-C_LzNRwD5dam6YeY4f6zEPsNJGlOyDuk4rDdUMtS7g/exec';
@@ -331,17 +542,20 @@
   const WHATSAPP_NUMBER = '5511980532575';
 
   const resultsEl = document.getElementById('results');
+  const resultsSummary = document.getElementById('resultsSummary');
+  const cegFilter = document.getElementById('cegFilter');
   const membroFilter = document.getElementById('membroFilter');
+  const sortFilter = document.getElementById('sortFilter');
+  const searchInput = document.getElementById('searchInput');
 
   let allSobras = [];
 
-  function statusClass(status) {
+  function statusInfo(status) {
     const s = (status || '').toLowerCase();
-    if (s.includes('finalizado') || s.includes('enviado joiner')) return 'status-finalizado';
-    if (s.includes('warehouse') || s.includes('gom') || s.includes('seller')) return 'status-warehouse';
-    if (s.includes('enviado') || s.includes('alfandega') || s.includes('alfândega') || s.includes('transito')) return 'status-transito';
-    if (s.includes('comprado') || s.includes('aguardando')) return 'status-pendente';
-    return 'status-transito';
+    if (s.includes('última') || s.includes('ultima') || s.includes('unidade')) {
+      return { cls: 'is-unica', label: 'Última unidade' };
+    }
+    return { cls: 'is-sobra', label: 'Sobrou da CEG' };
   }
 
   function formatValor(v) {
@@ -370,26 +584,33 @@
     } else {
       const parent = imgEl.parentElement;
       imgEl.remove();
-      if (parent) parent.style.background = 'rgba(111,112,161,0.08)';
+      if (parent) parent.style.background = 'var(--purple-tint)';
     }
   };
 
   function whatsappLink(s) {
     const valor = formatValor(s.valor);
-    const msg = `Oi! Quero garantir o item ${s.pob} (CEG: ${s.ceg}, Membro: ${s.membro}) por ${valor}`;
+    const membroTexto = s.membro ? ` (${s.membro})` : '';
+    const cegTexto = s.ceg ? `POBs ${s.ceg}: ` : '';
+    const msg = `Oi! Quero garantir o item ${cegTexto}${s.pob}${membroTexto} por ${valor}`;
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
   }
 
   function renderSkeleton() {
     resultsEl.innerHTML = '';
-    for (let i = 0; i < 4; i++) {
+    resultsSummary.textContent = '';
+    for (let i = 0; i < 10; i++) {
       const sk = document.createElement('div');
       sk.className = 'skeleton';
       resultsEl.appendChild(sk);
     }
   }
 
-  function populateMembroFilter(itens) {
+  function populateFilters(itens) {
+    const cegs = [...new Set(itens.map(s => s.ceg).filter(Boolean))].sort();
+    cegFilter.innerHTML = '<option value="">Todas as CEGs</option>' +
+      cegs.map(c => `<option value="${c}">${c}</option>`).join('');
+
     const membros = [...new Set(itens.map(s => s.membro).filter(Boolean))].sort();
     membroFilter.innerHTML = '<option value="">Todos os membros</option>' +
       membros.map(m => `<option value="${m}">${m}</option>`).join('');
@@ -399,46 +620,66 @@
     resultsEl.innerHTML = '';
 
     if (!itens || itens.length === 0) {
-      resultsEl.innerHTML = `<div class="empty-state">Nenhuma sobra disponível no momento.</div>`;
+      resultsEl.innerHTML = `<div class="empty-state">Nenhuma sobra disponível com esse filtro.</div>`;
+      resultsSummary.textContent = '0 itens encontrados';
       return;
     }
 
-    const summary = document.createElement('div');
-    summary.className = 'results-summary';
-    summary.textContent = itens.length + (itens.length === 1 ? ' item disponível' : ' itens disponíveis');
-    resultsEl.appendChild(summary);
+    resultsSummary.textContent = itens.length + (itens.length === 1 ? ' item encontrado' : ' itens encontrados');
 
     itens.forEach(s => {
-      const cls = statusClass(s.status);
+      const info = statusInfo(s.status);
       const card = document.createElement('div');
       card.className = 'sobra-card';
       card.innerHTML = `
-        <div class="sobra-card-top">
-          <div class="sobra-thumb">${thumbHtml(s)}</div>
-          <div class="sobra-main">
-            <p class="sobra-pob">${s.pob || 'Item'}</p>
-            <div class="sobra-meta">
-              ${s.ceg || '-'} &middot; ${s.membro || '-'}
-            </div>
-          </div>
+        <div class="sobra-photo">
+          ${thumbHtml(s)}
+          <span class="sobra-stamp ${info.cls}">${info.label}</span>
         </div>
-        <div class="sobra-stamp ${cls}">${s.status || 'Sem status'}</div>
-        <div class="sobra-side">
+        <div class="sobra-body">
+          <p class="sobra-membro">${s.membro || '-'}</p>
+          <div class="sobra-meta">${s.ceg || '-'}</div>
+          <div class="sobra-pob">${s.pob || 'Item'}</div>
           <div class="sobra-value">${formatValor(s.valor)}</div>
-          <a class="garantir-btn" href="${whatsappLink(s)}" target="_blank" rel="noopener">Quero garantir</a>
+          <a class="garantir-btn" href="${whatsappLink(s)}" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8.86 8.86 0 0012 4a8.94 8.94 0 00-7.74 13.4L3 21l3.7-1.23A8.93 8.93 0 0012 21a8.94 8.94 0 008.94-8.94 8.86 8.86 0 00-2.62-6.32l-.72.58zM12 19.3a7.3 7.3 0 01-3.73-1.02l-.27-.16-2.78.92.94-2.7-.18-.28A7.32 7.32 0 1119.3 12 7.34 7.34 0 0112 19.3z"/></svg>
+            Reservar
+          </a>
         </div>
       `;
       resultsEl.appendChild(card);
     });
   }
 
-  function applyFilter() {
-    const val = membroFilter.value;
-    const filtered = val ? allSobras.filter(s => s.membro === val) : allSobras;
+  function applyFilters() {
+    const cegVal = cegFilter.value;
+    const membroVal = membroFilter.value;
+    const sortVal = sortFilter.value;
+    const searchVal = searchInput.value.trim().toLowerCase();
+
+    let filtered = allSobras.filter(s =>
+      (!cegVal || s.ceg === cegVal) &&
+      (!membroVal || s.membro === membroVal) &&
+      (!searchVal || (s.pob || '').toLowerCase().includes(searchVal))
+    );
+
+    if (sortVal === 'menor') {
+      filtered = [...filtered].sort((a, b) => (a.valor || 0) - (b.valor || 0));
+    } else if (sortVal === 'maior') {
+      filtered = [...filtered].sort((a, b) => (b.valor || 0) - (a.valor || 0));
+    }
+
     renderSobras(filtered);
   }
 
-  membroFilter.addEventListener('change', applyFilter);
+  cegFilter.addEventListener('change', applyFilters);
+  membroFilter.addEventListener('change', applyFilters);
+  sortFilter.addEventListener('change', applyFilters);
+  searchInput.addEventListener('input', applyFilters);
+
+  document.getElementById('howModal').addEventListener('click', e => {
+    if (e.target.id === 'howModal') e.currentTarget.classList.remove('is-open');
+  });
 
   async function load() {
     renderSkeleton();
@@ -447,10 +688,11 @@
       if (!res.ok) throw new Error('Falha ao carregar');
       const data = await res.json();
       allSobras = data.itens || [];
-      populateMembroFilter(allSobras);
+      populateFilters(allSobras);
       renderSobras(allSobras);
     } catch (err) {
       resultsEl.innerHTML = `<div class="empty-state">Não foi possível carregar as sobras agora. Tenta de novo em instantes.</div>`;
+      resultsSummary.textContent = '';
     }
   }
 
