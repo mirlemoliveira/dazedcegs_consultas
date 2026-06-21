@@ -128,37 +128,38 @@
     padding: 56px 32px 90px;
   }
 
-  /* ---------- HERO ---------- */
-  .hero {
-    text-align: center;
-    max-width: 620px;
-    margin: 0 auto 64px;
-  }
-
-  .hero .eyebrow {
-    display: inline-flex;
+  /* ---------- HERO BANNER ---------- */
+  .hero-banner {
+    display: flex;
     align-items: center;
-    gap: 7px;
-    font-family: 'Oswald', sans-serif;
-    font-size: 11.5px;
-    letter-spacing: 2.4px;
-    text-transform: uppercase;
-    color: var(--purple);
-    background: var(--purple-tint);
-    padding: 7px 16px;
-    border-radius: 999px;
-    margin-bottom: 22px;
+    justify-content: space-between;
+    gap: 32px;
+    background: linear-gradient(135deg, var(--purple-tint) 0%, rgba(255,84,96,0.06) 100%);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 44px 48px;
+    margin-bottom: 56px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .hero-banner-text { max-width: 460px; position: relative; z-index: 2; }
+
+  .hero-welcome {
+    font-size: 13.5px;
     font-weight: 600;
+    color: var(--purple-dark);
+    margin: 0 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
 
-  .hero .eyebrow .eyebrow-plus {
-    color: var(--coral);
-    font-weight: 700;
-  }
+  .hero-heart { font-size: 14px; }
 
-  .hero h1 {
+  .hero-banner-text h1 {
     font-family: 'Oswald', sans-serif;
-    font-size: 42px;
+    font-size: 38px;
     font-weight: 700;
     line-height: 1.15;
     margin: 0 0 14px;
@@ -166,24 +167,17 @@
     letter-spacing: 0.2px;
   }
 
-  .hero .lead {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--purple-dark);
-    margin: 0 0 14px;
-  }
-
-  .hero p {
-    font-size: 14.5px;
+  .hero-sub {
+    font-size: 14px;
     color: var(--ink-soft);
     line-height: 1.7;
-    margin: 0 0 32px;
+    margin: 0 0 28px;
   }
 
   .hero-ctas {
     display: flex;
-    gap: 12px;
-    justify-content: center;
+    align-items: center;
+    gap: 22px;
     flex-wrap: wrap;
   }
 
@@ -216,16 +210,65 @@
     box-shadow: 0 6px 20px rgba(111,112,161,0.4);
   }
 
-  .btn-ghost {
-    background: transparent;
-    color: var(--ink-soft);
-    border: 1px solid var(--line);
+  .hero-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--purple-dark);
+    transition: gap 0.15s ease, color 0.15s ease;
   }
 
-  .btn-ghost:hover {
-    border-color: var(--purple);
-    color: var(--purple-dark);
-    transform: scale(1.045);
+  .hero-link:hover { gap: 9px; color: var(--coral-dark); }
+
+  .hero-banner-art {
+    flex-shrink: 0;
+    width: 280px;
+    height: 200px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-orbit {
+    position: absolute;
+    width: 260px;
+    height: 90px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-8deg);
+    border: 1.5px solid rgba(111,112,161,0.3);
+    border-radius: 50%;
+  }
+
+  .hero-logo-img {
+    position: relative;
+    z-index: 2;
+    width: 168px;
+    border-radius: 18px;
+    box-shadow: 0 18px 40px rgba(43,43,51,0.16);
+    transform: rotate(-6deg);
+  }
+
+  .hero-sparkle {
+    position: absolute;
+    color: var(--coral);
+    z-index: 1;
+  }
+
+  .hero-sparkle-1 { top: 6%; right: 8%; color: var(--purple); }
+  .hero-sparkle-2 { bottom: 14%; left: 2%; color: var(--coral); }
+  .hero-sparkle-3 { top: 38%; right: -2%; color: var(--purple-dark); }
+
+  @media (max-width: 760px) {
+    .hero-banner { flex-direction: column; text-align: center; padding: 32px 26px; }
+    .hero-banner-text { max-width: 100%; }
+    .hero-welcome { justify-content: center; }
+    .hero-ctas { justify-content: center; }
+    .hero-banner-art { width: 200px; height: 150px; }
+    .hero-logo-img { width: 130px; }
   }
 
   /* ---------- SECTION LABEL ---------- */
@@ -419,15 +462,28 @@
 
 <main>
 
-  <section class="hero">
-    <div class="eyebrow">
-      DAZED <span class="eyebrow-plus">+</span> CEGS
+  <section class="hero-banner">
+    <div class="hero-banner-text">
+      <p class="hero-welcome">Bem-vindo(a) à DAZED CEGs! <span class="hero-heart">💜</span></p>
+      <h1>Sua jornada começa aqui.</h1>
+      <p class="hero-sub">Acompanhe suas compras, fique por dentro dos prazos, pagamentos, envios e tudo o que você precisa saber sobre as CEGs.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="../cegs/">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.6 5.4L19 9l-5.4 1.6L12 16l-1.6-5.4L5 9l5.4-1.6z"/></svg>
+          Como funciona uma CEG
+        </a>
+        <a class="hero-link" href="../regras/">
+          Regras DAZED CEGs
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
     </div>
-    <h1>Tudo sobre suas CEGs em um só lugar.</h1>
-    <p>Acompanhe seus itens, pagamentos, sobras e informações da comunidade em um só lugar.</p>
-    <div class="hero-ctas">
-      <a class="btn btn-primary" href="../cegs/">Área do Joiner</a>
-      <a class="btn btn-ghost" href="../regras/">Regras Dazed CEGs</a>
+    <div class="hero-banner-art">
+      <div class="hero-orbit"></div>
+      <svg class="hero-sparkle hero-sparkle-1" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.6 5.4L19 9l-5.4 1.6L12 16l-1.6-5.4L5 9l5.4-1.6z"/></svg>
+      <svg class="hero-sparkle hero-sparkle-2" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.6 5.4L19 9l-5.4 1.6L12 16l-1.6-5.4L5 9l5.4-1.6z"/></svg>
+      <svg class="hero-sparkle hero-sparkle-3" width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.6 5.4L19 9l-5.4 1.6L12 16l-1.6-5.4L5 9l5.4-1.6z"/></svg>
+      <img src="../imagens/logo.png" alt="Dazed Cegs" class="hero-logo-img" />
     </div>
   </section>
 
