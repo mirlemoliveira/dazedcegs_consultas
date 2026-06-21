@@ -493,6 +493,77 @@
     margin-top: 6px;
   }
 
+  /* ---------- CAROUSEL ---------- */
+  .product-photo {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.25s ease;
+  }
+
+  .carousel-slide {
+    width: 100%;
+    height: 100%;
+    flex-shrink: 0;
+  }
+
+  .carousel-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.88);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--ink);
+    box-shadow: 0 2px 6px rgba(43,43,51,0.18);
+    opacity: 0;
+    transition: opacity 0.15s ease, background 0.15s ease;
+    z-index: 2;
+  }
+
+  .product-photo:hover .carousel-arrow { opacity: 1; }
+
+  .carousel-arrow:hover { background: #fff; }
+  .carousel-arrow svg { width: 13px; height: 13px; }
+  .carousel-arrow.prev { left: 8px; }
+  .carousel-arrow.next { right: 8px; }
+
+  .carousel-dots {
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    z-index: 2;
+  }
+
+  .carousel-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.6);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background 0.15s ease, width 0.15s ease;
+  }
+
+  .carousel-dot.active { background: #fff; width: 14px; border-radius: 3px; }
+
   /* ---------- TABLE VIEW ---------- */
   .results.view-table {
     display: block;
@@ -1064,6 +1135,115 @@
     return `<img src="${imgSrc}" alt="${p.pob || ''}" data-slug="${slug}" data-folder="${p.imgFolder || ''}" data-ext-idx="0" onerror="window.__tryNextExt(this)" />`;
   }
 
+  let carouselSeq = 0;
+
+  function carouselHtml(p) {
+    const slug = p.pobSlug || '';
+    if (!slug) return '<div class="order-thumb-empty"></div>';
+    const folder = p.imgFolder ? IMG_FOLDER + p.imgFolder + '/' : IMG_FOLDER;
+    const cid = 'car' + (carouselSeq++);
+    return `
+      <div class="carousel-track" id="${cid}" data-folder="${folder}" data-slug="${slug}" data-count="1">
+        <div class="carousel-slide"><img src="${folder}${slug}-1.png" alt="${p.pob || ''}" onerror="window.__carouselImgFallback(this,'${cid}')" /></div>
+      </div>
+      <button type="button" class="carousel-arrow prev" style="display:none;" onclick="window.__carouselNav('${cid}',-1)" aria-label="Anterior">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button type="button" class="carousel-arrow next" style="display:none;" onclick="window.__carouselNav('${cid}',1)" aria-label="Próxima">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+      <div class="carousel-dots" id="${cid}-dots" style="display:none;"></div>
+    `;
+  }
+
+  // Após o card estar no DOM, tenta pré-carregar slug-2, slug-3... silenciosamente.
+  // Se existirem, expande o carrossel; se não, mantém só a foto única já exibida.
+  function enhanceCarousel(cid, folder, slug) {
+    const track = document.getElementById(cid);
+    if (!track) return;
+    const wrap = track.parentElement;
+    const found = [];
+    let pending = 4;
+    function done() {
+      pending--;
+      if (pending > 0) return;
+      if (found.length === 0) return; // só a foto base mesmo, nada a fazer
+      found.sort((a, b) => a.n - b.n);
+      track.innerHTML = `<div class="carousel-slide"><img src="${folder}${slug}-1.png" alt="" /></div>` +
+        found.map(f => `<div class="carousel-slide"><img src="${f.src}" alt="" /></div>`).join('');
+      track.dataset.count = String(1 + found.length);
+      track.dataset.index = '0';
+      const prevBtn = wrap.querySelector('.carousel-arrow.prev');
+      const nextBtn = wrap.querySelector('.carousel-arrow.next');
+      const dotsEl = document.getElementById(cid + '-dots');
+      if (prevBtn) prevBtn.style.display = 'flex';
+      if (nextBtn) nextBtn.style.display = 'flex';
+      if (dotsEl) {
+        dotsEl.style.display = 'flex';
+        const total = 1 + found.length;
+        dotsEl.innerHTML = Array.from({ length: total }).map((_, i) =>
+          `<button type="button" class="carousel-dot${i === 0 ? ' active' : ''}" onclick="window.__carouselGoTo('${cid}',${i})" aria-label="Foto ${i + 1}"></button>`
+        ).join('');
+      }
+    }
+    for (let n = 2; n <= 5; n++) {
+      const testImg = new Image();
+      const src = `${folder}${slug}-${n}.png`;
+      testImg.onload = () => { found.push({ n, src }); done(); };
+      testImg.onerror = () => { done(); };
+      testImg.src = src;
+    }
+  }
+
+  window.__carouselImgFallback = function(imgEl, cid) {
+    // slug-1.png falhou; tenta slug.png (compatibilidade com itens de 1 foto só, sem sufixo numérico).
+    const track = document.getElementById(cid);
+    if (!track) return;
+    const folder = track.dataset.folder;
+    const slug = track.dataset.slug;
+    if (!imgEl.dataset.fallenBack) {
+      imgEl.dataset.fallenBack = '1';
+      imgEl.onerror = function() { window.__carouselExtFallback(imgEl); };
+      imgEl.src = `${folder}${slug}.png`;
+    }
+  };
+
+  window.__carouselExtFallback = function(imgEl) {
+    const exts = ['jpg', 'jpeg'];
+    let idx = parseInt(imgEl.getAttribute('data-ext-idx2') || '0', 10);
+    if (idx < exts.length) {
+      const base = imgEl.src.replace(/\.(png|jpg|jpeg)$/i, '');
+      imgEl.setAttribute('data-ext-idx2', String(idx + 1));
+      imgEl.onerror = function() { window.__carouselExtFallback(imgEl); };
+      imgEl.src = base + '.' + exts[idx];
+    } else {
+      const wrap = imgEl.closest('.product-photo');
+      if (wrap) wrap.style.background = 'var(--purple-tint)';
+      imgEl.remove();
+    }
+  };
+
+  window.__carouselNav = function(cid, dir) {
+    const track = document.getElementById(cid);
+    if (!track) return;
+    const count = parseInt(track.dataset.count || '1', 10);
+    if (count <= 1) return;
+    let idx = parseInt(track.dataset.index || '0', 10);
+    idx = (idx + dir + count) % count;
+    window.__carouselGoTo(cid, idx);
+  };
+
+  window.__carouselGoTo = function(cid, idx) {
+    const track = document.getElementById(cid);
+    if (!track) return;
+    track.dataset.index = String(idx);
+    track.style.transform = `translateX(-${idx * 100}%)`;
+    const dotsEl = document.getElementById(cid + '-dots');
+    if (dotsEl) {
+      dotsEl.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+    }
+  };
+
   function formatMoney(v) {
     return (typeof v === 'number')
       ? v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -1079,15 +1259,17 @@
     resultsEl.innerHTML = '';
     pedidos.forEach(p => {
       const cls = statusClass(p.status);
-      const totalItem = (typeof p.valor === 'number' ? p.valor : 0) + (p.multa || 0);
       const multaTexto = p.multa > 0
         ? `<div class="product-multa">+${formatMoney(p.multa)} multa</div>`
         : '';
       const card = document.createElement('div');
       card.className = 'product-card';
+      const slug = p.pobSlug || '';
+      const folder = p.imgFolder ? IMG_FOLDER + p.imgFolder + '/' : IMG_FOLDER;
+      const carHtml = carouselHtml(p);
       card.innerHTML = `
         <div class="product-photo">
-          ${thumbHtml(p)}
+          ${carHtml}
           <span class="product-stamp ${cls}">${p.status || 'Sem status'}</span>
         </div>
         <div class="product-body">
@@ -1103,6 +1285,18 @@
         </div>
       `;
       resultsEl.appendChild(card);
+      if (slug) {
+        const track = card.querySelector('.carousel-track');
+        if (track) {
+          const baseImg = track.querySelector('img');
+          if (baseImg) {
+            baseImg.addEventListener('load', () => {
+              // Só procura fotos extras se a foto -1 numerada realmente existir.
+              if (!baseImg.dataset.fallenBack) enhanceCarousel(track.id, folder, slug);
+            }, { once: true });
+          }
+        }
+      }
     });
   }
 
