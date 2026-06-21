@@ -352,6 +352,312 @@
     transform: translateX(3px);
   }
 
+  /* ---------- ULTIMAS ATUALIZACOES (faixa discreta) ---------- */
+  .updates-strip {
+    margin-top: 36px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 18px 22px;
+    box-shadow: 0 1px 3px rgba(43,43,51,0.04);
+  }
+
+  .updates-strip-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .updates-strip-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: var(--ink);
+  }
+
+  .updates-strip-title svg { width: 16px; height: 16px; color: var(--purple); }
+
+  .updates-strip-seeall {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--purple-dark);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 2px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .updates-strip-seeall svg {
+    width: 13px;
+    height: 13px;
+    transition: transform 0.15s ease;
+  }
+
+  .updates-strip-seeall:hover svg { transform: translateX(3px); }
+
+  .updates-strip-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .updates-strip-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    padding: 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    text-align: left;
+    background: none;
+    border: none;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .updates-strip-item:hover { background: var(--purple-tint); }
+
+  .updates-strip-date {
+    flex-shrink: 0;
+    width: 38px;
+    text-align: center;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .updates-strip-date .day { display: block; font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.1; }
+  .updates-strip-date .mon { display: block; font-size: 9.5px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--ink-faint); }
+
+  .updates-strip-icon {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .updates-strip-icon svg { width: 15px; height: 15px; }
+
+  .updates-strip-text { min-width: 0; }
+
+  .updates-strip-text .upd-title {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .updates-strip-text .upd-ceg {
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .updates-strip-empty {
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    text-align: center;
+    padding: 10px 0 4px;
+  }
+
+  /* tipo -> cor (mesmo esquema usado no drawer) */
+  .upd-tipo-warehouse  { background: var(--purple-tint); color: var(--purple); }
+  .upd-tipo-transito   { background: rgba(255,150,60,0.14); color: #B5650F; }
+  .upd-tipo-pagamento  { background: var(--green-bg); color: var(--green); }
+  .upd-tipo-conferencia{ background: rgba(70,120,220,0.12); color: #3457B2; }
+  .upd-tipo-pendencia  { background: rgba(255,84,96,0.12); color: var(--coral-dark); }
+  .upd-tipo-geral      { background: rgba(43,43,51,0.06); color: var(--ink-soft); }
+
+  @media (max-width: 760px) {
+    .updates-strip-row { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- DRAWER LATERAL DE ATUALIZACOES ---------- */
+  .updates-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(43,43,51,0.25);
+    backdrop-filter: blur(2px);
+    z-index: 40;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .updates-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .updates-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: min(420px, 92vw);
+    background: #FCFBF9;
+    box-shadow: -8px 0 30px rgba(43,43,51,0.14);
+    z-index: 41;
+    transform: translateX(100%);
+    transition: transform 0.32s cubic-bezier(.4,0,.2,1);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .updates-drawer.open { transform: translateX(0); }
+
+  .updates-drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 24px;
+    border-bottom: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+
+  .updates-drawer-head h2 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .updates-drawer-head h2 svg { width: 18px; height: 18px; color: var(--purple); }
+
+  .updates-drawer-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--ink-soft);
+    flex-shrink: 0;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .updates-drawer-close:hover { background: var(--purple-tint); color: var(--ink); }
+  .updates-drawer-close svg { width: 15px; height: 15px; }
+
+  .updates-drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 22px 24px;
+  }
+
+  .updates-timeline { position: relative; }
+
+  .updates-timeline-item {
+    position: relative;
+    display: flex;
+    gap: 14px;
+    padding-bottom: 26px;
+  }
+
+  .updates-timeline-item:last-child { padding-bottom: 4px; }
+
+  .updates-timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 40px;
+    bottom: 0;
+    width: 1px;
+    background: var(--line);
+  }
+
+  .updates-timeline-item:last-child::before { display: none; }
+
+  .updates-timeline-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+
+  .updates-timeline-icon svg { width: 18px; height: 18px; }
+
+  .updates-timeline-content { min-width: 0; flex: 1; padding-top: 2px; }
+
+  .updates-timeline-time {
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+  }
+
+  .updates-timeline-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 2px;
+  }
+
+  .updates-timeline-ceg {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--purple-dark);
+    margin-bottom: 6px;
+  }
+
+  .updates-timeline-desc {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .updates-drawer-empty {
+    text-align: center;
+    color: var(--ink-faint);
+    font-size: 13px;
+    padding: 60px 10px;
+    line-height: 1.6;
+  }
+
+  .updates-drawer-foot {
+    flex-shrink: 0;
+    padding: 18px 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  .updates-drawer-foot .btn-full {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn-full { width: 100%; justify-content: center; }
+
+  @media (max-width: 480px) {
+    .updates-drawer { width: 100vw; }
+  }
+
   /* ---------- FOOTER ---------- */
   .site-footer {
     margin-top: 90px;
@@ -421,7 +727,7 @@
       <span>Home</span>
     </a>
     <a href="../cegs/" class="topnav-link">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <svg viewBox="-1 -1 26 26" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
       <span>Área do Joiner</span>
     </a>
     <a href="../regras/" class="topnav-link">
@@ -514,7 +820,43 @@
     </a>
   </section>
 
+  <div class="updates-strip" id="updatesStrip" style="display:none;">
+    <div class="updates-strip-head">
+      <div class="updates-strip-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a2 2 0 11-3.2 2.4"/></svg>
+        Últimas atualizações
+      </div>
+      <button type="button" class="updates-strip-seeall" onclick="openUpdatesDrawer()">
+        Ver todas
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+    <div class="updates-strip-row" id="updatesStripRow"></div>
+  </div>
+
 </main>
+
+<div class="updates-overlay" id="updatesOverlay"></div>
+<aside class="updates-drawer" id="updatesDrawer" aria-hidden="true">
+  <div class="updates-drawer-head">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a2 2 0 11-3.2 2.4"/></svg>
+      Últimas atualizações
+    </h2>
+    <button type="button" class="updates-drawer-close" onclick="closeUpdatesDrawer()" aria-label="Fechar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="updates-drawer-body" id="updatesDrawerBody">
+    <div class="updates-drawer-empty">Carregando atualizações...</div>
+  </div>
+  <div class="updates-drawer-foot">
+    <button type="button" class="btn btn-primary btn-full" onclick="document.getElementById('updatesDrawerBody').scrollTo({top:0,behavior:'smooth'})">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a2 2 0 11-3.2 2.4"/></svg>
+      Ver todas as atualizações
+    </button>
+  </div>
+</aside>
 
 <footer class="site-footer">
   <span class="footer-copy">© Dazed CEGs</span>
@@ -526,6 +868,127 @@
     <a href="../sobras/">Sobras</a>
   </div>
 </footer>
+
+<script>
+  const UPDATES_API_URL = 'https://script.google.com/macros/s/AKfycby51xkp8ka5boynUNZoXn4yktt-C_LzNRwD5dam6YeY4f6zEPsNJGlOyDuk4rDdUMtS7g/exec';
+
+  const ICONS_BY_TIPO = {
+    warehouse: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>',
+    transito: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l18-8-7 8 7 8-18-8z"/></svg>',
+    pagamento: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>',
+    conferencia: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>',
+    pendencia: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>',
+    geral: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a2 2 0 11-3.2 2.4"/></svg>'
+  };
+
+  const MESES_ABREV = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
+
+  function tipoIcon_(tipo) {
+    return ICONS_BY_TIPO[tipo] || ICONS_BY_TIPO.geral;
+  }
+
+  function formatDataHora_(iso) {
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return { dia: '--', mes: '---', completa: '' };
+    const dia = String(d.getDate()).padStart(2, '0');
+    const mes = MESES_ABREV[d.getMonth()];
+    const hora = String(d.getHours()).padStart(2, '0');
+    const min = String(d.getMinutes()).padStart(2, '0');
+    const dataCompleta = d.toLocaleDateString('pt-BR') + ' às ' + hora + ':' + min;
+    return { dia: dia, mes: mes, completa: dataCompleta };
+  }
+
+  function renderUpdatesStrip_(items) {
+    const strip = document.getElementById('updatesStrip');
+    const row = document.getElementById('updatesStripRow');
+
+    if (!items || items.length === 0) {
+      strip.style.display = 'none';
+      return;
+    }
+
+    strip.style.display = 'block';
+    const top3 = items.slice(0, 3);
+
+    row.innerHTML = top3.map(item => {
+      const dt = formatDataHora_(item.timestamp);
+      return `
+        <button type="button" class="updates-strip-item" onclick="openUpdatesDrawer()">
+          <div class="updates-strip-date">
+            <span class="day">${dt.dia}</span>
+            <span class="mon">${dt.mes}</span>
+          </div>
+          <div class="updates-strip-icon upd-tipo-${item.tipo}">${tipoIcon_(item.tipo)}</div>
+          <div class="updates-strip-text">
+            <p class="upd-title">${escapeHtml_(item.status)}</p>
+            <p class="upd-ceg">${escapeHtml_(item.pob || item.ceg)}</p>
+          </div>
+        </button>
+      `;
+    }).join('');
+  }
+
+  function renderUpdatesDrawer_(items) {
+    const body = document.getElementById('updatesDrawerBody');
+
+    if (!items || items.length === 0) {
+      body.innerHTML = '<div class="updates-drawer-empty">Nenhuma atualização registrada ainda.<br>Assim que um status mudar na planilha, ela aparece aqui.</div>';
+      return;
+    }
+
+    body.innerHTML = '<div class="updates-timeline">' + items.map(item => {
+      const dt = formatDataHora_(item.timestamp);
+      return `
+        <div class="updates-timeline-item">
+          <div class="updates-timeline-icon upd-tipo-${item.tipo}">${tipoIcon_(item.tipo)}</div>
+          <div class="updates-timeline-content">
+            <div class="updates-timeline-time">${dt.completa}</div>
+            <p class="updates-timeline-title">${escapeHtml_(item.status)}</p>
+            <div class="updates-timeline-ceg">${escapeHtml_(item.pob ? item.pob + ' · ' + item.ceg : item.ceg)}</div>
+            <p class="updates-timeline-desc">${escapeHtml_(item.descricao || '')}</p>
+          </div>
+        </div>
+      `;
+    }).join('') + '</div>';
+  }
+
+  function escapeHtml_(str) {
+    const div = document.createElement('div');
+    div.textContent = String(str == null ? '' : str);
+    return div.innerHTML;
+  }
+
+  let updatesCache = [];
+
+  async function loadUpdates() {
+    try {
+      const res = await fetch(`${UPDATES_API_URL}?action=atualizacoes`);
+      if (!res.ok) throw new Error('Falha ao buscar atualizações');
+      const data = await res.json();
+      updatesCache = data.atualizacoes || [];
+      renderUpdatesStrip_(updatesCache);
+      renderUpdatesDrawer_(updatesCache);
+    } catch (err) {
+      document.getElementById('updatesStrip').style.display = 'none';
+    }
+  }
+
+  function openUpdatesDrawer() {
+    document.getElementById('updatesOverlay').classList.add('open');
+    document.getElementById('updatesDrawer').classList.add('open');
+    document.getElementById('updatesDrawer').setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeUpdatesDrawer() {
+    document.getElementById('updatesOverlay').classList.remove('open');
+    document.getElementById('updatesDrawer').classList.remove('open');
+    document.getElementById('updatesDrawer').setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  loadUpdates();
+</script>
 
 </body>
 </html>
