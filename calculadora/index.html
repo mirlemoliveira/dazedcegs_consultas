@@ -17,164 +17,277 @@
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --sky-1: #99B7D0;
-    --sky-2: #B9C8DF;
-    --cream: #EBE1D3;
     --ink: #2B2B33;
     --ink-soft: #5C6270;
+    --ink-faint: #8A90A0;
     --purple: #6F70A1;
-    --purple-dark: #5A5B87;
+    --purple-dark: #565780;
+    --purple-tint: #F1F1F7;
     --coral: #FF5460;
     --coral-dark: #C23440;
     --green: #2A6B4C;
     --green-bg: #E1F0E8;
-    --card-bg: rgba(255,255,255,0.86);
-    --line: rgba(43,43,51,0.14);
+    --card-bg: #ffffff;
+    --line: rgba(43,43,51,0.10);
   }
 
   * { box-sizing: border-box; }
 
-  body {
+  html, body {
     margin: 0;
     min-height: 100vh;
-    background: linear-gradient(160deg, var(--sky-1) 0%, var(--sky-2) 55%, var(--sky-1) 100%);
+    background: #FCFBF9;
     color: var(--ink);
     font-family: 'Inter', -apple-system, sans-serif;
   }
 
-  .topbar {
-    padding: 22px 24px 0;
-  }
+  a { text-decoration: none; color: inherit; }
 
-  .topbar-inner {
-    max-width: 1040px;
-    margin: 0 auto;
-  }
-
-  .wordmark-row {
+  /* ---------- TOP NAV ---------- */
+  .topnav {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding: 16px 44px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
   }
 
-  .logo-img {
-    height: 56px;
-    width: auto;
-    display: block;
-  }
-
-  nav {
-    margin-top: 18px;
-    display: flex;
-    gap: 4px;
-    border-bottom: 1px solid rgba(43,43,51,0.16);
-  }
-
-  nav a {
-    color: var(--ink-soft);
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-    padding: 10px 14px;
-    border-bottom: 2px solid transparent;
-  }
-
-  nav a.active {
-    color: var(--ink);
-    border-bottom-color: var(--coral);
-  }
-
-  main {
-    max-width: 1040px;
-    margin: 0 auto;
-    padding: 44px 20px 80px;
-  }
-
-  .hero {
-    text-align: center;
-    margin-bottom: 36px;
-  }
-
-  .hero h1 {
+  .topnav-logo { display: flex; align-items: center; gap: 10px; }
+  .topnav-logo img { height: 38px; width: 38px; border-radius: 9px; display: block; }
+  .topnav-logo span {
     font-family: 'Oswald', sans-serif;
-    font-size: 32px;
+    font-size: 16px;
     font-weight: 700;
-    margin: 0 0 10px;
-    color: var(--ink);
     letter-spacing: 0.3px;
+    color: var(--ink);
   }
 
-  .hero p {
+  .topnav-links { display: flex; align-items: center; gap: 6px; }
+
+  .topnav-link {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 14px;
+    border-radius: 9px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .topnav-link svg { width: 16px; height: 16px; opacity: 0.75; }
+  .topnav-link:hover { background: var(--purple-tint); color: var(--ink); }
+  .topnav-link.active { color: var(--purple-dark); font-weight: 600; background: var(--purple-tint); }
+  .topnav-link.active svg { opacity: 1; }
+
+  .topnav-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--purple);
+    flex-shrink: 0;
+  }
+
+  .topnav-avatar svg { width: 18px; height: 18px; }
+
+  @media (max-width: 1024px) { .topnav-link span { display: none; } }
+  @media (max-width: 760px) {
+    .topnav { padding: 14px 18px; }
+    .topnav-logo span { display: none; }
+    .topnav-links { gap: 2px; }
+    .topnav-link { padding: 9px 9px; }
+  }
+
+  /* ---------- MAIN ---------- */
+  main {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 48px 32px 90px;
+  }
+
+  .page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .page-header-text .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    color: var(--purple);
+    background: var(--purple-tint);
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+
+  .page-header h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 8px;
+    color: var(--ink);
+  }
+
+  .page-header p {
     font-size: 14px;
     color: var(--ink-soft);
-    max-width: 440px;
-    margin: 0 auto;
+    max-width: 480px;
     line-height: 1.6;
+    margin: 0;
   }
 
-  /* ===== Cards grid ===== */
+  .info-card {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: var(--purple-tint);
+    border: 1px solid rgba(111,112,161,0.2);
+    border-radius: 16px;
+    padding: 16px 20px;
+    max-width: 360px;
+  }
+
+  .info-card svg {
+    width: 18px;
+    height: 18px;
+    color: var(--purple);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .info-card strong {
+    display: block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 12.5px;
+    letter-spacing: 0.3px;
+    color: var(--purple-dark);
+    margin-bottom: 4px;
+  }
+
+  .info-card p {
+    margin: 0;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .btn:active { transform: scale(0.97); }
+
+  .btn-primary {
+    background: var(--purple);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(111,112,161,0.3);
+  }
+
+  .btn-primary:hover {
+    background: var(--purple-dark);
+    transform: scale(1.03);
+    box-shadow: 0 6px 18px rgba(111,112,161,0.38);
+  }
+
+  .btn-primary.is-open { background: var(--purple-dark); }
+
+  .btn-locked {
+    background: var(--purple-tint);
+    color: var(--ink-faint);
+    cursor: not-allowed;
+  }
+
+  /* ---------- CALC CARDS ---------- */
   .calc-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-    margin-bottom: 40px;
+    gap: 16px;
+    margin-bottom: 14px;
   }
 
   .calc-card {
     background: var(--card-bg);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.5);
-    border-radius: 16px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
     padding: 24px;
+    box-shadow: 0 1px 3px rgba(43,43,51,0.04);
     display: flex;
     flex-direction: column;
   }
 
   .calc-card-icon {
-    width: 52px;
-    height: 52px;
+    width: 46px;
+    height: 46px;
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 14px;
-    font-size: 24px;
-    background: rgba(111,112,161,0.14);
+    margin-bottom: 16px;
+    background: var(--purple-tint);
+    color: var(--purple);
   }
 
+  .calc-card-icon svg { width: 22px; height: 22px; }
+
   .calc-card.locked .calc-card-icon {
-    background: rgba(92,98,112,0.10);
-    color: var(--ink-soft);
+    background: rgba(43,43,51,0.06);
+    color: var(--ink-faint);
   }
 
   .calc-badge {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     font-family: 'Oswald', sans-serif;
     font-size: 10px;
     font-weight: 600;
-    letter-spacing: 0.6px;
+    letter-spacing: 1px;
     text-transform: uppercase;
-    padding: 4px 10px;
-    border-radius: 20px;
-    margin-bottom: 10px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    margin-bottom: 12px;
     width: fit-content;
   }
 
-  .calc-badge.available {
-    color: var(--green);
-    background: var(--green-bg);
-  }
-
-  .calc-badge.soon {
-    color: var(--ink-soft);
-    background: rgba(43,43,51,0.08);
-  }
+  .calc-badge.available { color: var(--green); background: var(--green-bg); }
+  .calc-badge.soon { color: var(--ink-faint); background: rgba(43,43,51,0.06); }
 
   .calc-card h3 {
     font-family: 'Oswald', sans-serif;
-    font-size: 19px;
+    font-size: 17px;
     font-weight: 700;
-    margin: 0 0 10px;
+    margin: 0 0 8px;
     color: var(--ink);
   }
 
@@ -197,114 +310,86 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 13px;
+    font-size: 12.5px;
     color: var(--ink);
     padding: 5px 0;
   }
 
-  .calc-card.locked .calc-features li {
-    color: var(--ink-soft);
-  }
+  .calc-card.locked .calc-features li { color: var(--ink-faint); }
 
-  .calc-features li .ico {
-    flex: none;
-    width: 16px;
-    height: 16px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-  }
+  .calc-features li svg { width: 14px; height: 14px; flex-shrink: 0; }
+  .calc-features li.ok svg { color: var(--purple); }
+  .calc-features li.lock svg { color: var(--ink-faint); }
 
-  .calc-features li.ok .ico { color: var(--purple); }
-  .calc-features li.lock .ico { color: var(--ink-soft); }
-
-  .calc-btn {
+  .calc-btn-trigger {
     width: 100%;
-    padding: 13px;
-    border: none;
-    border-radius: 9px;
-    font-family: 'Oswald', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.4px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
     justify-content: center;
-    gap: 8px;
   }
 
-  .calc-btn.primary {
-    background: var(--purple);
-    color: #fff;
+  /* ---------- COTAÇÃO ACCORDION ---------- */
+  .calc-accordion {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: grid-template-rows 0.35s ease, opacity 0.3s ease, margin 0.35s ease;
   }
 
-  .calc-btn.primary:hover { background: var(--purple-dark); }
-
-  .calc-btn.disabled {
-    background: rgba(43,43,51,0.08);
-    color: var(--ink-soft);
-    cursor: not-allowed;
+  .calc-accordion.open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    margin-top: 18px;
   }
 
-  /* ===== Calculator section ===== */
-  .calc-section {
-    max-width: 560px;
-    margin: 0 auto;
-    scroll-margin-top: 24px;
-  }
+  .calc-accordion-inner { overflow: hidden; min-height: 0; }
 
-  .panel { display: none; }
-  .panel.active { display: block; }
+  .calc-panel-wrap { max-width: 560px; margin: 0 auto; }
 
-  .card {
+  .calc-panel-card {
     background: var(--card-bg);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.5);
-    border-radius: 14px;
-    padding: 22px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(43,43,51,0.04);
     margin-bottom: 14px;
   }
 
   .field-label {
     display: block;
     font-family: 'Oswald', sans-serif;
-    font-size: 12px;
-    letter-spacing: 0.6px;
+    font-size: 11.5px;
+    letter-spacing: 0.8px;
     text-transform: uppercase;
-    color: var(--ink-soft);
-    margin-bottom: 8px;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+    font-weight: 600;
   }
 
-  .yen-row {
-    display: flex;
-    gap: 10px;
-  }
+  .yen-row { display: flex; gap: 10px; }
 
   .yen-prefix {
     display: flex;
     align-items: center;
-    padding: 0 14px;
+    padding: 0 16px;
     font-family: 'Oswald', sans-serif;
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 600;
     color: var(--purple);
-    background: rgba(111,112,161,0.10);
+    background: var(--purple-tint);
     border: 1px solid rgba(111,112,161,0.25);
-    border-radius: 8px;
+    border-radius: 999px;
   }
 
   #preco {
     flex: 1;
-    padding: 0 14px;
-    font-size: 16px;
+    padding: 0 16px;
+    font-size: 15px;
     border: 1px solid var(--line);
-    border-radius: 8px;
+    border-radius: 999px;
     background: #fff;
     color: var(--ink);
     height: 46px;
     font-family: 'Inter', sans-serif;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
 
   #preco:focus {
@@ -315,7 +400,7 @@
 
   .result-box {
     background: var(--green-bg);
-    border-radius: 14px;
+    border-radius: 18px;
     padding: 22px;
     text-align: center;
     display: none;
@@ -324,74 +409,71 @@
 
   .result-label {
     font-family: 'Oswald', sans-serif;
-    font-size: 12px;
-    letter-spacing: 0.6px;
+    font-size: 11.5px;
+    letter-spacing: 0.8px;
     text-transform: uppercase;
     color: var(--green);
     margin-bottom: 8px;
+    font-weight: 600;
   }
 
   .result-val {
     font-family: 'Oswald', sans-serif;
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 700;
     color: var(--green);
   }
 
-  .detail-toggle-wrap {
-    display: none;
-    margin-bottom: 14px;
-  }
+  .detail-toggle-wrap { display: none; margin-bottom: 14px; }
 
-  .btn {
+  .btn-ghost {
     width: 100%;
     padding: 12px;
     border: 1px solid var(--line);
-    border-radius: 8px;
+    border-radius: 999px;
     background: #fff;
     font-family: 'Oswald', sans-serif;
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 600;
     letter-spacing: 0.5px;
     text-transform: uppercase;
     color: var(--ink-soft);
     cursor: pointer;
+    transition: background 0.15s ease;
   }
 
-  .btn:hover { background: rgba(255,255,255,0.7); }
+  .btn-ghost:hover { background: var(--purple-tint); }
 
-  .btn-close {
-    width: auto;
-    padding: 6px 14px;
-    font-size: 11px;
-  }
+  .btn-ghost.btn-close { width: auto; padding: 7px 16px; font-size: 10.5px; }
 
   .senha-area { display: none; margin-bottom: 14px; }
 
-  .senha-row {
-    display: flex;
-    gap: 8px;
-    margin-top: 6px;
-  }
+  .senha-row { display: flex; gap: 8px; margin-top: 10px; }
 
   .senha-row input {
     flex: 1;
-    padding: 0 14px;
-    font-size: 15px;
+    padding: 0 16px;
+    font-size: 14px;
     border: 1px solid var(--line);
-    border-radius: 8px;
+    border-radius: 999px;
     background: #fff;
     color: var(--ink);
     height: 42px;
     font-family: 'Inter', sans-serif;
   }
 
-  .senha-row .btn { width: auto; padding: 0 16px; }
+  .senha-row input:focus {
+    outline: none;
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(111,112,161,0.15);
+  }
+
+  .senha-row .btn-ghost { width: auto; padding: 0 18px; }
 
   .erro-senha {
     font-size: 12px;
     color: var(--coral-dark);
-    margin-top: 8px;
+    margin-top: 10px;
     display: none;
   }
 
@@ -406,172 +488,188 @@
 
   .detail-header span {
     font-family: 'Oswald', sans-serif;
-    font-size: 12px;
-    letter-spacing: 0.6px;
+    font-size: 11.5px;
+    letter-spacing: 0.8px;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    color: var(--ink-faint);
+    font-weight: 600;
   }
 
   .detail-row {
     display: flex;
     justify-content: space-between;
-    padding: 9px 0;
+    padding: 10px 0;
     border-bottom: 1px solid var(--line);
-    font-size: 14px;
+    font-size: 13.5px;
   }
 
   .detail-row:last-child { border-bottom: none; }
   .detail-label { color: var(--ink-soft); }
   .detail-val { font-weight: 600; color: var(--ink); }
 
-  .empty-state {
-    text-align: center;
-    padding: 50px 20px;
-    color: var(--ink-soft);
-    font-size: 14px;
-    line-height: 1.6;
-    background: var(--card-bg);
-    border: 1px solid rgba(255,255,255,0.5);
-    border-radius: 14px;
-  }
-
-  .calc-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: 'Oswald', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    text-decoration: none;
-    margin-bottom: 18px;
-    cursor: pointer;
-    background: none;
-    border: none;
-  }
-
-  .calc-back:hover { color: var(--ink); }
-
-  @media (max-width: 760px) {
+  @media (max-width: 900px) {
     .calc-grid { grid-template-columns: 1fr; }
-  }
-
-  @media (max-width: 480px) {
-    .logo-img { height: 42px; }
+    .info-card { max-width: 100%; }
   }
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="topbar-inner">
-    <div class="wordmark-row">
-      <img src="../imagens/logo.png" alt="Dazed Cegs" class="logo-img" />
-    </div>
-    <nav>
-      <a href="../home/">Home</a>
-      <a href="../cegs/">Consulta</a>
-      <a href="../calculadora/" class="active">Calculadoras</a>
-      <a href="../pendentes/">Valores pendentes</a>
-      <a href="../sobras/">Sobras Cegs</a>
-    </nav>
+<nav class="topnav">
+  <a class="topnav-logo" href="../home/">
+    <img src="../imagens/logo.png" alt="Dazed Cegs" />
+    <span>DAZED CEGs</span>
+  </a>
+  <div class="topnav-links">
+    <a href="../home/" class="topnav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="../cegs/" class="topnav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <span>Área do Joiner</span>
+    </a>
+    <a href="../regras/" class="topnav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+      <span>Regras Dazed CEGs</span>
+    </a>
+    <a href="../calculadora/" class="topnav-link active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01"/></svg>
+      <span>Calculadoras</span>
+    </a>
+    <a href="../pendentes/" class="topnav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h11"/></svg>
+      <span>Pendências</span>
+    </a>
+    <a href="../sobras/" class="topnav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.6 6.6L22 9.3l-5.5 4.6L18.2 21 12 17.3 5.8 21l1.7-7.1L2 9.3l7.4-.7z"/></svg>
+      <span>Sobras</span>
+    </a>
   </div>
-</div>
+  <div class="topnav-avatar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+  </div>
+</nav>
 
 <main>
-  <div class="hero">
-    <h1>Calculadoras DAZED</h1>
-    <p>Ferramentas para auxiliar na estimativa de valores, taxas e custos das CEGs DAZED.</p>
+
+  <div class="page-header">
+    <div class="page-header-text">
+      <div class="eyebrow">Calculadoras</div>
+      <h1>Calculadoras DAZED</h1>
+      <p>Ferramentas para auxiliar na estimativa de valores, taxas e custos das CEGs DAZED.</p>
+    </div>
+    <div class="info-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 16v-5M12 8h.01"/></svg>
+      <div>
+        <strong>Importante</strong>
+        <p>Os valores calculados são estimativas e podem sofrer alterações de acordo com a cotação, seller, proxy e taxas aplicáveis à CEG.</p>
+      </div>
+    </div>
   </div>
 
-  <!-- Cards de seleção -->
-  <div class="calc-grid" id="calc-grid">
-    <div class="calc-card">
-      <div class="calc-card-icon">🛒</div>
+  <div class="calc-grid">
+    <div class="calc-card" id="card-mercari">
+      <div class="calc-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 002 1.6h9.7a2 2 0 002-1.6L23 6H6"/></svg>
+      </div>
       <span class="calc-badge available">Disponível</span>
       <h3>Mercari Japão</h3>
       <p class="desc">Calcule o valor estimado de itens adquiridos através do Mercari.</p>
       <ul class="calc-features">
-        <li class="ok"><span class="ico">✓</span> Conversão de moeda (JPY)</li>
-        <li class="ok"><span class="ico">✓</span> Taxas DAZED aplicadas</li>
-        <li class="ok"><span class="ico">✓</span> Custo total estimado da CEG</li>
+        <li class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Conversão de moeda (JPY)</li>
+        <li class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Taxas DAZED aplicadas</li>
+        <li class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Custo total estimado da CEG</li>
       </ul>
-      <button type="button" class="calc-btn primary" onclick="abrirCalculadora('mercari')">🧮 Utilizar Calculadora</button>
+      <button type="button" class="btn btn-primary calc-btn-trigger" id="btn-mercari" onclick="toggleCalculadora('mercari')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01"/></svg>
+        Utilizar Calculadora
+      </button>
     </div>
 
     <div class="calc-card locked">
-      <div class="calc-card-icon">🔒</div>
+      <div class="calc-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      </div>
       <span class="calc-badge soon">Em breve</span>
       <h3>Calculadora Indonésia</h3>
       <p class="desc">Em breve você poderá calcular valores de itens adquiridos na Indonésia.</p>
       <ul class="calc-features">
-        <li class="lock"><span class="ico">🔒</span> Conversão de moeda (IDR)</li>
-        <li class="lock"><span class="ico">🔒</span> Taxas DAZED aplicadas</li>
-        <li class="lock"><span class="ico">🔒</span> Custo total estimado da CEG</li>
+        <li class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Conversão de moeda (IDR)</li>
+        <li class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Taxas DAZED aplicadas</li>
+        <li class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Custo total estimado da CEG</li>
       </ul>
-      <button type="button" class="calc-btn disabled" disabled>🔒 Em breve</button>
+      <button type="button" class="btn btn-locked calc-btn-trigger" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Em breve
+      </button>
     </div>
 
     <div class="calc-card locked">
-      <div class="calc-card-icon">🔒</div>
+      <div class="calc-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      </div>
       <span class="calc-badge soon">Em breve</span>
       <h3>Calculadora Filipinas</h3>
       <p class="desc">Em breve você poderá calcular valores de itens adquiridos nas Filipinas.</p>
       <ul class="calc-features">
-        <li class="lock"><span class="ico">🔒</span> Conversão de moeda (PHP)</li>
-        <li class="lock"><span class="ico">🔒</span> Taxas DAZED aplicadas</li>
-        <li class="lock"><span class="ico">🔒</span> Custo total estimado da CEG</li>
+        <li class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Conversão de moeda (PHP)</li>
+        <li class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Taxas DAZED aplicadas</li>
+        <li class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Custo total estimado da CEG</li>
       </ul>
-      <button type="button" class="calc-btn disabled" disabled>🔒 Em breve</button>
+      <button type="button" class="btn btn-locked calc-btn-trigger" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Em breve
+      </button>
     </div>
   </div>
 
-  <!-- Seção da calculadora (some até clicar em "Utilizar Calculadora") -->
-  <div class="calc-section" id="calc-section" style="display:none;">
-    <button type="button" class="calc-back" onclick="fecharCalculadora()">← Voltar para calculadoras</button>
+  <div class="calc-accordion" id="calc-accordion">
+    <div class="calc-accordion-inner">
+      <div class="calc-panel-wrap">
 
-    <div class="panel active" id="panel-mercari">
-      <div class="card">
-        <label class="field-label" for="preco">Valor do produto</label>
-        <div class="yen-row">
-          <div class="yen-prefix">¥</div>
-          <input type="number" id="preco" placeholder="ex: 3000" min="0" oninput="calcular()" />
-        </div>
-      </div>
-
-      <div class="result-box" id="resultado-final">
-        <div class="result-label">Total em reais</div>
-        <div class="result-val" id="m-brl">—</div>
-      </div>
-
-      <div class="detail-toggle-wrap" id="btn-detalhamento">
-        <button type="button" class="btn" onclick="abrirSenha()">Ver detalhamento</button>
-      </div>
-
-      <div class="senha-area" id="senha-area">
-        <div class="card">
-          <label class="field-label">Senha</label>
-          <div class="senha-row">
-            <input type="password" id="senha-input" placeholder="Digite a senha..." onkeydown="if(event.key==='Enter') verificarSenha()" />
-            <button type="button" class="btn" onclick="verificarSenha()">Entrar</button>
+        <div class="calc-panel-card">
+          <label class="field-label" for="preco">Valor do produto</label>
+          <div class="yen-row">
+            <div class="yen-prefix">¥</div>
+            <input type="number" id="preco" placeholder="ex: 3000" min="0" oninput="calcular()" />
           </div>
-          <p class="erro-senha" id="senha-erro">Senha incorreta.</p>
         </div>
-      </div>
 
-      <div class="card detalhamento" id="resultado">
-        <div class="detail-header">
-          <span>Detalhamento</span>
-          <button type="button" class="btn btn-close" onclick="fecharDetalhamento()">Fechar</button>
+        <div class="result-box" id="resultado-final">
+          <div class="result-label">Total em reais</div>
+          <div class="result-val" id="m-brl">—</div>
         </div>
-        <div class="detail-row"><span class="detail-label">Produto</span><span class="detail-val" id="r-produto">—</span></div>
-        <div class="detail-row"><span class="detail-label">Taxa proxy (¥200)</span><span class="detail-val" id="r-taxa">—</span></div>
-        <div class="detail-row"><span class="detail-label">Total em ienes</span><span class="detail-val" id="r-total-jpy">—</span></div>
+
+        <div class="detail-toggle-wrap" id="btn-detalhamento">
+          <button type="button" class="btn-ghost" onclick="abrirSenha()">Ver detalhamento</button>
+        </div>
+
+        <div class="senha-area" id="senha-area">
+          <div class="calc-panel-card">
+            <label class="field-label">Senha</label>
+            <div class="senha-row">
+              <input type="password" id="senha-input" placeholder="Digite a senha..." onkeydown="if(event.key==='Enter') verificarSenha()" />
+              <button type="button" class="btn-ghost" onclick="verificarSenha()">Entrar</button>
+            </div>
+            <p class="erro-senha" id="senha-erro">Senha incorreta.</p>
+          </div>
+        </div>
+
+        <div class="calc-panel-card detalhamento" id="resultado">
+          <div class="detail-header">
+            <span>Detalhamento</span>
+            <button type="button" class="btn-ghost btn-close" onclick="fecharDetalhamento()">Fechar</button>
+          </div>
+          <div class="detail-row"><span class="detail-label">Produto</span><span class="detail-val" id="r-produto">—</span></div>
+          <div class="detail-row"><span class="detail-label">Taxa proxy (¥200)</span><span class="detail-val" id="r-taxa">—</span></div>
+          <div class="detail-row"><span class="detail-label">Total em ienes</span><span class="detail-val" id="r-total-jpy">—</span></div>
+        </div>
+
       </div>
     </div>
   </div>
+
 </main>
 
 <script>
@@ -639,17 +737,23 @@
     document.getElementById('btn-detalhamento').style.display = 'block';
   }
 
-  function abrirCalculadora(pais) {
-    document.getElementById('calc-grid').style.display = 'none';
-    var sec = document.getElementById('calc-section');
-    sec.style.display = 'block';
-    sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
+  function toggleCalculadora(pais) {
+    var acc = document.getElementById('calc-accordion');
+    var btn = document.getElementById('btn-' + pais);
+    var isOpen = acc.classList.contains('open');
 
-  function fecharCalculadora() {
-    document.getElementById('calc-section').style.display = 'none';
-    document.getElementById('calc-grid').style.display = 'grid';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (isOpen) {
+      acc.classList.remove('open');
+      btn.classList.remove('is-open');
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01"/></svg> Utilizar Calculadora';
+    } else {
+      acc.classList.add('open');
+      btn.classList.add('is-open');
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 6L6 18M6 6l12 12"/></svg> Fechar Calculadora';
+      setTimeout(function () {
+        acc.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 150);
+    }
   }
 </script>
 
