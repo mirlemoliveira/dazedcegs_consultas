@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dazed Cegs - Home</title>
+<link rel="icon" type="image/png" href="../imagens/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky-1: #99B7D0;
+    --sky-2: #B9C8DF;
+    --cream: #EBE1D3;
+    --ink: #2B2B33;
+    --ink-soft: #5C6270;
+    --ink-faint: #8A90A0;
+    --purple: #6F70A1;
+    --purple-dark: #565780;
+    --purple-tint: #F1F1F7;
+    --coral: #FF5460;
+    --coral-dark: #C23440;
+    --line: rgba(43,43,51,0.10);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    min-height: 100vh;
+    background: #FCFBF9;
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+
+  a { text-decoration: none; color: inherit; }
+
+  /* ---------- TOP NAV ---------- */
+  .topnav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 44px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .topnav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .topnav-logo img {
+    height: 38px;
+    width: 38px;
+    border-radius: 9px;
+    display: block;
+  }
+
+  .topnav-logo span {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    color: var(--ink);
+  }
+
+  .topnav-links {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .topnav-link {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 14px;
+    border-radius: 9px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .topnav-link svg {
+    width: 16px;
+    height: 16px;
+    opacity: 0.75;
+  }
+
+  .topnav-link:hover {
+    background: var(--purple-tint);
+    color: var(--ink);
+  }
+
+  .topnav-link.active {
+    color: var(--purple-dark);
+    font-weight: 600;
+    background: var(--purple-tint);
+  }
+
+  .topnav-link.active svg { opacity: 1; }
+
+  .topnav-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--purple);
+    flex-shrink: 0;
+  }
+
+  .topnav-avatar svg { width: 18px; height: 18px; }
+
+  /* ---------- MAIN ---------- */
+  main {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 56px 32px 90px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    text-align: center;
+    max-width: 620px;
+    margin: 0 auto 64px;
+  }
+
+  .hero .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 11.5px;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    color: var(--purple);
+    background: var(--purple-tint);
+    padding: 7px 16px;
+    border-radius: 999px;
+    margin-bottom: 22px;
+    font-weight: 600;
+  }
+
+  .hero h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.15;
+    margin: 0 0 14px;
+    color: var(--ink);
+    letter-spacing: 0.2px;
+  }
+
+  .hero .lead {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--purple-dark);
+    margin: 0 0 14px;
+  }
+
+  .hero p {
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    margin: 0 0 32px;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 26px;
+    border-radius: 999px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+
+  .btn:active { transform: scale(0.97); }
+
+  .btn-primary {
+    background: var(--purple);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(111,112,161,0.32);
+  }
+
+  .btn-primary:hover {
+    background: var(--purple-dark);
+    transform: scale(1.045);
+    box-shadow: 0 6px 20px rgba(111,112,161,0.4);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--purple);
+    color: var(--purple-dark);
+    transform: scale(1.045);
+  }
+
+  /* ---------- SECTION LABEL ---------- */
+  .section-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 600;
+    margin: 0 0 20px;
+    text-align: center;
+  }
+
+  /* ---------- QUICK ACCESS GRID ---------- */
+  .quick-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+  }
+
+  .quick-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 26px 22px;
+    box-shadow: 0 1px 3px rgba(43,43,51,0.04);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .quick-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(43,43,51,0.09);
+    border-color: rgba(111,112,161,0.25);
+  }
+
+  .quick-card-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--purple-tint);
+  }
+
+  .quick-card-icon svg {
+    width: 20px;
+    height: 20px;
+    color: var(--purple);
+  }
+
+  .quick-card:nth-child(2) .quick-card-icon { background: rgba(255,84,96,0.10); }
+  .quick-card:nth-child(2) .quick-card-icon svg { color: var(--coral-dark); }
+
+  .quick-card:nth-child(4) .quick-card-icon { background: rgba(255,84,96,0.10); }
+  .quick-card:nth-child(4) .quick-card-icon svg { color: var(--coral-dark); }
+
+  .quick-card h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 14.5px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--ink);
+    letter-spacing: 0.1px;
+  }
+
+  .quick-card p {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin: 0;
+    flex: 1;
+  }
+
+  .quick-card-arrow {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--purple-dark);
+  }
+
+  .quick-card-arrow svg {
+    width: 13px;
+    height: 13px;
+    transition: transform 0.15s ease;
+  }
+
+  .quick-card:hover .quick-card-arrow svg {
+    transform: translateX(3px);
+  }
+
+  /* ---------- FOOTER ---------- */
+  .site-footer {
+    margin-top: 90px;
+    border-top: 1px solid var(--line);
+    padding: 30px 32px 0;
+    max-width: 1180px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .site-footer .footer-copy {
+    font-size: 12.5px;
+    color: var(--ink-faint);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    transition: color 0.15s ease;
+  }
+
+  .footer-links a:hover { color: var(--purple-dark); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 1024px) {
+    .quick-grid { grid-template-columns: repeat(3, 1fr); }
+    .topnav-link span { display: none; }
+  }
+
+  @media (max-width: 760px) {
+    .topnav { padding: 14px 18px; }
+    .topnav-logo span { display: none; }
+    .topnav-links { gap: 2px; }
+    .topnav-link { padding: 9px 9px; }
+    main { padding: 40px 18px 70px; }
+    .hero h1 { font-size: 30px; }
+    .quick-grid { grid-template-columns: repeat(2, 1fr); }
+    .site-footer { flex-direction: column; align-items: flex-start; }
+  }
+
+  @media (max-width: 480px) {
+    .quick-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a class="topnav-logo" href="../home/">
+    <img src="../imagens/logo.png" alt="Dazed Cegs" />
+    <span>DAZED CEGs</span>
+  </a>
+  <div class="topnav-links">
+    <a href="../home/" class="topnav-link active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="../cegs/" class="topnav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <span>Área do Joiner</span>
+    </a>
+    <a href="../regras/" class="topnav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+      <span>Regras Dazed CEGs</span>
+    </a>
+    <a href="../calculadora/" class="topnav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01"/></svg>
+      <span>Calculadoras</span>
+    </a>
+    <a href="../pendentes/" class="topnav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h11"/></svg>
+      <span>Pendências</span>
+    </a>
+    <a href="../sobras/" class="topnav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.6 6.6L22 9.3l-5.5 4.6L18.2 21 12 17.3 5.8 21l1.7-7.1L2 9.3l7.4-.7z"/></svg>
+      <span>Sobras</span>
+    </a>
+  </div>
+  <div class="topnav-avatar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+  </div>
+</nav>
+
+<main>
+
+  <section class="hero">
+    <div class="eyebrow">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.6 5.4L19 9l-5.4 1.6L12 16l-1.6-5.4L5 9l5.4-1.6z"/></svg>
+      Dazed CEGs
+    </div>
+    <h1>Sua central de compras coletivas.</h1>
+    <p>Acompanhe seus itens, pagamentos, sobras e informações da comunidade em um só lugar.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="../cegs/">Área do Joiner</a>
+      <a class="btn btn-ghost" href="../regras/">Regras Dazed CEGs</a>
+    </div>
+  </section>
+
+  <p class="section-label">Acesso rápido</p>
+  <section class="quick-grid">
+    <a class="quick-card" href="../cegs/">
+      <div class="quick-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      </div>
+      <h3>Área do Joiner</h3>
+      <p>Consulte seus itens, pagamentos e status.</p>
+      <span class="quick-card-arrow">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+    <a class="quick-card" href="../regras/">
+      <div class="quick-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+      </div>
+      <h3>Regras Dazed CEGs</h3>
+      <p>Consulte regras, prazos e informações importantes.</p>
+      <span class="quick-card-arrow">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+    <a class="quick-card" href="../calculadora/">
+      <div class="quick-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01"/></svg>
+      </div>
+      <h3>Calculadoras</h3>
+      <p>Simule valores de compras internacionais.</p>
+      <span class="quick-card-arrow">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+    <a class="quick-card" href="../pendentes/">
+      <div class="quick-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h11"/></svg>
+      </div>
+      <h3>Pendências</h3>
+      <p>Verifique pagamentos, taxas e multas em aberto.</p>
+      <span class="quick-card-arrow">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+    <a class="quick-card" href="../sobras/">
+      <div class="quick-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.6 6.6L22 9.3l-5.5 4.6L18.2 21 12 17.3 5.8 21l1.7-7.1L2 9.3l7.4-.7z"/></svg>
+      </div>
+      <h3>Sobras</h3>
+      <p>Confira itens disponíveis para reserva.</p>
+      <span class="quick-card-arrow">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <span class="footer-copy">© Dazed CEGs</span>
+  <div class="footer-links">
+    <a href="../cegs/">Área do Joiner</a>
+    <a href="../regras/">Regras Dazed CEGs</a>
+    <a href="../calculadora/">Calculadoras</a>
+    <a href="../pendentes/">Pendências</a>
+    <a href="../sobras/">Sobras</a>
+  </div>
+</footer>
+
+</body>
+</html>
