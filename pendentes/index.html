@@ -431,7 +431,7 @@
     -webkit-overflow-scrolling: touch;
   }
 
-  table.pend-table { width: 100%; min-width: 920px; border-collapse: collapse; font-size: 12.5px; }
+  table.pend-table { width: 100%; min-width: 820px; border-collapse: collapse; font-size: 12.5px; }
 
   table.pend-table th {
     text-align: left;
@@ -850,7 +850,6 @@
             <tr>
               <th>CEG</th>
               <th>Item</th>
-              <th>Membro/SET</th>
               <th>Valor Item</th>
               <th>Multa Item</th>
               <th>Frete</th>
@@ -908,7 +907,6 @@
         <tr>
           <td class="cell-dim">${r.ceg}</td>
           <td class="cell-item">${r.item}</td>
-          <td>${r.membro}</td>
           <td>${r.valorItem != null ? formatValor(r.valorItem) : '<span class="cell-dim">-</span>'}</td>
           <td>${cellMulta(r.multaItem, r.diasAtraso)}</td>
           <td>${r.frete != null ? formatValor(r.frete) : '<span class="cell-dim">-</span>'}</td>
@@ -959,7 +957,7 @@
     doc.text('Gerado em ' + new Date().toLocaleDateString('pt-BR'), 14, 25);
 
     const body = lastRows.map(r => [
-      r.ceg, r.item, r.membro,
+      r.ceg, r.item,
       r.valorItem != null ? formatValor(r.valorItem) : '-',
       r.multaItem ? formatValor(r.multaItem) : '-',
       r.frete != null ? formatValor(r.frete) : '-',
@@ -972,7 +970,7 @@
 
     doc.autoTable({
       startY: 32,
-      head: [['CEG', 'Item', 'Membro', 'Vlr Item', 'Multa Item', 'Frete', 'Multa Frete', 'Taxa', 'Multa Taxa', 'Total', 'Status']],
+      head: [['CEG', 'Item', 'Vlr Item', 'Multa Item', 'Frete', 'Multa Frete', 'Taxa', 'Multa Taxa', 'Total', 'Status']],
       body,
       styles: { fontSize: 7, cellPadding: 2 },
       headStyles: { fillColor: [111, 112, 161] },
