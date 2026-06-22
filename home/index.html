@@ -166,87 +166,120 @@ main{max-width:1200px;margin:0 auto;padding:28px 24px 72px;}
 
 /* ───── 2 CARDS PRINCIPAIS ───── */
 .main-cards{
-  background:#fff;
-  border:1px solid rgba(43,45,66,.08);
-  border-radius:18px;
-  box-shadow:0 2px 10px rgba(43,45,66,.06);
   display:grid;grid-template-columns:1fr 1fr;
-  margin-bottom:18px;overflow:hidden;
+  gap:16px;
+  margin-bottom:16px;
 }
 .mc{
-  display:flex;align-items:center;gap:20px;
-  padding:26px 28px;
-  transition:background .15s;cursor:pointer;
+  background:#fff;
+  border:1px solid rgba(112,112,168,0.08);
+  border-radius:16px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.03);
+  height:96px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;
+  gap:16px;
+  cursor:pointer;
+  transition:box-shadow .15s;
+  text-decoration:none;
 }
-.mc:first-child{border-right:1px solid rgba(43,45,66,.08);}
-.mc:hover{background:#F7F9FC;}
+.mc:hover{box-shadow:0 6px 24px rgba(112,112,168,0.12);}
 .mc-ico{
-  width:66px;height:66px;border-radius:50%;
-  background:#EDEDF5;
+  width:56px;height:56px;border-radius:50%;
+  background:rgba(112,112,168,0.08);
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
 }
-.mc-ico svg{width:32px;height:32px;color:#5C6FA0;}
+.mc-ico svg{width:24px;height:24px;color:#7070A8;}
 .mc-body{flex:1;min-width:0;}
-.mc-body h3{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:#2B2D42;margin-bottom:4px;}
-.mc-body p{font-size:13px;color:#6B7280;margin-bottom:10px;}
-.mc-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:#FF5B68;}
-.mc-link svg{width:13px;height:13px;}
-.mc-chevron{color:#9CA3AF;flex-shrink:0;}
-.mc-chevron svg{width:20px;height:20px;}
+.mc-body h3{
+  font-family:'Inter',sans-serif;font-size:16px;font-weight:600;
+  color:#1E2340;margin-bottom:3px;
+}
+.mc-body p{font-size:13px;font-weight:400;color:#4B5078;margin-bottom:6px;}
+.mc-link{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:14px;font-weight:600;color:#FF5B68;
+  font-family:'Inter',sans-serif;
+}
+.mc-chevron{flex-shrink:0;}
+.mc-chevron svg{width:18px;height:18px;color:#7070A8;stroke:#7070A8;}
 @media(max-width:660px){
   .main-cards{grid-template-columns:1fr;}
-  .mc:first-child{border-right:none;border-bottom:1px solid rgba(43,45,66,.08);}
+  .mc{height:auto;padding:20px 24px;}
 }
 
 /* ───── FAIXA ATUALIZAÇÕES ───── */
 .upd-bar{
   background:#7070A8;
-  border-radius:14px 14px 0 0;
+  border-radius:12px 12px 0 0;
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 22px;height:50px;
+  padding:0 18px;height:32px;
 }
-.upd-bar-l{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-size:14.5px;font-weight:700;color:#fff;}
-.upd-bar-l svg{width:18px;height:18px;}
-.upd-bar-r{background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:rgba(255,255,255,.85);font-family:'Inter',sans-serif;padding:0;transition:color .15s;}
-.upd-bar-r:hover{color:#fff;}
-.upd-bar-r svg{width:13px;height:13px;}
+.upd-bar-l{
+  display:flex;align-items:center;gap:8px;
+  font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:#fff;
+}
+.upd-bar-l svg{width:16px;height:16px;}
+.upd-bar-r{
+  background:none;border:none;cursor:pointer;
+  font-size:13px;font-weight:500;
+  color:rgba(255,255,255,.9);
+  font-family:'Inter',sans-serif;padding:0;
+  opacity:.9;transition:opacity .15s;
+}
+.upd-bar-r:hover{opacity:1;}
 
 .upd-row{
   background:#fff;
-  border:1px solid rgba(43,45,66,.08);border-top:none;
-  border-radius:0 0 14px 14px;
+  border:1px solid rgba(112,112,168,0.08);border-top:none;
+  border-radius:0 0 12px 12px;
   display:grid;grid-template-columns:repeat(3,1fr);
-  margin-bottom:18px;
+  margin-bottom:16px;
 }
 .upd-col{
-  padding:20px 22px;
-  display:flex;align-items:flex-start;gap:16px;
-  border-right:1px solid rgba(43,45,66,.08);
+  padding:18px 20px;
+  display:flex;align-items:flex-start;gap:14px;
+  border-right:1px solid rgba(112,112,168,0.10);
   cursor:pointer;transition:background .15s;
 }
 .upd-col:last-child{border-right:none;}
-.upd-col:hover{background:#F7F9FC;}
-.upd-ico{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.upd-ico svg{width:21px;height:21px;}
-.upd-ico.t-w{background:#EDEDF5;color:#7070A8;}
-.upd-ico.t-t{background:#FEF0E7;color:#C97020;}
-.upd-ico.t-p{background:#E2F0E8;color:#2A6B4C;}
-.upd-ico.t-c{background:#E7EEF8;color:#3457B2;}
-.upd-ico.t-a{background:#FDEEF0;color:#C93845;}
-.upd-ico.t-g{background:#E8EFF6;color:#5C6FA0;}
+.upd-col:hover{background:rgba(112,112,168,0.03);}
+
+.upd-ico{
+  width:56px;height:56px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  background:rgba(112,112,168,0.08);
+}
+.upd-ico svg{width:24px;height:24px;}
+.upd-ico.t-w{background:rgba(112,112,168,0.08);color:#7070A8;}
+.upd-ico.t-t{background:rgba(112,112,168,0.08);color:#7070A8;}
+.upd-ico.t-p{background:rgba(112,112,168,0.08);color:#7070A8;}
+.upd-ico.t-c{background:rgba(255,91,104,0.08);color:#FF5B68;}
+.upd-ico.t-a{background:rgba(112,112,168,0.08);color:#7070A8;}
+.upd-ico.t-g{background:rgba(112,112,168,0.08);color:#7070A8;}
+
 .upd-txt{flex:1;min-width:0;}
-.upd-meta{display:flex;align-items:center;gap:7px;margin-bottom:6px;flex-wrap:wrap;}
-.upd-cat{font-size:12px;font-weight:500;color:#9CA3AF;}
-.upd-badge{font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;}
-.upd-badge.b-g{background:#EDEDF5;color:#565680;}
-.upd-badge.b-a{background:#FDEEF0;color:#C93845;}
-.upd-badge.b-i{background:#E7EEF8;color:#3457B2;}
-.upd-title{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:#2B2D42;margin-bottom:6px;line-height:1.35;}
-.upd-time{font-size:12px;color:#9CA3AF;}
+.upd-meta{display:flex;align-items:center;gap:6px;margin-bottom:5px;flex-wrap:wrap;}
+.upd-cat{font-size:12px;font-weight:500;color:#7070A8;font-family:'Inter',sans-serif;}
+.upd-badge{
+  font-size:11px;font-weight:500;
+  padding:4px 10px;border-radius:999px;
+  font-family:'Inter',sans-serif;
+}
+.upd-badge.b-g{background:rgba(255,91,104,0.12);color:#FF5B68;}
+.upd-badge.b-a{background:rgba(112,112,168,0.12);color:#7070A8;}
+.upd-badge.b-i{background:rgba(255,91,104,0.12);color:#FF5B68;}
+.upd-title{
+  font-family:'Inter',sans-serif;
+  font-size:14px;font-weight:500;color:#1E2340;
+  margin-bottom:5px;line-height:1.35;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.upd-time{font-size:12px;font-weight:400;color:#7070A8;font-family:'Inter',sans-serif;}
 .upd-empty{grid-column:1/-1;padding:28px;text-align:center;color:#9CA3AF;font-size:13px;}
 @media(max-width:740px){
   .upd-row{grid-template-columns:1fr;}
-  .upd-col{border-right:none;border-bottom:1px solid rgba(43,45,66,.08);}
+  .upd-col{border-right:none;border-bottom:1px solid rgba(112,112,168,0.10);}
   .upd-col:last-child{border-bottom:none;}
 }
 
@@ -431,30 +464,30 @@ footer{
       <div class="mc-body">
         <h3>Área do Joiner</h3>
         <p>Consulte seus itens, status e valores.</p>
-        <span class="mc-link">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <span class="mc-link">Acessar →</span>
       </div>
-      <span class="mc-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg></span>
+      <span class="mc-chevron"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></span>
     </a>
     <a class="mc" href="../regras/">
       <div class="mc-ico">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
       </div>
       <div class="mc-body">
         <h3>Regras DAZED CEGs</h3>
         <p>Informações e regras das CEGs.</p>
-        <span class="mc-link">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <span class="mc-link">Acessar →</span>
       </div>
-      <span class="mc-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg></span>
+      <span class="mc-chevron"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></span>
     </a>
   </div>
 
   <!-- FAIXA ATUALIZAÇÕES -->
   <div class="upd-bar">
     <div class="upd-bar-l">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a2 2 0 11-3.2 2.4"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a2 2 0 11-3.2 2.4"/></svg>
       Últimas Atualizações
     </div>
-    <button class="upd-bar-r" onclick="openDrawer()">Ver todas <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    <button class="upd-bar-r" onclick="openDrawer()">Ver todas</button>
   </div>
   <div class="upd-row" id="updRow">
     <div class="upd-empty">Carregando atualizações...</div>
