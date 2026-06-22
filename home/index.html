@@ -133,16 +133,47 @@ main{max-width:1200px;margin:0 auto;padding:28px 24px 72px;}
 }
 .bubble-dots i{width:5px;height:5px;border-radius:50%;background:#7070A8;display:block;}
 
-/* caderno — transborda o card na parte inferior */
+/* caderno — centralizado verticalmente */
 .notebook{
   position:absolute;
-  right:-10px;
-  top:-20px;
-  width:210px;
+  right:0px;
+  top:50%;
+  transform:translateY(-50%);
+  width:190px;
   height:auto;
   z-index:2;
   filter:drop-shadow(0 12px 28px rgba(112,112,168,.18));
 }
+
+/* círculo suave atrás do caderno */
+.hero-bg-circle{
+  position:absolute;
+  right:20px;top:50%;transform:translateY(-50%);
+  width:200px;height:200px;border-radius:50%;
+  background:rgba(112,112,168,0.08);
+}
+
+/* balão coração */
+.bubble-love{
+  position:absolute;left:20px;top:50%;transform:translateY(-30%);
+  width:50px;height:46px;
+  background:#fff;border-radius:14px;
+  box-shadow:0 4px 14px rgba(43,45,66,.13);
+  display:flex;align-items:center;justify-content:center;
+  z-index:3;
+}
+.bubble-love svg{width:20px;height:20px;color:#FF5B68;fill:#FF5B68;}
+
+/* balão "..." */
+.bubble-dots{
+  position:absolute;right:-10px;top:50%;transform:translateY(-150%);
+  width:62px;height:32px;
+  background:#fff;border-radius:10px;
+  box-shadow:0 4px 14px rgba(43,45,66,.13);
+  display:flex;align-items:center;justify-content:center;gap:4px;
+  z-index:4;
+}
+.bubble-dots i{width:5px;height:5px;border-radius:50%;background:#7070A8;display:block;}
 
 @media(max-width:900px){
   .hero{flex-direction:column;height:auto;padding:36px 28px;}
