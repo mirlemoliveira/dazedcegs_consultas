@@ -5,790 +5,486 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DAZED CEGs - Home</title>
 <link rel="icon" type="image/png" href="../imagens/favicon.png">
-<!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HYV0MQNJR6"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-HYV0MQNJR6');
-</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-HYV0MQNJR6');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --blue:        #AFC0D6;
-    --blue-dark:   #8BA3BE;
-    --blue-tint:   #EEF3F8;
-    --lilac:       #7070A8;
-    --lilac-dark:  #565680;
-    --lilac-tint:  #F1F1F7;
-    --coral:       #FF5B68;
-    --coral-dark:  #C93845;
-    --cream:       #F5F1E8;
-    --bg:          #F7F9FC;
-    --ink:         #1E2230;
-    --ink-soft:    #5C6270;
-    --ink-faint:   #9AA0AE;
-    --white:       #ffffff;
-    --line:        rgba(43,43,51,0.09);
-    --green:       #2A6B4C;
-    --green-bg:    #E1F0E8;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html, body {
-    min-height: 100vh;
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'Inter', -apple-system, sans-serif;
-    font-size: 14px;
-    line-height: 1.6;
-  }
-
-  a { text-decoration: none; color: inherit; }
-
-  /* ===== NAVBAR ===== */
-  .topnav {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--line);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 44px;
-    height: 64px;
-  }
-
-  .topnav-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
-  }
-
-  .topnav-logo img {
-    height: 36px;
-    width: auto;
-    display: block;
-  }
-
-  .topnav-links {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-  }
-
-  .topnav-link {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-size: 13.5px;
-    font-weight: 500;
-    color: var(--ink-soft);
-    transition: background 0.15s, color 0.15s;
-    white-space: nowrap;
-  }
-
-  .topnav-link svg { width: 15px; height: 15px; opacity: 0.7; }
-  .topnav-link:hover { background: var(--lilac-tint); color: var(--ink); }
-  .topnav-link.active {
-    color: var(--lilac-dark);
-    font-weight: 600;
-    background: var(--lilac-tint);
-    position: relative;
-  }
-  .topnav-link.active::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 14px;
-    right: 14px;
-    height: 2px;
-    background: var(--lilac);
-    border-radius: 2px 2px 0 0;
-  }
-  .topnav-link.active svg { opacity: 1; }
-
-  @media (max-width: 1100px) { .topnav-link span { display: none; } }
-  @media (max-width: 760px) {
-    .topnav { padding: 0 18px; }
-    .topnav-links { gap: 0; }
-    .topnav-link { padding: 8px 9px; }
-  }
-
-  /* ===== MAIN ===== */
-  main {
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 40px 32px 80px;
-  }
-
-  /* ===== HERO ===== */
-  .hero {
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-radius: 20px;
-    box-shadow: 0 2px 12px rgba(43,43,51,0.05);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 32px;
-    padding: 48px 52px;
-    margin-bottom: 24px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .hero-text { max-width: 480px; z-index: 2; }
-
-  .hero-text h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 52px;
-    font-weight: 700;
-    color: var(--ink);
-    line-height: 1.08;
-    letter-spacing: -0.5px;
-    margin-bottom: 16px;
-  }
-
-  .hero-text h1 span { color: var(--lilac); }
-
-  .hero-sub {
-    font-size: 15.5px;
-    color: var(--ink-soft);
-    margin-bottom: 24px;
-    line-height: 1.6;
-  }
-
-  .hero-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    background: var(--lilac-tint);
-    border: 1px solid rgba(112,112,168,0.18);
-    border-radius: 999px;
-    padding: 8px 18px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--lilac-dark);
-  }
-
-  /* caderno SVG ilustração */
-  .hero-art {
-    flex-shrink: 0;
-    width: 300px;
-    height: 260px;
-    position: relative;
-    z-index: 2;
-  }
-
-  /* estrelinhas decorativas */
-  .sparkle {
-    position: absolute;
-    fill: var(--blue);
-    opacity: 0.7;
-  }
-  .sparkle.coral { fill: var(--coral); opacity: 0.6; }
-  .sparkle.lilac { fill: var(--lilac); opacity: 0.5; }
-
-  @media (max-width: 900px) {
-    .hero { flex-direction: column; padding: 36px 28px; }
-    .hero-art { width: 200px; height: 180px; }
-    .hero-text h1 { font-size: 38px; }
-  }
-
-  /* ===== DOIS CARDS PRINCIPAIS ===== */
-  .main-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 24px;
-  }
-
-  .main-card {
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    box-shadow: 0 1px 4px rgba(43,43,51,0.05);
-    padding: 28px 28px 24px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    transition: box-shadow 0.18s, transform 0.18s;
-  }
-
-  .main-card:hover {
-    box-shadow: 0 8px 24px rgba(43,43,51,0.1);
-    transform: translateY(-2px);
-  }
-
-  .main-card-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    background: var(--blue-tint);
-  }
-
-  .main-card-icon svg { width: 28px; height: 28px; color: var(--lilac); }
-
-  .main-card-body { flex: 1; min-width: 0; }
-
-  .main-card-body h3 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--ink);
-    margin-bottom: 4px;
-  }
-
-  .main-card-body p {
-    font-size: 13px;
-    color: var(--ink-soft);
-    margin-bottom: 10px;
-  }
-
-  .main-card-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--coral);
-  }
-
-  .main-card-link svg { width: 13px; height: 13px; transition: transform 0.15s; }
-  .main-card:hover .main-card-link svg { transform: translateX(3px); }
-
-  .main-card-arrow {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: 1px solid var(--line);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--ink-soft);
-    flex-shrink: 0;
-    transition: background 0.15s, color 0.15s;
-  }
-
-  .main-card-arrow svg { width: 14px; height: 14px; }
-  .main-card:hover .main-card-arrow { background: var(--lilac); color: #fff; border-color: var(--lilac); }
-
-  @media (max-width: 700px) { .main-cards { grid-template-columns: 1fr; } }
-
-  /* ===== FAIXA ÚLTIMAS ATUALIZAÇÕES ===== */
-  .updates-bar {
-    background: var(--lilac);
-    border-radius: 14px;
-    padding: 0 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 52px;
-    margin-bottom: 0;
-    cursor: default;
-  }
-
-  .updates-bar-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    color: #fff;
-  }
-
-  .updates-bar-left svg { width: 18px; height: 18px; }
-
-  .updates-bar-right {
-    font-size: 13px;
-    font-weight: 600;
-    color: rgba(255,255,255,0.85);
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-family: 'Inter', sans-serif;
-    padding: 0;
-  }
-
-  .updates-bar-right:hover { color: #fff; }
-  .updates-bar-right svg { width: 13px; height: 13px; }
-
-  .updates-strip-cards {
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-top: none;
-    border-radius: 0 0 14px 14px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-    margin-bottom: 24px;
-  }
-
-  .updates-strip-card {
-    padding: 18px 20px;
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    border-right: 1px solid var(--line);
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-
-  .updates-strip-card:last-child { border-right: none; }
-  .updates-strip-card:hover { background: var(--lilac-tint); }
-
-  .usc-icon {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .usc-icon svg { width: 18px; height: 18px; }
-
-  .usc-icon.warehouse  { background: var(--lilac-tint); color: var(--lilac); }
-  .usc-icon.transito   { background: rgba(255,150,60,0.13); color: #B56010; }
-  .usc-icon.pagamento  { background: var(--green-bg); color: var(--green); }
-  .usc-icon.conferencia{ background: rgba(70,120,220,0.11); color: #3457B2; }
-  .usc-icon.pendencia  { background: rgba(255,91,104,0.12); color: var(--coral-dark); }
-  .usc-icon.geral      { background: var(--blue-tint); color: var(--blue-dark); }
-
-  .usc-body { min-width: 0; flex: 1; }
-
-  .usc-meta {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 4px;
-  }
-
-  .usc-category {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--ink-soft);
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-  }
-
-  .usc-badge {
-    font-size: 10.5px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 999px;
-    background: var(--lilac-tint);
-    color: var(--lilac-dark);
-  }
-
-  .usc-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 13.5px;
-    font-weight: 700;
-    color: var(--ink);
-    margin-bottom: 4px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .usc-time {
-    font-size: 11.5px;
-    color: var(--ink-faint);
-  }
-
-  .updates-strip-empty {
-    grid-column: 1 / -1;
-    padding: 24px;
-    text-align: center;
-    color: var(--ink-faint);
-    font-size: 13px;
-  }
-
-  @media (max-width: 760px) {
-    .updates-strip-cards { grid-template-columns: 1fr; }
-    .updates-strip-card { border-right: none; border-bottom: 1px solid var(--line); }
-    .updates-strip-card:last-child { border-bottom: none; }
-  }
-
-  /* ===== NOVIDADES + STATUS ===== */
-  .bottom-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-
-  .bottom-card {
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    box-shadow: 0 1px 4px rgba(43,43,51,0.05);
-    padding: 26px 28px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .bottom-card-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--ink);
-    margin-bottom: 18px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  /* Novidades */
-  .novidades-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 22px;
-  }
-
-  .novidades-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    font-size: 13.5px;
-    color: var(--ink);
-  }
-
-  .novidades-list li::before {
-    content: '';
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--coral);
-    flex-shrink: 0;
-    margin-top: 6px;
-  }
-
-  .btn-coral {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    background: var(--coral);
-    color: #fff;
-    border: none;
-    border-radius: 999px;
-    padding: 10px 20px;
-    font-size: 13px;
-    font-weight: 600;
-    font-family: 'Inter', sans-serif;
-    cursor: pointer;
-    transition: background 0.15s, transform 0.15s;
-    text-decoration: none;
-  }
-
-  .btn-coral:hover { background: var(--coral-dark); transform: scale(1.03); }
-  .btn-coral svg { width: 13px; height: 13px; }
-
-  .novidades-art {
-    position: absolute;
-    right: 24px;
-    bottom: 20px;
-    opacity: 0.12;
-    pointer-events: none;
-  }
-
-  /* Status */
-  .status-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 22px;
-  }
-
-  .status-list li {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 12px;
-    border-radius: 10px;
-    font-size: 13.5px;
-    color: var(--ink);
-    transition: background 0.13s;
-    cursor: default;
-  }
-
-  .status-list li:hover { background: var(--blue-tint); }
-
-  .status-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    background: var(--blue-tint);
-    color: var(--lilac);
-  }
-
-  .status-icon svg { width: 16px; height: 16px; }
-
-  @media (max-width: 700px) { .bottom-row { grid-template-columns: 1fr; } }
-
-  /* ===== DRAWER ===== */
-  .drawer-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(30,34,48,0.28);
-    backdrop-filter: blur(2px);
-    z-index: 40;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s;
-  }
-
-  .drawer-overlay.open { opacity: 1; pointer-events: auto; }
-
-  .drawer {
-    position: fixed;
-    top: 0; right: 0;
-    height: 100vh;
-    width: min(430px, 92vw);
-    background: var(--bg);
-    box-shadow: -6px 0 28px rgba(30,34,48,0.13);
-    z-index: 41;
-    display: flex;
-    flex-direction: column;
-    transform: translateX(100%);
-    transition: transform 0.32s cubic-bezier(.4,0,.2,1);
-  }
-
-  .drawer.open { transform: translateX(0); }
-
-  .drawer-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 24px;
-    border-bottom: 1px solid var(--line);
-    background: var(--white);
-    flex-shrink: 0;
-  }
-
-  .drawer-head h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--ink);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .drawer-head h2 svg { width: 18px; height: 18px; color: var(--lilac); }
-
-  .drawer-close {
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    border: 1px solid var(--line);
-    background: var(--white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: var(--ink-soft);
-    transition: background 0.15s;
-  }
-
-  .drawer-close:hover { background: var(--lilac-tint); }
-  .drawer-close svg { width: 15px; height: 15px; }
-
-  .drawer-body {
-    flex: 1;
-    overflow-y: auto;
-    padding: 22px 24px;
-  }
-
-  .timeline { position: relative; }
-
-  .tl-item {
-    display: flex;
-    gap: 14px;
-    padding-bottom: 24px;
-    position: relative;
-  }
-
-  .tl-item::before {
-    content: '';
-    position: absolute;
-    left: 19px; top: 42px;
-    bottom: 0; width: 1px;
-    background: var(--line);
-  }
-
-  .tl-item:last-child::before { display: none; }
-  .tl-item:last-child { padding-bottom: 4px; }
-
-  .tl-icon {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    z-index: 1;
-  }
-
-  .tl-icon svg { width: 18px; height: 18px; }
-  .tl-icon.warehouse  { background: var(--lilac-tint); color: var(--lilac); }
-  .tl-icon.transito   { background: rgba(255,150,60,0.13); color: #B56010; }
-  .tl-icon.pagamento  { background: var(--green-bg); color: var(--green); }
-  .tl-icon.conferencia{ background: rgba(70,120,220,0.11); color: #3457B2; }
-  .tl-icon.pendencia  { background: rgba(255,91,104,0.12); color: var(--coral-dark); }
-  .tl-icon.geral      { background: var(--blue-tint); color: var(--blue-dark); }
-
-  .tl-content { flex: 1; padding-top: 2px; min-width: 0; }
-
-  .tl-time {
-    font-size: 11.5px;
-    color: var(--ink-faint);
-    margin-bottom: 4px;
-  }
-
-  .tl-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--ink);
-    margin-bottom: 2px;
-  }
-
-  .tl-ceg {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--lilac);
-    margin-bottom: 6px;
-  }
-
-  .tl-desc {
-    font-size: 12.5px;
-    color: var(--ink-soft);
-    line-height: 1.55;
-  }
-
-  .drawer-empty {
-    text-align: center;
-    color: var(--ink-faint);
-    font-size: 13px;
-    padding: 60px 10px;
-    line-height: 1.7;
-  }
-
-  .drawer-foot {
-    padding: 18px 24px;
-    border-top: 1px solid var(--line);
-    flex-shrink: 0;
-  }
-
-  .btn-lilac-full {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: var(--lilac);
-    color: #fff;
-    border: none;
-    border-radius: 999px;
-    padding: 12px;
-    font-size: 13px;
-    font-weight: 600;
-    font-family: 'Space Grotesk', sans-serif;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-
-  .btn-lilac-full:hover { background: var(--lilac-dark); }
-  .btn-lilac-full svg { width: 14px; height: 14px; }
-
-  /* ===== FOOTER ===== */
-  .site-footer {
-    border-top: 1px solid var(--line);
-    padding: 24px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    max-width: 1180px;
-    margin: 0 auto;
-    flex-wrap: wrap;
-  }
-
-  .footer-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .footer-left img { height: 28px; width: auto; }
-
-  .footer-left p {
-    font-size: 13px;
-    color: var(--ink-soft);
-  }
-
-  .footer-copy {
-    font-size: 12.5px;
-    color: var(--ink-faint);
-  }
+:root {
+  --bg:         #EEF3F8;
+  --white:      #ffffff;
+  --lilac:      #7070A8;
+  --lilac-dark: #565680;
+  --lilac-tint: #EEEEF6;
+  --blue:       #AFC0D6;
+  --blue-tint:  #E8EFF6;
+  --coral:      #FF5B68;
+  --coral-dark: #C93845;
+  --ink:        #2B2D42;
+  --ink-soft:   #6B7280;
+  --ink-faint:  #9CA3AF;
+  --line:       rgba(43,45,66,0.09);
+  --green:      #2A6B4C;
+  --green-bg:   #E1F0E8;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{min-height:100vh;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-size:14px;}
+a{text-decoration:none;color:inherit;}
+
+/* ── NAVBAR ── */
+.nav{
+  position:sticky;top:0;z-index:20;
+  background:var(--white);
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;height:64px;
+}
+.nav-logo{display:flex;align-items:center;gap:0;}
+.nav-logo img{height:52px;width:auto;display:block;}
+
+.nav-links{display:flex;align-items:center;gap:0;}
+.nav-link{
+  display:flex;align-items:center;gap:6px;
+  padding:20px 16px;
+  font-size:13.5px;font-weight:500;
+  color:var(--ink-soft);
+  border-bottom:2px solid transparent;
+  transition:color .15s,border-color .15s;
+  white-space:nowrap;
+}
+.nav-link svg{width:16px;height:16px;opacity:.65;}
+.nav-link:hover{color:var(--ink);}
+.nav-link.active{color:var(--lilac-dark);font-weight:600;border-bottom-color:var(--lilac);}
+.nav-link.active svg{opacity:1;color:var(--lilac-dark);}
+
+@media(max-width:1060px){.nav-link span{display:none;}}
+@media(max-width:680px){.nav{padding:0 16px;}.nav-link{padding:20px 10px;}}
+
+/* ── MAIN ── */
+main{max-width:1200px;margin:0 auto;padding:32px 28px 80px;}
+
+/* ── HERO ── */
+.hero{
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:0 1px 6px rgba(43,45,66,0.06);
+  display:flex;align-items:center;justify-content:space-between;
+  gap:0;
+  padding:52px 56px 52px 56px;
+  margin-bottom:20px;
+  overflow:hidden;position:relative;
+  min-height:320px;
+}
+.hero-left{max-width:420px;position:relative;z-index:2;}
+.hero-left h1{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:58px;font-weight:700;
+  color:#4A5080;
+  line-height:1.05;letter-spacing:-1px;
+  margin-bottom:16px;
+}
+.hero-sub{
+  font-size:17px;font-weight:500;
+  color:var(--ink-soft);
+  line-height:1.5;margin-bottom:18px;
+}
+.hero-line{
+  width:44px;height:3px;
+  background:var(--coral);
+  border-radius:2px;
+  margin-bottom:22px;
+}
+.hero-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--lilac-tint);
+  border:1px solid rgba(112,112,168,0.2);
+  border-radius:999px;
+  padding:9px 18px;
+  font-size:13px;font-weight:500;
+  color:var(--lilac-dark);
+}
+.hero-pill svg{width:14px;height:14px;color:var(--lilac);}
+
+/* hero direito — área de ilustração */
+.hero-right{
+  position:relative;
+  width:420px;height:280px;
+  flex-shrink:0;
+}
+
+/* círculo de fundo */
+.hero-circle{
+  position:absolute;
+  right:-20px;top:50%;transform:translateY(-50%);
+  width:280px;height:280px;
+  border-radius:50%;
+  background:var(--bg);
+}
+
+/* caderno SVG */
+.hero-notebook{
+  position:absolute;
+  right:10px;top:50%;transform:translateY(-52%);
+  width:210px;
+  filter:drop-shadow(0 12px 32px rgba(112,112,168,0.22));
+}
+
+/* balões flutuantes */
+.hero-bubble{position:absolute;}
+.bubble-heart{
+  top:30px;left:60px;
+  width:54px;height:48px;
+  background:var(--white);
+  border-radius:12px;
+  box-shadow:0 4px 14px rgba(43,45,66,0.1);
+  display:flex;align-items:center;justify-content:center;
+}
+.bubble-heart svg{width:22px;height:22px;color:var(--coral);}
+.bubble-dots{
+  bottom:40px;right:200px;
+  width:60px;height:36px;
+  background:var(--white);
+  border-radius:10px;
+  box-shadow:0 4px 14px rgba(43,45,66,0.1);
+  display:flex;align-items:center;justify-content:center;gap:4px;
+  padding:0 12px;
+}
+.bubble-dots span{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--ink-soft);opacity:.45;
+}
+
+/* estrelinhas */
+.star{position:absolute;fill:currentColor;}
+.star.lilac{color:var(--lilac);}
+.star.coral{color:var(--coral);}
+.star.blue{color:var(--blue);}
+
+@media(max-width:880px){
+  .hero{flex-direction:column;padding:36px 28px;min-height:auto;}
+  .hero-right{width:100%;height:200px;}
+  .hero-left h1{font-size:42px;}
+}
+
+/* ── 2 CARDS PRINCIPAIS (dentro de um wrapper branco) ── */
+.main-cards-wrap{
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:0 1px 6px rgba(43,45,66,0.06);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  margin-bottom:20px;
+  overflow:hidden;
+}
+.main-card{
+  display:flex;align-items:center;gap:20px;
+  padding:28px 32px;
+  transition:background .15s;
+  cursor:pointer;
+}
+.main-card:first-child{border-right:1px solid var(--line);}
+.main-card:hover{background:var(--bg);}
+.mc-icon{
+  width:64px;height:64px;border-radius:50%;
+  background:var(--lilac-tint);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.mc-icon svg{width:30px;height:30px;color:var(--lilac);}
+.mc-body{flex:1;min-width:0;}
+.mc-body h3{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:16px;font-weight:700;
+  color:var(--ink);margin-bottom:5px;
+}
+.mc-body p{font-size:13px;color:var(--ink-soft);margin-bottom:10px;}
+.mc-link{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:13px;font-weight:600;color:var(--coral);
+}
+.mc-link svg{width:13px;height:13px;}
+.mc-arrow{
+  color:var(--ink-soft);opacity:.5;flex-shrink:0;
+}
+.mc-arrow svg{width:18px;height:18px;}
+
+@media(max-width:680px){
+  .main-cards-wrap{grid-template-columns:1fr;}
+  .main-card:first-child{border-right:none;border-bottom:1px solid var(--line);}
+}
+
+/* ── FAIXA ATUALIZAÇÕES ── */
+.upd-bar{
+  background:var(--lilac);
+  border-radius:14px 14px 0 0;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;height:50px;
+}
+.upd-bar-left{
+  display:flex;align-items:center;gap:10px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:14.5px;font-weight:700;color:#fff;
+}
+.upd-bar-left svg{width:18px;height:18px;}
+.upd-bar-right{
+  background:none;border:none;cursor:pointer;
+  font-size:13px;font-weight:600;color:rgba(255,255,255,.85);
+  font-family:'Inter',sans-serif;
+  display:flex;align-items:center;gap:5px;
+  padding:0;
+}
+.upd-bar-right:hover{color:#fff;}
+.upd-bar-right svg{width:13px;height:13px;}
+
+.upd-cards{
+  background:var(--white);
+  border:1px solid var(--line);border-top:none;
+  border-radius:0 0 14px 14px;
+  display:grid;grid-template-columns:repeat(3,1fr);
+  margin-bottom:20px;
+}
+.upd-card{
+  padding:20px 22px;
+  display:flex;align-items:flex-start;gap:16px;
+  border-right:1px solid var(--line);
+  cursor:pointer;transition:background .15s;
+}
+.upd-card:last-child{border-right:none;}
+.upd-card:hover{background:var(--bg);}
+
+.upd-icon{
+  width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.upd-icon svg{width:20px;height:20px;}
+.upd-icon.warehouse{background:#EEEEF6;color:var(--lilac);}
+.upd-icon.transito{background:#FEF0E6;color:#C97020;}
+.upd-icon.pagamento{background:var(--green-bg);color:var(--green);}
+.upd-icon.conferencia{background:#E8EEF8;color:#3457B2;}
+.upd-icon.pendencia{background:#FDEEF0;color:var(--coral-dark);}
+.upd-icon.geral{background:var(--blue-tint);color:var(--lilac);}
+
+.upd-body{flex:1;min-width:0;}
+.upd-meta{display:flex;align-items:center;gap:7px;margin-bottom:6px;flex-wrap:wrap;}
+.upd-cat{font-size:12px;font-weight:500;color:var(--ink-soft);}
+.upd-badge{
+  font-size:11px;font-weight:600;
+  padding:2px 9px;border-radius:999px;
+}
+.upd-badge.geral{background:#EEEEF6;color:var(--lilac-dark);}
+.upd-badge.aviso{background:#FDEEF0;color:var(--coral-dark);}
+.upd-badge.info{background:#E8EEF8;color:#3457B2;}
+
+.upd-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:14px;font-weight:700;color:var(--ink);
+  margin-bottom:6px;line-height:1.35;
+}
+.upd-time{font-size:12px;color:var(--ink-faint);}
+.upd-empty{
+  grid-column:1/-1;padding:28px;
+  text-align:center;color:var(--ink-faint);font-size:13px;
+}
+
+@media(max-width:720px){
+  .upd-cards{grid-template-columns:1fr;}
+  .upd-card{border-right:none;border-bottom:1px solid var(--line);}
+  .upd-card:last-child{border-bottom:none;}
+}
+
+/* ── BOTTOM ROW ── */
+.bottom-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.bot-card{
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:0 1px 6px rgba(43,45,66,0.06);
+  padding:28px 30px;
+  position:relative;overflow:hidden;
+}
+.bot-title{
+  display:flex;align-items:center;gap:8px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:16px;font-weight:700;color:var(--ink);
+  margin-bottom:20px;
+}
+.bot-title svg{width:18px;height:18px;color:var(--ink);}
+
+/* Novidades */
+.nov-list{list-style:none;margin-bottom:22px;}
+.nov-list li{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:13.5px;color:var(--ink);
+  padding:5px 0;
+}
+.nov-list li::before{
+  content:'';width:8px;height:8px;
+  border-radius:50%;background:var(--coral);
+  flex-shrink:0;margin-top:5px;
+}
+.btn-coral{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--coral);color:#fff;border:none;
+  border-radius:999px;padding:11px 22px;
+  font-size:13px;font-weight:600;font-family:'Inter',sans-serif;
+  cursor:pointer;transition:background .15s;
+  text-decoration:none;
+}
+.btn-coral:hover{background:var(--coral-dark);}
+.btn-coral svg{width:13px;height:13px;}
+
+/* arte calendário decorativa */
+.nov-art{
+  position:absolute;right:20px;bottom:16px;
+  opacity:.13;pointer-events:none;
+}
+
+/* Status */
+.status-list{list-style:none;margin-bottom:22px;}
+.status-list li{
+  display:flex;align-items:center;gap:12px;
+  padding:9px 10px;border-radius:10px;
+  font-size:13.5px;color:var(--ink);
+  transition:background .13s;
+}
+.status-list li:hover{background:var(--blue-tint);}
+.si{
+  width:30px;height:30px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--blue-tint);color:var(--lilac);flex-shrink:0;
+}
+.si svg{width:15px;height:15px;}
+
+.bot-card-foot{display:flex;justify-content:flex-end;}
+
+@media(max-width:680px){.bottom-row{grid-template-columns:1fr;}}
+
+/* ── DRAWER ── */
+.overlay{
+  position:fixed;inset:0;z-index:40;
+  background:rgba(30,34,48,0.3);
+  backdrop-filter:blur(2px);
+  opacity:0;pointer-events:none;
+  transition:opacity .25s;
+}
+.overlay.open{opacity:1;pointer-events:auto;}
+.drawer{
+  position:fixed;top:0;right:0;
+  height:100vh;width:min(430px,94vw);
+  background:#F7F9FC;
+  box-shadow:-6px 0 30px rgba(30,34,48,0.14);
+  z-index:41;display:flex;flex-direction:column;
+  transform:translateX(100%);
+  transition:transform .32s cubic-bezier(.4,0,.2,1);
+}
+.drawer.open{transform:translateX(0);}
+.dw-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 24px;
+  border-bottom:1px solid var(--line);
+  background:var(--white);flex-shrink:0;
+}
+.dw-head h2{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:16px;font-weight:700;color:var(--ink);
+  display:flex;align-items:center;gap:8px;
+}
+.dw-head h2 svg{width:18px;height:18px;color:var(--lilac);}
+.dw-close{
+  width:32px;height:32px;border-radius:50%;
+  border:1px solid var(--line);background:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--ink-soft);
+  transition:background .15s;
+}
+.dw-close:hover{background:var(--lilac-tint);}
+.dw-close svg{width:15px;height:15px;}
+.dw-body{flex:1;overflow-y:auto;padding:22px 24px;}
+.timeline{position:relative;}
+.tl-item{display:flex;gap:14px;padding-bottom:24px;position:relative;}
+.tl-item::before{
+  content:'';position:absolute;
+  left:19px;top:42px;bottom:0;width:1px;
+  background:var(--line);
+}
+.tl-item:last-child::before{display:none;}
+.tl-item:last-child{padding-bottom:0;}
+.tl-ico{
+  width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;z-index:1;
+}
+.tl-ico svg{width:18px;height:18px;}
+.tl-ico.warehouse{background:#EEEEF6;color:var(--lilac);}
+.tl-ico.transito{background:#FEF0E6;color:#C97020;}
+.tl-ico.pagamento{background:var(--green-bg);color:var(--green);}
+.tl-ico.conferencia{background:#E8EEF8;color:#3457B2;}
+.tl-ico.pendencia{background:#FDEEF0;color:var(--coral-dark);}
+.tl-ico.geral{background:var(--blue-tint);color:var(--lilac);}
+.tl-body{flex:1;padding-top:2px;min-width:0;}
+.tl-time{font-size:11.5px;color:var(--ink-faint);margin-bottom:3px;}
+.tl-title{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:2px;}
+.tl-ceg{font-size:12px;font-weight:600;color:var(--lilac);margin-bottom:5px;}
+.tl-desc{font-size:12.5px;color:var(--ink-soft);line-height:1.55;}
+.dw-empty{text-align:center;color:var(--ink-faint);font-size:13px;padding:60px 10px;line-height:1.7;}
+.dw-foot{padding:16px 24px;border-top:1px solid var(--line);flex-shrink:0;}
+.btn-lilac-full{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--lilac);color:#fff;border:none;border-radius:999px;
+  padding:12px;font-size:13px;font-weight:600;
+  font-family:'Space Grotesk',sans-serif;cursor:pointer;
+  transition:background .15s;
+}
+.btn-lilac-full:hover{background:var(--lilac-dark);}
+.btn-lilac-full svg{width:14px;height:14px;}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--line);
+  background:var(--white);
+  padding:20px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;
+}
+.ft-left{display:flex;align-items:center;gap:12px;}
+.ft-left img{height:36px;width:auto;}
+.ft-left p{font-size:13px;color:var(--ink-soft);}
+.ft-copy{font-size:12.5px;color:var(--ink-faint);}
 </style>
 </head>
 <body>
 
 <!-- NAVBAR -->
-<nav class="topnav">
-  <a class="topnav-logo" href="../home/">
-    <img src="../imagens/logo.png" alt="DAZED CEGs" />
+<nav class="nav">
+  <a class="nav-logo" href="../home/">
+    <img src="../imagens/logo.png" alt="DAZED CEGs"/>
   </a>
-  <div class="topnav-links">
-    <a href="../home/" class="topnav-link active">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+  <div class="nav-links">
+    <a href="../home/" class="nav-link active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
       <span>Home</span>
     </a>
-    <a href="../cegs/" class="topnav-link">
-      <svg viewBox="-1 -1 26 26" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <a href="../cegs/" class="nav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
       <span>Área do Joiner</span>
     </a>
-    <a href="../regras/" class="topnav-link">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <a href="../regras/" class="nav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
       <span>Regras DAZED CEGs</span>
     </a>
-    <a href="../calculadora/" class="topnav-link">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01"/></svg>
+    <a href="../calculadora/" class="nav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       <span>Calculadoras</span>
     </a>
-    <a href="../pendentes/" class="topnav-link">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h11"/></svg>
+    <a href="../pendentes/" class="nav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h11"/></svg>
       <span>Pendências</span>
     </a>
-    <a href="../sobras/" class="topnav-link">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.6 6.6L22 9.3l-5.5 4.6L18.2 21 12 17.3 5.8 21l1.7-7.1L2 9.3l7.4-.7z"/></svg>
+    <a href="../sobras/" class="nav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 3h-8a2 2 0 00-2 2v2h12V5a2 2 0 00-2-2z"/></svg>
       <span>Sobras</span>
     </a>
   </div>
@@ -798,124 +494,129 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-text">
-      <h1>DAZED<br><span>CEGs</span></h1>
+    <div class="hero-left">
+      <h1>DAZED CEGs</h1>
       <p class="hero-sub">Sua central para acompanhar<br>todas as suas CEGs.</p>
+      <div class="hero-line"></div>
       <div class="hero-pill">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg>
         Organização. Transparência. Comunidade.
       </div>
     </div>
 
-    <!-- Caderno SVG -->
-    <div class="hero-art">
+    <div class="hero-right">
+      <!-- círculo azul de fundo -->
+      <div class="hero-circle"></div>
+
       <!-- estrelas decorativas -->
-      <svg class="sparkle" style="top:8px;left:18px;width:18px;height:18px;" viewBox="0 0 24 24"><path d="M12 2l1.4 4.6L18 8l-4.6 1.4L12 14l-1.4-4.6L6 8l4.6-1.4z"/></svg>
-      <svg class="sparkle lilac" style="top:30px;right:10px;width:12px;height:12px;" viewBox="0 0 24 24"><path d="M12 2l1.4 4.6L18 8l-4.6 1.4L12 14l-1.4-4.6L6 8l4.6-1.4z"/></svg>
-      <svg class="sparkle coral" style="bottom:30px;left:0;width:14px;height:14px;" viewBox="0 0 24 24"><path d="M12 2l1.4 4.6L18 8l-4.6 1.4L12 14l-1.4-4.6L6 8l4.6-1.4z"/></svg>
-      <svg class="sparkle" style="bottom:60px;right:20px;width:10px;height:10px;" viewBox="0 0 24 24"><path d="M12 2l1.4 4.6L18 8l-4.6 1.4L12 14l-1.4-4.6L6 8l4.6-1.4z"/></svg>
-      <svg class="sparkle coral" style="top:80px;left:10px;width:9px;height:9px;" viewBox="0 0 24 24"><path d="M12 2l1.4 4.6L18 8l-4.6 1.4L12 14l-1.4-4.6L6 8l4.6-1.4z"/></svg>
+      <!-- lilás canto sup esq -->
+      <svg class="star lilac" style="position:absolute;top:14px;left:80px;width:16px;height:16px;" viewBox="0 0 24 24"><path d="M12 2l1.5 5L18 8l-4.5 1.5L12 15l-1.5-5.5L6 8l4.5-1z"/></svg>
+      <!-- lilás canto inf dir -->
+      <svg class="star lilac" style="position:absolute;bottom:30px;right:165px;width:14px;height:14px;" viewBox="0 0 24 24"><path d="M12 2l1.5 5L18 8l-4.5 1.5L12 15l-1.5-5.5L6 8l4.5-1z"/></svg>
+      <!-- coral canto dir topo -->
+      <svg class="star coral" style="position:absolute;top:60px;right:10px;width:20px;height:20px;" viewBox="0 0 24 24"><path d="M12 2l1.5 5L18 8l-4.5 1.5L12 15l-1.5-5.5L6 8l4.5-1z"/></svg>
+      <!-- coral canto inf esq -->
+      <svg class="star coral" style="position:absolute;bottom:50px;left:60px;width:18px;height:18px;" viewBox="0 0 24 24"><path d="M12 2l1.5 5L18 8l-4.5 1.5L12 15l-1.5-5.5L6 8l4.5-1z"/></svg>
+      <!-- azul pequeno -->
+      <svg class="star blue" style="position:absolute;top:100px;left:110px;width:10px;height:10px;" viewBox="0 0 24 24"><path d="M12 2l1.5 5L18 8l-4.5 1.5L12 15l-1.5-5.5L6 8l4.5-1z"/></svg>
 
-      <!-- Balão de chat -->
-      <svg style="position:absolute;top:20px;left:40px;opacity:0.6;" width="38" height="32" viewBox="0 0 40 34" fill="none">
-        <rect x="1" y="1" width="38" height="26" rx="8" fill="#EEF3F8" stroke="#AFC0D6" stroke-width="1.5"/>
-        <path d="M10 27l2-6" stroke="#AFC0D6" stroke-width="1.5" stroke-linecap="round"/>
-        <circle cx="12" cy="14" r="2" fill="#AFC0D6"/>
-        <circle cx="20" cy="14" r="2" fill="#AFC0D6"/>
-        <circle cx="28" cy="14" r="2" fill="#AFC0D6"/>
-      </svg>
+      <!-- Balão coração -->
+      <div class="hero-bubble bubble-heart">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg>
+      </div>
 
-      <!-- Caderno principal -->
-      <svg style="position:absolute;top:30px;right:0;filter:drop-shadow(0 8px 24px rgba(112,112,168,0.18));" width="220" height="200" viewBox="0 0 220 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Capa do caderno -->
-        <rect x="30" y="10" width="170" height="178" rx="14" fill="#AFC0D6"/>
-        <!-- Detalhe lateral escuro -->
-        <rect x="30" y="10" width="22" height="178" rx="10" fill="#8BA3BE"/>
-        <!-- Página interna branca -->
-        <rect x="56" y="24" width="132" height="150" rx="6" fill="white" opacity="0.92"/>
-        <!-- Elástico -->
-        <rect x="188" y="70" width="10" height="60" rx="5" fill="#D4A96A"/>
-        <!-- Linhas de texto -->
-        <rect x="68" y="48" width="96" height="4" rx="2" fill="#EEF3F8"/>
-        <rect x="68" y="60" width="80" height="4" rx="2" fill="#EEF3F8"/>
-        <rect x="68" y="72" width="88" height="4" rx="2" fill="#EEF3F8"/>
-        <!-- Texto DAZED na capa -->
-        <text x="54" y="110" font-family="Space Grotesk, Arial, sans-serif" font-size="22" font-weight="700" fill="white" opacity="0.35" letter-spacing="1">DAZED</text>
-        <text x="60" y="132" font-family="Space Grotesk, Arial, sans-serif" font-size="14" font-weight="600" fill="#FF5B68" opacity="0.55">CEGS</text>
-        <!-- Linha horizontal coral na capa (referência à logo) -->
-        <rect x="52" y="140" width="50" height="3" rx="1.5" fill="#FF5B68" opacity="0.5"/>
-        <!-- Anéis do caderno -->
-        <circle cx="42" cy="52" r="8" fill="#6A88A8" stroke="#5A7898" stroke-width="1"/>
-        <circle cx="42" cy="52" r="4" fill="#8BA3BE"/>
-        <circle cx="42" cy="100" r="8" fill="#6A88A8" stroke="#5A7898" stroke-width="1"/>
-        <circle cx="42" cy="100" r="4" fill="#8BA3BE"/>
-        <circle cx="42" cy="148" r="8" fill="#6A88A8" stroke="#5A7898" stroke-width="1"/>
-        <circle cx="42" cy="148" r="4" fill="#8BA3BE"/>
+      <!-- Balão "..." -->
+      <div class="hero-bubble bubble-dots">
+        <span></span><span></span><span></span>
+      </div>
+
+      <!-- Caderno SVG principal -->
+      <svg class="hero-notebook" viewBox="0 0 210 230" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- sombra/profundidade direita do caderno -->
+        <rect x="30" y="16" width="168" height="210" rx="14" fill="#8BA3BE"/>
+        <!-- capa principal -->
+        <rect x="18" y="10" width="168" height="210" rx="14" fill="#AFC0D6"/>
+        <!-- lombada esquerda mais escura -->
+        <rect x="18" y="10" width="26" height="210" rx="12" fill="#8BA3BE"/>
+        <!-- página interna branca -->
+        <rect x="50" y="24" width="126" height="182" rx="6" fill="white" opacity="0.9"/>
+        <!-- elástico/fecho dourado -->
+        <rect x="182" y="90" width="12" height="48" rx="6" fill="#C9A84C"/>
+        <rect x="183" y="112" width="10" height="6" rx="3" fill="#A8862A"/>
+        <!-- Linhas de texto na página -->
+        <rect x="62" y="44" width="90" height="4" rx="2" fill="#EEF3F8"/>
+        <rect x="62" y="56" width="72" height="4" rx="2" fill="#EEF3F8"/>
+        <rect x="62" y="68" width="80" height="4" rx="2" fill="#EEF3F8"/>
+        <!-- Texto DAZED na capa (branco desbotado) -->
+        <text x="36" y="122" font-family="'Space Grotesk',Arial,sans-serif" font-size="26" font-weight="700" fill="white" opacity="0.3" letter-spacing="1">DAZED</text>
+        <!-- linha do + da logo -->
+        <text x="148" y="110" font-family="Arial,sans-serif" font-size="20" font-weight="700" fill="white" opacity="0.3">+</text>
+        <!-- CEGS em coral -->
+        <text x="44" y="148" font-family="'Space Grotesk',Arial,sans-serif" font-size="16" font-weight="600" fill="#FF5B68" opacity="0.6">CEGS</text>
+        <!-- linha coral referência logo -->
+        <rect x="42" y="154" width="54" height="3" rx="1.5" fill="#FF5B68" opacity="0.45"/>
+        <!-- Anéis da lombada -->
+        <circle cx="32" cy="55"  r="9" fill="#6A88A8" stroke="#5A7898" stroke-width="1.2"/>
+        <circle cx="32" cy="55"  r="4.5" fill="#8BA3BE"/>
+        <circle cx="32" cy="115" r="9" fill="#6A88A8" stroke="#5A7898" stroke-width="1.2"/>
+        <circle cx="32" cy="115" r="4.5" fill="#8BA3BE"/>
+        <circle cx="32" cy="175" r="9" fill="#6A88A8" stroke="#5A7898" stroke-width="1.2"/>
+        <circle cx="32" cy="175" r="4.5" fill="#8BA3BE"/>
       </svg>
     </div>
   </section>
 
   <!-- 2 CARDS PRINCIPAIS -->
-  <div class="main-cards">
+  <div class="main-cards-wrap">
     <a class="main-card" href="../cegs/">
-      <div class="main-card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+      <div class="mc-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
       </div>
-      <div class="main-card-body">
+      <div class="mc-body">
         <h3>Área do Joiner</h3>
         <p>Consulte seus itens, status e valores.</p>
-        <span class="main-card-link">
-          Acessar
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </span>
+        <span class="mc-link">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </div>
-      <div class="main-card-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 18l6-6-6-6"/></svg>
-      </div>
+      <div class="mc-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
     </a>
-
     <a class="main-card" href="../regras/">
-      <div class="main-card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+      <div class="mc-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
       </div>
-      <div class="main-card-body">
+      <div class="mc-body">
         <h3>Regras DAZED CEGs</h3>
         <p>Informações e regras das CEGs.</p>
-        <span class="main-card-link">
-          Acessar
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </span>
+        <span class="mc-link">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </div>
-      <div class="main-card-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 18l6-6-6-6"/></svg>
-      </div>
+      <div class="mc-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
     </a>
   </div>
 
-  <!-- FAIXA ÚLTIMAS ATUALIZAÇÕES -->
-  <div class="updates-bar">
-    <div class="updates-bar-left">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a2 2 0 11-3.2 2.4"/></svg>
+  <!-- ÚLTIMAS ATUALIZAÇÕES -->
+  <div class="upd-bar">
+    <div class="upd-bar-left">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a2 2 0 11-3.2 2.4"/></svg>
       Últimas Atualizações
     </div>
-    <button type="button" class="updates-bar-right" onclick="openDrawer()">
+    <button class="upd-bar-right" onclick="openDrawer()">
       Ver todas
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </button>
   </div>
-  <div class="updates-strip-cards" id="updatesStrip">
-    <div class="updates-strip-empty">Carregando atualizações...</div>
+  <div class="upd-cards" id="updCards">
+    <div class="upd-empty">Carregando atualizações...</div>
   </div>
 
   <!-- NOVIDADES + STATUS -->
   <div class="bottom-row">
+
     <!-- Novidades DAZED -->
-    <div class="bottom-card">
-      <p class="bottom-card-title">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l1.4 4.6L18 8l-4.6 1.4L12 14l-1.4-4.6L6 8l4.6-1.4z"/><path d="M19 15l.7 2.3 2.3.7-2.3.7-.7 2.3-.7-2.3-2.3-.7 2.3-.7z"/></svg>
+    <div class="bot-card">
+      <p class="bot-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l1.5 5 5 1.5-5 1.5L12 15l-1.5-5-5-1.5 5-1.5z"/><path d="M19 15l.7 2.3 2.3.7-2.3.7-.7 2.3-.7-2.3-2.3-.7 2.3-.7z"/></svg>
         Novidades DAZED
       </p>
-      <ul class="novidades-list">
+      <ul class="nov-list">
         <li>Calculadora Mercari disponível.</li>
         <li>Nova atualização na área de Pendências.</li>
         <li>Regras de embalagem revisadas.</li>
@@ -924,72 +625,72 @@
         Ver todas
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
-      <!-- arte decorativa fundo -->
-      <svg class="novidades-art" width="90" height="90" viewBox="0 0 90 90" fill="none">
-        <rect x="10" y="10" width="70" height="70" rx="14" stroke="#AFC0D6" stroke-width="3"/>
-        <path d="M45 30v30M30 45h30" stroke="#AFC0D6" stroke-width="3" stroke-linecap="round"/>
-        <path d="M35 25l3 3M52 22l3 3M22 52l3 3M62 58l3 3" stroke="#FF5B68" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- Arte calendário decorativa -->
+      <svg class="nov-art" width="100" height="100" viewBox="0 0 100 100" fill="none">
+        <rect x="8" y="18" width="84" height="74" rx="12" stroke="#AFC0D6" stroke-width="3"/>
+        <rect x="8" y="18" width="84" height="22" rx="12" fill="#AFC0D6" opacity=".25"/>
+        <rect x="8" y="30" width="84" height="10" fill="#AFC0D6" opacity=".25"/>
+        <line x1="28" y1="8" x2="28" y2="28" stroke="#AFC0D6" stroke-width="4" stroke-linecap="round"/>
+        <line x1="72" y1="8" x2="72" y2="28" stroke="#AFC0D6" stroke-width="4" stroke-linecap="round"/>
+        <path d="M38 62l8 8 16-16" stroke="#AFC0D6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- estrelinhas -->
+        <path d="M82 52l1.2 4 4 1.2-4 1.2-1.2 4-1.2-4-4-1.2 4-1.2z" fill="#AFC0D6" opacity=".5"/>
+        <path d="M18 78l.8 2.6 2.6.8-2.6.8-.8 2.6-.8-2.6-2.6-.8 2.6-.8z" fill="#AFC0D6" opacity=".5"/>
       </svg>
     </div>
 
     <!-- Status Mais Consultados -->
-    <div class="bottom-card">
-      <p class="bottom-card-title">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    <div class="bot-card">
+      <p class="bot-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
         Status Mais Consultados
       </p>
       <ul class="status-list">
         <li>
-          <div class="status-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
-          </div>
+          <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></div>
           Chegou na Warehouse
         </li>
         <li>
-          <div class="status-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l3-7h12l3 7"/><path d="M3 12v6a2 2 0 002 2h14a2 2 0 002-2v-6"/><path d="M3 12h18"/></svg>
-          </div>
+          <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
           Enviado para o Brasil
         </li>
         <li>
-          <div class="status-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 10-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg>
-          </div>
+          <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 10-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg></div>
           Chegou na GOM
         </li>
         <li>
-          <div class="status-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="7" width="15" height="10" rx="1"/><path d="M16 10h3l3 3v4h-6z"/><circle cx="6" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg>
-          </div>
+          <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="7" width="15" height="10" rx="1"/><path d="M16 10h3l3 3v4h-6z"/><circle cx="6" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg></div>
           Pronto para Solicitar Envio
         </li>
       </ul>
-      <a href="../regras/" class="btn-coral">
-        Ver todas
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
+      <div class="bot-card-foot">
+        <a href="../regras/" class="btn-coral">
+          Ver todas
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
     </div>
-  </div>
 
+  </div>
 </main>
 
 <!-- DRAWER -->
-<div class="drawer-overlay" id="drawerOverlay"></div>
-<aside class="drawer" id="updatesDrawer" aria-hidden="true">
-  <div class="drawer-head">
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="dw-head">
     <h2>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a2 2 0 11-3.2 2.4"/></svg>
       Últimas Atualizações
     </h2>
-    <button type="button" class="drawer-close" onclick="closeDrawer()" aria-label="Fechar">
+    <button class="dw-close" onclick="closeDrawer()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg>
     </button>
   </div>
-  <div class="drawer-body" id="drawerBody">
-    <div class="drawer-empty">Carregando...</div>
+  <div class="dw-body" id="dwBody">
+    <div class="dw-empty">Carregando...</div>
   </div>
-  <div class="drawer-foot">
-    <button type="button" class="btn-lilac-full" onclick="document.getElementById('drawerBody').scrollTo({top:0,behavior:'smooth'})">
+  <div class="dw-foot">
+    <button class="btn-lilac-full" onclick="document.getElementById('dwBody').scrollTo({top:0,behavior:'smooth'})">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 11l18-5v12L3 14v-3z"/></svg>
       Ver todas as atualizações
     </button>
@@ -997,144 +698,124 @@
 </aside>
 
 <!-- FOOTER -->
-<footer class="site-footer">
-  <div class="footer-left">
-    <img src="../imagens/logo.png" alt="DAZED CEGs" />
+<footer>
+  <div class="ft-left">
+    <img src="../imagens/logo.png" alt="DAZED CEGs"/>
     <p>Do seller até você. 💜</p>
   </div>
-  <span class="footer-copy">© 2026 DAZED CEGs. Todos os direitos reservados.</span>
+  <span class="ft-copy">© 2026 DAZED CEGs. Todos os direitos reservados.</span>
 </footer>
 
 <script>
-  const API_URL = 'https://script.google.com/macros/s/AKfycby51xkp8ka5boynUNZoXn4yktt-C_LzNRwD5dam6YeY4f6zEPsNJGlOyDuk4rDdUMtS7g/exec';
+const API = 'https://script.google.com/macros/s/AKfycby51xkp8ka5boynUNZoXn4yktt-C_LzNRwD5dam6YeY4f6zEPsNJGlOyDuk4rDdUMtS7g/exec';
+const MESES = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
 
-  const MESES = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
+const SVGS = {
+  warehouse:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>',
+  transito:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>',
+  pagamento:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>',
+  conferencia: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 12.5l2 2 4-4.5"/></svg>',
+  pendencia:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>',
+  geral:       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M13 2v7h7"/></svg>'
+};
 
-  const ICONS = {
-    warehouse:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>',
-    transito:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l3-7h12l3 7"/><path d="M3 12v6a2 2 0 002 2h14a2 2 0 002-2v-6"/><path d="M3 12h18"/></svg>',
-    pagamento:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>',
-    conferencia: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 12.5l2 2 4-4.5"/></svg>',
-    pendencia:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>',
-    geral:       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>'
-  };
+const CATS = {
+  warehouse:'Atualização de status', transito:'Atualização de status',
+  pagamento:'Novo prazo de pagamento', conferencia:'Regras atualizadas',
+  pendencia:'Aviso', geral:'Geral'
+};
+const BADGES = {
+  warehouse:'Geral', transito:'Geral',
+  pagamento:'Aviso', conferencia:'Informação',
+  pendencia:'Aviso', geral:'Geral'
+};
+const BADGE_CLS = { Geral:'geral', Aviso:'aviso', Informação:'info' };
 
-  const CATEGORIAS = {
-    warehouse:   'Atualização de status',
-    transito:    'Atualização de status',
-    pagamento:   'Novo prazo de pagamento',
-    conferencia: 'Conferência',
-    pendencia:   'Aviso',
-    geral:       'Geral'
-  };
+function icon(t){ return SVGS[t]||SVGS.geral; }
+function esc(s){ const d=document.createElement('div');d.textContent=String(s??'');return d.innerHTML; }
+function parseDt(iso){
+  const d=new Date(iso);
+  if(isNaN(d.getTime())) return {dia:'--',mes:'---',hora:'',full:''};
+  const dia=String(d.getDate()).padStart(2,'0');
+  const mes=MESES[d.getMonth()];
+  const h=String(d.getHours()).padStart(2,'0');
+  const m=String(d.getMinutes()).padStart(2,'0');
+  const hoje=new Date(); const isHoje=d.toDateString()===hoje.toDateString();
+  const ontem=new Date(hoje);ontem.setDate(hoje.getDate()-1);
+  const isOntem=d.toDateString()===ontem.toDateString();
+  const prefix=isHoje?'Hoje':isOntem?'Ontem':d.toLocaleDateString('pt-BR');
+  return {dia,mes,hora:`${prefix}, ${h}:${m}`,full:`${d.toLocaleDateString('pt-BR')} às ${h}:${m}`};
+}
 
-  const BADGES = {
-    warehouse:   'Geral',
-    transito:    'Geral',
-    pagamento:   'Aviso',
-    conferencia: 'Informação',
-    pendencia:   'Aviso',
-    geral:       'Geral'
-  };
-
-  function icon(tipo) { return ICONS[tipo] || ICONS.geral; }
-
-  function parseDt(iso) {
-    const d = new Date(iso);
-    if (isNaN(d.getTime())) return { dia: '--', mes: '---', hora: '', full: '' };
-    const dia = String(d.getDate()).padStart(2,'0');
-    const mes = MESES[d.getMonth()];
-    const h = String(d.getHours()).padStart(2,'0');
-    const m = String(d.getMinutes()).padStart(2,'0');
-    return { dia, mes, hora: `Hoje, ${h}:${m}`, full: `${d.toLocaleDateString('pt-BR')} às ${h}:${m}` };
+function renderCards(items){
+  const el=document.getElementById('updCards');
+  if(!items||!items.length){
+    el.innerHTML='<div class="upd-empty">Nenhuma atualização registrada ainda.</div>';return;
   }
+  el.innerHTML=items.slice(0,3).map(item=>{
+    const t=item.tipo||'geral';
+    const cat=CATS[t]||'Geral';
+    const badge=BADGES[t]||'Geral';
+    const bcls=BADGE_CLS[badge]||'geral';
+    const dt=parseDt(item.timestamp);
+    return `<div class="upd-card" onclick="openDrawer()">
+      <div class="upd-icon ${t}">${icon(t)}</div>
+      <div class="upd-body">
+        <div class="upd-meta">
+          <span class="upd-cat">${esc(cat)}</span>
+          <span class="upd-badge ${bcls}">${esc(badge)}</span>
+        </div>
+        <div class="upd-title">${esc(item.status||item.pob||'Atualização')}</div>
+        <div class="upd-time">${esc(dt.hora)}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
 
-  function esc(s) {
-    const d = document.createElement('div');
-    d.textContent = String(s == null ? '' : s);
-    return d.innerHTML;
+function renderDrawer(items){
+  const el=document.getElementById('dwBody');
+  if(!items||!items.length){
+    el.innerHTML='<div class="dw-empty">Nenhuma atualização ainda.<br>Assim que um status mudar na planilha, ela aparece aqui.</div>';return;
   }
+  el.innerHTML='<div class="timeline">'+items.map(item=>{
+    const t=item.tipo||'geral';
+    const dt=parseDt(item.timestamp);
+    return `<div class="tl-item">
+      <div class="tl-ico ${t}">${icon(t)}</div>
+      <div class="tl-body">
+        <div class="tl-time">${esc(dt.full)}</div>
+        <div class="tl-title">${esc(item.status||'Atualização')}</div>
+        <div class="tl-ceg">${esc(item.pob?(item.pob+' · '+item.ceg):item.ceg)}</div>
+        <p class="tl-desc">${esc(item.descricao||'')}</p>
+      </div>
+    </div>`;
+  }).join('')+'</div>';
+}
 
-  let allUpdates = [];
-
-  function renderStrip(items) {
-    const el = document.getElementById('updatesStrip');
-    if (!items || items.length === 0) {
-      el.innerHTML = '<div class="updates-strip-empty">Nenhuma atualização registrada ainda.</div>';
-      return;
-    }
-    const top3 = items.slice(0, 3);
-    el.innerHTML = top3.map(item => {
-      const dt = parseDt(item.timestamp);
-      const tipo = item.tipo || 'geral';
-      const cat = CATEGORIAS[tipo] || 'Geral';
-      const badge = BADGES[tipo] || 'Geral';
-      return `
-        <div class="updates-strip-card" onclick="openDrawer()">
-          <div class="usc-icon ${tipo}">${icon(tipo)}</div>
-          <div class="usc-body">
-            <div class="usc-meta">
-              <span class="usc-category">${esc(cat)}</span>
-              <span class="usc-badge">${esc(badge)}</span>
-            </div>
-            <div class="usc-title">${esc(item.status || item.pob || 'Atualização')}</div>
-            <div class="usc-time">${dt.hora || dt.full}</div>
-          </div>
-        </div>`;
-    }).join('');
+async function loadUpdates(){
+  try{
+    const r=await fetch(`${API}?action=atualizacoes`);
+    const d=await r.json();
+    const items=d.atualizacoes||[];
+    renderCards(items);renderDrawer(items);
+  }catch(e){
+    document.getElementById('updCards').innerHTML='<div class="upd-empty">Não foi possível carregar as atualizações.</div>';
   }
+}
 
-  function renderDrawer(items) {
-    const el = document.getElementById('drawerBody');
-    if (!items || items.length === 0) {
-      el.innerHTML = '<div class="drawer-empty">Nenhuma atualização registrada ainda.<br>Assim que um status mudar na planilha, ela aparece aqui.</div>';
-      return;
-    }
-    el.innerHTML = '<div class="timeline">' + items.map(item => {
-      const dt = parseDt(item.timestamp);
-      const tipo = item.tipo || 'geral';
-      return `
-        <div class="tl-item">
-          <div class="tl-icon ${tipo}">${icon(tipo)}</div>
-          <div class="tl-content">
-            <div class="tl-time">${esc(dt.full)}</div>
-            <div class="tl-title">${esc(item.status || 'Atualização')}</div>
-            <div class="tl-ceg">${esc(item.pob ? item.pob + ' · ' + item.ceg : item.ceg)}</div>
-            <p class="tl-desc">${esc(item.descricao || '')}</p>
-          </div>
-        </div>`;
-    }).join('') + '</div>';
-  }
-
-  async function loadUpdates() {
-    try {
-      const res = await fetch(`${API_URL}?action=atualizacoes`);
-      const data = await res.json();
-      allUpdates = data.atualizacoes || [];
-      renderStrip(allUpdates);
-      renderDrawer(allUpdates);
-    } catch (err) {
-      document.getElementById('updatesStrip').innerHTML =
-        '<div class="updates-strip-empty">Não foi possível carregar as atualizações.</div>';
-    }
-  }
-
-  function openDrawer() {
-    document.getElementById('drawerOverlay').classList.add('open');
-    document.getElementById('updatesDrawer').classList.add('open');
-    document.getElementById('updatesDrawer').setAttribute('aria-hidden','false');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeDrawer() {
-    document.getElementById('drawerOverlay').classList.remove('open');
-    document.getElementById('updatesDrawer').classList.remove('open');
-    document.getElementById('updatesDrawer').setAttribute('aria-hidden','true');
-    document.body.style.overflow = '';
-  }
-
-  loadUpdates();
+function openDrawer(){
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawer').setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+}
+function closeDrawer(){
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('drawer').setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+}
+loadUpdates();
 </script>
-
 </body>
 </html>
