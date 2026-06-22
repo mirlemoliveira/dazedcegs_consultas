@@ -3,647 +3,768 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dazed Cegs - Home</title>
+<title>DAZED CEGs - Home</title>
 <link rel="icon" type="image/png" href="../imagens/favicon.png">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HYV0MQNJR6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-HYV0MQNJR6');
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --sky-1: #99B7D0;
-    --sky-2: #B9C8DF;
-    --cream: #EBE1D3;
-    --ink: #2B2B33;
-    --ink-soft: #5C6270;
-    --ink-faint: #8A90A0;
-    --purple: #6F70A1;
-    --purple-dark: #565780;
-    --purple-tint: #F1F1F7;
-    --coral: #FF5460;
-    --coral-dark: #C23440;
-    --line: rgba(43,43,51,0.10);
+    --blue:        #AFC0D6;
+    --blue-dark:   #8BA3BE;
+    --blue-tint:   #EEF3F8;
+    --lilac:       #7070A8;
+    --lilac-dark:  #565680;
+    --lilac-tint:  #F1F1F7;
+    --coral:       #FF5B68;
+    --coral-dark:  #C93845;
+    --cream:       #F5F1E8;
+    --bg:          #F7F9FC;
+    --ink:         #1E2230;
+    --ink-soft:    #5C6270;
+    --ink-faint:   #9AA0AE;
+    --white:       #ffffff;
+    --line:        rgba(43,43,51,0.09);
+    --green:       #2A6B4C;
+    --green-bg:    #E1F0E8;
   }
 
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
   html, body {
-    margin: 0;
     min-height: 100vh;
-    background: #FCFBF9;
+    background: var(--bg);
     color: var(--ink);
     font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
   }
 
   a { text-decoration: none; color: inherit; }
 
-  /* ---------- TOP NAV ---------- */
+  /* ===== NAVBAR ===== */
   .topnav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 44px;
-    border-bottom: 1px solid var(--line);
-    background: rgba(255,255,255,0.7);
-    backdrop-filter: blur(8px);
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    padding: 0 44px;
+    height: 64px;
   }
 
   .topnav-logo {
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-shrink: 0;
   }
 
   .topnav-logo img {
-    height: 38px;
-    width: 38px;
-    border-radius: 9px;
+    height: 36px;
+    width: auto;
     display: block;
-  }
-
-  .topnav-logo span {
-    font-family: 'Oswald', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    color: var(--ink);
   }
 
   .topnav-links {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 2px;
   }
 
   .topnav-link {
     display: flex;
     align-items: center;
-    gap: 7px;
-    padding: 9px 14px;
-    border-radius: 9px;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 8px;
     font-size: 13.5px;
     font-weight: 500;
     color: var(--ink-soft);
-    transition: background 0.15s ease, color 0.15s ease;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
   }
 
-  .topnav-link svg {
-    width: 16px;
-    height: 16px;
-    opacity: 0.75;
-  }
-
-  .topnav-link:hover {
-    background: var(--purple-tint);
-    color: var(--ink);
-  }
-
+  .topnav-link svg { width: 15px; height: 15px; opacity: 0.7; }
+  .topnav-link:hover { background: var(--lilac-tint); color: var(--ink); }
   .topnav-link.active {
-    color: var(--purple-dark);
+    color: var(--lilac-dark);
     font-weight: 600;
-    background: var(--purple-tint);
+    background: var(--lilac-tint);
+    position: relative;
   }
-
+  .topnav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 14px;
+    right: 14px;
+    height: 2px;
+    background: var(--lilac);
+    border-radius: 2px 2px 0 0;
+  }
   .topnav-link.active svg { opacity: 1; }
 
-  .topnav-avatar {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    border: 1px solid var(--line);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--purple);
-    flex-shrink: 0;
+  @media (max-width: 1100px) { .topnav-link span { display: none; } }
+  @media (max-width: 760px) {
+    .topnav { padding: 0 18px; }
+    .topnav-links { gap: 0; }
+    .topnav-link { padding: 8px 9px; }
   }
 
-  .topnav-avatar svg { width: 18px; height: 18px; }
-
-  /* ---------- MAIN ---------- */
+  /* ===== MAIN ===== */
   main {
     max-width: 1180px;
     margin: 0 auto;
-    padding: 56px 32px 90px;
+    padding: 40px 32px 80px;
   }
 
-  /* ---------- HERO BANNER ---------- */
-  .hero-banner {
+  /* ===== HERO ===== */
+  .hero {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    box-shadow: 0 2px 12px rgba(43,43,51,0.05);
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 32px;
-    background: linear-gradient(135deg, var(--purple-tint) 0%, rgba(255,84,96,0.06) 100%);
-    border: 1px solid var(--line);
-    border-radius: 24px;
-    padding: 44px 48px;
-    margin-bottom: 56px;
+    padding: 48px 52px;
+    margin-bottom: 24px;
     overflow: hidden;
     position: relative;
   }
 
-  .hero-banner-text { max-width: 460px; position: relative; z-index: 2; }
+  .hero-text { max-width: 480px; z-index: 2; }
 
-  .hero-welcome {
-    font-size: 13.5px;
-    font-weight: 600;
-    color: var(--purple-dark);
-    margin: 0 0 12px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .hero-heart { font-size: 14px; }
-
-  .hero-banner-text h1 {
-    font-family: 'Oswald', sans-serif;
-    font-size: 38px;
+  .hero-text h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 52px;
     font-weight: 700;
-    line-height: 1.15;
-    margin: 0 0 14px;
     color: var(--ink);
-    letter-spacing: 0.2px;
+    line-height: 1.08;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
   }
+
+  .hero-text h1 span { color: var(--lilac); }
 
   .hero-sub {
-    font-size: 14px;
+    font-size: 15.5px;
     color: var(--ink-soft);
-    line-height: 1.7;
-    margin: 0 0 28px;
+    margin-bottom: 24px;
+    line-height: 1.6;
   }
 
-  .hero-ctas {
-    display: flex;
-    align-items: center;
-    gap: 22px;
-    flex-wrap: wrap;
-  }
-
-  .btn {
+  .hero-pill {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 14px 26px;
+    gap: 7px;
+    background: var(--lilac-tint);
+    border: 1px solid rgba(112,112,168,0.18);
     border-radius: 999px;
-    font-family: 'Oswald', sans-serif;
+    padding: 8px 18px;
     font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.4px;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    font-weight: 500;
+    color: var(--lilac-dark);
   }
 
-  .btn:active { transform: scale(0.97); }
-
-  .btn-primary {
-    background: var(--purple);
-    color: #fff;
-    box-shadow: 0 4px 16px rgba(111,112,161,0.32);
-  }
-
-  .btn-primary:hover {
-    background: var(--purple-dark);
-    transform: scale(1.045);
-    box-shadow: 0 6px 20px rgba(111,112,161,0.4);
-  }
-
-  .hero-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13.5px;
-    font-weight: 600;
-    color: var(--purple-dark);
-    transition: gap 0.15s ease, color 0.15s ease;
-  }
-
-  .hero-link:hover { gap: 9px; color: var(--coral-dark); }
-
-  .hero-banner-art {
+  /* caderno SVG ilustração */
+  .hero-art {
     flex-shrink: 0;
-    width: 280px;
-    height: 200px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .hero-orbit {
-    position: absolute;
-    width: 260px;
-    height: 90px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-8deg);
-    border: 1.5px solid rgba(111,112,161,0.3);
-    border-radius: 50%;
-  }
-
-  .hero-logo-img {
+    width: 300px;
+    height: 260px;
     position: relative;
     z-index: 2;
-    width: 168px;
-    border-radius: 18px;
-    box-shadow: 0 18px 40px rgba(43,43,51,0.16);
-    transform: rotate(-6deg);
   }
 
-  .hero-sparkle {
+  /* estrelinhas decorativas */
+  .sparkle {
     position: absolute;
-    color: var(--coral);
-    z-index: 1;
+    fill: var(--blue);
+    opacity: 0.7;
+  }
+  .sparkle.coral { fill: var(--coral); opacity: 0.6; }
+  .sparkle.lilac { fill: var(--lilac); opacity: 0.5; }
+
+  @media (max-width: 900px) {
+    .hero { flex-direction: column; padding: 36px 28px; }
+    .hero-art { width: 200px; height: 180px; }
+    .hero-text h1 { font-size: 38px; }
   }
 
-  .hero-sparkle-1 { top: 6%; right: 8%; color: var(--purple); }
-  .hero-sparkle-2 { bottom: 14%; left: 2%; color: var(--coral); }
-  .hero-sparkle-3 { top: 38%; right: -2%; color: var(--purple-dark); }
-
-  @media (max-width: 760px) {
-    .hero-banner { flex-direction: column; text-align: center; padding: 32px 26px; }
-    .hero-banner-text { max-width: 100%; }
-    .hero-welcome { justify-content: center; }
-    .hero-ctas { justify-content: center; }
-    .hero-banner-art { width: 200px; height: 150px; }
-    .hero-logo-img { width: 130px; }
-  }
-
-  /* ---------- SECTION LABEL ---------- */
-  .section-label {
-    font-family: 'Oswald', sans-serif;
-    font-size: 12px;
-    letter-spacing: 1.6px;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    font-weight: 600;
-    margin: 0 0 20px;
-    text-align: center;
-  }
-
-  /* ---------- QUICK ACCESS GRID ---------- */
-  .quick-grid {
+  /* ===== DOIS CARDS PRINCIPAIS ===== */
+  .main-cards {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: 1fr 1fr;
     gap: 16px;
+    margin-bottom: 24px;
   }
 
-  .quick-card {
-    background: #fff;
+  .main-card {
+    background: var(--white);
     border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 26px 22px;
-    box-shadow: 0 1px 3px rgba(43,43,51,0.04);
-    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    border-radius: 16px;
+    box-shadow: 0 1px 4px rgba(43,43,51,0.05);
+    padding: 28px 28px 24px;
     display: flex;
-    flex-direction: column;
-    gap: 14px;
+    align-items: center;
+    gap: 20px;
+    transition: box-shadow 0.18s, transform 0.18s;
   }
 
-  .quick-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 14px 28px rgba(43,43,51,0.09);
-    border-color: rgba(111,112,161,0.25);
+  .main-card:hover {
+    box-shadow: 0 8px 24px rgba(43,43,51,0.1);
+    transform: translateY(-2px);
   }
 
-  .quick-card-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
+  .main-card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--purple-tint);
+    flex-shrink: 0;
+    background: var(--blue-tint);
   }
 
-  .quick-card-icon svg {
-    width: 20px;
-    height: 20px;
-    color: var(--purple);
-  }
+  .main-card-icon svg { width: 28px; height: 28px; color: var(--lilac); }
 
-  .quick-card:nth-child(2) .quick-card-icon { background: rgba(255,84,96,0.10); }
-  .quick-card:nth-child(2) .quick-card-icon svg { color: var(--coral-dark); }
+  .main-card-body { flex: 1; min-width: 0; }
 
-  .quick-card:nth-child(4) .quick-card-icon { background: rgba(255,84,96,0.10); }
-  .quick-card:nth-child(4) .quick-card-icon svg { color: var(--coral-dark); }
-
-  .quick-card h3 {
-    font-family: 'Oswald', sans-serif;
-    font-size: 14.5px;
-    font-weight: 600;
-    margin: 0;
+  .main-card-body h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
     color: var(--ink);
-    letter-spacing: 0.1px;
+    margin-bottom: 4px;
   }
 
-  .quick-card p {
-    font-size: 12.5px;
+  .main-card-body p {
+    font-size: 13px;
     color: var(--ink-soft);
-    line-height: 1.55;
-    margin: 0;
-    flex: 1;
+    margin-bottom: 10px;
   }
 
-  .quick-card-arrow {
+  .main-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--coral);
+  }
+
+  .main-card-link svg { width: 13px; height: 13px; transition: transform 0.15s; }
+  .main-card:hover .main-card-link svg { transform: translateX(3px); }
+
+  .main-card-arrow {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-soft);
+    flex-shrink: 0;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .main-card-arrow svg { width: 14px; height: 14px; }
+  .main-card:hover .main-card-arrow { background: var(--lilac); color: #fff; border-color: var(--lilac); }
+
+  @media (max-width: 700px) { .main-cards { grid-template-columns: 1fr; } }
+
+  /* ===== FAIXA ÚLTIMAS ATUALIZAÇÕES ===== */
+  .updates-bar {
+    background: var(--lilac);
+    border-radius: 14px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+    margin-bottom: 0;
+    cursor: default;
+  }
+
+  .updates-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .updates-bar-left svg { width: 18px; height: 18px; }
+
+  .updates-bar-right {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    background: none;
+    border: none;
+    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 5px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--purple-dark);
+    font-family: 'Inter', sans-serif;
+    padding: 0;
   }
 
-  .quick-card-arrow svg {
-    width: 13px;
-    height: 13px;
-    transition: transform 0.15s ease;
-  }
+  .updates-bar-right:hover { color: #fff; }
+  .updates-bar-right svg { width: 13px; height: 13px; }
 
-  .quick-card:hover .quick-card-arrow svg {
-    transform: translateX(3px);
-  }
-
-  /* ---------- FOOTER ---------- */
-  .site-footer {
-    margin-top: 90px;
-    border-top: 1px solid var(--line);
-    padding: 30px 32px 0;
-    max-width: 1180px;
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-
-  .site-footer .footer-copy {
-    font-size: 12.5px;
-    color: var(--ink-faint);
-  }
-
-  .footer-links {
-    display: flex;
-    gap: 22px;
-    flex-wrap: wrap;
-  }
-
-  .footer-links a {
-    font-size: 12.5px;
-    color: var(--ink-soft);
-    transition: color 0.15s ease;
-  }
-
-  .footer-links a:hover { color: var(--purple-dark); }
-
-  /* ---------- HOME ROW (updates + links) ---------- */
-  .home-row {
-    display: grid;
-    grid-template-columns: 1.6fr 1fr;
-    gap: 18px;
-    margin-top: 56px;
-  }
-
-  .updates-section, .links-section { min-width: 0; }
-
-  /* ---------- UPDATES LIST ---------- */
-  .updates-list {
-    background: #fff;
+  .updates-strip-cards {
+    background: var(--white);
     border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 8px;
-    box-shadow: 0 1px 3px rgba(43,43,51,0.04);
+    border-top: none;
+    border-radius: 0 0 14px 14px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-bottom: 24px;
   }
 
-  .update-item {
+  .updates-strip-card {
+    padding: 18px 20px;
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    padding: 13px 12px;
-    border-radius: 12px;
-    transition: background 0.15s ease;
+    gap: 14px;
+    border-right: 1px solid var(--line);
+    cursor: pointer;
+    transition: background 0.15s;
   }
 
-  .update-item:hover { background: #FAFAFA; }
+  .updates-strip-card:last-child { border-right: none; }
+  .updates-strip-card:hover { background: var(--lilac-tint); }
 
-  .update-icon {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
-    background: var(--purple-tint);
-    color: var(--purple);
+  .usc-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
   }
 
-  .update-icon svg { width: 16px; height: 16px; }
+  .usc-icon svg { width: 18px; height: 18px; }
 
-  .update-icon.is-warehouse { background: rgba(201,150,47,0.14); color: #8A6418; }
-  .update-icon.is-transito { background: rgba(111,112,161,0.16); color: var(--purple-dark); }
-  .update-icon.is-pagamento { background: rgba(42,107,76,0.12); color: #2A6B4C; }
-  .update-icon.is-conferencia { background: rgba(255,84,96,0.12); color: var(--coral-dark); }
-  .update-icon.is-pendencia { background: rgba(255,84,96,0.12); color: var(--coral-dark); }
+  .usc-icon.warehouse  { background: var(--lilac-tint); color: var(--lilac); }
+  .usc-icon.transito   { background: rgba(255,150,60,0.13); color: #B56010; }
+  .usc-icon.pagamento  { background: var(--green-bg); color: var(--green); }
+  .usc-icon.conferencia{ background: rgba(70,120,220,0.11); color: #3457B2; }
+  .usc-icon.pendencia  { background: rgba(255,91,104,0.12); color: var(--coral-dark); }
+  .usc-icon.geral      { background: var(--blue-tint); color: var(--blue-dark); }
 
-  .update-body { flex: 1; min-width: 0; }
+  .usc-body { min-width: 0; flex: 1; }
 
-  .update-title {
-    font-size: 13px;
+  .usc-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+
+  .usc-category {
+    font-size: 11px;
     font-weight: 600;
-    color: var(--ink);
-    margin: 0 0 2px;
-  }
-
-  .update-desc {
-    font-size: 12px;
     color: var(--ink-soft);
-    line-height: 1.45;
-    margin: 0 0 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
   }
 
-  .update-time {
+  .usc-badge {
     font-size: 10.5px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--lilac-tint);
+    color: var(--lilac-dark);
+  }
+
+  .usc-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .usc-time {
+    font-size: 11.5px;
     color: var(--ink-faint);
   }
 
-  .updates-empty {
-    padding: 30px 16px;
+  .updates-strip-empty {
+    grid-column: 1 / -1;
+    padding: 24px;
     text-align: center;
-    font-size: 13px;
     color: var(--ink-faint);
+    font-size: 13px;
   }
 
-  .updates-skeleton {
-    height: 58px;
-    border-radius: 12px;
-    background: #FAFAFA;
-    margin: 4px 0;
+  @media (max-width: 760px) {
+    .updates-strip-cards { grid-template-columns: 1fr; }
+    .updates-strip-card { border-right: none; border-bottom: 1px solid var(--line); }
+    .updates-strip-card:last-child { border-bottom: none; }
+  }
+
+  /* ===== NOVIDADES + STATUS ===== */
+  .bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .bottom-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 1px 4px rgba(43,43,51,0.05);
+    padding: 26px 28px;
     position: relative;
     overflow: hidden;
   }
 
-  .updates-skeleton::after {
-    content: "";
+  .bottom-card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Novidades */
+  .novidades-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+
+  .novidades-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13.5px;
+    color: var(--ink);
+  }
+
+  .novidades-list li::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--coral);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  .btn-coral {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--coral);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.15s;
+    text-decoration: none;
+  }
+
+  .btn-coral:hover { background: var(--coral-dark); transform: scale(1.03); }
+  .btn-coral svg { width: 13px; height: 13px; }
+
+  .novidades-art {
     position: absolute;
-    top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(111,112,161,0.08), transparent);
-    animation: shimmer 1.2s infinite;
+    right: 24px;
+    bottom: 20px;
+    opacity: 0.12;
+    pointer-events: none;
   }
 
-  @keyframes shimmer { 100% { left: 100%; } }
-
-  /* ---------- LINKS ÚTEIS ---------- */
-  .links-card {
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 8px;
-    box-shadow: 0 1px 3px rgba(43,43,51,0.04);
+  /* Status */
+  .status-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 22px;
   }
 
-  .useful-link {
+  .status-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    color: var(--ink);
+    transition: background 0.13s;
+    cursor: default;
+  }
+
+  .status-list li:hover { background: var(--blue-tint); }
+
+  .status-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: var(--blue-tint);
+    color: var(--lilac);
+  }
+
+  .status-icon svg { width: 16px; height: 16px; }
+
+  @media (max-width: 700px) { .bottom-row { grid-template-columns: 1fr; } }
+
+  /* ===== DRAWER ===== */
+  .drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(30,34,48,0.28);
+    backdrop-filter: blur(2px);
+    z-index: 40;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+  }
+
+  .drawer-overlay.open { opacity: 1; pointer-events: auto; }
+
+  .drawer {
+    position: fixed;
+    top: 0; right: 0;
+    height: 100vh;
+    width: min(430px, 92vw);
+    background: var(--bg);
+    box-shadow: -6px 0 28px rgba(30,34,48,0.13);
+    z-index: 41;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.32s cubic-bezier(.4,0,.2,1);
+  }
+
+  .drawer.open { transform: translateX(0); }
+
+  .drawer-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 14px;
-    border-radius: 12px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--purple-dark);
-    transition: background 0.15s ease, gap 0.15s ease;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--line);
+    background: var(--white);
+    flex-shrink: 0;
   }
 
-  .useful-link:hover { background: var(--purple-tint); }
-  .useful-link svg { width: 15px; height: 15px; flex-shrink: 0; }
-
-  /* ---------- TIMELINE ---------- */
-  .timeline-card {
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 28px 24px;
-    margin-top: 18px;
-    margin-bottom: 56px;
-    box-shadow: 0 1px 3px rgba(43,43,51,0.04);
-    overflow-x: auto;
-  }
-
-  .timeline-track {
+  .drawer-head h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
     display: flex;
-    gap: 0;
-    min-width: 920px;
+    align-items: center;
+    gap: 8px;
   }
 
-  .timeline-step {
-    flex: 1;
-    position: relative;
-    text-align: center;
-    padding: 0 8px;
-  }
+  .drawer-head h2 svg { width: 18px; height: 18px; color: var(--lilac); }
 
-  .timeline-step::before {
-    content: "";
-    position: absolute;
-    top: 23px;
-    left: -50%;
-    width: 100%;
-    height: 1px;
-    background-image: linear-gradient(to right, var(--line) 50%, transparent 0%);
-    background-size: 8px 1px;
-    background-repeat: repeat-x;
-    z-index: 0;
-  }
-
-  .timeline-step:first-child::before { display: none; }
-
-  .timeline-icon {
-    width: 46px;
-    height: 46px;
+  .drawer-close {
+    width: 32px; height: 32px;
     border-radius: 50%;
-    background: var(--purple-tint);
-    color: var(--purple);
+    border: 1px solid var(--line);
+    background: var(--white);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 10px;
+    cursor: pointer;
+    color: var(--ink-soft);
+    transition: background 0.15s;
+  }
+
+  .drawer-close:hover { background: var(--lilac-tint); }
+  .drawer-close svg { width: 15px; height: 15px; }
+
+  .drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 22px 24px;
+  }
+
+  .timeline { position: relative; }
+
+  .tl-item {
+    display: flex;
+    gap: 14px;
+    padding-bottom: 24px;
     position: relative;
+  }
+
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: 19px; top: 42px;
+    bottom: 0; width: 1px;
+    background: var(--line);
+  }
+
+  .tl-item:last-child::before { display: none; }
+  .tl-item:last-child { padding-bottom: 4px; }
+
+  .tl-icon {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
     z-index: 1;
   }
 
-  .timeline-icon svg { width: 19px; height: 19px; }
+  .tl-icon svg { width: 18px; height: 18px; }
+  .tl-icon.warehouse  { background: var(--lilac-tint); color: var(--lilac); }
+  .tl-icon.transito   { background: rgba(255,150,60,0.13); color: #B56010; }
+  .tl-icon.pagamento  { background: var(--green-bg); color: var(--green); }
+  .tl-icon.conferencia{ background: rgba(70,120,220,0.11); color: #3457B2; }
+  .tl-icon.pendencia  { background: rgba(255,91,104,0.12); color: var(--coral-dark); }
+  .tl-icon.geral      { background: var(--blue-tint); color: var(--blue-dark); }
 
-  .timeline-num {
-    position: absolute;
-    top: -2px;
-    right: calc(50% - 28px);
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: var(--purple);
-    color: #fff;
-    font-family: 'Oswald', sans-serif;
-    font-size: 10px;
+  .tl-content { flex: 1; padding-top: 2px; min-width: 0; }
+
+  .tl-time {
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+  }
+
+  .tl-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
     font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .tl-ceg {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--lilac);
+    margin-bottom: 6px;
+  }
+
+  .tl-desc {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+
+  .drawer-empty {
+    text-align: center;
+    color: var(--ink-faint);
+    font-size: 13px;
+    padding: 60px 10px;
+    line-height: 1.7;
+  }
+
+  .drawer-foot {
+    padding: 18px 24px;
+    border-top: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+
+  .btn-lilac-full {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 2;
-  }
-
-  .timeline-step h4 {
-    font-family: 'Oswald', sans-serif;
-    font-size: 11.5px;
+    gap: 8px;
+    background: var(--lilac);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 12px;
+    font-size: 13px;
     font-weight: 600;
-    color: var(--ink);
-    margin: 0 0 5px;
-    line-height: 1.3;
+    font-family: 'Space Grotesk', sans-serif;
+    cursor: pointer;
+    transition: background 0.15s;
   }
 
-  .timeline-step p {
-    font-size: 10.5px;
+  .btn-lilac-full:hover { background: var(--lilac-dark); }
+  .btn-lilac-full svg { width: 14px; height: 14px; }
+
+  /* ===== FOOTER ===== */
+  .site-footer {
+    border-top: 1px solid var(--line);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    max-width: 1180px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+  }
+
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .footer-left img { height: 28px; width: auto; }
+
+  .footer-left p {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  .footer-copy {
+    font-size: 12.5px;
     color: var(--ink-faint);
-    line-height: 1.45;
-    margin: 0;
-  }
-
-  /* ---------- RESPONSIVE ---------- */
-  @media (max-width: 1024px) {
-    .quick-grid { grid-template-columns: repeat(3, 1fr); }
-    .topnav-link span { display: none; }
-  }
-
-  @media (max-width: 900px) {
-    .home-row { grid-template-columns: 1fr; }
-  }
-
-  @media (max-width: 760px) {
-    .topnav { padding: 14px 18px; }
-    .topnav-logo span { display: none; }
-    .topnav-links { gap: 2px; }
-    .topnav-link { padding: 9px 9px; }
-    main { padding: 40px 18px 70px; }
-    .hero h1 { font-size: 30px; }
-    .quick-grid { grid-template-columns: repeat(2, 1fr); }
-    .site-footer { flex-direction: column; align-items: flex-start; }
-  }
-
-  @media (max-width: 480px) {
-    .quick-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
+<!-- NAVBAR -->
 <nav class="topnav">
   <a class="topnav-logo" href="../home/">
-    <img src="../imagens/logo.png" alt="Dazed Cegs" />
-    <span>DAZED CEGs</span>
+    <img src="../imagens/logo.png" alt="DAZED CEGs" />
   </a>
   <div class="topnav-links">
     <a href="../home/" class="topnav-link active">
@@ -651,12 +772,12 @@
       <span>Home</span>
     </a>
     <a href="../cegs/" class="topnav-link">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <svg viewBox="-1 -1 26 26" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
       <span>Área do Joiner</span>
     </a>
-    <a href="../regras/" target="_blank" rel="noopener" class="topnav-link">
+    <a href="../regras/" class="topnav-link">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-      <span>Regras Dazed CEGs</span>
+      <span>Regras DAZED CEGs</span>
     </a>
     <a href="../calculadora/" class="topnav-link">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01"/></svg>
@@ -671,228 +792,345 @@
       <span>Sobras</span>
     </a>
   </div>
-  <div class="topnav-avatar">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
-  </div>
 </nav>
 
 <main>
 
-  <section class="hero-banner">
-    <div class="hero-banner-text">
-      <p class="hero-welcome">Bem-vindo(a) à DAZED CEGs! <span class="hero-heart">💜</span></p>
-      <h1>Tudo sobre suas CEGs em um só lugar.</h1>
-      <p class="hero-sub">Consulte itens, acompanhe pendências e encontre informações importantes da comunidade DAZED.</p>
-      <div class="hero-ctas">
-        <a class="btn btn-primary" href="../como-funciona/">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.6 5.4L19 9l-5.4 1.6L12 16l-1.6-5.4L5 9l5.4-1.6z"/></svg>
-          Como funciona uma CEG
-        </a>
-        <a class="hero-link" href="../regras/" target="_blank" rel="noopener">
-          Regras DAZED CEGs
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>DAZED<br><span>CEGs</span></h1>
+      <p class="hero-sub">Sua central para acompanhar<br>todas as suas CEGs.</p>
+      <div class="hero-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg>
+        Organização. Transparência. Comunidade.
       </div>
     </div>
-    <div class="hero-banner-art">
-      <div class="hero-orbit"></div>
-      <svg class="hero-sparkle hero-sparkle-1" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.6 5.4L19 9l-5.4 1.6L12 16l-1.6-5.4L5 9l5.4-1.6z"/></svg>
-      <svg class="hero-sparkle hero-sparkle-2" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.6 5.4L19 9l-5.4 1.6L12 16l-1.6-5.4L5 9l5.4-1.6z"/></svg>
-      <svg class="hero-sparkle hero-sparkle-3" width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.6 5.4L19 9l-5.4 1.6L12 16l-1.6-5.4L5 9l5.4-1.6z"/></svg>
-      <img src="../imagens/logo.png" alt="Dazed Cegs" class="hero-logo-img" />
+
+    <!-- Caderno SVG -->
+    <div class="hero-art">
+      <!-- estrelas decorativas -->
+      <svg class="sparkle" style="top:8px;left:18px;width:18px;height:18px;" viewBox="0 0 24 24"><path d="M12 2l1.4 4.6L18 8l-4.6 1.4L12 14l-1.4-4.6L6 8l4.6-1.4z"/></svg>
+      <svg class="sparkle lilac" style="top:30px;right:10px;width:12px;height:12px;" viewBox="0 0 24 24"><path d="M12 2l1.4 4.6L18 8l-4.6 1.4L12 14l-1.4-4.6L6 8l4.6-1.4z"/></svg>
+      <svg class="sparkle coral" style="bottom:30px;left:0;width:14px;height:14px;" viewBox="0 0 24 24"><path d="M12 2l1.4 4.6L18 8l-4.6 1.4L12 14l-1.4-4.6L6 8l4.6-1.4z"/></svg>
+      <svg class="sparkle" style="bottom:60px;right:20px;width:10px;height:10px;" viewBox="0 0 24 24"><path d="M12 2l1.4 4.6L18 8l-4.6 1.4L12 14l-1.4-4.6L6 8l4.6-1.4z"/></svg>
+      <svg class="sparkle coral" style="top:80px;left:10px;width:9px;height:9px;" viewBox="0 0 24 24"><path d="M12 2l1.4 4.6L18 8l-4.6 1.4L12 14l-1.4-4.6L6 8l4.6-1.4z"/></svg>
+
+      <!-- Balão de chat -->
+      <svg style="position:absolute;top:20px;left:40px;opacity:0.6;" width="38" height="32" viewBox="0 0 40 34" fill="none">
+        <rect x="1" y="1" width="38" height="26" rx="8" fill="#EEF3F8" stroke="#AFC0D6" stroke-width="1.5"/>
+        <path d="M10 27l2-6" stroke="#AFC0D6" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="12" cy="14" r="2" fill="#AFC0D6"/>
+        <circle cx="20" cy="14" r="2" fill="#AFC0D6"/>
+        <circle cx="28" cy="14" r="2" fill="#AFC0D6"/>
+      </svg>
+
+      <!-- Caderno principal -->
+      <svg style="position:absolute;top:30px;right:0;filter:drop-shadow(0 8px 24px rgba(112,112,168,0.18));" width="220" height="200" viewBox="0 0 220 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Capa do caderno -->
+        <rect x="30" y="10" width="170" height="178" rx="14" fill="#AFC0D6"/>
+        <!-- Detalhe lateral escuro -->
+        <rect x="30" y="10" width="22" height="178" rx="10" fill="#8BA3BE"/>
+        <!-- Página interna branca -->
+        <rect x="56" y="24" width="132" height="150" rx="6" fill="white" opacity="0.92"/>
+        <!-- Elástico -->
+        <rect x="188" y="70" width="10" height="60" rx="5" fill="#D4A96A"/>
+        <!-- Linhas de texto -->
+        <rect x="68" y="48" width="96" height="4" rx="2" fill="#EEF3F8"/>
+        <rect x="68" y="60" width="80" height="4" rx="2" fill="#EEF3F8"/>
+        <rect x="68" y="72" width="88" height="4" rx="2" fill="#EEF3F8"/>
+        <!-- Texto DAZED na capa -->
+        <text x="54" y="110" font-family="Space Grotesk, Arial, sans-serif" font-size="22" font-weight="700" fill="white" opacity="0.35" letter-spacing="1">DAZED</text>
+        <text x="60" y="132" font-family="Space Grotesk, Arial, sans-serif" font-size="14" font-weight="600" fill="#FF5B68" opacity="0.55">CEGS</text>
+        <!-- Linha horizontal coral na capa (referência à logo) -->
+        <rect x="52" y="140" width="50" height="3" rx="1.5" fill="#FF5B68" opacity="0.5"/>
+        <!-- Anéis do caderno -->
+        <circle cx="42" cy="52" r="8" fill="#6A88A8" stroke="#5A7898" stroke-width="1"/>
+        <circle cx="42" cy="52" r="4" fill="#8BA3BE"/>
+        <circle cx="42" cy="100" r="8" fill="#6A88A8" stroke="#5A7898" stroke-width="1"/>
+        <circle cx="42" cy="100" r="4" fill="#8BA3BE"/>
+        <circle cx="42" cy="148" r="8" fill="#6A88A8" stroke="#5A7898" stroke-width="1"/>
+        <circle cx="42" cy="148" r="4" fill="#8BA3BE"/>
+      </svg>
     </div>
   </section>
 
-  <p class="section-label">Acesso rápido</p>
-  <section class="quick-grid">
-    <a class="quick-card" href="../cegs/">
-      <div class="quick-card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  <!-- 2 CARDS PRINCIPAIS -->
+  <div class="main-cards">
+    <a class="main-card" href="../cegs/">
+      <div class="main-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
       </div>
-      <h3>Área do Joiner</h3>
-      <p>Consulte seus itens, pagamentos e status.</p>
-      <span class="quick-card-arrow">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      <div class="main-card-body">
+        <h3>Área do Joiner</h3>
+        <p>Consulte seus itens, status e valores.</p>
+        <span class="main-card-link">
+          Acessar
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </div>
+      <div class="main-card-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
     </a>
-    <a class="quick-card" href="../regras/" target="_blank" rel="noopener">
-      <div class="quick-card-icon">
+
+    <a class="main-card" href="../regras/">
+      <div class="main-card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
       </div>
-      <h3>Regras Dazed CEGs</h3>
-      <p>Consulte regras, prazos e informações importantes.</p>
-      <span class="quick-card-arrow">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      <div class="main-card-body">
+        <h3>Regras DAZED CEGs</h3>
+        <p>Informações e regras das CEGs.</p>
+        <span class="main-card-link">
+          Acessar
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </div>
+      <div class="main-card-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
     </a>
-    <a class="quick-card" href="../calculadora/">
-      <div class="quick-card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01"/></svg>
-      </div>
-      <h3>Calculadoras</h3>
-      <p>Simule valores de compras internacionais.</p>
-      <span class="quick-card-arrow">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-    </a>
-    <a class="quick-card" href="../pendentes/">
-      <div class="quick-card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h11"/></svg>
-      </div>
-      <h3>Pendências</h3>
-      <p>Verifique pagamentos, taxas e multas em aberto.</p>
-      <span class="quick-card-arrow">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-    </a>
-    <a class="quick-card" href="../sobras/">
-      <div class="quick-card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.6 6.6L22 9.3l-5.5 4.6L18.2 21 12 17.3 5.8 21l1.7-7.1L2 9.3l7.4-.7z"/></svg>
-      </div>
-      <h3>Sobras</h3>
-      <p>Confira itens disponíveis para reserva.</p>
-      <span class="quick-card-arrow">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-    </a>
-  </section>
-
-  <div class="home-row">
-    <section class="updates-section">
-      <p class="section-label" style="text-align:left; margin-bottom:16px;">Últimas atualizações</p>
-      <div class="updates-list" id="updatesList">
-        <div class="updates-skeleton"></div>
-        <div class="updates-skeleton"></div>
-        <div class="updates-skeleton"></div>
-      </div>
-    </section>
-
-    <section class="links-section">
-      <p class="section-label" style="text-align:left; margin-bottom:16px;">Links úteis</p>
-      <div class="links-card">
-        <a class="useful-link" href="../como-funciona/">
-          <span>Como funciona uma CEG</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 18l6-6-6-6"/></svg>
-        </a>
-        <a class="useful-link" href="../pendentes/">
-          <span>Pagamentos e Multas</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 18l6-6-6-6"/></svg>
-        </a>
-      </div>
-    </section>
   </div>
 
-  <p class="section-label">Passo a passo de uma CEG internacional</p>
-  <section class="timeline-card">
-    <div class="timeline-track">
-      <div class="timeline-step">
-        <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11H5a2 2 0 00-2 2v6a2 2 0 002 2h14a2 2 0 002-2v-6a2 2 0 00-2-2h-4"/><path d="M9 11V7a3 3 0 016 0v4"/></svg></div>
-        <span class="timeline-num">1</span>
-        <h4>Reserva</h4>
-        <p>Item reservado com a seller.</p>
-      </div>
-      <div class="timeline-step">
-        <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
-        <span class="timeline-num">2</span>
-        <h4>Pagamento liberado</h4>
-        <p>Aguarde a liberação do pagamento.</p>
-      </div>
-      <div class="timeline-step">
-        <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 12.5l2 2 4-4.5"/></svg></div>
-        <span class="timeline-num">3</span>
-        <h4>Pago para seller</h4>
-        <p>Pagamento realizado para a seller.</p>
-      </div>
-      <div class="timeline-step">
-        <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s7-6.3 7-12a7 7 0 10-14 0c0 5.7 7 12 7 12z"/><circle cx="12" cy="10" r="2.4"/></svg></div>
-        <span class="timeline-num">4</span>
-        <h4>Em trânsito internacional</h4>
-        <p>Seu item está a caminho da warehouse.</p>
-      </div>
-      <div class="timeline-step">
-        <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></div>
-        <span class="timeline-num">5</span>
-        <h4>Chegou na warehouse</h4>
-        <p>Aguardando envio para o Brasil.</p>
-      </div>
-      <div class="timeline-step">
-        <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l3-7h12l3 7"/><path d="M3 12v6a2 2 0 002 2h14a2 2 0 002-2v-6"/><path d="M3 12h18"/></svg></div>
-        <span class="timeline-num">6</span>
-        <h4>Enviado para o Brasil</h4>
-        <p>Seu item foi enviado para o Brasil.</p>
-      </div>
-      <div class="timeline-step">
-        <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 10-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg></div>
-        <span class="timeline-num">7</span>
-        <h4>Chegou na GOM</h4>
-        <p>Recebido pela DAZED e em conferência.</p>
-      </div>
-      <div class="timeline-step">
-        <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="7" width="15" height="10" rx="1"/><path d="M16 10h3l3 3v4h-6z"/><circle cx="6" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg></div>
-        <span class="timeline-num">8</span>
-        <h4>Pronto para envio</h4>
-        <p>Seu item já pode ser solicitado para envio.</p>
-      </div>
+  <!-- FAIXA ÚLTIMAS ATUALIZAÇÕES -->
+  <div class="updates-bar">
+    <div class="updates-bar-left">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a2 2 0 11-3.2 2.4"/></svg>
+      Últimas Atualizações
     </div>
-  </section>
+    <button type="button" class="updates-bar-right" onclick="openDrawer()">
+      Ver todas
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+  <div class="updates-strip-cards" id="updatesStrip">
+    <div class="updates-strip-empty">Carregando atualizações...</div>
+  </div>
+
+  <!-- NOVIDADES + STATUS -->
+  <div class="bottom-row">
+    <!-- Novidades DAZED -->
+    <div class="bottom-card">
+      <p class="bottom-card-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l1.4 4.6L18 8l-4.6 1.4L12 14l-1.4-4.6L6 8l4.6-1.4z"/><path d="M19 15l.7 2.3 2.3.7-2.3.7-.7 2.3-.7-2.3-2.3-.7 2.3-.7z"/></svg>
+        Novidades DAZED
+      </p>
+      <ul class="novidades-list">
+        <li>Calculadora Mercari disponível.</li>
+        <li>Nova atualização na área de Pendências.</li>
+        <li>Regras de embalagem revisadas.</li>
+      </ul>
+      <a href="../regras/" class="btn-coral">
+        Ver todas
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <!-- arte decorativa fundo -->
+      <svg class="novidades-art" width="90" height="90" viewBox="0 0 90 90" fill="none">
+        <rect x="10" y="10" width="70" height="70" rx="14" stroke="#AFC0D6" stroke-width="3"/>
+        <path d="M45 30v30M30 45h30" stroke="#AFC0D6" stroke-width="3" stroke-linecap="round"/>
+        <path d="M35 25l3 3M52 22l3 3M22 52l3 3M62 58l3 3" stroke="#FF5B68" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- Status Mais Consultados -->
+    <div class="bottom-card">
+      <p class="bottom-card-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Status Mais Consultados
+      </p>
+      <ul class="status-list">
+        <li>
+          <div class="status-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+          </div>
+          Chegou na Warehouse
+        </li>
+        <li>
+          <div class="status-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l3-7h12l3 7"/><path d="M3 12v6a2 2 0 002 2h14a2 2 0 002-2v-6"/><path d="M3 12h18"/></svg>
+          </div>
+          Enviado para o Brasil
+        </li>
+        <li>
+          <div class="status-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 10-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg>
+          </div>
+          Chegou na GOM
+        </li>
+        <li>
+          <div class="status-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="7" width="15" height="10" rx="1"/><path d="M16 10h3l3 3v4h-6z"/><circle cx="6" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg>
+          </div>
+          Pronto para Solicitar Envio
+        </li>
+      </ul>
+      <a href="../regras/" class="btn-coral">
+        Ver todas
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </div>
 
 </main>
 
-<footer class="site-footer">
-  <span class="footer-copy">© Dazed CEGs</span>
-  <div class="footer-links">
-    <a href="../cegs/">Área do Joiner</a>
-    <a href="../regras/" target="_blank" rel="noopener">Regras Dazed CEGs</a>
-    <a href="../calculadora/">Calculadoras</a>
-    <a href="../pendentes/">Pendências</a>
-    <a href="../sobras/">Sobras</a>
+<!-- DRAWER -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<aside class="drawer" id="updatesDrawer" aria-hidden="true">
+  <div class="drawer-head">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a2 2 0 11-3.2 2.4"/></svg>
+      Últimas Atualizações
+    </h2>
+    <button type="button" class="drawer-close" onclick="closeDrawer()" aria-label="Fechar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
   </div>
+  <div class="drawer-body" id="drawerBody">
+    <div class="drawer-empty">Carregando...</div>
+  </div>
+  <div class="drawer-foot">
+    <button type="button" class="btn-lilac-full" onclick="document.getElementById('drawerBody').scrollTo({top:0,behavior:'smooth'})">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 11l18-5v12L3 14v-3z"/></svg>
+      Ver todas as atualizações
+    </button>
+  </div>
+</aside>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-left">
+    <img src="../imagens/logo.png" alt="DAZED CEGs" />
+    <p>Do seller até você. 💜</p>
+  </div>
+  <span class="footer-copy">© 2026 DAZED CEGs. Todos os direitos reservados.</span>
 </footer>
 
 <script>
   const API_URL = 'https://script.google.com/macros/s/AKfycby51xkp8ka5boynUNZoXn4yktt-C_LzNRwD5dam6YeY4f6zEPsNJGlOyDuk4rDdUMtS7g/exec';
-  const updatesList = document.getElementById('updatesList');
 
-  function timeAgo(iso) {
-    const date = new Date(iso);
-    const diffMs = Date.now() - date.getTime();
-    const diffMin = Math.floor(diffMs / 60000);
-    if (diffMin < 1) return 'agora mesmo';
-    if (diffMin < 60) return diffMin + (diffMin === 1 ? ' minuto atrás' : ' minutos atrás');
-    const diffH = Math.floor(diffMin / 60);
-    if (diffH < 24) return diffH + (diffH === 1 ? ' hora atrás' : ' horas atrás');
-    const diffD = Math.floor(diffH / 24);
-    if (diffD < 30) return diffD + (diffD === 1 ? ' dia atrás' : ' dias atrás');
-    return date.toLocaleDateString('pt-BR');
+  const MESES = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
+
+  const ICONS = {
+    warehouse:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>',
+    transito:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l3-7h12l3 7"/><path d="M3 12v6a2 2 0 002 2h14a2 2 0 002-2v-6"/><path d="M3 12h18"/></svg>',
+    pagamento:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>',
+    conferencia: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 12.5l2 2 4-4.5"/></svg>',
+    pendencia:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>',
+    geral:       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>'
+  };
+
+  const CATEGORIAS = {
+    warehouse:   'Atualização de status',
+    transito:    'Atualização de status',
+    pagamento:   'Novo prazo de pagamento',
+    conferencia: 'Conferência',
+    pendencia:   'Aviso',
+    geral:       'Geral'
+  };
+
+  const BADGES = {
+    warehouse:   'Geral',
+    transito:    'Geral',
+    pagamento:   'Aviso',
+    conferencia: 'Informação',
+    pendencia:   'Aviso',
+    geral:       'Geral'
+  };
+
+  function icon(tipo) { return ICONS[tipo] || ICONS.geral; }
+
+  function parseDt(iso) {
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return { dia: '--', mes: '---', hora: '', full: '' };
+    const dia = String(d.getDate()).padStart(2,'0');
+    const mes = MESES[d.getMonth()];
+    const h = String(d.getHours()).padStart(2,'0');
+    const m = String(d.getMinutes()).padStart(2,'0');
+    return { dia, mes, hora: `Hoje, ${h}:${m}`, full: `${d.toLocaleDateString('pt-BR')} às ${h}:${m}` };
   }
 
-  function iconByTipo(tipo) {
-    const icons = {
-      warehouse: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>',
-      transito: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l3-7h12l3 7"/><path d="M3 12v6a2 2 0 002 2h14a2 2 0 002-2v-6"/><path d="M3 12h18"/></svg>',
-      pagamento: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>',
-      conferencia: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 12.5l2 2 4-4.5"/></svg>',
-      pendencia: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>',
-      geral: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>'
-    };
-    return icons[tipo] || icons.geral;
+  function esc(s) {
+    const d = document.createElement('div');
+    d.textContent = String(s == null ? '' : s);
+    return d.innerHTML;
+  }
+
+  let allUpdates = [];
+
+  function renderStrip(items) {
+    const el = document.getElementById('updatesStrip');
+    if (!items || items.length === 0) {
+      el.innerHTML = '<div class="updates-strip-empty">Nenhuma atualização registrada ainda.</div>';
+      return;
+    }
+    const top3 = items.slice(0, 3);
+    el.innerHTML = top3.map(item => {
+      const dt = parseDt(item.timestamp);
+      const tipo = item.tipo || 'geral';
+      const cat = CATEGORIAS[tipo] || 'Geral';
+      const badge = BADGES[tipo] || 'Geral';
+      return `
+        <div class="updates-strip-card" onclick="openDrawer()">
+          <div class="usc-icon ${tipo}">${icon(tipo)}</div>
+          <div class="usc-body">
+            <div class="usc-meta">
+              <span class="usc-category">${esc(cat)}</span>
+              <span class="usc-badge">${esc(badge)}</span>
+            </div>
+            <div class="usc-title">${esc(item.status || item.pob || 'Atualização')}</div>
+            <div class="usc-time">${dt.hora || dt.full}</div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function renderDrawer(items) {
+    const el = document.getElementById('drawerBody');
+    if (!items || items.length === 0) {
+      el.innerHTML = '<div class="drawer-empty">Nenhuma atualização registrada ainda.<br>Assim que um status mudar na planilha, ela aparece aqui.</div>';
+      return;
+    }
+    el.innerHTML = '<div class="timeline">' + items.map(item => {
+      const dt = parseDt(item.timestamp);
+      const tipo = item.tipo || 'geral';
+      return `
+        <div class="tl-item">
+          <div class="tl-icon ${tipo}">${icon(tipo)}</div>
+          <div class="tl-content">
+            <div class="tl-time">${esc(dt.full)}</div>
+            <div class="tl-title">${esc(item.status || 'Atualização')}</div>
+            <div class="tl-ceg">${esc(item.pob ? item.pob + ' · ' + item.ceg : item.ceg)}</div>
+            <p class="tl-desc">${esc(item.descricao || '')}</p>
+          </div>
+        </div>`;
+    }).join('') + '</div>';
   }
 
   async function loadUpdates() {
     try {
       const res = await fetch(`${API_URL}?action=atualizacoes`);
-      if (!res.ok) throw new Error('Falha ao carregar atualizações');
       const data = await res.json();
-      const items = (data.atualizacoes || []).slice(0, 10);
-
-      if (items.length === 0) {
-        updatesList.innerHTML = '<div class="updates-empty">Nenhuma atualização recente.</div>';
-        return;
-      }
-
-      updatesList.innerHTML = items.map(item => `
-        <div class="update-item">
-          <div class="update-icon is-${item.tipo || 'geral'}">${iconByTipo(item.tipo)}</div>
-          <div class="update-body">
-            <p class="update-title">${item.pob || 'Item'} <span style="color:var(--ink-faint); font-weight:500;">· ${item.ceg || ''}</span></p>
-            <p class="update-desc">${item.descricao || ''}</p>
-            <span class="update-time">${timeAgo(item.timestamp)}</span>
-          </div>
-        </div>
-      `).join('');
+      allUpdates = data.atualizacoes || [];
+      renderStrip(allUpdates);
+      renderDrawer(allUpdates);
     } catch (err) {
-      updatesList.innerHTML = '<div class="updates-empty">Não foi possível carregar as atualizações agora.</div>';
+      document.getElementById('updatesStrip').innerHTML =
+        '<div class="updates-strip-empty">Não foi possível carregar as atualizações.</div>';
     }
+  }
+
+  function openDrawer() {
+    document.getElementById('drawerOverlay').classList.add('open');
+    document.getElementById('updatesDrawer').classList.add('open');
+    document.getElementById('updatesDrawer').setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    document.getElementById('drawerOverlay').classList.remove('open');
+    document.getElementById('updatesDrawer').classList.remove('open');
+    document.getElementById('updatesDrawer').setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
   }
 
   loadUpdates();
