@@ -107,6 +107,20 @@
 
   .topnav-link.active svg { opacity: 1; }
 
+  .topnav-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--purple);
+    flex-shrink: 0;
+  }
+
+  .topnav-avatar svg { width: 18px; height: 18px; }
+
   /* ---------- MAIN ---------- */
   main {
     max-width: 1180px;
@@ -352,312 +366,6 @@
     transform: translateX(3px);
   }
 
-  /* ---------- ULTIMAS ATUALIZACOES (faixa discreta) ---------- */
-  .updates-strip {
-    margin-top: 36px;
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 18px 22px;
-    box-shadow: 0 1px 3px rgba(43,43,51,0.04);
-  }
-
-  .updates-strip-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-  }
-
-  .updates-strip-title {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'Oswald', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-    color: var(--ink);
-  }
-
-  .updates-strip-title svg { width: 16px; height: 16px; color: var(--purple); }
-
-  .updates-strip-seeall {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 12.5px;
-    font-weight: 600;
-    color: var(--purple-dark);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px 2px;
-    font-family: 'Inter', sans-serif;
-  }
-
-  .updates-strip-seeall svg {
-    width: 13px;
-    height: 13px;
-    transition: transform 0.15s ease;
-  }
-
-  .updates-strip-seeall:hover svg { transform: translateX(3px); }
-
-  .updates-strip-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-  }
-
-  .updates-strip-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 11px;
-    padding: 10px;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: background 0.15s ease;
-    text-align: left;
-    background: none;
-    border: none;
-    font-family: 'Inter', sans-serif;
-  }
-
-  .updates-strip-item:hover { background: var(--purple-tint); }
-
-  .updates-strip-date {
-    flex-shrink: 0;
-    width: 38px;
-    text-align: center;
-    font-family: 'Oswald', sans-serif;
-  }
-
-  .updates-strip-date .day { display: block; font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.1; }
-  .updates-strip-date .mon { display: block; font-size: 9.5px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--ink-faint); }
-
-  .updates-strip-icon {
-    flex-shrink: 0;
-    width: 30px;
-    height: 30px;
-    border-radius: 9px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .updates-strip-icon svg { width: 15px; height: 15px; }
-
-  .updates-strip-text { min-width: 0; }
-
-  .updates-strip-text .upd-title {
-    font-size: 12.5px;
-    font-weight: 600;
-    color: var(--ink);
-    margin: 0 0 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .updates-strip-text .upd-ceg {
-    font-size: 11.5px;
-    color: var(--ink-faint);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .updates-strip-empty {
-    font-size: 12.5px;
-    color: var(--ink-faint);
-    text-align: center;
-    padding: 10px 0 4px;
-  }
-
-  /* tipo -> cor (mesmo esquema usado no drawer) */
-  .upd-tipo-warehouse  { background: var(--purple-tint); color: var(--purple); }
-  .upd-tipo-transito   { background: rgba(255,150,60,0.14); color: #B5650F; }
-  .upd-tipo-pagamento  { background: var(--green-bg); color: var(--green); }
-  .upd-tipo-conferencia{ background: rgba(70,120,220,0.12); color: #3457B2; }
-  .upd-tipo-pendencia  { background: rgba(255,84,96,0.12); color: var(--coral-dark); }
-  .upd-tipo-geral      { background: rgba(43,43,51,0.06); color: var(--ink-soft); }
-
-  @media (max-width: 760px) {
-    .updates-strip-row { grid-template-columns: 1fr; }
-  }
-
-  /* ---------- DRAWER LATERAL DE ATUALIZACOES ---------- */
-  .updates-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(43,43,51,0.25);
-    backdrop-filter: blur(2px);
-    z-index: 40;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s ease;
-  }
-
-  .updates-overlay.open {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .updates-drawer {
-    position: fixed;
-    top: 0;
-    right: 0;
-    height: 100vh;
-    width: min(420px, 92vw);
-    background: #FCFBF9;
-    box-shadow: -8px 0 30px rgba(43,43,51,0.14);
-    z-index: 41;
-    transform: translateX(100%);
-    transition: transform 0.32s cubic-bezier(.4,0,.2,1);
-    display: flex;
-    flex-direction: column;
-  }
-
-  .updates-drawer.open { transform: translateX(0); }
-
-  .updates-drawer-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 22px 24px;
-    border-bottom: 1px solid var(--line);
-    flex-shrink: 0;
-  }
-
-  .updates-drawer-head h2 {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    font-family: 'Oswald', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    margin: 0;
-    color: var(--ink);
-  }
-
-  .updates-drawer-head h2 svg { width: 18px; height: 18px; color: var(--purple); }
-
-  .updates-drawer-close {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 1px solid var(--line);
-    background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: var(--ink-soft);
-    flex-shrink: 0;
-    transition: background 0.15s ease, color 0.15s ease;
-  }
-
-  .updates-drawer-close:hover { background: var(--purple-tint); color: var(--ink); }
-  .updates-drawer-close svg { width: 15px; height: 15px; }
-
-  .updates-drawer-body {
-    flex: 1;
-    overflow-y: auto;
-    padding: 22px 24px;
-  }
-
-  .updates-timeline { position: relative; }
-
-  .updates-timeline-item {
-    position: relative;
-    display: flex;
-    gap: 14px;
-    padding-bottom: 26px;
-  }
-
-  .updates-timeline-item:last-child { padding-bottom: 4px; }
-
-  .updates-timeline-item::before {
-    content: '';
-    position: absolute;
-    left: 19px;
-    top: 40px;
-    bottom: 0;
-    width: 1px;
-    background: var(--line);
-  }
-
-  .updates-timeline-item:last-child::before { display: none; }
-
-  .updates-timeline-icon {
-    flex-shrink: 0;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
-  }
-
-  .updates-timeline-icon svg { width: 18px; height: 18px; }
-
-  .updates-timeline-content { min-width: 0; flex: 1; padding-top: 2px; }
-
-  .updates-timeline-time {
-    font-size: 11.5px;
-    color: var(--ink-faint);
-    margin-bottom: 4px;
-  }
-
-  .updates-timeline-title {
-    font-family: 'Oswald', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--ink);
-    margin: 0 0 2px;
-  }
-
-  .updates-timeline-ceg {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--purple-dark);
-    margin-bottom: 6px;
-  }
-
-  .updates-timeline-desc {
-    font-size: 12.5px;
-    color: var(--ink-soft);
-    line-height: 1.55;
-    margin: 0;
-  }
-
-  .updates-drawer-empty {
-    text-align: center;
-    color: var(--ink-faint);
-    font-size: 13px;
-    padding: 60px 10px;
-    line-height: 1.6;
-  }
-
-  .updates-drawer-foot {
-    flex-shrink: 0;
-    padding: 18px 24px;
-    border-top: 1px solid var(--line);
-  }
-
-  .updates-drawer-foot .btn-full {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .btn-full { width: 100%; justify-content: center; }
-
-  @media (max-width: 480px) {
-    .updates-drawer { width: 100vw; }
-  }
-
   /* ---------- FOOTER ---------- */
   .site-footer {
     margin-top: 90px;
@@ -692,10 +400,226 @@
 
   .footer-links a:hover { color: var(--purple-dark); }
 
+  /* ---------- HOME ROW (updates + links) ---------- */
+  .home-row {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 18px;
+    margin-top: 56px;
+  }
+
+  .updates-section, .links-section { min-width: 0; }
+
+  /* ---------- UPDATES LIST ---------- */
+  .updates-list {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 8px;
+    box-shadow: 0 1px 3px rgba(43,43,51,0.04);
+  }
+
+  .update-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 13px 12px;
+    border-radius: 12px;
+    transition: background 0.15s ease;
+  }
+
+  .update-item:hover { background: #FAFAFA; }
+
+  .update-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--purple-tint);
+    color: var(--purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .update-icon svg { width: 16px; height: 16px; }
+
+  .update-icon.is-warehouse { background: rgba(201,150,47,0.14); color: #8A6418; }
+  .update-icon.is-transito { background: rgba(111,112,161,0.16); color: var(--purple-dark); }
+  .update-icon.is-pagamento { background: rgba(42,107,76,0.12); color: #2A6B4C; }
+  .update-icon.is-conferencia { background: rgba(255,84,96,0.12); color: var(--coral-dark); }
+  .update-icon.is-pendencia { background: rgba(255,84,96,0.12); color: var(--coral-dark); }
+
+  .update-body { flex: 1; min-width: 0; }
+
+  .update-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 2px;
+  }
+
+  .update-desc {
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.45;
+    margin: 0 0 4px;
+  }
+
+  .update-time {
+    font-size: 10.5px;
+    color: var(--ink-faint);
+  }
+
+  .updates-empty {
+    padding: 30px 16px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-faint);
+  }
+
+  .updates-skeleton {
+    height: 58px;
+    border-radius: 12px;
+    background: #FAFAFA;
+    margin: 4px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .updates-skeleton::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(111,112,161,0.08), transparent);
+    animation: shimmer 1.2s infinite;
+  }
+
+  @keyframes shimmer { 100% { left: 100%; } }
+
+  /* ---------- LINKS ÚTEIS ---------- */
+  .links-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 8px;
+    box-shadow: 0 1px 3px rgba(43,43,51,0.04);
+  }
+
+  .useful-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--purple-dark);
+    transition: background 0.15s ease, gap 0.15s ease;
+  }
+
+  .useful-link:hover { background: var(--purple-tint); }
+  .useful-link svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 28px 24px;
+    margin-top: 18px;
+    margin-bottom: 56px;
+    box-shadow: 0 1px 3px rgba(43,43,51,0.04);
+    overflow-x: auto;
+  }
+
+  .timeline-track {
+    display: flex;
+    gap: 0;
+    min-width: 920px;
+  }
+
+  .timeline-step {
+    flex: 1;
+    position: relative;
+    text-align: center;
+    padding: 0 8px;
+  }
+
+  .timeline-step::before {
+    content: "";
+    position: absolute;
+    top: 23px;
+    left: -50%;
+    width: 100%;
+    height: 1px;
+    background-image: linear-gradient(to right, var(--line) 50%, transparent 0%);
+    background-size: 8px 1px;
+    background-repeat: repeat-x;
+    z-index: 0;
+  }
+
+  .timeline-step:first-child::before { display: none; }
+
+  .timeline-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--purple-tint);
+    color: var(--purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .timeline-icon svg { width: 19px; height: 19px; }
+
+  .timeline-num {
+    position: absolute;
+    top: -2px;
+    right: calc(50% - 28px);
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--purple);
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .timeline-step h4 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 5px;
+    line-height: 1.3;
+  }
+
+  .timeline-step p {
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    line-height: 1.45;
+    margin: 0;
+  }
+
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 1024px) {
     .quick-grid { grid-template-columns: repeat(3, 1fr); }
     .topnav-link span { display: none; }
+  }
+
+  @media (max-width: 900px) {
+    .home-row { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 760px) {
@@ -727,7 +651,7 @@
       <span>Home</span>
     </a>
     <a href="../cegs/" class="topnav-link">
-      <svg viewBox="-1 -1 26 26" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
       <span>Área do Joiner</span>
     </a>
     <a href="../regras/" class="topnav-link">
@@ -747,6 +671,9 @@
       <span>Sobras</span>
     </a>
   </div>
+  <div class="topnav-avatar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+  </div>
 </nav>
 
 <main>
@@ -757,7 +684,7 @@
       <h1>Sua jornada começa aqui.</h1>
       <p class="hero-sub">Acompanhe suas compras, fique por dentro dos prazos, pagamentos, envios e tudo o que você precisa saber sobre as CEGs.</p>
       <div class="hero-ctas">
-        <a class="btn btn-primary" href="../cegs/">
+        <a class="btn btn-primary" href="../como-funciona/">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.6 5.4L19 9l-5.4 1.6L12 16l-1.6-5.4L5 9l5.4-1.6z"/></svg>
           Como funciona uma CEG
         </a>
@@ -820,43 +747,86 @@
     </a>
   </section>
 
-  <div class="updates-strip" id="updatesStrip" style="display:none;">
-    <div class="updates-strip-head">
-      <div class="updates-strip-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a2 2 0 11-3.2 2.4"/></svg>
-        Últimas atualizações
+  <div class="home-row">
+    <section class="updates-section">
+      <p class="section-label" style="text-align:left; margin-bottom:16px;">Últimas atualizações</p>
+      <div class="updates-list" id="updatesList">
+        <div class="updates-skeleton"></div>
+        <div class="updates-skeleton"></div>
+        <div class="updates-skeleton"></div>
       </div>
-      <button type="button" class="updates-strip-seeall" onclick="openUpdatesDrawer()">
-        Ver todas
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </button>
-    </div>
-    <div class="updates-strip-row" id="updatesStripRow"></div>
+    </section>
+
+    <section class="links-section">
+      <p class="section-label" style="text-align:left; margin-bottom:16px;">Links úteis</p>
+      <div class="links-card">
+        <a class="useful-link" href="../como-funciona/">
+          <span>Como funciona uma CEG</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 18l6-6-6-6"/></svg>
+        </a>
+        <a class="useful-link" href="../pendentes/">
+          <span>Pagamentos e Multas</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 18l6-6-6-6"/></svg>
+        </a>
+      </div>
+    </section>
   </div>
+
+  <p class="section-label">Como funciona uma CEG internacional</p>
+  <section class="timeline-card">
+    <div class="timeline-track">
+      <div class="timeline-step">
+        <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11H5a2 2 0 00-2 2v6a2 2 0 002 2h14a2 2 0 002-2v-6a2 2 0 00-2-2h-4"/><path d="M9 11V7a3 3 0 016 0v4"/></svg></div>
+        <span class="timeline-num">1</span>
+        <h4>Reserva</h4>
+        <p>Item reservado com a seller.</p>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+        <span class="timeline-num">2</span>
+        <h4>Pagamento liberado</h4>
+        <p>Aguarde a liberação do pagamento.</p>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 12.5l2 2 4-4.5"/></svg></div>
+        <span class="timeline-num">3</span>
+        <h4>Pago para seller</h4>
+        <p>Pagamento realizado para a seller.</p>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s7-6.3 7-12a7 7 0 10-14 0c0 5.7 7 12 7 12z"/><circle cx="12" cy="10" r="2.4"/></svg></div>
+        <span class="timeline-num">4</span>
+        <h4>Em trânsito internacional</h4>
+        <p>Seu item está a caminho da warehouse.</p>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></div>
+        <span class="timeline-num">5</span>
+        <h4>Chegou na warehouse</h4>
+        <p>Aguardando envio para o Brasil.</p>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l3-7h12l3 7"/><path d="M3 12v6a2 2 0 002 2h14a2 2 0 002-2v-6"/><path d="M3 12h18"/></svg></div>
+        <span class="timeline-num">6</span>
+        <h4>Enviado para o Brasil</h4>
+        <p>Seu item foi enviado para o Brasil.</p>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 10-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg></div>
+        <span class="timeline-num">7</span>
+        <h4>Chegou na GOM</h4>
+        <p>Recebido pela DAZED e em conferência.</p>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="7" width="15" height="10" rx="1"/><path d="M16 10h3l3 3v4h-6z"/><circle cx="6" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg></div>
+        <span class="timeline-num">8</span>
+        <h4>Pronto para envio</h4>
+        <p>Seu item já pode ser solicitado para envio.</p>
+      </div>
+    </div>
+  </section>
 
 </main>
-
-<div class="updates-overlay" id="updatesOverlay"></div>
-<aside class="updates-drawer" id="updatesDrawer" aria-hidden="true">
-  <div class="updates-drawer-head">
-    <h2>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a2 2 0 11-3.2 2.4"/></svg>
-      Últimas atualizações
-    </h2>
-    <button type="button" class="updates-drawer-close" onclick="closeUpdatesDrawer()" aria-label="Fechar">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg>
-    </button>
-  </div>
-  <div class="updates-drawer-body" id="updatesDrawerBody">
-    <div class="updates-drawer-empty">Carregando atualizações...</div>
-  </div>
-  <div class="updates-drawer-foot">
-    <button type="button" class="btn btn-primary btn-full" onclick="document.getElementById('updatesDrawerBody').scrollTo({top:0,behavior:'smooth'})">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a2 2 0 11-3.2 2.4"/></svg>
-      Ver todas as atualizações
-    </button>
-  </div>
-</aside>
 
 <footer class="site-footer">
   <span class="footer-copy">© Dazed CEGs</span>
@@ -870,121 +840,59 @@
 </footer>
 
 <script>
-  const UPDATES_API_URL = 'https://script.google.com/macros/s/AKfycby51xkp8ka5boynUNZoXn4yktt-C_LzNRwD5dam6YeY4f6zEPsNJGlOyDuk4rDdUMtS7g/exec';
+  const API_URL = 'https://script.google.com/macros/s/AKfycby51xkp8ka5boynUNZoXn4yktt-C_LzNRwD5dam6YeY4f6zEPsNJGlOyDuk4rDdUMtS7g/exec';
+  const updatesList = document.getElementById('updatesList');
 
-  const ICONS_BY_TIPO = {
-    warehouse: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>',
-    transito: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l18-8-7 8 7 8-18-8z"/></svg>',
-    pagamento: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>',
-    conferencia: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>',
-    pendencia: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>',
-    geral: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a2 2 0 11-3.2 2.4"/></svg>'
-  };
-
-  const MESES_ABREV = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
-
-  function tipoIcon_(tipo) {
-    return ICONS_BY_TIPO[tipo] || ICONS_BY_TIPO.geral;
+  function timeAgo(iso) {
+    const date = new Date(iso);
+    const diffMs = Date.now() - date.getTime();
+    const diffMin = Math.floor(diffMs / 60000);
+    if (diffMin < 1) return 'agora mesmo';
+    if (diffMin < 60) return diffMin + (diffMin === 1 ? ' minuto atrás' : ' minutos atrás');
+    const diffH = Math.floor(diffMin / 60);
+    if (diffH < 24) return diffH + (diffH === 1 ? ' hora atrás' : ' horas atrás');
+    const diffD = Math.floor(diffH / 24);
+    if (diffD < 30) return diffD + (diffD === 1 ? ' dia atrás' : ' dias atrás');
+    return date.toLocaleDateString('pt-BR');
   }
 
-  function formatDataHora_(iso) {
-    const d = new Date(iso);
-    if (isNaN(d.getTime())) return { dia: '--', mes: '---', completa: '' };
-    const dia = String(d.getDate()).padStart(2, '0');
-    const mes = MESES_ABREV[d.getMonth()];
-    const hora = String(d.getHours()).padStart(2, '0');
-    const min = String(d.getMinutes()).padStart(2, '0');
-    const dataCompleta = d.toLocaleDateString('pt-BR') + ' às ' + hora + ':' + min;
-    return { dia: dia, mes: mes, completa: dataCompleta };
+  function iconByTipo(tipo) {
+    const icons = {
+      warehouse: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>',
+      transito: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l3-7h12l3 7"/><path d="M3 12v6a2 2 0 002 2h14a2 2 0 002-2v-6"/><path d="M3 12h18"/></svg>',
+      pagamento: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>',
+      conferencia: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 12.5l2 2 4-4.5"/></svg>',
+      pendencia: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>',
+      geral: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>'
+    };
+    return icons[tipo] || icons.geral;
   }
-
-  function renderUpdatesStrip_(items) {
-    const strip = document.getElementById('updatesStrip');
-    const row = document.getElementById('updatesStripRow');
-
-    if (!items || items.length === 0) {
-      strip.style.display = 'none';
-      return;
-    }
-
-    strip.style.display = 'block';
-    const top3 = items.slice(0, 3);
-
-    row.innerHTML = top3.map(item => {
-      const dt = formatDataHora_(item.timestamp);
-      return `
-        <button type="button" class="updates-strip-item" onclick="openUpdatesDrawer()">
-          <div class="updates-strip-date">
-            <span class="day">${dt.dia}</span>
-            <span class="mon">${dt.mes}</span>
-          </div>
-          <div class="updates-strip-icon upd-tipo-${item.tipo}">${tipoIcon_(item.tipo)}</div>
-          <div class="updates-strip-text">
-            <p class="upd-title">${escapeHtml_(item.status)}</p>
-            <p class="upd-ceg">${escapeHtml_(item.pob || item.ceg)}</p>
-          </div>
-        </button>
-      `;
-    }).join('');
-  }
-
-  function renderUpdatesDrawer_(items) {
-    const body = document.getElementById('updatesDrawerBody');
-
-    if (!items || items.length === 0) {
-      body.innerHTML = '<div class="updates-drawer-empty">Nenhuma atualização registrada ainda.<br>Assim que um status mudar na planilha, ela aparece aqui.</div>';
-      return;
-    }
-
-    body.innerHTML = '<div class="updates-timeline">' + items.map(item => {
-      const dt = formatDataHora_(item.timestamp);
-      return `
-        <div class="updates-timeline-item">
-          <div class="updates-timeline-icon upd-tipo-${item.tipo}">${tipoIcon_(item.tipo)}</div>
-          <div class="updates-timeline-content">
-            <div class="updates-timeline-time">${dt.completa}</div>
-            <p class="updates-timeline-title">${escapeHtml_(item.status)}</p>
-            <div class="updates-timeline-ceg">${escapeHtml_(item.pob ? item.pob + ' · ' + item.ceg : item.ceg)}</div>
-            <p class="updates-timeline-desc">${escapeHtml_(item.descricao || '')}</p>
-          </div>
-        </div>
-      `;
-    }).join('') + '</div>';
-  }
-
-  function escapeHtml_(str) {
-    const div = document.createElement('div');
-    div.textContent = String(str == null ? '' : str);
-    return div.innerHTML;
-  }
-
-  let updatesCache = [];
 
   async function loadUpdates() {
     try {
-      const res = await fetch(`${UPDATES_API_URL}?action=atualizacoes`);
-      if (!res.ok) throw new Error('Falha ao buscar atualizações');
+      const res = await fetch(`${API_URL}?action=atualizacoes`);
+      if (!res.ok) throw new Error('Falha ao carregar atualizações');
       const data = await res.json();
-      updatesCache = data.atualizacoes || [];
-      renderUpdatesStrip_(updatesCache);
-      renderUpdatesDrawer_(updatesCache);
+      const items = (data.atualizacoes || []).slice(0, 10);
+
+      if (items.length === 0) {
+        updatesList.innerHTML = '<div class="updates-empty">Nenhuma atualização recente.</div>';
+        return;
+      }
+
+      updatesList.innerHTML = items.map(item => `
+        <div class="update-item">
+          <div class="update-icon is-${item.tipo || 'geral'}">${iconByTipo(item.tipo)}</div>
+          <div class="update-body">
+            <p class="update-title">${item.pob || 'Item'} <span style="color:var(--ink-faint); font-weight:500;">· ${item.ceg || ''}</span></p>
+            <p class="update-desc">${item.descricao || ''}</p>
+            <span class="update-time">${timeAgo(item.timestamp)}</span>
+          </div>
+        </div>
+      `).join('');
     } catch (err) {
-      document.getElementById('updatesStrip').style.display = 'none';
+      updatesList.innerHTML = '<div class="updates-empty">Não foi possível carregar as atualizações agora.</div>';
     }
-  }
-
-  function openUpdatesDrawer() {
-    document.getElementById('updatesOverlay').classList.add('open');
-    document.getElementById('updatesDrawer').classList.add('open');
-    document.getElementById('updatesDrawer').setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeUpdatesDrawer() {
-    document.getElementById('updatesOverlay').classList.remove('open');
-    document.getElementById('updatesDrawer').classList.remove('open');
-    document.getElementById('updatesDrawer').setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
   }
 
   loadUpdates();
