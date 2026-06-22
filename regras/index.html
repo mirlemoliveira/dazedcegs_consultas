@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dazed Cegs - Regras Dazed CEGs</title>
+<link rel="icon" type="image/png" href="../imagens/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #2B2B33;
+    --ink-soft: #5C6270;
+    --ink-faint: #8A90A0;
+    --purple: #6F70A1;
+    --purple-dark: #565780;
+    --purple-tint: #F1F1F7;
+    --coral: #FF5460;
+    --coral-dark: #C23440;
+    --line: rgba(43,43,51,0.10);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    min-height: 100vh;
+    background: #FCFBF9;
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+
+  a { text-decoration: none; color: inherit; }
+
+  /* ---------- TOP NAV ---------- */
+  .topnav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 44px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .topnav-logo { display: flex; align-items: center; gap: 10px; }
+  .topnav-logo img { height: 38px; width: 38px; border-radius: 9px; display: block; }
+  .topnav-logo span {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    color: var(--ink);
+  }
+
+  .topnav-links { display: flex; align-items: center; gap: 6px; }
+
+  .topnav-link {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 14px;
+    border-radius: 9px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .topnav-link svg { width: 16px; height: 16px; opacity: 0.75; }
+  .topnav-link:hover { background: var(--purple-tint); color: var(--ink); }
+  .topnav-link.active { color: var(--purple-dark); font-weight: 600; background: var(--purple-tint); }
+  .topnav-link.active svg { opacity: 1; }
+
+  .topnav-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--purple);
+    flex-shrink: 0;
+  }
+
+  .topnav-avatar svg { width: 18px; height: 18px; }
+
+  @media (max-width: 1024px) { .topnav-link span { display: none; } }
+  @media (max-width: 760px) {
+    .topnav { padding: 14px 18px; }
+    .topnav-logo span { display: none; }
+    .topnav-links { gap: 2px; }
+    .topnav-link { padding: 9px 9px; }
+  }
+
+  /* ---------- MAIN ---------- */
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 24px 100px;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--purple-dark);
+    margin-bottom: 24px;
+  }
+
+  .back-link svg { width: 14px; height: 14px; }
+  .back-link:hover { color: var(--coral-dark); }
+
+  .page-header { margin-bottom: 32px; }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 11.5px;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    color: var(--purple);
+    background: var(--purple-tint);
+    padding: 7px 16px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+    font-weight: 600;
+  }
+
+  .page-header h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  /* ---------- PLACEHOLDER ---------- */
+  .placeholder-card {
+    background: #fff;
+    border: 1px dashed rgba(111,112,161,0.35);
+    border-radius: 20px;
+    padding: 60px 32px;
+    text-align: center;
+  }
+
+  .placeholder-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: var(--purple-tint);
+    color: var(--purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+  }
+
+  .placeholder-icon svg { width: 26px; height: 26px; }
+
+  .placeholder-card h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 10px;
+    color: var(--ink);
+  }
+
+  .placeholder-card p {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    max-width: 380px;
+    margin: 0 auto;
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a class="topnav-logo" href="../home/">
+    <img src="../imagens/logo.png" alt="Dazed Cegs" />
+    <span>DAZED CEGs</span>
+  </a>
+  <div class="topnav-links">
+    <a href="../home/" class="topnav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="../cegs/" class="topnav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <span>Área do Joiner</span>
+    </a>
+    <a href="../regras/" class="topnav-link active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+      <span>Regras Dazed CEGs</span>
+    </a>
+    <a href="../calculadora/" class="topnav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01"/></svg>
+      <span>Calculadoras</span>
+    </a>
+    <a href="../pendentes/" class="topnav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h11"/></svg>
+      <span>Pendências</span>
+    </a>
+    <a href="../sobras/" class="topnav-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.6 6.6L22 9.3l-5.5 4.6L18.2 21 12 17.3 5.8 21l1.7-7.1L2 9.3l7.4-.7z"/></svg>
+      <span>Sobras</span>
+    </a>
+  </div>
+  <div class="topnav-avatar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+  </div>
+</nav>
+
+<main>
+
+  <a class="back-link" href="../home/">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Voltar para a Home
+  </a>
+
+  <div class="page-header">
+    <div class="eyebrow">Guia DAZED</div>
+    <h1>Regras Dazed CEGs</h1>
+  </div>
+
+  <div class="placeholder-card">
+    <div class="placeholder-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    </div>
+    <h2>Conteúdo em breve</h2>
+    <p>Estamos preparando as regras completas da Dazed CEGs — prazos, pagamentos, multas e tudo o que você precisa saber. Volte em breve!</p>
+  </div>
+
+</main>
+
+</body>
+</html>
