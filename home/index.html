@@ -630,7 +630,8 @@ async function load(){
   try{
     const r=await fetch(`${API}?action=atualizacoes`);
     const d=await r.json();
-    const items=d.atualizacoes||[];
+    const ignorar=['pago','pagamento liberado','comprado'];
+    const items=(d.atualizacoes||[]).filter(it=>!ignorar.includes((it.status||'').toLowerCase()));
     renderRow(items);renderDrawer(items);
   }catch(e){
     document.getElementById('updRow').innerHTML='<div class="upd-empty">Não foi possível carregar as atualizações.</div>';
