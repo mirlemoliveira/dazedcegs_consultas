@@ -598,12 +598,13 @@ function renderRow(items){
   if(!items||!items.length){el.innerHTML='<div class="upd-empty">Nenhuma atualização registrada ainda.</div>';return;}
   el.innerHTML=items.slice(0,3).map(it=>{
     const t=it.tipo||'geral',cat=CATS[t]||'Geral',badge=BDGS[t]||'Geral',bcls=BCLS[badge]||'b-g',d=dt(it.timestamp);
+    const pessoa=[it.nome,it.handle].filter(Boolean).join(' ').trim();
     return`<div class="upd-col" onclick="openDrawer()">
       <div class="upd-ico ${tcls(t)}">${ico(t)}</div>
       <div class="upd-txt">
         <div class="upd-meta"><span class="upd-cat">${esc(cat)}</span><span class="upd-badge ${bcls}">${esc(badge)}</span></div>
         <div class="upd-title">${esc(it.status||it.pob||'Atualização')}</div>
-        <div class="upd-time">${esc(d.hora)}</div>
+        <div class="upd-time">${esc(pessoa?(d.hora+' · '+pessoa):d.hora)}</div>
       </div>
     </div>`;
   }).join('');
@@ -614,12 +615,14 @@ function renderDrawer(items){
   if(!items||!items.length){el.innerHTML='<div class="dw-empty">Nenhuma atualização ainda.<br>Assim que um status mudar na planilha, ela aparece aqui.</div>';return;}
   el.innerHTML=items.map(it=>{
     const t=it.tipo||'geral',d=dt(it.timestamp);
+    const pessoa=[it.nome,it.handle].filter(Boolean).join(' ').trim();
+    const linha=[it.pob,it.ceg,pessoa].filter(Boolean).join(' · ');
     return`<div class="tl-item">
       <div class="tl-ico ${tcls(t)}">${ico(t)}</div>
       <div class="tl-body">
         <div class="tl-time">${esc(d.full)}</div>
         <div class="tl-title">${esc(it.status||'Atualização')}</div>
-        <div class="tl-ceg">${esc(it.pob?(it.pob+' · '+it.ceg):it.ceg)}</div>
+        <div class="tl-ceg">${esc(linha)}</div>
         <p class="tl-desc">${esc(it.descricao||'')}</p>
       </div>
     </div>`;
