@@ -1697,10 +1697,6 @@
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
                   Baixar foto
                 </button>
-                <button type="button" data-action="copy" data-uid="${p.__uid}">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                  Copiar imagem
-                </button>
                 <button type="button" data-action="share" data-uid="${p.__uid}">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/></svg>
                   Compartilhar item
@@ -2006,7 +2002,6 @@
         if (!pedido) return;
         const action = actionBtn.dataset.action;
         if (action === 'download') downloadFoto(pedido);
-        else if (action === 'copy') copiarImagem(pedido);
         else if (action === 'share') compartilharItem(pedido);
       });
     });
@@ -2043,24 +2038,6 @@
     document.body.appendChild(a);
     a.click();
     a.remove();
-  }
-
-  async function copiarImagem(p) {
-    const src = itemImgSrc(p);
-    if (!src || !navigator.clipboard || !window.ClipboardItem) {
-      statusMsg.textContent = 'Copiar imagem não é suportado neste navegador.';
-      return;
-    }
-    try {
-      const res = await fetch(src);
-      const blob = await res.blob();
-      await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
-      statusMsg.textContent = 'Imagem copiada!';
-      statusMsg.classList.remove('error');
-      setTimeout(() => { if (statusMsg.textContent === 'Imagem copiada!') statusMsg.textContent = ''; }, 2200);
-    } catch (err) {
-      statusMsg.textContent = 'Não foi possível copiar a imagem.';
-    }
   }
 
   async function compartilharItem(p) {
