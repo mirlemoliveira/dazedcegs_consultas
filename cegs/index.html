@@ -209,6 +209,10 @@
     font-family: 'Oswald', sans-serif;
     box-shadow: 0 4px 14px rgba(111,112,161,0.3);
     transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
 
   #searchBtn:hover {
@@ -218,6 +222,21 @@
   }
   #searchBtn:active { transform: scale(0.97); }
   #searchBtn:disabled { opacity: 0.6; cursor: wait; transform: none; }
+
+  .btn-spinner {
+    display: none;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: btnspin 0.7s linear infinite;
+    flex-shrink: 0;
+  }
+
+  #searchBtn.is-loading .btn-spinner { display: inline-block; }
+
+  @keyframes btnspin { to { transform: rotate(360deg); } }
 
   .status-msg { margin-top: 14px; font-size: 13px; color: var(--ink-soft); text-align: center; }
   .status-msg.error { color: var(--coral-dark); }
@@ -1118,7 +1137,7 @@
         autocapitalize="off"
         spellcheck="false"
       />
-      <button id="searchBtn">Buscar</button>
+      <button id="searchBtn"><span class="btn-spinner" id="btnSpinner"></span><span id="btnLabel">Buscar</span></button>
     </div>
     <div class="filter-row" id="filterRow" style="display:none;">
       <select id="cegFilter">
@@ -1293,6 +1312,20 @@
     }
   }
 
+  const statGrid = document.getElementById('statGrid');
+  const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+  const totalItensCount = document.getElementById('totalItensCount');
+  const totalPago = document.getElementById('totalPago');
+  const hidePagoBtn = document.getElementById('hidePagoBtn');
+  const totalPendente = document.getElementById('totalPendente');
+  const totalGeral = document.getElementById('totalGeral');
+  const hideTotalBtn = document.getElementById('hideTotalBtn');
+  const viewButtons = [
+    document.getElementById('viewListBtn'),
+    document.getElementById('viewGridBtn'),
+    document.getElementById('viewTableBtn')
+  ];
+
   if (hideTotalBtn) {
     hideTotalBtn.addEventListener('click', () => {
       totalHidden = !totalHidden;
@@ -1308,20 +1341,6 @@
       applyPagoVisibility();
     });
   }
-
-  const statGrid = document.getElementById('statGrid');
-  const downloadPdfBtn = document.getElementById('downloadPdfBtn');
-  const totalItensCount = document.getElementById('totalItensCount');
-  const totalPago = document.getElementById('totalPago');
-  const hidePagoBtn = document.getElementById('hidePagoBtn');
-  const totalPendente = document.getElementById('totalPendente');
-  const totalGeral = document.getElementById('totalGeral');
-  const hideTotalBtn = document.getElementById('hideTotalBtn');
-  const viewButtons = [
-    document.getElementById('viewListBtn'),
-    document.getElementById('viewGridBtn'),
-    document.getElementById('viewTableBtn')
-  ];
 
   function statusClass(status) {
     const s = (status || '').toLowerCase();
@@ -1988,6 +2007,7 @@
     statusMsg.textContent = '';
     statusMsg.classList.remove('error');
     btn.disabled = true;
+    btn.classList.add('is-loading');
     renderSkeleton();
 
     try {
@@ -2003,6 +2023,7 @@
       renderError('Não foi possível consultar agora. Tenta de novo em instantes.');
     } finally {
       btn.disabled = false;
+      btn.classList.remove('is-loading');
     }
   }
 
