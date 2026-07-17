@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dazed Cegs - Área do Joiner</title>
-<link rel="icon" type="image/png" href="../imagens/favicon.png">
+<link rel="icon" type="image/png" href="../imagens/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -35,48 +35,41 @@
 
   a { text-decoration: none; color: inherit; }
 
-  /* ---------- TOP NAV ---------- */
-  .topnav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 44px;
-    border-bottom: 1px solid var(--line);
-    background: rgba(255,255,255,0.7);
-    backdrop-filter: blur(8px);
-    position: sticky;
-    top: 0;
-    z-index: 10;
+  /* ───── NAVBAR ───── */
+  .nav{
+    position:sticky;top:0;z-index:30;
+    background:#fff;
+    border-bottom:1px solid #E5E7EB;
+    display:flex;align-items:center;
+    padding:0 32px;height:64px;
+    gap:0;
   }
-
-  .topnav-logo { display: flex; align-items: center; gap: 10px; }
-  .topnav-logo img { height: 38px; width: 38px; border-radius: 9px; display: block; }
-  .topnav-logo span {
-    font-family: 'Oswald', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    color: var(--ink);
+  .nav-logo{
+    position:absolute;left:32px;
+    display:flex;align-items:center;
+    line-height:1;
   }
+  .nav-logo img{height:52px;width:auto;display:block;}
 
-  .topnav-links { display: flex; align-items: center; gap: 6px; }
-
-  .topnav-link {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 9px 14px;
-    border-radius: 9px;
-    font-size: 13.5px;
-    font-weight: 500;
-    color: var(--ink-soft);
-    transition: background 0.15s ease, color 0.15s ease;
+  .nav-links{
+    margin:0 auto;
+    display:flex;align-items:stretch;gap:0;
   }
-
-  .topnav-link svg { width: 16px; height: 16px; opacity: 0.75; }
-  .topnav-link:hover { background: var(--purple-tint); color: var(--ink); }
-  .topnav-link.active { color: var(--purple-dark); font-weight: 600; background: var(--purple-tint); }
-  .topnav-link.active svg { opacity: 1; }
+  .nav-a{
+    display:flex;align-items:center;gap:6px;
+    padding:0 18px;height:64px;
+    font-family:'Inter',sans-serif;
+    font-size:13.5px;font-weight:500;color:#4A5070;
+    border-bottom:2.5px solid transparent;
+    transition:color .15s,border-color .15s;
+    white-space:nowrap;position:relative;
+  }
+  .nav-a svg{width:16px;height:16px;stroke:#4A5070;fill:none;flex-shrink:0;}
+  .nav-a:hover{color:#1F2340;}
+  .nav-a.active{color:#1F2340;font-weight:600;border-bottom-color:#4B5BAD;}
+  .nav-a.active svg{stroke:#1F2340;}
+  @media(max-width:1080px){.nav-a span{display:none;}}
+  @media(max-width:680px){.nav{padding:0 16px;}.nav-logo{left:16px;}.nav-a{padding:0 10px;}}
 
   /* ---------- MAIN ---------- */
   main {
@@ -731,13 +724,7 @@
 
   @keyframes shimmer { 100% { left: 100%; } }
 
-  @media (max-width: 1024px) { .topnav-link span { display: none; } }
-
   @media (max-width: 760px) {
-    .topnav { padding: 14px 18px; }
-    .topnav-logo span { display: none; }
-    .topnav-links { gap: 2px; }
-    .topnav-link { padding: 9px 9px; }
     main { padding: 32px 18px 70px; }
     .search-row { flex-direction: column; }
     .at-prefix { justify-content: center; }
@@ -746,34 +733,33 @@
 </head>
 <body>
 
-<nav class="topnav">
-  <a class="topnav-logo" href="../home/">
-    <img src="../imagens/logo.png" alt="Dazed Cegs" />
-    <span>DAZED CEGs</span>
+<nav class="nav">
+  <a class="nav-logo" href="../home/">
+    <img src="../imagens/logo.png" alt="DAZED CEGs">
   </a>
-  <div class="topnav-links">
-    <a href="../home/" class="topnav-link">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+  <div class="nav-links">
+    <a class="nav-a" href="../home/">
+      <svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
       <span>Home</span>
     </a>
-    <a href="../cegs/" class="topnav-link active">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <a class="nav-a active" href="../cegs/">
+      <svg viewBox="0 0 24 24" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
       <span>Área do Joiner</span>
     </a>
-    <a href="../regras/" class="topnav-link">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-      <span>Regras Dazed CEGs</span>
+    <a class="nav-a" href="../regras/">
+      <svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+      <span>Regras DAZED CEGs</span>
     </a>
-    <a href="../calculadora/" class="topnav-link">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01"/></svg>
+    <a class="nav-a" href="../calculadora/">
+      <svg viewBox="0 0 24 24" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       <span>Calculadoras</span>
     </a>
-    <a href="../pendentes/" class="topnav-link">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h11"/></svg>
+    <a class="nav-a" href="../pendentes/">
+      <svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12l2 2 4-4"/></svg>
       <span>Pendências</span>
     </a>
-    <a href="../sobras/" class="topnav-link">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.6 6.6L22 9.3l-5.5 4.6L18.2 21 12 17.3 5.8 21l1.7-7.1L2 9.3l7.4-.7z"/></svg>
+    <a class="nav-a" href="../sobras/">
+      <svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
       <span>Sobras</span>
     </a>
   </div>
@@ -1139,8 +1125,6 @@
     `;
   }
 
-  // Após o card estar no DOM, tenta pré-carregar slug-2, slug-3... silenciosamente.
-  // Se existirem, expande o carrossel; se não, mantém só a foto única já exibida.
   function enhanceCarousel(cid, folder, slug) {
     const track = document.getElementById(cid);
     if (!track) return;
@@ -1150,7 +1134,7 @@
     function done() {
       pending--;
       if (pending > 0) return;
-      if (found.length === 0) return; // só a foto base mesmo, nada a fazer
+      if (found.length === 0) return;
       found.sort((a, b) => a.n - b.n);
       track.innerHTML = `<div class="carousel-slide"><img src="${folder}${slug}-1.png" alt="" /></div>` +
         found.map(f => `<div class="carousel-slide"><img src="${f.src}" alt="" /></div>`).join('');
@@ -1179,7 +1163,6 @@
   }
 
   window.__carouselImgFallback = function(imgEl, cid) {
-    // slug-1.png falhou; tenta slug.png (compatibilidade com itens de 1 foto só, sem sufixo numérico).
     const track = document.getElementById(cid);
     if (!track) return;
     const folder = track.dataset.folder;
@@ -1274,7 +1257,6 @@
           const baseImg = track.querySelector('img');
           if (baseImg) {
             baseImg.addEventListener('load', () => {
-              // Só procura fotos extras se a foto -1 numerada realmente existir.
               if (!baseImg.dataset.fallenBack) enhanceCarousel(track.id, folder, slug);
             }, { once: true });
           }
