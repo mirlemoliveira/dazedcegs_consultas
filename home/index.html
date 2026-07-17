@@ -597,12 +597,12 @@ function renderRow(items){
   const el=document.getElementById('updRow');
   if(!items||!items.length){el.innerHTML='<div class="upd-empty">Nenhuma atualização registrada ainda.</div>';return;}
   el.innerHTML=items.slice(0,3).map(it=>{
-    const t=it.tipo||'geral',cat=CATS[t]||'Geral',badge=BDGS[t]||'Geral',bcls=BCLS[badge]||'b-g',d=dt(it.timestamp);
+    const t=it.tipo||'geral',badge=BDGS[t]||'Geral',bcls=BCLS[badge]||'b-g',d=dt(it.timestamp);
     const pessoa=[it.nome,it.handle].filter(Boolean).join(' ').trim();
     return`<div class="upd-col" onclick="openDrawer()">
       <div class="upd-ico ${tcls(t)}">${ico(t)}</div>
       <div class="upd-txt">
-        <div class="upd-meta"><span class="upd-cat">${esc(cat)}</span><span class="upd-badge ${bcls}">${esc(badge)}</span></div>
+        <div class="upd-meta"><span class="upd-badge ${bcls}">${esc(badge)}</span></div>
         <div class="upd-title">${esc(it.status||it.pob||'Atualização')}</div>
         <div class="upd-time">${esc(pessoa?(d.hora+' · '+pessoa):d.hora)}</div>
       </div>
