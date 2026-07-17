@@ -359,6 +359,23 @@
     margin-top: 1px;
   }
 
+  .stat-card-value-row { display: flex; align-items: center; gap: 6px; }
+
+  .stat-hide-btn {
+    background: none;
+    border: none;
+    padding: 2px;
+    cursor: pointer;
+    color: var(--ink-faint);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.15s ease, transform 0.15s ease;
+  }
+
+  .stat-hide-btn:hover { color: var(--purple); transform: scale(1.08); }
+  .stat-hide-btn svg { width: 15px; height: 15px; }
+
   @media (max-width: 900px) {
     .stat-grid { grid-template-columns: repeat(2, 1fr); }
   }
@@ -1136,7 +1153,12 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 12.5l2 2 4-4.5"/></svg>
       </div>
       <div>
-        <div class="stat-card-value" id="totalPago">R$ 0</div>
+        <div class="stat-card-value-row">
+          <div class="stat-card-value" id="totalPago">R$ 0</div>
+          <button type="button" class="stat-hide-btn" id="hidePagoBtn" aria-label="Ocultar valor pago">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
         <div class="stat-card-label">Pago</div>
       </div>
     </div>
@@ -1154,7 +1176,12 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.6 6.6L22 9.3l-5.5 4.6L18.2 21 12 17.3 5.8 21l1.7-7.1L2 9.3l7.4-.7z"/></svg>
       </div>
       <div>
-        <div class="stat-card-value" id="totalGeral">R$ 0</div>
+        <div class="stat-card-value-row">
+          <div class="stat-card-value" id="totalGeral">R$ 0</div>
+          <button type="button" class="stat-hide-btn" id="hideTotalBtn" aria-label="Ocultar valor total">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
         <div class="stat-card-label">Total geral</div>
       </div>
     </div>
@@ -1242,13 +1269,54 @@
   let currentPage = 1;
   const MAX_COMPARE = 4;
   let selectedUids = new Set();
+  let lastTotalGeralVal = 0;
+  let totalHidden = localStorage.getItem('dazedTotalHidden') === '1';
+  let pagoHidden = localStorage.getItem('dazedPagoHidden') === '1';
+  let lastTotalPagoVal = 0;
+
+  const EYE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>';
+  const EYE_OFF_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.94 10.94 0 0112 19c-7 0-11-7-11-7a18.6 18.6 0 015.06-5.94M9.9 4.24A10.4 10.4 0 0112 4c7 0 11 7 11 7a18.5 18.5 0 01-2.16 3.19M14.12 14.12a3 3 0 11-4.24-4.24"/><path d="M1 1l22 22"/></svg>';
+
+  function applyTotalVisibility() {
+    totalGeral.textContent = totalHidden ? '••••••' : formatMoney(lastTotalGeralVal);
+    if (hideTotalBtn) {
+      hideTotalBtn.innerHTML = totalHidden ? EYE_OFF_ICON : EYE_ICON;
+      hideTotalBtn.setAttribute('aria-label', totalHidden ? 'Mostrar valor total' : 'Ocultar valor total');
+    }
+  }
+
+  function applyPagoVisibility() {
+    totalPago.textContent = pagoHidden ? '••••••' : formatMoney(lastTotalPagoVal);
+    if (hidePagoBtn) {
+      hidePagoBtn.innerHTML = pagoHidden ? EYE_OFF_ICON : EYE_ICON;
+      hidePagoBtn.setAttribute('aria-label', pagoHidden ? 'Mostrar valor pago' : 'Ocultar valor pago');
+    }
+  }
+
+  if (hideTotalBtn) {
+    hideTotalBtn.addEventListener('click', () => {
+      totalHidden = !totalHidden;
+      localStorage.setItem('dazedTotalHidden', totalHidden ? '1' : '0');
+      applyTotalVisibility();
+    });
+  }
+
+  if (hidePagoBtn) {
+    hidePagoBtn.addEventListener('click', () => {
+      pagoHidden = !pagoHidden;
+      localStorage.setItem('dazedPagoHidden', pagoHidden ? '1' : '0');
+      applyPagoVisibility();
+    });
+  }
 
   const statGrid = document.getElementById('statGrid');
   const downloadPdfBtn = document.getElementById('downloadPdfBtn');
   const totalItensCount = document.getElementById('totalItensCount');
   const totalPago = document.getElementById('totalPago');
+  const hidePagoBtn = document.getElementById('hidePagoBtn');
   const totalPendente = document.getElementById('totalPendente');
   const totalGeral = document.getElementById('totalGeral');
+  const hideTotalBtn = document.getElementById('hideTotalBtn');
   const viewButtons = [
     document.getElementById('viewListBtn'),
     document.getElementById('viewGridBtn'),
@@ -1375,10 +1443,11 @@
         sorted.sort((a, b) => (typeof b.valor === 'number' ? b.valor : 0) - (typeof a.valor === 'number' ? a.valor : 0));
         break;
       case 'antigos':
-        sorted.reverse();
-        break;
+        break; // ordem original da planilha = mais antigos primeiro
+      case 'recentes':
       default:
-        break; // 'recentes' mantém a ordem original vinda da API
+        sorted.reverse();
+        break; // linhas mais recentes da planilha aparecem primeiro
     }
     return sorted;
   }
@@ -1457,9 +1526,11 @@
     const totalGeralVal = totalPagoVal + totalPendenteVal;
 
     totalItensCount.textContent = pedidos.length;
-    totalPago.textContent = formatMoney(totalPagoVal);
+    lastTotalPagoVal = totalPagoVal;
+    applyPagoVisibility();
     totalPendente.textContent = formatMoney(totalPendenteVal);
-    totalGeral.textContent = formatMoney(totalGeralVal);
+    lastTotalGeralVal = totalGeralVal;
+    applyTotalVisibility();
     statGrid.style.display = 'grid';
   }
 
@@ -2013,13 +2084,14 @@
 
   selectAllCheck.addEventListener('change', () => {
     const visibleUids = lastRendered.map(p => p.__uid);
-    if (selectAllCheck.checked) {
-      let count = selectedUids.size;
+    const hadSelection = selectedUids.size > 0;
+    if (!hadSelection) {
+      let count = 0;
       visibleUids.forEach(u => {
-        if (!selectedUids.has(u) && count < MAX_COMPARE) { selectedUids.add(u); count++; }
+        if (count < MAX_COMPARE) { selectedUids.add(u); count++; }
       });
     } else {
-      visibleUids.forEach(u => selectedUids.delete(u));
+      selectedUids.clear();
     }
     renderCards(lastRendered, lastTotal, true);
   });
