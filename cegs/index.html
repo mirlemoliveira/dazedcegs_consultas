@@ -245,6 +245,70 @@
     box-shadow: 0 0 0 3px rgba(111,112,161,0.15);
   }
 
+  /* ---------- ACTIVE FILTER CHIPS ---------- */
+  .chips-row {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+
+  .chips-row.is-open { display: flex; }
+
+  .chips-count {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-faint);
+    margin-right: 2px;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--purple-tint);
+    color: var(--purple-dark);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 8px 6px 12px;
+    border-radius: 999px;
+    transition: background 0.15s ease;
+  }
+
+  .chip:hover { background: rgba(111,112,161,0.22); }
+
+  .chip button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(111,112,161,0.22);
+    color: var(--purple-dark);
+    font-size: 12px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .chip button:hover { background: var(--purple-dark); color: #fff; }
+
+  .chips-clear {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--coral-dark);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 6px 4px;
+    transition: opacity 0.15s ease;
+  }
+
+  .chips-clear:hover { opacity: 0.7; }
+
   /* ---------- STAT CARDS ---------- */
   .stat-grid {
     display: grid;
@@ -312,6 +376,13 @@
     flex-wrap: wrap;
   }
 
+  .results-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
   .results-summary {
     font-family: 'Oswald', sans-serif;
     font-size: 12px;
@@ -320,6 +391,69 @@
     color: var(--ink-faint);
     font-weight: 600;
   }
+
+  .sort-select {
+    height: 34px;
+    padding: 0 12px;
+    font-size: 12.5px;
+    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .sort-select:focus {
+    outline: none;
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(111,112,161,0.15);
+  }
+
+  /* ---------- SELECT ALL / COMPARE ---------- */
+  .select-all-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+
+  .select-all-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .select-all-label input { width: 16px; height: 16px; accent-color: var(--purple); cursor: pointer; }
+
+  .compare-btn {
+    display: none;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--purple);
+    color: #fff;
+    border: none;
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(111,112,161,0.3);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+
+  .compare-btn.is-visible { display: inline-flex; }
+  .compare-btn:hover { background: var(--purple-dark); transform: scale(1.03); }
+  .compare-btn svg { width: 13px; height: 13px; }
 
   .view-toggle { display: flex; gap: 8px; flex-wrap: wrap; }
 
@@ -402,25 +536,128 @@
 
   .product-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-  .product-stamp {
+  .card-top-row {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    z-index: 3;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 6px;
+    pointer-events: none;
+  }
+
+  .card-top-left { display: flex; align-items: center; gap: 5px; pointer-events: none; flex-wrap: wrap; }
+
+  .card-check {
+    pointer-events: auto;
+    width: 18px;
+    height: 18px;
+    border-radius: 6px;
+    accent-color: var(--purple);
+    cursor: pointer;
+    background: rgba(255,255,255,0.92);
+    box-shadow: 0 1px 4px rgba(43,43,51,0.18);
+  }
+
+  .product-stamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     font-family: 'Oswald', sans-serif;
-    font-size: 9.5px;
+    font-size: 9px;
     font-weight: 600;
     letter-spacing: 0.3px;
     text-transform: uppercase;
-    padding: 4px 9px;
+    padding: 4px 9px 4px 7px;
     border-radius: 999px;
-    background: rgba(255,255,255,0.92);
     backdrop-filter: blur(4px);
+    pointer-events: auto;
+    transition: transform 0.15s ease;
   }
 
-  .product-stamp.status-warehouse { color: #8A6418; }
-  .product-stamp.status-transito { color: #4A4B82; }
-  .product-stamp.status-finalizado { color: #2A6B4C; }
-  .product-stamp.status-pendente { color: var(--coral-dark); }
+  .product-stamp:hover { transform: translateY(-1px); }
+  .product-stamp svg { width: 9px; height: 9px; flex-shrink: 0; }
+
+  .product-stamp.status-warehouse { color: #8A6418; background: #FBEFD8; }
+  .product-stamp.status-transito { color: #4A4B82; background: rgba(111,112,161,0.18); }
+  .product-stamp.status-gom { color: var(--purple-dark); background: rgba(86,87,128,0.16); }
+  .product-stamp.status-finalizado { color: var(--green); background: var(--green-bg); }
+  .product-stamp.status-pendente { color: var(--coral-dark); background: rgba(255,84,96,0.16); }
+
+  .badge-novo {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--purple);
+    padding: 4px 8px;
+    border-radius: 999px;
+    pointer-events: auto;
+    box-shadow: 0 2px 8px rgba(111,112,161,0.35);
+  }
+
+  .card-menu-wrap { position: relative; pointer-events: auto; }
+
+  .card-menu-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.92);
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(43,43,51,0.18);
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .card-menu-btn:hover { background: #fff; color: var(--ink); }
+  .card-menu-btn svg { width: 14px; height: 14px; }
+
+  .card-menu {
+    position: absolute;
+    top: 28px;
+    right: 0;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: 0 10px 28px rgba(43,43,51,0.14);
+    padding: 6px;
+    min-width: 160px;
+    display: none;
+    z-index: 10;
+  }
+
+  .card-menu.is-open { display: block; }
+
+  .card-menu button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: none;
+    background: none;
+    font-size: 12.5px;
+    color: var(--ink);
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.12s ease;
+  }
+
+  .card-menu button:hover { background: var(--purple-tint); color: var(--purple-dark); }
+  .card-menu button svg { width: 14px; height: 14px; flex-shrink: 0; color: var(--ink-faint); }
+  .card-menu button:hover svg { color: var(--purple-dark); }
 
   .product-body { padding: 14px 16px 16px; }
 
@@ -591,6 +828,7 @@
 
   .status-warehouse { color: #8A6418; background: rgba(201,150,47,0.16); }
   .status-transito { color: #4A4B82; background: rgba(111,112,161,0.16); }
+  .status-gom { color: var(--purple-dark); background: rgba(86,87,128,0.16); }
   .status-finalizado { color: #2A6B4C; background: rgba(62,143,104,0.16); }
   .status-pendente { color: var(--coral-dark); background: rgba(255,84,96,0.14); }
 
@@ -616,6 +854,7 @@
 
   .order-card.status-warehouse { border-left-color: #C9962F; }
   .order-card.status-transito { border-left-color: var(--purple); }
+  .order-card.status-gom { border-left-color: var(--purple-dark); }
   .order-card.status-finalizado { border-left-color: #3E8F68; }
   .order-card.status-pendente { border-left-color: var(--coral-dark); }
 
@@ -637,16 +876,21 @@
   .order-side { text-align: right; min-width: 100px; }
 
   .stamp {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     font-family: 'Oswald', sans-serif;
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.3px;
     text-transform: uppercase;
     padding: 3px 7px;
-    border-radius: 5px;
+    border-radius: 999px;
     margin-bottom: 4px;
   }
+
+  .table-stamp svg, .stamp svg { width: 9px; height: 9px; flex-shrink: 0; }
+  .table-stamp { display: inline-flex; align-items: center; gap: 4px; }
 
   .order-value { font-size: 15px; font-weight: 600; color: var(--ink); font-family: 'Oswald', sans-serif; }
   .order-payment { font-size: 11px; margin-top: 2px; font-weight: 500; }
@@ -724,6 +968,74 @@
 
   @keyframes shimmer { 100% { left: 100%; } }
 
+  /* ---------- COMPARE MODAL ---------- */
+  .compare-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(43,43,51,0.45);
+    backdrop-filter: blur(2px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+  }
+
+  .compare-overlay.is-open { display: flex; }
+
+  .compare-modal {
+    background: #fff;
+    border-radius: 20px;
+    max-width: 720px;
+    width: 100%;
+    max-height: 84vh;
+    overflow-y: auto;
+    padding: 28px;
+    box-shadow: 0 24px 60px rgba(43,43,51,0.25);
+  }
+
+  .compare-modal h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 18px;
+    color: var(--ink);
+  }
+
+  .compare-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .compare-item {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+  }
+
+  .compare-item img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; margin-bottom: 10px; background: var(--purple-tint); }
+  .compare-item h4 { font-family: 'Oswald', sans-serif; font-size: 12.5px; font-weight: 600; margin: 0 0 6px; color: var(--ink); text-transform: uppercase; }
+  .compare-item .cr { display: flex; justify-content: space-between; font-size: 11.5px; padding: 4px 0; border-top: 1px solid var(--line); color: var(--ink-soft); }
+  .compare-item .cr span:last-child { color: var(--ink); font-weight: 600; }
+
+  .compare-close {
+    width: 100%;
+    padding: 12px;
+    border-radius: 999px;
+    border: none;
+    background: var(--purple);
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+
+  .compare-close:hover { background: var(--purple-dark); transform: scale(1.02); }
+
   @media (max-width: 760px) {
     main { padding: 32px 18px 70px; }
     .search-row { flex-direction: column; }
@@ -799,10 +1111,14 @@
       <select id="statusFilter">
         <option value="">Todos os status</option>
       </select>
+      <select id="membroFilter">
+        <option value="">Todos os membros</option>
+      </select>
       <select id="pobFilter">
         <option value="">Todos os itens</option>
       </select>
     </div>
+    <div class="chips-row" id="chipsRow"></div>
     <div class="status-msg" id="statusMsg"></div>
   </div>
 
@@ -846,7 +1162,17 @@
   </div>
 
   <div class="toolbar" id="toolbar" style="display:none;">
-    <div class="results-summary" id="resultsSummary"></div>
+    <div class="results-left">
+      <div class="results-summary" id="resultsSummary"></div>
+      <select class="sort-select" id="sortSelect">
+        <option value="recentes">Ordenar por: Mais recentes</option>
+        <option value="antigos">Ordenar por: Mais antigos</option>
+        <option value="nome-az">Nome (A–Z)</option>
+        <option value="nome-za">Nome (Z–A)</option>
+        <option value="menor-valor">Menor valor</option>
+        <option value="maior-valor">Maior valor</option>
+      </select>
+    </div>
     <div class="view-toggle" id="viewToggle">
       <button type="button" class="view-btn" id="viewListBtn" data-view="list">Lista</button>
       <button type="button" class="view-btn active" id="viewGridBtn" data-view="grid">Grid</button>
@@ -854,11 +1180,30 @@
     </div>
   </div>
 
+  <div class="select-all-row" id="selectAllRow" style="display:none;">
+    <label class="select-all-label">
+      <input type="checkbox" id="selectAllCheck">
+      Selecionar todos
+    </label>
+    <button type="button" class="compare-btn" id="compareBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h4M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M9 3v18M15 3v18"/></svg>
+      Comparar (<span id="compareCount">0</span>)
+    </button>
+  </div>
+
   <div class="results view-grid" id="results"></div>
 
   <div class="pagination" id="pagination" style="display:none;"></div>
 
 </main>
+
+<div class="compare-overlay" id="compareOverlay">
+  <div class="compare-modal">
+    <h2>Comparar itens</h2>
+    <div class="compare-grid" id="compareGrid"></div>
+    <button type="button" class="compare-close" id="compareCloseBtn">Fechar</button>
+  </div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
@@ -874,10 +1219,20 @@
   const statusFilter = document.getElementById('statusFilter');
   const pobFilter = document.getElementById('pobFilter');
   const cegFilter = document.getElementById('cegFilter');
+  const membroFilter = document.getElementById('membroFilter');
   const filterRow = document.getElementById('filterRow');
+  const chipsRow = document.getElementById('chipsRow');
   const toolbar = document.getElementById('toolbar');
   const resultsSummary = document.getElementById('resultsSummary');
+  const sortSelect = document.getElementById('sortSelect');
   const paginationEl = document.getElementById('pagination');
+  const selectAllRow = document.getElementById('selectAllRow');
+  const selectAllCheck = document.getElementById('selectAllCheck');
+  const compareBtn = document.getElementById('compareBtn');
+  const compareCount = document.getElementById('compareCount');
+  const compareOverlay = document.getElementById('compareOverlay');
+  const compareGrid = document.getElementById('compareGrid');
+  const compareCloseBtn = document.getElementById('compareCloseBtn');
 
   let allPedidos = [];
   let cegsConfig = [];
@@ -886,6 +1241,8 @@
   let lastTotal = 0;
   let currentHandle = '';
   let currentPage = 1;
+  const MAX_COMPARE = 4;
+  let selectedUids = new Set();
 
   const statGrid = document.getElementById('statGrid');
   const downloadPdfBtn = document.getElementById('downloadPdfBtn');
@@ -902,20 +1259,36 @@
   function statusClass(status) {
     const s = (status || '').toLowerCase();
     if (s.includes('finalizado') || s.includes('enviado joiner')) return 'status-finalizado';
-    if (s.includes('warehouse') || s.includes('gom') || s.includes('seller')) return 'status-warehouse';
+    if (s.includes('gom')) return 'status-gom';
+    if (s.includes('warehouse') || s.includes('seller')) return 'status-warehouse';
     if (s.includes('enviado') || s.includes('alfandega') || s.includes('alfândega') || s.includes('transito')) return 'status-transito';
     if (s.includes('comprado') || s.includes('aguardando')) return 'status-pendente';
     return 'status-transito';
+  }
+
+  const STATUS_ICONS = {
+    'status-warehouse': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/></svg>',
+    'status-transito': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h13M13 6l6 6-6 6"/></svg>',
+    'status-gom': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 21V8l8-5 8 5v13"/><path d="M9 21v-6h6v6"/></svg>',
+    'status-finalizado': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>',
+    'status-pendente': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>'
+  };
+
+  function statusIcon(cls) {
+    return STATUS_ICONS[cls] || '';
   }
 
   function renderSkeleton() {
     resultsEl.className = 'results view-grid';
     resultsEl.innerHTML = '';
     filterRow.style.display = 'none';
+    chipsRow.classList.remove('is-open');
+    chipsRow.innerHTML = '';
     toolbar.style.display = 'none';
     statGrid.style.display = 'none';
     downloadPdfBtn.style.display = 'none';
     paginationEl.style.display = 'none';
+    selectAllRow.style.display = 'none';
     for (let i = 0; i < 8; i++) {
       const sk = document.createElement('div');
       sk.className = 'skeleton';
@@ -927,10 +1300,13 @@
     resultsEl.className = 'results view-grid';
     resultsEl.innerHTML = '';
     filterRow.style.display = 'none';
+    chipsRow.classList.remove('is-open');
+    chipsRow.innerHTML = '';
     toolbar.style.display = 'none';
     statGrid.style.display = 'none';
     downloadPdfBtn.style.display = 'none';
     paginationEl.style.display = 'none';
+    selectAllRow.style.display = 'none';
     statusMsg.textContent = msg;
     statusMsg.classList.add('error');
   }
@@ -964,6 +1340,10 @@
     statusFilter.innerHTML = '<option value="">Todos os status</option>' +
       statuses.map(s => `<option value="${escapeAttr(s)}">${s}</option>`).join('');
 
+    const membros = [...new Set(scoped.map(p => (p.membro || '').trim()).filter(Boolean))].sort();
+    membroFilter.innerHTML = '<option value="">Todos os membros</option>' +
+      membros.map(m => `<option value="${escapeAttr(m)}">${m}</option>`).join('');
+
     const showPob = cegVal
       ? cegShowsPobFilter(cegVal)
       : cegsConfig.some(c => c.showPobFilter);
@@ -979,17 +1359,79 @@
     }
   }
 
+  function sortPedidos(arr) {
+    const sorted = arr.slice();
+    const sortVal = sortSelect ? sortSelect.value : 'recentes';
+    switch (sortVal) {
+      case 'nome-az':
+        sorted.sort((a, b) => (a.pob || '').localeCompare(b.pob || ''));
+        break;
+      case 'nome-za':
+        sorted.sort((a, b) => (b.pob || '').localeCompare(a.pob || ''));
+        break;
+      case 'menor-valor':
+        sorted.sort((a, b) => (typeof a.valor === 'number' ? a.valor : 0) - (typeof b.valor === 'number' ? b.valor : 0));
+        break;
+      case 'maior-valor':
+        sorted.sort((a, b) => (typeof b.valor === 'number' ? b.valor : 0) - (typeof a.valor === 'number' ? a.valor : 0));
+        break;
+      case 'antigos':
+        sorted.reverse();
+        break;
+      default:
+        break; // 'recentes' mantém a ordem original vinda da API
+    }
+    return sorted;
+  }
+
+  function activeFilterDefs() {
+    return [
+      { key: 'ceg', label: cegFilter.value, clear: () => { cegFilter.value = ''; updateDependentFilters(); } },
+      { key: 'status', label: statusFilter.value, clear: () => { statusFilter.value = ''; } },
+      { key: 'membro', label: membroFilter.value, clear: () => { membroFilter.value = ''; } },
+      { key: 'pob', label: cegShowsPobFilter(cegFilter.value) ? pobFilter.value : '', clear: () => { pobFilter.value = ''; } }
+    ].filter(f => f.label);
+  }
+
+  function renderChips() {
+    const active = activeFilterDefs();
+    if (active.length === 0) {
+      chipsRow.classList.remove('is-open');
+      chipsRow.innerHTML = '';
+      return;
+    }
+    chipsRow.classList.add('is-open');
+    const countLabel = active.length === 1 ? '1 filtro ativo' : `${active.length} filtros ativos`;
+    chipsRow.innerHTML = `<span class="chips-count">${countLabel}</span>` +
+      active.map((f, i) => `<span class="chip" data-chip="${i}">${escapeAttr(f.label)}<button type="button" aria-label="Remover filtro">&times;</button></span>`).join('') +
+      `<button type="button" class="chips-clear" id="chipsClearBtn">Limpar tudo</button>`;
+
+    active.forEach((f, i) => {
+      const chipEl = chipsRow.querySelector(`.chip[data-chip="${i}"] button`);
+      if (chipEl) chipEl.addEventListener('click', () => { f.clear(); applyFilters(); });
+    });
+    const clearBtn = document.getElementById('chipsClearBtn');
+    if (clearBtn) clearBtn.addEventListener('click', () => {
+      cegFilter.value = ''; statusFilter.value = ''; membroFilter.value = ''; pobFilter.value = '';
+      updateDependentFilters();
+      applyFilters();
+    });
+  }
+
   function applyFilters() {
     const cegVal = cegFilter.value;
     const statusVal = statusFilter.value;
+    const membroVal = membroFilter.value;
     const pobVal = cegShowsPobFilter(cegVal) ? pobFilter.value : '';
     const filtered = allPedidos.filter(p =>
       (!cegVal || (p.ceg || '').trim() === cegVal) &&
       (!statusVal || (p.status || '').trim() === statusVal) &&
+      (!membroVal || (p.membro || '').trim() === membroVal) &&
       (!pobVal || (p.pob || '').trim() === pobVal)
     );
     currentPage = 1;
-    renderCards(filtered, allPedidos.length);
+    renderChips();
+    renderCards(sortPedidos(filtered), allPedidos.length);
   }
 
   function updateStatGrid(pedidos) {
@@ -1077,6 +1519,7 @@
       toolbar.style.display = 'none';
       paginationEl.style.display = 'none';
       downloadPdfBtn.style.display = 'none';
+      selectAllRow.style.display = 'none';
       return;
     }
 
@@ -1230,13 +1673,45 @@
         : '';
       const card = document.createElement('div');
       card.className = 'product-card';
+      card.dataset.uid = p.__uid;
       const slug = p.pobSlug || '';
       const folder = p.imgFolder ? IMG_FOLDER + p.imgFolder + '/' : IMG_FOLDER;
       const carHtml = carouselHtml(p);
+      const checked = selectedUids.has(p.__uid) ? 'checked' : '';
+      const novoHtml = p.novo ? '<span class="badge-novo">Novo</span>' : '';
       card.innerHTML = `
         <div class="product-photo">
           ${carHtml}
-          <span class="product-stamp ${cls}">${p.status || 'Sem status'}</span>
+          <div class="card-top-row">
+            <div class="card-top-left">
+              <input type="checkbox" class="card-check" data-uid="${p.__uid}" ${checked} aria-label="Selecionar para comparar">
+              <span class="product-stamp ${cls}">${statusIcon(cls)}${p.status || 'Sem status'}</span>
+              ${novoHtml}
+            </div>
+            <div class="card-menu-wrap">
+              <button type="button" class="card-menu-btn" data-menu-toggle="${p.__uid}" aria-label="Mais ações">
+                <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg>
+              </button>
+              <div class="card-menu" data-menu="${p.__uid}">
+                <button type="button" data-action="download" data-uid="${p.__uid}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+                  Baixar foto
+                </button>
+                <button type="button" data-action="copy" data-uid="${p.__uid}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copiar imagem
+                </button>
+                <button type="button" data-action="ceg" data-uid="${p.__uid}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+                  Abrir CEG
+                </button>
+                <button type="button" data-action="share" data-uid="${p.__uid}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/></svg>
+                  Compartilhar item
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="product-body">
           <p class="product-pob">${p.pob || 'Item'}</p>
@@ -1263,6 +1738,7 @@
         }
       }
     });
+    wireCardInteractions(pedidos);
   }
 
   function renderList(pedidos) {
@@ -1270,9 +1746,13 @@
     resultsEl.innerHTML = '';
     pedidos.forEach(p => {
       const cls = statusClass(p.status);
+      const checked = selectedUids.has(p.__uid) ? 'checked' : '';
+      const novoHtml = p.novo ? '<span class="badge-novo">Novo</span>' : '';
       const card = document.createElement('div');
       card.className = 'order-card ' + cls;
+      card.dataset.uid = p.__uid;
       card.innerHTML = `
+        <input type="checkbox" class="card-check" data-uid="${p.__uid}" ${checked} aria-label="Selecionar para comparar">
         <div class="order-thumb">${thumbHtml(p)}</div>
         <div class="order-main">
           <p class="order-pob">${p.pob || 'Item'}</p>
@@ -1282,13 +1762,15 @@
           </div>
         </div>
         <div class="order-side">
-          <div class="stamp ${cls}">${p.status || 'Sem status'}</div>
+          <div class="stamp ${cls}">${statusIcon(cls)}${p.status || 'Sem status'}</div>
+          ${novoHtml}
           <div class="order-value">${formatValor(p)}</div>
           <div class="order-payment ${(p.pagamento || '').toLowerCase()}">${p.pagamento || ''}</div>
         </div>
       `;
       resultsEl.appendChild(card);
     });
+    wireCardInteractions(pedidos);
   }
 
   function renderTable(pedidos) {
@@ -1296,12 +1778,15 @@
     resultsEl.innerHTML = '';
     const rows = pedidos.map(p => {
       const cls = statusClass(p.status);
+      const checked = selectedUids.has(p.__uid) ? 'checked' : '';
+      const novoHtml = p.novo ? '<span class="badge-novo">Novo</span>' : '';
       return `
-        <tr>
+        <tr data-uid="${p.__uid}">
+          <td><input type="checkbox" class="card-check" data-uid="${p.__uid}" ${checked} aria-label="Selecionar para comparar"></td>
           <td><div class="table-thumb">${thumbHtml(p)}</div></td>
           <td>${p.pob || 'Item'}</td>
           <td>${p.membro || '-'}</td>
-          <td><span class="table-stamp ${cls}">${p.status || '-'}</span></td>
+          <td><span class="table-stamp ${cls}">${statusIcon(cls)}${p.status || '-'}</span> ${novoHtml}</td>
           <td>${formatValor(p)}</td>
           <td>${p.prazo || '-'}</td>
           <td>${p.pagamento || '-'}</td>
@@ -1311,6 +1796,7 @@
       <table class="order-table">
         <thead>
           <tr>
+            <th></th>
             <th></th>
             <th>Item</th>
             <th>Membro</th>
@@ -1322,6 +1808,7 @@
         </thead>
         <tbody>${rows}</tbody>
       </table>`;
+    wireCardInteractions(pedidos);
   }
 
   function setView(view) {
@@ -1334,8 +1821,10 @@
 
   function renderResults(data) {
     allPedidos = data.pedidos || [];
+    allPedidos.forEach((p, i) => { p.__uid = i; });
     cegsConfig = data.cegs || [];
     currentPage = 1;
+    selectedUids = new Set();
     if (allPedidos.length === 0) {
       resultsEl.className = 'results view-grid';
       resultsEl.innerHTML = `
@@ -1345,20 +1834,27 @@
         </div>`;
       cegFilter.innerHTML = '<option value="">Todas as CEGs</option>';
       statusFilter.innerHTML = '<option value="">Todos os status</option>';
+      membroFilter.innerHTML = '<option value="">Todos os membros</option>';
       pobFilter.innerHTML = '<option value="">Todos os itens</option>';
       filterRow.style.display = 'none';
+      chipsRow.classList.remove('is-open');
+      chipsRow.innerHTML = '';
       toolbar.style.display = 'none';
       statGrid.style.display = 'none';
       downloadPdfBtn.style.display = 'none';
       paginationEl.style.display = 'none';
+      selectAllRow.style.display = 'none';
       return;
     }
     populateFilters(allPedidos);
     cegFilter.value = '';
     statusFilter.value = '';
+    membroFilter.value = '';
     pobFilter.value = '';
     filterRow.style.display = 'flex';
-    renderCards(allPedidos, allPedidos.length);
+    renderChips();
+    if (sortSelect) sortSelect.value = 'recentes';
+    renderCards(sortPedidos(allPedidos), allPedidos.length);
   }
 
   window.__tryNextExt = function(imgEl) {
@@ -1445,12 +1941,185 @@
     }
   }
 
+  // ---------- COMPARE / SELEÇÃO ----------
+  function closeAllMenus(exceptUid) {
+    resultsEl.querySelectorAll('.card-menu.is-open').forEach(m => {
+      if (!exceptUid || m.dataset.menu !== String(exceptUid)) m.classList.remove('is-open');
+    });
+  }
+
+  function updateCompareBar(visibleUids) {
+    const n = selectedUids.size;
+    compareBtn.classList.toggle('is-visible', n >= 2);
+    compareCount.textContent = String(n);
+    if (visibleUids && visibleUids.length) {
+      const allChecked = visibleUids.every(u => selectedUids.has(u));
+      selectAllCheck.checked = allChecked;
+      selectAllCheck.indeterminate = !allChecked && visibleUids.some(u => selectedUids.has(u));
+    }
+  }
+
+  function toggleUid(uid, checked) {
+    if (checked) {
+      if (selectedUids.size >= MAX_COMPARE) {
+        checked = false;
+        const cb = resultsEl.querySelector(`.card-check[data-uid="${uid}"]`);
+        if (cb) cb.checked = false;
+        statusMsg.textContent = `Você pode comparar até ${MAX_COMPARE} itens por vez.`;
+        statusMsg.classList.remove('error');
+        setTimeout(() => { if (statusMsg.textContent.indexOf('comparar até') !== -1) statusMsg.textContent = ''; }, 2600);
+        return;
+      }
+      selectedUids.add(uid);
+    } else {
+      selectedUids.delete(uid);
+    }
+    const visibleUids = lastRendered.map(p => p.__uid);
+    updateCompareBar(visibleUids);
+  }
+
+  function wireCardInteractions(pedidos) {
+    const visibleUids = pedidos.map(p => p.__uid);
+    selectAllRow.style.display = pedidos.length ? 'flex' : 'none';
+    updateCompareBar(visibleUids);
+
+    resultsEl.querySelectorAll('.card-check').forEach(cb => {
+      cb.addEventListener('click', e => e.stopPropagation());
+      cb.addEventListener('change', () => {
+        toggleUid(parseInt(cb.dataset.uid, 10), cb.checked);
+      });
+    });
+
+    resultsEl.querySelectorAll('[data-menu-toggle]').forEach(btnEl => {
+      btnEl.addEventListener('click', e => {
+        e.stopPropagation();
+        const uid = btnEl.dataset.menuToggle;
+        const menu = resultsEl.querySelector(`.card-menu[data-menu="${uid}"]`);
+        const isOpen = menu.classList.contains('is-open');
+        closeAllMenus();
+        if (!isOpen) menu.classList.add('is-open');
+      });
+    });
+
+    resultsEl.querySelectorAll('.card-menu button[data-action]').forEach(actionBtn => {
+      actionBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        const uid = parseInt(actionBtn.dataset.uid, 10);
+        const pedido = allPedidos.find(p => p.__uid === uid);
+        closeAllMenus();
+        if (!pedido) return;
+        const action = actionBtn.dataset.action;
+        if (action === 'download') downloadFoto(pedido);
+        else if (action === 'copy') copiarImagem(pedido);
+        else if (action === 'ceg') abrirCeg(pedido);
+        else if (action === 'share') compartilharItem(pedido);
+      });
+    });
+  }
+
+  document.addEventListener('click', () => closeAllMenus());
+
+  selectAllCheck.addEventListener('change', () => {
+    const visibleUids = lastRendered.map(p => p.__uid);
+    if (selectAllCheck.checked) {
+      let count = selectedUids.size;
+      visibleUids.forEach(u => {
+        if (!selectedUids.has(u) && count < MAX_COMPARE) { selectedUids.add(u); count++; }
+      });
+    } else {
+      visibleUids.forEach(u => selectedUids.delete(u));
+    }
+    renderCards(lastRendered, lastTotal, true);
+  });
+
+  function itemImgSrc(p) {
+    const slug = p.pobSlug || '';
+    if (!slug) return '';
+    const folder = p.imgFolder ? IMG_FOLDER + p.imgFolder + '/' : IMG_FOLDER;
+    return folder + slug + '.png';
+  }
+
+  function downloadFoto(p) {
+    const src = itemImgSrc(p);
+    if (!src) return;
+    const a = document.createElement('a');
+    a.href = src;
+    a.download = (p.pobSlug || 'item') + '.png';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  async function copiarImagem(p) {
+    const src = itemImgSrc(p);
+    if (!src || !navigator.clipboard || !window.ClipboardItem) {
+      statusMsg.textContent = 'Copiar imagem não é suportado neste navegador.';
+      return;
+    }
+    try {
+      const res = await fetch(src);
+      const blob = await res.blob();
+      await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
+      statusMsg.textContent = 'Imagem copiada!';
+      statusMsg.classList.remove('error');
+      setTimeout(() => { if (statusMsg.textContent === 'Imagem copiada!') statusMsg.textContent = ''; }, 2200);
+    } catch (err) {
+      statusMsg.textContent = 'Não foi possível copiar a imagem.';
+    }
+  }
+
+  function abrirCeg(p) {
+    if (!p.ceg) return;
+    cegFilter.value = p.ceg;
+    updateDependentFilters();
+    applyFilters();
+    window.scrollTo({ top: toolbar.offsetTop - 90, behavior: 'smooth' });
+  }
+
+  async function compartilharItem(p) {
+    const texto = `${p.pob || 'Item'} — ${p.membro || ''} (${p.ceg || ''}) — ${formatValor(p)}`;
+    if (navigator.share) {
+      try { await navigator.share({ text: texto }); } catch (err) { /* usuário cancelou */ }
+      return;
+    }
+    if (navigator.clipboard) {
+      try {
+        await navigator.clipboard.writeText(texto);
+        statusMsg.textContent = 'Texto do item copiado!';
+        statusMsg.classList.remove('error');
+        setTimeout(() => { if (statusMsg.textContent === 'Texto do item copiado!') statusMsg.textContent = ''; }, 2200);
+      } catch (err) { /* ignora */ }
+    }
+  }
+
+  compareBtn.addEventListener('click', () => {
+    const items = allPedidos.filter(p => selectedUids.has(p.__uid));
+    compareGrid.innerHTML = items.map(p => `
+      <div class="compare-item">
+        <img src="${itemImgSrc(p)}" alt="${p.pob || ''}" onerror="this.style.opacity=0;">
+        <h4>${p.pob || 'Item'}</h4>
+        <div class="cr"><span>Membro</span><span>${p.membro || '-'}</span></div>
+        <div class="cr"><span>CEG</span><span>${p.ceg || '-'}</span></div>
+        <div class="cr"><span>Valor</span><span>${formatValor(p)}</span></div>
+        <div class="cr"><span>Status</span><span>${p.status || '-'}</span></div>
+      </div>
+    `).join('');
+    compareOverlay.classList.add('is-open');
+  });
+
+  compareCloseBtn.addEventListener('click', () => compareOverlay.classList.remove('is-open'));
+  compareOverlay.addEventListener('click', e => {
+    if (e.target === compareOverlay) compareOverlay.classList.remove('is-open');
+  });
+
   btn.addEventListener('click', search);
   input.addEventListener('keydown', e => {
     if (e.key === 'Enter') search();
   });
-  statusFilter.addEventListener('change', applyFilters);
-  pobFilter.addEventListener('change', applyFilters);
+  statusFilter.addEventListener('change', () => { applyFilters(); });
+  membroFilter.addEventListener('change', () => { applyFilters(); });
+  pobFilter.addEventListener('change', () => { applyFilters(); });
+  sortSelect.addEventListener('change', () => { applyFilters(); });
   cegFilter.addEventListener('change', () => {
     updateDependentFilters();
     applyFilters();
