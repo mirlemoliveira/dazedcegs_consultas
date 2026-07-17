@@ -28,7 +28,7 @@
   html, body {
     margin: 0;
     min-height: 100vh;
-    background: #FCFBF9;
+    background: #E8EFF6;
     color: var(--ink);
     font-family: 'Inter', -apple-system, sans-serif;
   }
@@ -1081,7 +1081,6 @@
 
   <div class="page-header">
     <div class="page-header-text">
-      <div class="eyebrow">Área do Joiner</div>
       <h1>Consulta de itens</h1>
       <p>Consulte seus itens, acompanhe os status e visualize seus pagamentos em um só lugar.</p>
     </div>
@@ -1338,11 +1337,11 @@
 
     const statuses = [...new Set(scoped.map(p => (p.status || '').trim()).filter(Boolean))].sort();
     statusFilter.innerHTML = '<option value="">Todos os status</option>' +
-      statuses.map(s => `<option value="${escapeAttr(s)}">${s}</option>`).join('');
+      statuses.map(s => `<option value="${escapeAttr(s)}">${s.toUpperCase()}</option>`).join('');
 
     const membros = [...new Set(scoped.map(p => (p.membro || '').trim()).filter(Boolean))].sort();
     membroFilter.innerHTML = '<option value="">Todos os membros</option>' +
-      membros.map(m => `<option value="${escapeAttr(m)}">${m}</option>`).join('');
+      membros.map(m => `<option value="${escapeAttr(m)}">${m.toUpperCase()}</option>`).join('');
 
     const showPob = cegVal
       ? cegShowsPobFilter(cegVal)
@@ -1403,7 +1402,10 @@
     chipsRow.classList.add('is-open');
     const countLabel = active.length === 1 ? '1 filtro ativo' : `${active.length} filtros ativos`;
     chipsRow.innerHTML = `<span class="chips-count">${countLabel}</span>` +
-      active.map((f, i) => `<span class="chip" data-chip="${i}">${escapeAttr(f.label)}<button type="button" aria-label="Remover filtro">&times;</button></span>`).join('') +
+      active.map((f, i) => {
+        const shown = (f.key === 'status' || f.key === 'membro') ? f.label.toUpperCase() : f.label;
+        return `<span class="chip" data-chip="${i}">${escapeAttr(shown)}<button type="button" aria-label="Remover filtro">&times;</button></span>`;
+      }).join('') +
       `<button type="button" class="chips-clear" id="chipsClearBtn">Limpar tudo</button>`;
 
     active.forEach((f, i) => {
@@ -1685,7 +1687,7 @@
           <div class="card-top-row">
             <div class="card-top-left">
               <input type="checkbox" class="card-check" data-uid="${p.__uid}" ${checked} aria-label="Selecionar para comparar">
-              <span class="product-stamp ${cls}">${statusIcon(cls)}${p.status || 'Sem status'}</span>
+              <span class="product-stamp ${cls}">${statusIcon(cls)}${(p.status || 'Sem status').toUpperCase()}</span>
               ${novoHtml}
             </div>
             <div class="card-menu-wrap">
@@ -1707,7 +1709,7 @@
         </div>
         <div class="product-body">
           <p class="product-pob">${p.pob || 'Item'}</p>
-          <div class="product-meta">${p.membro || '-'} &middot; ${p.ceg || '-'}</div>
+          <div class="product-meta">${(p.membro || '-').toUpperCase()} &middot; ${p.ceg || '-'}</div>
           <div class="product-foot">
             <div>
               <div class="product-value">${formatValor(p)}</div>
@@ -1749,12 +1751,12 @@
         <div class="order-main">
           <p class="order-pob">${p.pob || 'Item'}</p>
           <div class="order-meta">
-            Membro: <span>${p.membro || '-'}</span><br>
+            Membro: <span>${(p.membro || '-').toUpperCase()}</span><br>
             Prazo: <span>${p.prazo || '-'}</span>
           </div>
         </div>
         <div class="order-side">
-          <div class="stamp ${cls}">${statusIcon(cls)}${p.status || 'Sem status'}</div>
+          <div class="stamp ${cls}">${statusIcon(cls)}${(p.status || 'Sem status').toUpperCase()}</div>
           ${novoHtml}
           <div class="order-value">${formatValor(p)}</div>
           <div class="order-payment ${(p.pagamento || '').toLowerCase()}">${p.pagamento || ''}</div>
@@ -1777,8 +1779,8 @@
           <td><input type="checkbox" class="card-check" data-uid="${p.__uid}" ${checked} aria-label="Selecionar para comparar"></td>
           <td><div class="table-thumb">${thumbHtml(p)}</div></td>
           <td>${p.pob || 'Item'}</td>
-          <td>${p.membro || '-'}</td>
-          <td><span class="table-stamp ${cls}">${statusIcon(cls)}${p.status || '-'}</span> ${novoHtml}</td>
+          <td>${(p.membro || '-').toUpperCase()}</td>
+          <td><span class="table-stamp ${cls}">${statusIcon(cls)}${(p.status || '-').toUpperCase()}</span> ${novoHtml}</td>
           <td>${formatValor(p)}</td>
           <td>${p.prazo || '-'}</td>
           <td>${p.pagamento || '-'}</td>
@@ -2062,10 +2064,10 @@
       <div class="compare-item">
         <img src="${itemImgSrc(p)}" alt="${p.pob || ''}" onerror="this.style.opacity=0;">
         <h4>${p.pob || 'Item'}</h4>
-        <div class="cr"><span>Membro</span><span>${p.membro || '-'}</span></div>
+        <div class="cr"><span>Membro</span><span>${(p.membro || '-').toUpperCase()}</span></div>
         <div class="cr"><span>CEG</span><span>${p.ceg || '-'}</span></div>
         <div class="cr"><span>Valor</span><span>${formatValor(p)}</span></div>
-        <div class="cr"><span>Status</span><span>${p.status || '-'}</span></div>
+        <div class="cr"><span>Status</span><span>${(p.status || '-').toUpperCase()}</span></div>
       </div>
     `).join('');
     compareOverlay.classList.add('is-open');
