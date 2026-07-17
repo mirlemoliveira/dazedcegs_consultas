@@ -1896,6 +1896,9 @@
   }
 
   function setView(view) {
+    if (view !== currentView) {
+      selectedUids = new Set();
+    }
     currentView = view;
     viewButtons.forEach(b => b.classList.toggle('active', b.dataset.view === view));
     renderCards(lastRendered, lastTotal, true);
@@ -2034,10 +2037,25 @@
     });
   }
 
-  function updateCompareBar(visibleUids) {
+  function updateCompareBtnUI() {
     const n = selectedUids.size;
-    compareBtn.classList.toggle('is-visible', n >= 2);
-    compareCount.textContent = String(n);
+    if (currentView === 'table') {
+      compareBtn.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+        Exportar PDF (<span id="compareCount">${n}</span>)
+      `;
+      compareBtn.classList.toggle('is-visible', n >= 1);
+    } else {
+      compareBtn.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h4M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M9 3v18M15 3v18"/></svg>
+        Comparar (<span id="compareCount">${n}</span>)
+      `;
+      compareBtn.classList.toggle('is-visible', n >= 2);
+    }
+  }
+
+  function updateCompareBar(visibleUids) {
+    updateCompareBtnUI();
     if (visibleUids && visibleUids.length) {
       const allChecked = visibleUids.every(u => selectedUids.has(u));
       selectAllCheck.checked = allChecked;
@@ -2047,7 +2065,7 @@
 
   function toggleUid(uid, checked) {
     if (checked) {
-      if (selectedUids.size >= MAX_COMPARE) {
+      if (currentView !== 'table' && selectedUids.size >= MAX_COMPARE) {
         checked = false;
         const cb = resultsEl.querySelector(`.card-check[data-uid="${uid}"]`);
         if (cb) cb.checked = false;
@@ -2107,10 +2125,14 @@
     const visibleUids = lastRendered.map(p => p.__uid);
     const hadSelection = selectedUids.size > 0;
     if (!hadSelection) {
-      let count = 0;
-      visibleUids.forEach(u => {
-        if (count < MAX_COMPARE) { selectedUids.add(u); count++; }
-      });
+      if (currentView === 'table') {
+        visibleUids.forEach(u => selectedUids.add(u));
+      } else {
+        let count = 0;
+        visibleUids.forEach(u => {
+          if (count < MAX_COMPARE) { selectedUids.add(u); count++; }
+        });
+      }
     } else {
       selectedUids.clear();
     }
@@ -2151,7 +2173,48 @@
     }
   }
 
+  function exportSelectedPdf() {
+    const items = allPedidos.filter(p => selectedUids.has(p.__uid));
+    if (!items.length) return;
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(16);
+    doc.text('Dazed Cegs - Itens selecionados de @' + currentHandle, 14, 18);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.text('Gerado em ' + new Date().toLocaleDateString('pt-BR'), 14, 25);
+
+    const rows = items.map(p => [
+      p.ceg || '-',
+      p.pob || '-',
+      p.membro || '-',
+      p.status || '-',
+      formatValor(p),
+      p.prazo || '-',
+      p.pagamento || '-'
+    ]);
+
+    doc.autoTable({
+      startY: 32,
+      head: [['CEG', 'Item', 'Membro', 'Status', 'Valor', 'Prazo', 'Pagamento']],
+      body: rows,
+      styles: { fontSize: 8, cellPadding: 2 },
+      headStyles: { fillColor: [111, 112, 161] },
+      margin: { left: 14, right: 14 }
+    });
+
+    doc.save('dazed-cegs-selecionados-' + currentHandle + '.pdf');
+  }
+
   compareBtn.addEventListener('click', () => {
+    if (currentView === 'table') {
+      exportSelectedPdf();
+      return;
+    }
     const items = allPedidos.filter(p => selectedUids.has(p.__uid));
     compareGrid.innerHTML = items.map(p => `
       <div class="compare-item">
