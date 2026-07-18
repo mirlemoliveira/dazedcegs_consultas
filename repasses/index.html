@@ -614,6 +614,65 @@
   }
 
   .gform-placeholder svg { width: 26px; height: 26px; color: var(--purple); }
+
+  .gform-placeholder-title {
+    font-size: 14px;
+    color: var(--ink);
+  }
+
+  .gform-placeholder-text {
+    font-size: 12.5px;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--ink-faint);
+    max-width: 380px;
+    line-height: 1.6;
+  }
+
+  /* ---------- HEADER DECORATIONS ---------- */
+  .rp-header { position: relative; overflow: hidden; }
+  .rp-deco { position: absolute; pointer-events: none; opacity: 0.8; }
+  .rp-deco-heart { font-size: 15px; line-height: 1; opacity: 0.55; }
+
+  /* ---------- INFO TEXT BLOCKS ---------- */
+  .info-text p {
+    margin: 0 0 14px;
+  }
+  .info-text p:last-child { margin-bottom: 0; }
+
+  /* ---------- HIGHLIGHT BADGES GRID ---------- */
+  .mini-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  .mini-card-grid .mini-card {
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  /* ---------- IMPORTANT NOTE V2 ---------- */
+  .important-note-v2 {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .important-note-v2 .note-ico {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  @media (max-width: 640px) {
+    .mini-card-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -656,7 +715,11 @@
 
 <main>
 
-  <div class="page-header">
+  <div class="page-header rp-header">
+    <svg class="rp-deco" style="left:6px;top:2px;" width="15" height="15" viewBox="0 0 24 24" fill="#C9C6E8"><path d="M12 2l1.6 5.2L19 9l-5.4 1.8L12 16l-1.6-5.2L5 9l5.4-1.8z"/></svg>
+    <svg class="rp-deco" style="left:150px;top:56px;" width="9" height="9" viewBox="0 0 24 24" fill="#F3B6C4"><path d="M12 2l1.6 5.2L19 9l-5.4 1.8L12 16l-1.6-5.2L5 9l5.4-1.8z"/></svg>
+    <span class="rp-deco rp-deco-heart" style="right:130px;top:8px;">💜</span>
+    <svg class="rp-deco" style="right:36px;bottom:6px;" width="12" height="12" viewBox="0 0 24 24" fill="#C9C6E8"><path d="M12 2l1.6 5.2L19 9l-5.4 1.8L12 16l-1.6-5.2L5 9l5.4-1.8z"/></svg>
     <div>
       <h1>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
@@ -668,19 +731,26 @@
 
   <div class="info-block">
     <h2>Como funciona o repasse</h2>
-    Sabemos que imprevistos podem acontecer e, em alguns casos, pode surgir a necessidade de desistir de uma CEG. Para manter a organização e evitar problemas durante a compra coletiva, existem algumas regras sobre repasses e desistências.<br><br>
-    Os repasses são permitidos apenas nas CEGs internacionais e podem ser realizados até os itens chegarem às ADMs. Depois disso, não será mais possível fazer o repasse.<br><br>
-    Nas CEGs nacionais, os repasses não são permitidos, já que todo o processo costuma acontecer em menos tempo.<br><br>
-    Caso o joiner desista da compra após realizar qualquer pagamento, os valores já pagos não serão reembolsados pelas ADMs. Quando o repasse for permitido, o joiner poderá divulgar o repasse do seu item, sempre seguindo as regras da DAZED.<br><br>
-    O joiner tem um prazo de 5 dias, a partir da data de envio do formulário, para realizar o repasse. Além disso, o formulário precisa ser preenchido com todas as informações corretas. Se os dados enviados estiverem incompletos ou incorretos, o repasse não será realizado.
-    <div class="mini-card-row">
-      <span class="mini-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5l5 5m0-5l-5 5"/></svg>Sem Cancelamento</span>
-      <span class="mini-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>Repasse Só em CEGs Internacionais</span>
-      <span class="mini-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Antes da Chegada nas ADMs</span>
-      <span class="mini-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Prazo de 5 Dias</span>
+
+    <div class="info-text">
+      <p>Sabemos que imprevistos podem acontecer e, em alguns casos, pode surgir a necessidade de desistir de uma CEG. Para manter a organização e evitar problemas durante a compra coletiva, existem algumas regras sobre repasses e desistências.</p>
+      <p>Os repasses são permitidos apenas nas CEGs internacionais e podem ser realizados até os itens chegarem às ADMs. Depois disso, não será mais possível fazer o repasse.</p>
+      <p>Nas CEGs nacionais, os repasses não são permitidos, já que todo o processo costuma acontecer em menos tempo.</p>
+      <p>Caso o joiner desista da compra após realizar qualquer pagamento, os valores já pagos não serão reembolsados pelas ADMs. Quando o repasse for permitido, o joiner poderá divulgar o repasse do seu item, sempre seguindo as regras da DAZED.</p>
+      <p>O joiner tem um prazo de 5 dias, a partir da data de envio do formulário, para realizar o repasse. Além disso, o formulário precisa ser preenchido com todas as informações corretas. Se os dados enviados estiverem incompletos ou incorretos, o repasse não será realizado.</p>
     </div>
-    <div class="important-note">
-      💜 <strong>Importante:</strong> Antes de entrar em uma CEG, participe apenas se tiver certeza de que conseguirá acompanhar todas as etapas da compra. Como as compras são feitas em grupo, uma desistência pode impactar a organização da CEG e os demais joiners. Preencha o formulário de repasse com atenção: informações incompletas ou incorretas impedem que o repasse seja feito.
+
+    <div class="mini-card-row mini-card-grid">
+      <span class="mini-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>Repasses apenas em CEGs internacionais</span>
+      <span class="mini-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Permitido até a chegada às ADMs</span>
+      <span class="mini-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5l5 5m0-5l-5 5"/></svg>Valores pagos não são reembolsados</span>
+      <span class="mini-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Formulário obrigatório</span>
+      <span class="mini-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Prazo de 5 dias</span>
+    </div>
+
+    <div class="important-note important-note-v2">
+      <span class="note-ico">💜</span>
+      <div><strong>Importante:</strong> Antes de entrar em uma CEG, participe apenas se tiver certeza de que conseguirá acompanhar todas as etapas da compra. Como as compras são feitas em grupo, uma desistência pode impactar a organização da CEG e os demais joiners. Preencha o formulário de repasse com atenção: informações incompletas ou incorretas impedem que o repasse seja feito.</div>
     </div>
   </div>
 
@@ -692,7 +762,8 @@
       <!-- Cole aqui o código de incorporação (iframe) do Google Forms quando estiver pronto -->
       <div class="gform-placeholder">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
-        Formulário em breve
+        <span class="gform-placeholder-title">Formulário em breve</span>
+        <span class="gform-placeholder-text">O formulário para solicitação de repasse será disponibilizado em breve. Enquanto isso, caso precise solicitar um repasse, entre em contato com uma das ADMs.</span>
       </div>
     </div>
   </div>
