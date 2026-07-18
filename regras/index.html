@@ -536,6 +536,10 @@
       <div class="quicknav-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
       <div class="quicknav-label">Pagamentos</div>
     </div>
+    <div class="quicknav-card" data-target="sec-repasses">
+      <div class="quicknav-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg></div>
+      <div class="quicknav-label">Repasses e Cancelamentos</div>
+    </div>
     <div class="quicknav-card" data-target="sec-taxa">
       <div class="quicknav-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></div>
       <div class="quicknav-label">Taxa de Embalagem</div>
@@ -593,7 +597,7 @@
       <div class="rule-accordion-inner">
         <div class="rule-detail">
           Uma CEG (Compra em Grupo) é aberta com um período determinado para adesão. Depois do fechamento, os itens são adquiridos junto às lojas ou vendedores de origem e seguem o fluxo: Reserva → Pagamento → Seller → Warehouse → Envio ao Brasil → Chegada na GOM → Conferência → Envio Nacional → Joiner.<br><br>
-  Existem dois formatos principais de CEG. Nos <strong>Comeback CEGs</strong>, os itens são comprados diretamente de lojas oficiais ou fornecedores, assim que um álbum ou produto é lançado. Já em <strong>CEGs Mercari</strong>, a compra é feita diretamente de pessoas que já estão com os itens em mãos, por isso o processo acaba sendo mais rápido.<br><br>
+  Existem dois formatos principais de CEG. Nos <strong>Comeback CEGs</strong>, compramos com sellers que, por sua vez, compram diretamente dos fornecedores. Essa cadeia mais longa, principalmente em pedidos de grande quantidade, faz esse formato ser mais demorado (itens como YZY, por exemplo, costumam levar bastante tempo). Já em <strong>CEGs Mercari</strong>, os itens são de terceiros que já estão com o produto em mãos, geralmente usado, então não é preciso aguardar fornecedor, por isso o processo tende a ser mais rápido.<br><br>
   Ao longo do processo, três papéis se repetem: a <strong>Seller</strong> é quem vende o item na origem; o <strong>Warehouse</strong> é o armazém responsável por receber, consolidar e preparar os itens de vários sellers para o envio internacional; e a <strong>GOM</strong> (Group Order Manager) é quem organiza a CEG, recebe os itens no Brasil, faz a conferência e coordena o envio nacional até você.
         </div>
       </div>
@@ -616,7 +620,7 @@
         <div class="rule-detail">
           Por se tratar de compras feitas fora do Brasil, alguns fatores externos podem afetar prazos e disponibilidade — e não dependem da organização das CEGs. Entre eles: atrasos logísticos nas transportadoras internacionais, retenções na alfândega, cancelamentos por parte de sellers de origem e variações cambiais que podem impactar o valor final.<br><br>
   Também é importante entrar em uma CEG sabendo que itens de coleção podem apresentar pequenas imperfeições de fábrica, press marks (marcas de prensagem comuns em álbuns físicos) e, em alguns casos, sinais de uso — principalmente em itens adquiridos de segunda mão. Mesmo produtos lacrados não têm garantia total contra defeitos de fabricação.<br><br>
-  Em casos raros, também existe o risco de calote por parte de um seller — ou seja, o vendedor recebe o pagamento e não envia o item contratado. A DAZED CEGS procura reduzir esse risco priorizando sellers de confiança e com histórico positivo, mas essa é uma possibilidade que foge do controle direto da organização.<br><br>
+  Em casos raros, também existe o risco de calote por parte de um seller, ou seja, o vendedor recebe o pagamento e não envia o item contratado. A DAZED CEGS procura reduzir esse risco priorizando sellers de confiança e com feedbacks positivos, mas essa é uma possibilidade real quando estamos comprando de pessoas do outro lado do mundo. Não realizamos reembolso em casos de calote, já que o valor foi efetivamente pago ao vendedor. A única exceção é quando a própria seller cancela o pedido e devolve o valor: nesse caso, sim, o reembolso é feito.<br><br>
   Fazemos o possível para minimizar esses imprevistos, mas é essencial participar das CEGs com essa expectativa alinhada desde o início.
         </div>
       </div>
@@ -721,17 +725,47 @@
           Os pagamentos das CEGs podem ser realizados via <strong>PIX</strong> ou <strong>cartão de crédito</strong>. Para pagamentos no cartão, é aplicado um acréscimo referente às taxas da operadora.<br><br>
   O prazo para pagamento é informado durante a abertura de cada CEG e também pode ser consultado pela Área do Joiner. É fundamental que a quitação seja realizada dentro do período estabelecido para garantir o bom andamento da compra e evitar impactos na organização da CEG.<br><br>
   Caso o pagamento não seja efetuado dentro do prazo, o joiner poderá receber um feedback negativo e, dependendo da situação, ser incluído na Blacklist da DAZED CEGS. A Blacklist é um registro interno utilizado para identificar participantes que descumpriram as regras da comunidade, podendo influenciar a participação em futuras compras em grupo.<br><br>
-  Caso o joiner não possa mais permanecer com o item, o repasse só poderá ser solicitado após a confirmação do pagamento. Além disso, o repasse é permitido apenas em CEGs internacionais e somente enquanto os itens ainda não tiverem chegado à GOM. Após a chegada à GOM, não são aceitos novos repasses. CEGs nacionais não permitem repasse em nenhuma etapa da compra.<br><br>
-  Não realizamos reembolso de valores já pagos. A única exceção ocorre em casos de cancelamento do próprio pedido — por exemplo, quando o seller não entrega o item ou a CEG precisa ser cancelada pela organização. Fora dessas situações, a desistência do joiner deve ser resolvida por meio de repasse, seguindo as regras acima.
+  As regras de cancelamento e repasse (o que fazer se você não puder mais ficar com um item já pago) estão detalhadas na seção "Repasses e Cancelamentos", logo abaixo.
   <div class="mini-card-row">
       <span class="mini-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 3l4 4-4 4-4-4 4-4z"/><path d="M12 13l4 4-4 4-4-4 4-4z"/><path d="M3 12l4-4 4 4-4 4-4-4z"/><path d="M13 12l4-4 4 4-4 4-4-4z"/></svg>PIX</span>
       <span class="mini-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>Cartão de Crédito com Juros</span>
       <span class="mini-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>Prazo</span>
       <span class="mini-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5l5 5m0-5l-5 5"/></svg>Blacklist</span>
-      <span class="mini-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>Repasse</span>
   </div>
   <div style="margin-top:16px; background:var(--purple-tint); border-radius:14px; padding:14px 18px; color:var(--purple-dark); font-size:14px; line-height:1.6;">
     💜 <strong>Importante:</strong> É responsabilidade do joiner acompanhar os prazos de pagamento e manter seus dados atualizados. O cumprimento dessas regras contribui para uma organização mais eficiente e garante uma experiência justa para todos os participantes da DAZED CEGS.
+  </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="rule-section" id="sec-repasses">
+    <div class="rule-section-head">
+      <div class="rule-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg></div>
+      <div class="rule-body">
+        <h3>7. Repasses e Cancelamentos</h3>
+        <p>Entenda como funciona quando você não pode mais ficar com um item, e o que fazemos (e não fazemos) em cada caso.</p>
+      </div>
+      <button type="button" class="rule-toggle" data-toggle="sec-repasses">
+        <span class="rule-toggle-label">Ver detalhes</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+    </div>
+    <div class="rule-accordion" id="sec-repasses-acc">
+      <div class="rule-accordion-inner">
+        <div class="rule-detail">
+          Não cancelamos pedidos. Se você deu claim em um item, o compromisso é pagar por ele. Se depois de pago você não quiser mais ficar com o item, a saída é fazer um repasse, não simplesmente desistir. Por isso, pedimos responsabilidade na hora de dar claim, principalmente para quem é menor de idade.<br><br>
+  O repasse só pode ser pedido depois que o pagamento do item já foi confirmado. Ele também só é aceito em CEGs internacionais, e apenas enquanto o item ainda não chegou na GOM. Depois que chega na GOM, não dá mais para repassar. Nas CEGs nacionais, o repasse não é permitido em nenhuma etapa.<br><br>
+  Cada joiner pode fazer até 10 repasses. Passando disso, entendemos que virou um hábito, e paramos de aceitar novas claims dessa pessoa. Isso existe porque, quando alguém dá claim e depois desiste sempre, quem realmente queria aquele item acaba ficando sem chance.<br><br>
+  O repasse só é feito depois que tentamos falar com você sobre o item (seja por prazo de pagamento, frete ou armazenamento). Não ficamos cobrando sem parar: se você não responde e o prazo passa, o item pode ser repassado sem direito a reembolso.<br><br>
+  Sobre reembolso: não devolvemos o valor de itens que sofreram calote (quando o vendedor some com o dinheiro), porque esse valor já foi pago normalmente. A única situação em que reembolsamos é quando a própria seller cancela o pedido e devolve o dinheiro.
+  <div class="mini-card-row">
+      <span class="mini-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5l5 5m0-5l-5 5"/></svg>Sem Cancelamento</span>
+      <span class="mini-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>Repasse Após Pagamento</span>
+      <span class="mini-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>Limite de 10 Itens</span>
+  </div>
+  <div style="margin-top:16px; background:var(--purple-tint); border-radius:14px; padding:14px 18px; color:var(--purple-dark); font-size:14px; line-height:1.6;">
+    💜 <strong>Importante:</strong> Dar claim é um compromisso. Pense bem antes de reservar um item, principalmente se você é menor de idade, pra evitar dor de cabeça pra você e pra outros joiners que também queriam aquele item.
   </div>
         </div>
       </div>
@@ -741,7 +775,7 @@
     <div class="rule-section-head">
       <div class="rule-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></div>
       <div class="rule-body">
-        <h3>7. Taxa de Embalagem</h3>
+        <h3>8. Taxa de Embalagem</h3>
         <p>A taxa de embalagem cobre os materiais utilizados para proteger bem os seus itens.</p>
       </div>
       <button type="button" class="rule-toggle" data-toggle="sec-taxa">
@@ -769,7 +803,7 @@
     <div class="rule-section-head">
       <div class="rule-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><circle cx="17" cy="8" r="3"/><path d="M23 21c0-3-2-5-5-5"/></svg></div>
       <div class="rule-body">
-        <h3>8. Comunidade</h3>
+        <h3>9. Comunidade</h3>
         <p>Nossas CEGs só funcionam bem porque temos uma comunidade incrível. Respeito, comunicação e organização são essenciais.</p>
       </div>
       <button type="button" class="rule-toggle" data-toggle="sec-comunidade">
@@ -796,7 +830,7 @@
     <div class="rule-section-head">
       <div class="rule-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="10"/><path d="M9.5 9a2.5 2.5 0 015-.5c0 1.7-2.5 2-2.5 3.8"/><path d="M12 17h.01"/></svg></div>
       <div class="rule-body">
-        <h3>9. Perguntas Frequentes</h3>
+        <h3>10. Perguntas Frequentes</h3>
         <p>Tire suas dúvidas sobre as principais questões relacionadas às CEGs.</p>
       </div>
       <button type="button" class="rule-toggle" data-toggle="sec-faq">
