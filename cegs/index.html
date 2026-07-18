@@ -2205,12 +2205,36 @@
     renderCards(lastRendered, lastTotal, true);
   });
 
+  function itemImgFolder(p) {
+    return p.imgFolder ? IMG_FOLDER + p.imgFolder + '/' : IMG_FOLDER;
+  }
+
   function itemImgSrc(p) {
     const slug = p.pobSlug || '';
     if (!slug) return '';
-    const folder = p.imgFolder ? IMG_FOLDER + p.imgFolder + '/' : IMG_FOLDER;
-    return folder + slug + '-1.png';
+    return itemImgFolder(p) + slug + '-1.png';
   }
+
+  window.__itemImgFallback = function(imgEl) {
+    const stage = parseInt(imgEl.dataset.stage || '0', 10);
+    const folder = imgEl.dataset.folder;
+    const slug = imgEl.dataset.slug;
+    const stages = [
+      folder + slug + '.png',
+      folder + slug + '-1.jpg',
+      folder + slug + '.jpg',
+      folder + slug + '-1.jpeg',
+      folder + slug + '.jpeg'
+    ];
+    if (stage < stages.length) {
+      imgEl.dataset.stage = String(stage + 1);
+      imgEl.onerror = function () { window.__itemImgFallback(imgEl); };
+      imgEl.src = stages[stage];
+    } else {
+      imgEl.onerror = null;
+      imgEl.style.opacity = 0;
+    }
+  };
 
   function downloadFoto(p) {
     const src = itemImgSrc(p);
@@ -2295,7 +2319,7 @@
     const items = allPedidos.filter(p => selectedUids.has(p.__uid));
     compareGrid.innerHTML = items.map(p => `
       <div class="compare-item">
-        <img src="${itemImgSrc(p)}" alt="${p.pob || ''}" onerror="this.style.opacity=0;">
+        <img src="${itemImgSrc(p)}" data-folder="${itemImgFolder(p)}" data-slug="${p.pobSlug || ''}" data-stage="0" alt="${p.pob || ''}" onerror="window.__itemImgFallback(this);">
         <h4>${p.pob || 'Item'}</h4>
         <div class="cr"><span>Membro</span><span>${(p.membro || '-').toUpperCase()}</span></div>
         <div class="cr"><span>CEG</span><span>${p.ceg || '-'}</span></div>
