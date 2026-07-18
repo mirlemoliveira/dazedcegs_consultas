@@ -402,6 +402,7 @@ footer{
   font-size:13px;font-weight:600;color:#FF5B68;
   font-family:'Josefin Sans','Inter',sans-serif;
 }
+.qc-link svg{width:13px;height:13px;flex-shrink:0;}
 .qc-mascot{position:absolute;filter:drop-shadow(0 3px 6px rgba(43,45,66,.12));pointer-events:none;}
 @media(max-width:860px){.quick-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:600px){.quick-grid{grid-template-columns:1fr;}.qc-mascot{display:none;}}
@@ -433,6 +434,7 @@ footer{
   font-size:13px;font-weight:600;font-family:'Josefin Sans','Inter',sans-serif;
   cursor:pointer;transition:background .15s, box-shadow .15s;text-decoration:none;
 }
+.dica-btn svg{width:13px;height:13px;flex-shrink:0;}
 .dica-btn:hover{background:#5C4FA0;color:#fff;box-shadow:0 6px 18px rgba(92,79,160,.28);}
 .dica-deco{position:absolute;pointer-events:none;opacity:.85;}
 @media(max-width:660px){.dica-card{flex-direction:column;text-align:center;}.dica-body p{max-width:100%;}}
@@ -504,28 +506,6 @@ footer{
   background:linear-gradient(160deg,#2B2A55,#1B1A33);
   border-radius:14px;padding:16px;color:#fff;position:relative;
 }
-.vibes-top{display:flex;gap:12px;margin-bottom:14px;}
-.vibes-cover{
-  width:52px;height:52px;border-radius:8px;flex-shrink:0;
-  background:linear-gradient(135deg,#7070A8,#C93845);
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Note Book',sans-serif;font-size:9px;font-weight:700;color:#fff;text-align:center;line-height:1.2;
-}
-.vibes-meta{min-width:0;}
-.vibes-meta .vt{font-size:13px;font-weight:700;font-family:'Josefin Sans',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.vibes-meta .va{font-size:11.5px;color:rgba(255,255,255,.6);margin-top:1px;}
-.vibes-meta .vp{font-size:10px;color:rgba(255,255,255,.4);margin-top:4px;}
-.vibes-progress{height:3px;background:rgba(255,255,255,.18);border-radius:999px;margin-bottom:4px;}
-.vibes-progress i{display:block;width:44%;height:100%;background:#fff;border-radius:999px;}
-.vibes-time{display:flex;justify-content:space-between;font-size:9.5px;color:rgba(255,255,255,.45);margin-bottom:12px;}
-.vibes-controls{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:14px;}
-.vibes-controls svg{width:15px;height:15px;color:rgba(255,255,255,.75);}
-.vibes-play{
-  width:36px;height:36px;border-radius:50%;background:#fff;
-  display:flex;align-items:center;justify-content:center;cursor:pointer;
-  border:none;flex-shrink:0;
-}
-.vibes-play svg{width:14px;height:14px;color:#1B1A33;}
 .btn-spotify{
   display:flex;align-items:center;justify-content:center;gap:7px;width:100%;
   background:#1DB954;color:#fff;border:none;border-radius:999px;padding:11px;
@@ -605,6 +585,39 @@ footer{
 @media(max-width:900px){.ft-grid{grid-template-columns:1fr 1fr;}.ft-welcome{grid-column:1/-1;}}
 @media(max-width:560px){.ft-grid{grid-template-columns:1fr;}}
 
+/* ================= VIDEO MODAL ================= */
+.video-overlay{
+  position:fixed;inset:0;z-index:50;background:rgba(30,34,48,.55);
+  backdrop-filter:blur(2px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .25s;padding:24px;
+}
+.video-overlay.open{opacity:1;pointer-events:auto;}
+.video-modal{
+  position:relative;width:100%;max-width:860px;
+  background:#0f0f1a;border-radius:16px;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.4);
+  transform:scale(.96);transition:transform .25s;
+}
+.video-overlay.open .video-modal{transform:scale(1);}
+.video-modal-body{position:relative;width:100%;aspect-ratio:16/9;background:#0f0f1a;}
+.video-modal-body iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+.video-placeholder{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;color:rgba(255,255,255,.7);text-align:center;padding:20px;
+}
+.video-placeholder svg{width:44px;height:44px;color:rgba(255,255,255,.4);margin-bottom:6px;}
+.video-placeholder p{font-size:15px;font-weight:600;color:#fff;font-family:'Josefin Sans',sans-serif;}
+.video-placeholder span{font-size:12.5px;color:rgba(255,255,255,.5);max-width:320px;}
+.video-close{
+  position:absolute;top:12px;right:12px;z-index:2;
+  width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.12);
+  border:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:background .15s;
+}
+.video-close:hover{background:rgba(255,255,255,.22);}
+.video-close svg{width:16px;height:16px;}
+
 </style>
 </head>
 <body>
@@ -662,105 +675,37 @@ footer{
     <div class="section-title"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.9-10-9.3C.4 8.3 2 5 5.4 5c2 0 3.4 1 4.6 2.7C11.2 6 12.6 5 14.6 5 18 5 19.6 8.3 22 11.7 19.5 16.1 12 21 12 21z"/></svg> ACESSO RÁPIDO <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.9-10-9.3C.4 8.3 2 5 5.4 5c2 0 3.4 1 4.6 2.7C11.2 6 12.6 5 14.6 5 18 5 19.6 8.3 22 11.7 19.5 16.1 12 21 12 21z"/></svg></div>
     <div class="quick-grid">
     <a class="qc" href="../cegs/">
-      <div class="qc-mascot" style="bottom:-10px;left:-12px;"><svg width="40" height="40" viewBox="0 0 44 44" fill="none">
-      <ellipse cx="22" cy="24" rx="15" ry="16" fill="#7B6FC7"/>
-      <circle cx="15" cy="20" r="7" fill="#fff"/>
-      <circle cx="29" cy="20" r="7" fill="#fff"/>
-      <circle cx="15" cy="20" r="3.4" fill="#2B2D42"/>
-      <circle cx="29" cy="20" r="3.4" fill="#2B2D42"/>
-      <circle cx="16.2" cy="18.8" r="1" fill="#fff"/>
-      <circle cx="30.2" cy="18.8" r="1" fill="#fff"/>
-      <path d="M20 25l2 2.4 2-2.4z" fill="#FFB35A"/>
-      <path d="M9 15l6 3M35 15l-6 3" stroke="#5C4FA0" stroke-width="2" stroke-linecap="round"/>
-      <ellipse cx="22" cy="35" rx="9" ry="4.5" fill="#5C4FA0" opacity="0.35"/>
-    </svg></div>
-      <div class="qc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <div class="qc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
       <h3>Área do Joiner</h3>
       <p>Acompanhe seus pedidos, pagamentos, status dos itens e todas as informações das suas CEGs.</p>
       <span class="qc-link">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
     </a>
     <a class="qc" href="../regras/">
-      <div class="qc-mascot" style="top:-14px;right:6px;"><svg width="40" height="40" viewBox="0 0 44 44" fill="none">
-      <path d="M12 10c-2-3-1-6 1-5s1 4 2 5M32 10c2-3 1-6-1-5s-1 4-2 5" stroke="#B98A5A" stroke-width="2.4" stroke-linecap="round"/>
-      <ellipse cx="22" cy="23" rx="12" ry="11" fill="#E4B98A"/>
-      <ellipse cx="13" cy="21" rx="3.2" ry="4" fill="#E4B98A"/>
-      <ellipse cx="31" cy="21" rx="3.2" ry="4" fill="#E4B98A"/>
-      <circle cx="17" cy="23" r="2.6" fill="#2B2D42"/>
-      <circle cx="27" cy="23" r="2.6" fill="#2B2D42"/>
-      <ellipse cx="22" cy="29" rx="4" ry="3" fill="#fff"/>
-      <path d="M22 28l-1.6 2h3.2z" fill="#7A5230"/>
-      <circle cx="12" cy="27" r="1.6" fill="#F3B7C4"/>
-      <circle cx="32" cy="27" r="1.6" fill="#F3B7C4"/>
-    </svg></div>
-      <div class="qc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>
+            <div class="qc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>
       <h3>Regras Gerais</h3>
       <p>Consulte todas as regras, políticas e orientações da DAZED CEGS para participar das compras com segurança.</p>
       <span class="qc-link">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
     </a>
     <a class="qc" href="../calculadora/">
-      <div class="qc-mascot" style="top:-12px;right:-8px;"><svg width="40" height="40" viewBox="0 0 44 44" fill="none">
-      <ellipse cx="22" cy="24" rx="11" ry="14" fill="#2B2D42"/>
-      <ellipse cx="22" cy="27" rx="7" ry="10" fill="#fff"/>
-      <ellipse cx="17.6" cy="20" rx="2.1" ry="2.5" fill="#fff"/>
-      <ellipse cx="26.4" cy="20" rx="2.1" ry="2.5" fill="#fff"/>
-      <circle cx="18" cy="20.6" r="1" fill="#2B2D42"/>
-      <circle cx="26" cy="20.6" r="1" fill="#2B2D42"/>
-      <path d="M22 22.5l-2 2h4z" fill="#FFB35A"/>
-      <ellipse cx="15.5" cy="30" rx="2.6" ry="1.6" fill="#FFB35A"/>
-      <ellipse cx="28.5" cy="30" rx="2.6" ry="1.6" fill="#FFB35A"/>
-    </svg></div>
-      <div class="qc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h1M12 11h1M16 11h1M8 15h1M12 15h1M16 15h1M8 19h1M12 19h1M16 19h1"/></svg></div>
+            <div class="qc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h1M12 11h1M16 11h1M8 15h1M12 15h1M16 15h1M8 19h1M12 19h1M16 19h1"/></svg></div>
       <h3>Calculadoras</h3>
       <p>Faça simulações de compras internacionais, conversão de moedas e estimativas de taxas.</p>
       <span class="qc-link">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
     </a>
     <a class="qc" href="../regras/#sec-faq">
-      <div class="qc-mascot" style="bottom:-10px;left:-10px;"><svg width="40" height="40" viewBox="0 0 44 44" fill="none">
-      <path d="M9 16l5 6-6 1z" fill="#2B2D42"/>
-      <path d="M35 16l-5 6 6 1z" fill="#2B2D42"/>
-      <ellipse cx="22" cy="24" rx="12" ry="11" fill="#2B2D42"/>
-      <ellipse cx="17" cy="24" rx="2.4" ry="2.8" fill="#fff"/>
-      <ellipse cx="27" cy="24" rx="2.4" ry="2.8" fill="#fff"/>
-      <ellipse cx="17" cy="25" rx="1.1" ry="1.6" fill="#2B2D42"/>
-      <ellipse cx="27" cy="25" rx="1.1" ry="1.6" fill="#2B2D42"/>
-      <path d="M22 27l-1.4 1.4h2.8z" fill="#F3B7C4"/>
-      <path d="M6 25h6M6 28h5M32 25h6M33 28h5" stroke="#fff" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
-    </svg></div>
-      <div class="qc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.5 9a2.5 2.5 0 015-.5c0 1.7-2.5 2-2.5 3.8"/><path d="M12 17h.01"/></svg></div>
+            <div class="qc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.5 9a2.5 2.5 0 015-.5c0 1.7-2.5 2-2.5 3.8"/><path d="M12 17h.01"/></svg></div>
       <h3>Perguntas Frequentes</h3>
       <p>Encontre respostas para as dúvidas mais comuns sobre pagamentos, envios, status, repasses e funcionamento das CEGs.</p>
       <span class="qc-link">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
     </a>
     <a class="qc" href="#tutorial">
-      <div class="qc-mascot" style="bottom:-10px;left:-8px;"><svg width="40" height="40" viewBox="0 0 44 44" fill="none">
-      <path d="M11 14c-3 1-4 6-2 10l5-3z" fill="#C98A4B"/>
-      <path d="M33 14c3 1 4 6 2 10l-5-3z" fill="#C98A4B"/>
-      <ellipse cx="22" cy="24" rx="12" ry="11" fill="#F0C89A"/>
-      <ellipse cx="17" cy="24" rx="2.3" ry="2.7" fill="#2B2D42"/>
-      <ellipse cx="27" cy="24" rx="2.3" ry="2.7" fill="#2B2D42"/>
-      <ellipse cx="22" cy="29" rx="5" ry="3.6" fill="#fff"/>
-      <ellipse cx="22" cy="28" rx="1.8" ry="1.4" fill="#2B2D42"/>
-      <circle cx="14" cy="27" r="1.6" fill="#F3B7C4"/>
-      <circle cx="30" cy="27" r="1.6" fill="#F3B7C4"/>
-    </svg></div>
-      <div class="qc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M10 8.5l6 3.5-6 3.5v-7z"/></svg></div>
+            <div class="qc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M10 8.5l6 3.5-6 3.5v-7z"/></svg></div>
       <h3>Tutoriais do Site</h3>
       <p>Aprenda a utilizar todas as funcionalidades do site através de vídeos rápidos e explicativos.</p>
       <span class="qc-link">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
     </a>
     <a class="qc" href="../regras/#sec-equipe">
-      <div class="qc-mascot" style="bottom:-10px;right:-10px;"><svg width="40" height="40" viewBox="0 0 44 44" fill="none">
-      <path d="M9 12l6 10-8 2z" fill="#E77B3E"/>
-      <path d="M35 12l-6 10 8 2z" fill="#E77B3E"/>
-      <path d="M11 15l4 7-5.5 1z" fill="#fff"/>
-      <path d="M33 15l-4 7 5.5 1z" fill="#fff"/>
-      <ellipse cx="22" cy="25" rx="12" ry="11" fill="#E77B3E"/>
-      <ellipse cx="22" cy="30" rx="6.5" ry="5.5" fill="#fff"/>
-      <ellipse cx="17.5" cy="24" rx="2.3" ry="2.7" fill="#2B2D42"/>
-      <ellipse cx="26.5" cy="24" rx="2.3" ry="2.7" fill="#2B2D42"/>
-      <path d="M22 29l-1.6 1.6h3.2z" fill="#2B2D42"/>
-    </svg></div>
-      <div class="qc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><circle cx="17" cy="8" r="3"/><path d="M23 21c0-3-2-5-5-5"/></svg></div>
+            <div class="qc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><circle cx="17" cy="8" r="3"/><path d="M23 21c0-3-2-5-5-5"/></svg></div>
       <h3>Equipe DAZED</h3>
       <p>Conheça as GOMs responsáveis pela comunidade e saiba quem está por trás da DAZED CEGS.</p>
       <span class="qc-link">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
@@ -772,20 +717,7 @@ footer{
   <div class="dica-card">
     <svg class="dica-deco" style="left:18px;top:10px;" width="16" height="16" viewBox="0 0 24 24" fill="#C9C6E8"><path d="M12 2l1.6 5.2L19 9l-5.4 1.8L12 16l-1.6-5.2L5 9l5.4-1.8z"/></svg>
     <svg class="dica-deco" style="right:130px;bottom:14px;" width="12" height="12" viewBox="0 0 24 24" fill="#C9C6E8"><path d="M12 2l1.6 5.2L19 9l-5.4 1.8L12 16l-1.6-5.2L5 9l5.4-1.8z"/></svg>
-    <div class="dica-mascot">
-      <svg width="72" height="72" viewBox="0 0 44 44" fill="none">
-        <ellipse cx="22" cy="26" rx="15" ry="15" fill="#EDEBFB"/>
-        <path d="M9 22a13 13 0 0126 0" fill="#7B6FC7"/>
-        <circle cx="15" cy="24" r="6.4" fill="#fff"/>
-        <circle cx="29" cy="24" r="6.4" fill="#fff"/>
-        <circle cx="15" cy="24" r="3" fill="#2B2D42"/>
-        <circle cx="29" cy="24" r="3" fill="#2B2D42"/>
-        <path d="M20 29l2 2.2 2-2.2z" fill="#FFB35A"/>
-        <rect x="9" y="33" width="26" height="6" rx="2" fill="#fff" stroke="#D9DCE6"/>
-        <circle cx="9" cy="12" r="4.4" fill="#C9C6E8" opacity=".7"/>
-      </svg>
-    </div>
-    <div class="dica-body">
+        <div class="dica-body">
       <h3><svg viewBox="0 0 24 24" fill="#FF5B68" style="width:13px;height:13px;"><path d="M12 21s-7.5-4.9-10-9.3C.4 8.3 2 5 5.4 5c2 0 3.4 1 4.6 2.7C11.2 6 12.6 5 14.6 5 18 5 19.6 8.3 22 11.7 19.5 16.1 12 21 12 21z"/></svg> Dica DAZED</h3>
       <p>Antes de participar de uma CEG, confira sempre as regras gerais e utilize as calculadoras para simular valores. Assim, você organiza suas compras e evita imprevistos!</p>
     </div>
@@ -797,7 +729,6 @@ footer{
     <div class="tut-card" id="tutorial">
       <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M10 8.5l6 3.5-6 3.5v-7z"/></svg> Tutorial do Site <svg viewBox="0 0 24 24" fill="#FF5B68" style="width:13px;height:13px;"><path d="M12 21s-7.5-4.9-10-9.3C.4 8.3 2 5 5.4 5c2 0 3.4 1 4.6 2.7C11.2 6 12.6 5 14.6 5 18 5 19.6 8.3 22 11.7 19.5 16.1 12 21 12 21z"/></svg></h3>
       <p>Aprenda a utilizar todas as funcionalidades da DAZED CEGS através de vídeos rápidos e objetivos. Seja sua primeira CEG ou não, aqui você encontra tudo o que precisa para navegar pela plataforma com facilidade.</p>
-      <a class="btn-purple" href="#" onclick="return false;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:13px;height:13px;"><path d="M10 8.5l6 3.5-6 3.5v-7z"/></svg> Assistir Tutoriais</a>
       <div class="tut-laptop-wrap">
         <svg class="tut-stars" style="left:6px;top:0;" width="14" height="14" viewBox="0 0 24 24" fill="#D9D6F0"><path d="M12 2l1.6 5.2L19 9l-5.4 1.8L12 16l-1.6-5.2L5 9l5.4-1.8z"/></svg>
         <svg class="tut-stars" style="right:12px;top:10px;" width="10" height="10" viewBox="0 0 24 24" fill="#D9D6F0"><path d="M12 2l1.6 5.2L19 9l-5.4 1.8L12 16l-1.6-5.2L5 9l5.4-1.8z"/></svg>
@@ -805,70 +736,34 @@ footer{
           <div class="tut-screen">
             <div class="tut-screen-bar"><span class="tut-dot"></span><span class="tut-dot"></span><span class="tut-dot"></span></div>
             <div class="tut-screen-body">
-              <div class="tut-video-main">
+              <div class="tut-video-main" style="cursor:pointer;" onclick="window.__openTutVideo('Tutorial: Primeiros Passos')">
                 <span class="tut-video-label">DAZED · TUTORIAL</span>
                 <div class="tut-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
                 <div class="tut-progress"><i></i></div>
               </div>
               <div class="tut-next">
                 <div class="tut-next-title">Próximos vídeos</div>
-                <div class="tut-next-item"><div class="n1">Como acompanhar seus pedidos</div><div class="n2">04:12</div></div>
-                <div class="tut-next-item"><div class="n1">Pagamentos e pendências</div><div class="n2">03:45</div></div>
-                <div class="tut-next-item"><div class="n1">Entendendo o status</div><div class="n2">05:08</div></div>
+                <div class="tut-next-item" style="cursor:pointer;" onclick="window.__openTutVideo('Como acompanhar seus pedidos')"><div class="n1">Como acompanhar seus pedidos</div><div class="n2">04:12</div></div>
+                <div class="tut-next-item" style="cursor:pointer;" onclick="window.__openTutVideo('Pagamentos e pendências')"><div class="n1">Pagamentos e pendências</div><div class="n2">03:45</div></div>
+                <div class="tut-next-item" style="cursor:pointer;" onclick="window.__openTutVideo('Entendendo o status')"><div class="n1">Entendendo o status</div><div class="n2">05:08</div></div>
               </div>
             </div>
           </div>
           <div class="tut-base"></div>
         </div>
-        <div class="tut-mascot"><svg width="40" height="40" viewBox="0 0 44 44" fill="none">
-      <path d="M9 16l5 6-6 1z" fill="#fff" stroke="#D9DCE6" stroke-width="1"/>
-      <path d="M35 16l-5 6 6 1z" fill="#fff" stroke="#D9DCE6" stroke-width="1"/>
-      <ellipse cx="22" cy="24" rx="12" ry="11" fill="#fff" stroke="#E7E9F0" stroke-width="1"/>
-      <ellipse cx="17" cy="24" rx="2.3" ry="2.7" fill="#2B2D42"/>
-      <ellipse cx="27" cy="24" rx="2.3" ry="2.7" fill="#2B2D42"/>
-      <path d="M22 27l-1.3 1.3h2.6z" fill="#F3B7C4"/>
-      <path d="M13 11a2.6 2.6 0 110 5.2 2.6 2.6 0 010-5.2z" fill="#FF8FA3"/>
-      <path d="M19 11a2.6 2.6 0 100 5.2 2.6 2.6 0 000-5.2z" fill="#FF8FA3"/>
-      <circle cx="16" cy="13.6" r="1.3" fill="#C93845"/>
-    </svg></div>
+
       </div>
     </div>
     <div class="vibes-card">
       <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 18v-6a9 9 0 0118 0v6"/><rect x="1" y="15" width="6" height="8" rx="2"/><rect x="17" y="15" width="6" height="8" rx="2"/></svg> DAZED VIBES <svg viewBox="0 0 24 24" fill="#FF5B68" style="width:13px;height:13px;"><path d="M12 21s-7.5-4.9-10-9.3C.4 8.3 2 5 5.4 5c2 0 3.4 1 4.6 2.7C11.2 6 12.6 5 14.6 5 18 5 19.6 8.3 22 11.7 19.5 16.1 12 21 12 21z"/></svg></h3>
       <p>Sua trilha sonora para acompanhar suas CEGs.</p>
       <div class="vibes-player">
-        <div class="vibes-top">
-          <div class="vibes-cover">DAZED<br>VIBES</div>
-          <div class="vibes-meta">
-            <div class="vt">Magnetic</div>
-            <div class="va">ILLIT</div>
-            <div class="vp">DAZED VIBES · K-pop Playlist</div>
-          </div>
-        </div>
-        <div class="vibes-progress"><i></i></div>
-        <div class="vibes-time"><span>01:35</span><span>03:35</span></div>
-        <div class="vibes-controls">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 20L9 12l10-8v16z"/><rect x="5" y="4" width="2" height="16"/></svg>
-          <button class="vibes-play" type="button" data-p="1" onclick="window.__vibesToggle(this)"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg></button>
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 4l10 8-10 8V4z"/><rect x="17" y="4" width="2" height="16"/></svg>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
-        </div>
-        <a class="btn-spotify" href="https://open.spotify.com/playlist/7i58e4VMLpb03OB1Fi0Vdl" target="_blank" rel="noopener">
+        <iframe src="https://open.spotify.com/embed/playlist/7i58e4VMLpb03OB1Fi0Vdl?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="border-radius:14px;display:block;"></iframe>
+        <a class="btn-spotify" style="margin-top:12px;" href="https://open.spotify.com/playlist/7i58e4VMLpb03OB1Fi0Vdl" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.6 14.4c-.2.3-.6.4-.9.2-2.5-1.5-5.6-1.9-9.3-1-.4.1-.7-.1-.8-.5-.1-.4.1-.7.5-.8 4-.9 7.5-.5 10.3 1.2.3.2.4.6.2.9zm1.2-2.7c-.2.4-.7.5-1.1.3-2.9-1.8-7.3-2.3-10.7-1.2-.4.1-.9-.1-1-.5-.1-.4.1-.9.5-1 3.9-1.2 8.7-.6 12 1.4.4.2.5.7.3 1zm.1-2.8C14.2 8.8 8.9 8.6 5.7 9.6c-.5.2-1.1-.1-1.3-.6-.2-.5.1-1.1.6-1.3 3.7-1.1 9.6-.9 13.4 1.4.5.3.6.9.3 1.4-.3.4-.9.5-1.4.3z"/></svg>
           Ouvir no Spotify
         </a>
-        <div class="vibes-mascot"><svg width="40" height="40" viewBox="0 0 44 44" fill="none">
-      <ellipse cx="22" cy="24" rx="11" ry="14" fill="#2B2D42"/>
-      <ellipse cx="22" cy="27" rx="7" ry="10" fill="#fff"/>
-      <ellipse cx="17.6" cy="20" rx="2.1" ry="2.5" fill="#fff"/>
-      <ellipse cx="26.4" cy="20" rx="2.1" ry="2.5" fill="#fff"/>
-      <circle cx="18" cy="20.6" r="1" fill="#2B2D42"/>
-      <circle cx="26" cy="20.6" r="1" fill="#2B2D42"/>
-      <path d="M22 22.5l-2 2h4z" fill="#FFB35A"/>
-      <ellipse cx="15.5" cy="30" rx="2.6" ry="1.6" fill="#FFB35A"/>
-      <ellipse cx="28.5" cy="30" rx="2.6" ry="1.6" fill="#FFB35A"/>
-    </svg></div>
+        
       </div>
     </div>
   </div>
@@ -881,24 +776,27 @@ footer{
     </div>
     <button class="upd-bar-r" onclick="openDrawer()">Ver todas</button>
   </div>
-  <div style="position:relative;">
-    <div class="upd-list" id="updRow">
-      <div class="upd-empty">Carregando atualizações...</div>
-    </div>
-    <div style="position:absolute;left:-10px;bottom:-16px;pointer-events:none;">
-      <svg width="40" height="40" viewBox="0 0 44 44" fill="none">
-        <ellipse cx="22" cy="26" rx="12" ry="10" fill="#FFD24C"/>
-        <circle cx="22" cy="16" r="8" fill="#FFD24C"/>
-        <circle cx="18.6" cy="15" r="1.6" fill="#2B2D42"/>
-        <circle cx="25.4" cy="15" r="1.6" fill="#2B2D42"/>
-        <path d="M20 18.5l2 2 2-2z" fill="#FF9F3D"/>
-        <ellipse cx="10" cy="30" rx="2.4" ry="1.6" fill="#FF9F3D"/>
-        <ellipse cx="34" cy="30" rx="2.4" ry="1.6" fill="#FF9F3D"/>
-      </svg>
-    </div>
+  <div class="upd-list" id="updRow">
+    <div class="upd-empty">Carregando atualizações...</div>
   </div>
 
 </main>
+
+<!-- VIDEO MODAL -->
+<div class="video-overlay" id="videoOverlay" onclick="if(event.target===this)window.__closeTutVideo()">
+  <div class="video-modal">
+    <button class="video-close" onclick="window.__closeTutVideo()" aria-label="Fechar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="video-modal-body" id="videoModalBody">
+      <div class="video-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M10 8.5l6 3.5-6 3.5v-7z"/></svg>
+        <p id="videoModalTitle">Vídeo em breve</p>
+        <span>Assim que o vídeo estiver pronto, ele vai tocar aqui direto na página.</span>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- DRAWER -->
 <div class="overlay" id="overlay"></div>
@@ -919,30 +817,7 @@ footer{
 <footer>
   <div class="ft-grid">
     <div class="ft-welcome">
-      <div class="ft-mascots"><svg width="52" height="52" viewBox="0 0 44 44" fill="none">
-      <ellipse cx="22" cy="24" rx="15" ry="16" fill="#7B6FC7"/>
-      <circle cx="15" cy="20" r="7" fill="#fff"/>
-      <circle cx="29" cy="20" r="7" fill="#fff"/>
-      <circle cx="15" cy="20" r="3.4" fill="#2B2D42"/>
-      <circle cx="29" cy="20" r="3.4" fill="#2B2D42"/>
-      <circle cx="16.2" cy="18.8" r="1" fill="#fff"/>
-      <circle cx="30.2" cy="18.8" r="1" fill="#fff"/>
-      <path d="M20 25l2 2.4 2-2.4z" fill="#FFB35A"/>
-      <path d="M9 15l6 3M35 15l-6 3" stroke="#5C4FA0" stroke-width="2" stroke-linecap="round"/>
-      <ellipse cx="22" cy="35" rx="9" ry="4.5" fill="#5C4FA0" opacity="0.35"/>
-    </svg><svg width="48" height="48" viewBox="0 0 44 44" fill="none">
-      <path d="M12 10c-2-3-1-6 1-5s1 4 2 5M32 10c2-3 1-6-1-5s-1 4-2 5" stroke="#B98A5A" stroke-width="2.4" stroke-linecap="round"/>
-      <ellipse cx="22" cy="23" rx="12" ry="11" fill="#E4B98A"/>
-      <ellipse cx="13" cy="21" rx="3.2" ry="4" fill="#E4B98A"/>
-      <ellipse cx="31" cy="21" rx="3.2" ry="4" fill="#E4B98A"/>
-      <circle cx="17" cy="23" r="2.6" fill="#2B2D42"/>
-      <circle cx="27" cy="23" r="2.6" fill="#2B2D42"/>
-      <ellipse cx="22" cy="29" rx="4" ry="3" fill="#fff"/>
-      <path d="M22 28l-1.6 2h3.2z" fill="#7A5230"/>
-      <circle cx="12" cy="27" r="1.6" fill="#F3B7C4"/>
-      <circle cx="32" cy="27" r="1.6" fill="#F3B7C4"/>
-    </svg></div>
-      <div class="ft-welcome-body">
+            <div class="ft-welcome-body">
         <h4><svg viewBox="0 0 24 24" fill="#FF5B68" style="width:14px;height:14px;"><path d="M12 21s-7.5-4.9-10-9.3C.4 8.3 2 5 5.4 5c2 0 3.4 1 4.6 2.7C11.2 6 12.6 5 14.6 5 18 5 19.6 8.3 22 11.7 19.5 16.1 12 21 12 21z"/></svg> Olá, joiner!</h4>
         <p>Somos a DAZED CEGS e estamos muito felizes em ter você por aqui! Nosso objetivo é tornar sua experiência como colecionador mais organizada, transparente e tranquila, reunindo tudo o que você precisa em um só lugar. Conte com a gente para acompanhar suas CEGs, esclarecer dúvidas e fazer parte de uma comunidade feita por colecionadores, para colecionadores.</p>
         <div class="ft-made">Feito com carinho por colecionadores, para colecionadores. 💜</div>
@@ -1058,15 +933,21 @@ async function load(){
 function openDrawer(){document.getElementById('overlay').classList.add('open');document.getElementById('drawer').classList.add('open');document.getElementById('drawer').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}
 function closeDrawer(){document.getElementById('overlay').classList.remove('open');document.getElementById('drawer').classList.remove('open');document.getElementById('drawer').setAttribute('aria-hidden','true');document.body.style.overflow='';}
 
-// DAZED VIBES — botão play/pause é apenas visual (não há áudio embarcado nesta página);
-// o link "Ouvir no Spotify" abre a playlist real em uma nova aba.
-window.__vibesToggle = function(btn){
-  const playing = btn.dataset.p === '1';
-  btn.dataset.p = playing ? '0' : '1';
-  btn.innerHTML = playing
-    ? '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>'
-    : '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
+// Modal do Tutorial: abre ao clicar no vídeo, toca grande na própria página.
+// Ainda não há um vídeo real hospedado — quando houver (ex: YouTube/Vimeo),
+// troque o innerHTML de #videoModalBody por um <iframe src="...">.
+window.__openTutVideo = function(title){
+  document.getElementById('videoModalTitle').textContent = title || 'Vídeo em breve';
+  document.getElementById('videoOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
 };
+window.__closeTutVideo = function(){
+  document.getElementById('videoOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+};
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') window.__closeTutVideo();
+});
 
 load();
 </script>
