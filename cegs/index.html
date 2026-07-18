@@ -491,6 +491,26 @@
   .compare-btn:hover { background: var(--purple-dark); transform: scale(1.03); }
   .compare-btn svg { width: 13px; height: 13px; }
 
+  .select-actions { display: flex; align-items: center; gap: 8px; }
+
+  .clear-selection-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  }
+
+  .clear-selection-btn.is-visible { display: inline-flex; }
+  .clear-selection-btn:hover { background: rgba(255,84,96,0.1); color: var(--coral-dark); transform: scale(1.06); }
+  .clear-selection-btn svg { width: 13px; height: 13px; }
+
   .view-toggle { display: flex; gap: 8px; flex-wrap: wrap; }
 
   .view-btn {
@@ -533,10 +553,13 @@
   /* ---------- PRODUCT GRID ---------- */
   .results {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 16px;
   }
 
+  @media (max-width: 1280px) {
+    .results { grid-template-columns: repeat(4, 1fr); }
+  }
   @media (max-width: 1024px) {
     .results { grid-template-columns: repeat(3, 1fr); }
   }
@@ -1226,14 +1249,19 @@
   </div>
 
   <div class="select-all-row" id="selectAllRow" style="display:none;">
-    <label class="select-all-label">
+    <label class="select-all-label" id="selectAllLabel">
       <input type="checkbox" id="selectAllCheck">
       Selecionar todos
     </label>
-    <button type="button" class="compare-btn" id="compareBtn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h4M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M9 3v18M15 3v18"/></svg>
-      Comparar (<span id="compareCount">0</span>)
-    </button>
+    <div class="select-actions">
+      <button type="button" class="clear-selection-btn" id="clearSelectionBtn" aria-label="Limpar seleção">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <button type="button" class="compare-btn" id="compareBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h4M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M9 3v18M15 3v18"/></svg>
+        Comparar (<span id="compareCount">0</span>)
+      </button>
+    </div>
   </div>
 
   <div class="results view-grid" id="results"></div>
@@ -1272,7 +1300,9 @@
   const sortSelect = document.getElementById('sortSelect');
   const paginationEl = document.getElementById('pagination');
   const selectAllRow = document.getElementById('selectAllRow');
+  const selectAllLabel = document.getElementById('selectAllLabel');
   const selectAllCheck = document.getElementById('selectAllCheck');
+  const clearSelectionBtn = document.getElementById('clearSelectionBtn');
   const compareBtn = document.getElementById('compareBtn');
   const compareCount = document.getElementById('compareCount');
   const compareOverlay = document.getElementById('compareOverlay');
@@ -1789,9 +1819,13 @@
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
                   Baixar foto
                 </button>
-                <button type="button" data-action="share" data-uid="${p.__uid}">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/></svg>
-                  Compartilhar item
+                <button type="button" data-action="whatsapp" data-uid="${p.__uid}">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5.1-1.3A10 10 0 1012 2zm0 1.8a8.2 8.2 0 11-4.3 15.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0112 3.8zm-3.8 4.4c-.2 0-.5 0-.7.3-.2.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.8 4.4 3.8 2.2.9 2.6.7 3.1.6.5 0 1.6-.6 1.8-1.3.2-.6.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3-.3-.2-1.6-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.3-.6.9-.8 1-.2.2-.3.2-.6.1-.3-.2-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.4.1-.2 0-.4 0-.5-.1-.1-.6-1.5-.8-2-.2-.5-.4-.5-.6-.5z"/></svg>
+                  Compartilhar no WhatsApp
+                </button>
+                <button type="button" data-action="copylink" data-uid="${p.__uid}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.1 0l2-2a5 5 0 00-7.1-7.1l-1 1"/><path d="M14 11a5 5 0 00-7.1 0l-2 2a5 5 0 007.1 7.1l1-1"/></svg>
+                  Copiar link
                 </button>
               </div>
             </div>
@@ -2052,6 +2086,7 @@
       `;
       compareBtn.classList.toggle('is-visible', n >= 2);
     }
+    clearSelectionBtn.classList.toggle('is-visible', n > 0);
   }
 
   function updateCompareBar(visibleUids) {
@@ -2085,6 +2120,13 @@
   function wireCardInteractions(pedidos) {
     const visibleUids = pedidos.map(p => p.__uid);
     selectAllRow.style.display = pedidos.length ? 'flex' : 'none';
+    if (currentView === 'table') {
+      selectAllLabel.style.display = 'flex';
+      selectAllRow.style.justifyContent = 'space-between';
+    } else {
+      selectAllLabel.style.display = 'none';
+      selectAllRow.style.justifyContent = 'flex-end';
+    }
     updateCompareBar(visibleUids);
 
     resultsEl.querySelectorAll('.card-check').forEach(cb => {
@@ -2114,7 +2156,8 @@
         if (!pedido) return;
         const action = actionBtn.dataset.action;
         if (action === 'download') downloadFoto(pedido);
-        else if (action === 'share') compartilharItem(pedido);
+        else if (action === 'whatsapp') compartilharWhatsapp(pedido);
+        else if (action === 'copylink') copiarLink(pedido);
       });
     });
   }
@@ -2139,6 +2182,11 @@
     renderCards(lastRendered, lastTotal, true);
   });
 
+  clearSelectionBtn.addEventListener('click', () => {
+    selectedUids.clear();
+    renderCards(lastRendered, lastTotal, true);
+  });
+
   function itemImgSrc(p) {
     const slug = p.pobSlug || '';
     if (!slug) return '';
@@ -2157,18 +2205,29 @@
     a.remove();
   }
 
-  async function compartilharItem(p) {
-    const texto = `${p.pob || 'Item'} — ${p.membro || ''} (${p.ceg || ''}) — ${formatValor(p)}`;
-    if (navigator.share) {
-      try { await navigator.share({ text: texto }); } catch (err) { /* usuário cancelou */ }
-      return;
-    }
+  function buildShareText(p) {
+    return `${p.pob || 'Item'} — ${(p.membro || '-').toUpperCase()} (${p.ceg || ''}) — ${formatValor(p)}`;
+  }
+
+  function absoluteUrl(path) {
+    if (!path) return window.location.href;
+    try { return new URL(path, window.location.href).href; } catch (err) { return path; }
+  }
+
+  function compartilharWhatsapp(p) {
+    const texto = buildShareText(p) + ' ' + absoluteUrl(itemImgSrc(p));
+    const url = 'https://wa.me/?text=' + encodeURIComponent(texto);
+    window.open(url, '_blank');
+  }
+
+  async function copiarLink(p) {
+    const link = absoluteUrl(itemImgSrc(p));
     if (navigator.clipboard) {
       try {
-        await navigator.clipboard.writeText(texto);
-        statusMsg.textContent = 'Texto do item copiado!';
+        await navigator.clipboard.writeText(link);
+        statusMsg.textContent = 'Link copiado!';
         statusMsg.classList.remove('error');
-        setTimeout(() => { if (statusMsg.textContent === 'Texto do item copiado!') statusMsg.textContent = ''; }, 2200);
+        setTimeout(() => { if (statusMsg.textContent === 'Link copiado!') statusMsg.textContent = ''; }, 2200);
       } catch (err) { /* ignora */ }
     }
   }
