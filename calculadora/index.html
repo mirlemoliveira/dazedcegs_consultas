@@ -323,6 +323,22 @@
 
   .calc-panel-wrap { max-width: 560px; margin: 0 auto; }
 
+  .calc-panel-header { margin-bottom: 16px; text-align: center; }
+  .calc-panel-header h3 {
+    font-family: 'Note Book', 'Oswald', sans-serif;
+    font-size: 19px; font-weight: 700; color: var(--ink);
+    margin: 0 0 6px;
+  }
+  .calc-panel-header p { font-size: 13px; color: var(--ink-soft); margin: 0; }
+
+  .calc-helper-text { font-size: 12.5px; color: var(--ink-faint); text-align: center; margin: 10px 0 0; }
+  .calc-footer-note {
+    font-size: 11.5px; color: var(--ink-faint); text-align: center;
+    margin-top: 10px; line-height: 1.5;
+  }
+
+  #btn-detalhamento, #senha-area, .detalhamento { display: none !important; }
+
   .calc-panel-card {
     background: var(--card-bg);
     border: 1px solid var(--line);
@@ -532,14 +548,7 @@
     <div class="page-header-text">
       <div class="eyebrow">Calculadoras</div>
       <h1>Calculadoras DAZED</h1>
-      <p>Ferramentas para auxiliar na estimativa de valores, taxas e custos das CEGs DAZED.</p>
-    </div>
-    <div class="info-card">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 16v-5M12 8h.01"/></svg>
-      <div>
-        <strong>Importante</strong>
-        <p>Os valores calculados são estimativas e podem sofrer alterações de acordo com a cotação, seller, proxy e taxas aplicáveis à CEG.</p>
-      </div>
+      <p>Ferramentas para te ajudar a calcular valores de forma rápida e prática.</p>
     </div>
   </div>
 
@@ -550,15 +559,15 @@
       </div>
       <span class="calc-badge available">Disponível</span>
       <h3>Mercari Japão</h3>
-      <p class="desc">Calcule o valor estimado de itens adquiridos através do Mercari.</p>
+      <p class="desc">Faça cálculos de valores de itens do Mercari Japão.</p>
       <ul class="calc-features">
         <li class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Conversão de moeda (JPY)</li>
         <li class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Taxas DAZED aplicadas</li>
-        <li class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Custo total estimado da CEG</li>
+        <li class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Cálculo automático</li>
       </ul>
       <button type="button" class="btn btn-primary calc-btn-trigger" id="btn-mercari" onclick="toggleCalculadora('mercari')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01"/></svg>
-        Utilizar Calculadora
+        Abrir Calculadora
       </button>
     </div>
 
@@ -568,11 +577,11 @@
       </div>
       <span class="calc-badge soon">Em breve</span>
       <h3>Calculadora Indonésia</h3>
-      <p class="desc">Em breve você poderá calcular valores de itens adquiridos na Indonésia.</p>
+      <p class="desc">Em breve você poderá calcular valores de itens da Indonésia.</p>
       <ul class="calc-features">
         <li class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Conversão de moeda (IDR)</li>
         <li class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Taxas DAZED aplicadas</li>
-        <li class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Custo total estimado da CEG</li>
+        <li class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Cálculo automático</li>
       </ul>
       <button type="button" class="btn btn-locked calc-btn-trigger" disabled>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
@@ -586,11 +595,11 @@
       </div>
       <span class="calc-badge soon">Em breve</span>
       <h3>Calculadora Filipinas</h3>
-      <p class="desc">Em breve você poderá calcular valores de itens adquiridos nas Filipinas.</p>
+      <p class="desc">Em breve você poderá calcular valores de itens das Filipinas.</p>
       <ul class="calc-features">
         <li class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Conversão de moeda (PHP)</li>
         <li class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Taxas DAZED aplicadas</li>
-        <li class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Custo total estimado da CEG</li>
+        <li class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Cálculo automático</li>
       </ul>
       <button type="button" class="btn btn-locked calc-btn-trigger" disabled>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
@@ -603,17 +612,29 @@
     <div class="calc-accordion-inner">
       <div class="calc-panel-wrap">
 
+        <div class="calc-panel-header">
+          <h3>Calculadora Mercari Japão</h3>
+          <p>Preencha o campo abaixo para calcular o total da sua compra.</p>
+        </div>
+
         <div class="calc-panel-card">
-          <label class="field-label" for="preco">Valor do produto</label>
+          <label class="field-label" for="preco">Valor do item (JPY)</label>
           <div class="yen-row">
             <div class="yen-prefix">¥</div>
             <input type="number" id="preco" placeholder="ex: 3000" min="0" oninput="calcular()" />
           </div>
+          <p class="calc-helper-text">Digite o valor do item como está no Mercari.</p>
+          <button type="button" class="btn btn-primary" style="width:100%; margin-top:14px; justify-content:center;" onclick="calcular()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01"/></svg>
+            Calcular total
+          </button>
         </div>
 
         <div class="result-box" id="resultado-final">
-          <div class="result-label">Total em reais</div>
+          <div class="result-label">Total</div>
           <div class="result-val" id="m-brl">—</div>
+          <p class="calc-helper-text">Preencha o valor do item e clique em "Calcular total" para visualizar o resultado.</p>
+          <p class="calc-footer-note">O total inclui todas as taxas internas da DAZED, calculadas automaticamente.</p>
         </div>
 
         <div class="detail-toggle-wrap" id="btn-detalhamento">
@@ -720,11 +741,11 @@
     if (isOpen) {
       acc.classList.remove('open');
       btn.classList.remove('is-open');
-      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01"/></svg> Utilizar Calculadora';
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01"/></svg> Abrir Calculadora';
     } else {
       acc.classList.add('open');
       btn.classList.add('is-open');
-      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 6L6 18M6 6l12 12"/></svg> Fechar Calculadora';
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 6L6 18M6 6l12 12"/></svg> Ocultar Calculadora';
       setTimeout(function () {
         acc.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }, 150);
