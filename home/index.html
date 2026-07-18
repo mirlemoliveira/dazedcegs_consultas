@@ -76,7 +76,7 @@ main{max-width:1200px;margin:0 auto;padding:28px 24px 72px;}
   box-shadow:0 8px 24px rgba(0,0,0,0.04);
   display:flex;align-items:center;
   padding:0 0 0 72px;
-  margin-bottom:18px;
+  margin-bottom:20px;
   overflow:hidden;
   height:300px;
   position:relative;
@@ -91,18 +91,18 @@ main{max-width:1200px;margin:0 auto;padding:28px 24px 72px;}
   font-size:52px;font-weight:700;
   color:#4B5078;
   line-height:1.1;letter-spacing:-0.5px;
-  margin-bottom:12px;
+  margin-bottom:16px;
 }
 .hero-sub{
   font-size:18px;font-weight:400;
   color:#4B5078;line-height:1.6;
-  max-width:400px;
+  max-width:460px;
   margin-bottom:0;
 }
 .hero-rule{
-  width:48px;height:3px;
+  width:70px;height:2px;
   background:#FF5B68;border-radius:999px;
-  margin-top:14px;
+  margin-top:20px;
 }
 
 /* Área direita: 45% da largura total */
@@ -116,10 +116,10 @@ main{max-width:1200px;margin:0 auto;padding:28px 24px 72px;}
 /* ILUSTRAÇÃO — álbum de photocards com acessórios */
 .notebook{
   position:absolute;
-  right:32px;
+  right:56px;
   top:50%;
   transform:translateY(-50%);
-  height:288px;
+  height:270px;
   width:auto;
   max-width:98%;
   display:block;
@@ -138,7 +138,7 @@ main{max-width:1200px;margin:0 auto;padding:28px 24px 72px;}
 .main-cards{
   display:grid;grid-template-columns:1fr 1fr;
   gap:16px;
-  margin-bottom:16px;
+  margin-bottom:18px;
 }
 .mc{
   background:#fff;
@@ -150,19 +150,19 @@ main{max-width:1200px;margin:0 auto;padding:28px 24px 72px;}
   padding:0 24px;
   gap:16px;
   cursor:pointer;
-  transition:box-shadow .15s;
+  transition:box-shadow .2s ease, transform .2s ease;
   text-decoration:none;
 }
-.mc:hover{box-shadow:0 6px 24px rgba(112,112,168,0.12);}
+.mc:hover{box-shadow:0 10px 28px rgba(112,112,168,0.16);transform:translateY(-3px);}
 .mc-ico{
-  width:56px;height:56px;border-radius:50%;
+  width:62px;height:62px;border-radius:50%;
   background:rgba(112,112,168,0.08);
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
 }
-.mc-ico svg{width:24px;height:24px;color:#7070A8;}
+.mc-ico svg{width:26px;height:26px;color:#7070A8;}
 .mc-body{flex:1;min-width:0;}
 .mc-body h3{
-  font-family:'Note Book','Inter',sans-serif;font-size:16px;font-weight:600;
+  font-family:'Note Book','Inter',sans-serif;font-size:16px;font-weight:700;
   color:#4A5070;margin-bottom:3px;
 }
 .mc-body p{font-size:13px;font-weight:400;color:#4B5078;margin-bottom:6px;}
@@ -204,7 +204,7 @@ main{max-width:1200px;margin:0 auto;padding:28px 24px 72px;}
   border:1px solid rgba(112,112,168,0.08);border-top:none;
   border-radius:0 0 12px 12px;
   display:grid;grid-template-columns:repeat(3,1fr);
-  margin-bottom:16px;
+  margin-bottom:18px;
 }
 .upd-col{
   padding:18px 20px;
@@ -232,8 +232,8 @@ main{max-width:1200px;margin:0 auto;padding:28px 24px 72px;}
 .upd-meta{display:flex;align-items:center;gap:6px;margin-bottom:5px;flex-wrap:wrap;}
 .upd-cat{font-size:12px;font-weight:500;color:#7070A8;font-family:'Josefin Sans','Inter',sans-serif;}
 .upd-badge{
-  font-size:11px;font-weight:500;
-  padding:4px 10px;border-radius:999px;
+  font-size:10px;font-weight:500;
+  padding:3px 9px;border-radius:999px;
   font-family:'Josefin Sans','Inter',sans-serif;
 }
 .upd-badge.b-g{background:rgba(255,91,104,0.12);color:#FF5B68;}
@@ -241,11 +241,11 @@ main{max-width:1200px;margin:0 auto;padding:28px 24px 72px;}
 .upd-badge.b-i{background:rgba(255,91,104,0.12);color:#FF5B68;}
 .upd-title{
   font-family:'Josefin Sans','Inter',sans-serif;
-  font-size:14px;font-weight:500;color:#1E2340;
+  font-size:14px;font-weight:600;color:#1E2340;
   margin-bottom:5px;line-height:1.35;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
 }
-.upd-time{font-size:12px;font-weight:400;color:#7070A8;font-family:'Josefin Sans','Inter',sans-serif;}
+.upd-time{font-size:11.5px;font-weight:400;color:#9CA3AF;font-family:'Josefin Sans','Inter',sans-serif;}
 .upd-empty{grid-column:1/-1;padding:28px;text-align:center;color:#9CA3AF;font-size:13px;}
 @media(max-width:740px){
   .upd-row{grid-template-columns:1fr;}
