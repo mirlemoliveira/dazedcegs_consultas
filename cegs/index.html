@@ -1252,6 +1252,11 @@
         <option value="menor-valor">Menor valor</option>
         <option value="maior-valor">Maior valor</option>
       </select>
+      <select class="sort-select" id="pageSizeSelect">
+        <option value="12">Ver 12 por página</option>
+        <option value="24">Ver 24 por página</option>
+        <option value="50">Ver 50 por página</option>
+      </select>
     </div>
     <div class="view-toggle" id="viewToggle">
       <button type="button" class="view-btn" id="viewListBtn" data-view="list">Lista</button>
@@ -1295,7 +1300,7 @@
 <script>
   const API_URL = 'https://script.google.com/macros/s/AKfycby51xkp8ka5boynUNZoXn4yktt-C_LzNRwD5dam6YeY4f6zEPsNJGlOyDuk4rDdUMtS7g/exec';
   const IMG_FOLDER = '../imagens/';
-  const PAGE_SIZE = 12;
+  let PAGE_SIZE = 12;
 
   const input = document.getElementById('handleInput');
   const btn = document.getElementById('searchBtn');
@@ -1310,6 +1315,7 @@
   const toolbar = document.getElementById('toolbar');
   const resultsSummary = document.getElementById('resultsSummary');
   const sortSelect = document.getElementById('sortSelect');
+  const pageSizeSelect = document.getElementById('pageSizeSelect');
   const paginationEl = document.getElementById('pagination');
   const selectAllRow = document.getElementById('selectAllRow');
   const selectAllLabel = document.getElementById('selectAllLabel');
@@ -2313,6 +2319,10 @@
   membroFilter.addEventListener('change', () => { applyFilters(); });
   pobFilter.addEventListener('change', () => { applyFilters(); });
   sortSelect.addEventListener('change', () => { applyFilters(); });
+  pageSizeSelect.addEventListener('change', () => {
+    PAGE_SIZE = parseInt(pageSizeSelect.value, 10) || 12;
+    applyFilters();
+  });
   cegFilter.addEventListener('change', () => {
     updateDependentFilters();
     applyFilters();
