@@ -192,7 +192,7 @@ main{max-width:1200px;margin:0 auto;padding:28px 24px 72px;}
 .mc-ico svg{width:24px;height:24px;color:#7070A8;}
 .mc-body{flex:1;min-width:0;}
 .mc-body h3{
-  font-family:'Inter',sans-serif;font-size:16px;font-weight:600;
+  font-family:'Note Book','Inter',sans-serif;font-size:16px;font-weight:600;
   color:#4A5070;margin-bottom:3px;
 }
 .mc-body p{font-size:13px;font-weight:400;color:#4B5078;margin-bottom:6px;}
@@ -217,7 +217,7 @@ main{max-width:1200px;margin:0 auto;padding:28px 24px 72px;}
 }
 .upd-bar-l{
   display:flex;align-items:center;gap:8px;
-  font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:#fff;
+  font-family:'Note Book','Inter',sans-serif;font-size:14px;font-weight:600;color:#fff;
 }
 .upd-bar-l svg{width:16px;height:16px;}
 .upd-bar-r{
@@ -295,7 +295,7 @@ main{max-width:1200px;margin:0 auto;padding:28px 24px 72px;}
 }
 .bot-title{
   display:flex;align-items:center;gap:9px;
-  font-family:'Space Grotesk',sans-serif;
+  font-family:'Note Book','Space Grotesk',sans-serif;
   font-size:16px;font-weight:700;color:#2B2D42;
   margin-bottom:20px;
 }
@@ -324,6 +324,16 @@ main{max-width:1200px;margin:0 auto;padding:28px 24px 72px;}
 .st-ico{width:32px;height:32px;border-radius:8px;background:#E8EFF6;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .st-ico svg{width:16px;height:16px;color:#5C6FA0;}
 .bot-foot{display:flex;justify-content:flex-end;}
+.tutorial-placeholder{
+  border:1px dashed rgba(112,112,168,0.32);
+  border-radius:14px;
+  padding:34px 16px;
+  text-align:center;
+  color:#9CA3AF;
+  font-size:13px;
+  margin-bottom:20px;
+}
+.tutorial-placeholder svg{width:30px;height:30px;color:#7070A8;margin-bottom:10px;}
 
 @media(max-width:660px){.bot-row{grid-template-columns:1fr;}}
 
@@ -519,29 +529,12 @@ footer{
 
     <div class="bot-card">
       <p class="bot-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        Status Mais Consultados
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M10 8.5l6 3.5-6 3.5v-7z"/></svg>
+        Tutorial Site
       </p>
-      <ul class="st-ul">
-        <li>
-          <div class="st-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></div>
-          Chegou na Warehouse
-        </li>
-        <li>
-          <div class="st-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
-          Enviado para o Brasil
-        </li>
-        <li>
-          <div class="st-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 10-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg></div>
-          Chegou na GOM
-        </li>
-        <li>
-          <div class="st-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="7" width="15" height="10" rx="1"/><path d="M16 10h3l3 3v4h-6z"/><circle cx="6" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg></div>
-          Pronto para Solicitar Envio
-        </li>
-      </ul>
-      <div class="bot-foot">
-        <a href="../regras/" class="btn-coral">Ver todas <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <div class="tutorial-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M10 8.5l6 3.5-6 3.5v-7z"/></svg>
+        <p>Vídeo em breve</p>
       </div>
     </div>
 
@@ -567,7 +560,7 @@ footer{
 <footer>
   <div class="ft-l">
     <img src="../imagens/logo.png" alt="DAZED CEGs">
-    <p>Do seller até você. 💜</p>
+    <p>Sua coleção, organizada do início ao fim. 💜</p>
   </div>
   <span class="ft-copy">© 2026 DAZED CEGs. Todos os direitos reservados.</span>
 </footer>
