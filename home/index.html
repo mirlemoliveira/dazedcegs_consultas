@@ -344,10 +344,8 @@ main{max-width:1200px;margin:0 auto;padding:28px 24px 72px;}
 
 /* ───── FOOTER ───── */
 footer{
-  background:#E8EFF6;
-  border-top:1px solid rgba(43,45,66,.09);
-  padding:20px 48px;
-  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  background:#F1F1F7;border-top:1px solid rgba(112,112,168,.10);
+  padding:22px 40px 16px;margin-top:8px;
 }
 .ft-l{display:flex;align-items:center;gap:12px;}
 .ft-l img{height:40px;width:auto;}
@@ -377,8 +375,8 @@ footer{
   border:1px solid rgba(112,112,168,0.08);
   border-radius:16px;
   box-shadow:0 4px 16px rgba(0,0,0,0.03);
-  padding:20px 20px 18px;
-  min-height:150px;
+  padding:15px 18px 13px;
+  min-height:0;
   display:flex;flex-direction:column;
   cursor:pointer;
   transition:box-shadow .2s ease, transform .2s ease;
@@ -386,17 +384,17 @@ footer{
 }
 .qc:hover{box-shadow:0 10px 28px rgba(112,112,168,0.16);transform:translateY(-3px);}
 .qc-ico{
-  width:52px;height:52px;border-radius:50%;
+  width:40px;height:40px;border-radius:50%;
   background:rgba(112,112,168,0.08);
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  margin-bottom:12px;
+  margin-bottom:8px;
 }
-.qc-ico svg{width:23px;height:23px;color:#7070A8;}
+.qc-ico svg{width:19px;height:19px;color:#7070A8;}
 .qc h3{
-  font-family:'Note Book','Inter',sans-serif;font-size:15.5px;font-weight:700;
-  color:#4A5070;margin-bottom:5px;
+  font-family:'Note Book','Inter',sans-serif;font-size:15px;font-weight:700;
+  color:#4A5070;margin-bottom:4px;
 }
-.qc p{font-size:12.5px;font-weight:400;color:#5C6272;line-height:1.5;margin-bottom:10px;flex:1;}
+.qc p{font-size:12.5px;font-weight:400;color:#5C6272;line-height:1.45;margin-bottom:6px;}
 .qc-link{
   display:inline-flex;align-items:center;gap:4px;
   font-size:13px;font-weight:600;color:#FF5B68;
@@ -548,9 +546,9 @@ footer{
 /* ================= FOOTER (redesign) ================= */
 footer{
   background:#F1F1F7;border-top:1px solid rgba(112,112,168,.10);
-  padding:38px 40px 22px;margin-top:8px;
+  padding:22px 40px 16px;margin-top:8px;
 }
-.ft-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:28px;max-width:1180px;margin:0 auto;}
+.ft-grid{max-width:1180px;margin:0 auto;}
 .ft-welcome{display:flex;gap:12px;}
 .ft-mascots{display:flex;align-items:flex-end;flex-shrink:0;}
 .ft-mascots svg:nth-child(2){margin-left:-10px;}
@@ -558,7 +556,7 @@ footer{
   display:flex;align-items:center;gap:6px;
   font-family:'Note Book','Inter',sans-serif;font-size:15px;font-weight:700;color:#4A5070;margin-bottom:6px;
 }
-.ft-welcome-body p{font-size:12.5px;color:#4B5078;line-height:1.6;margin-bottom:10px;max-width:320px;}
+.ft-welcome-body p{font-size:12.5px;color:#4B5078;line-height:1.6;margin-bottom:10px;max-width:640px;}
 .ft-made{font-size:11.5px;color:#9CA3AF;}
 .ft-col h5{
   font-family:'Josefin Sans','Inter',sans-serif;font-size:12px;font-weight:700;
@@ -758,7 +756,7 @@ footer{
       <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 18v-6a9 9 0 0118 0v6"/><rect x="1" y="15" width="6" height="8" rx="2"/><rect x="17" y="15" width="6" height="8" rx="2"/></svg> DAZED VIBES <svg viewBox="0 0 24 24" fill="#FF5B68" style="width:13px;height:13px;"><path d="M12 21s-7.5-4.9-10-9.3C.4 8.3 2 5 5.4 5c2 0 3.4 1 4.6 2.7C11.2 6 12.6 5 14.6 5 18 5 19.6 8.3 22 11.7 19.5 16.1 12 21 12 21z"/></svg></h3>
       <p>Sua trilha sonora para acompanhar suas CEGs.</p>
       <div class="vibes-player">
-        <iframe src="https://open.spotify.com/embed/playlist/7i58e4VMLpb03OB1Fi0Vdl?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="border-radius:14px;display:block;"></iframe>
+        <iframe src="https://open.spotify.com/embed/playlist/7i58e4VMLpb03OB1Fi0Vdl?utm_source=generator&theme=0" width="100%" height="352" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="border-radius:14px;display:block;"></iframe>
         <a class="btn-spotify" style="margin-top:12px;" href="https://open.spotify.com/playlist/7i58e4VMLpb03OB1Fi0Vdl" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.6 14.4c-.2.3-.6.4-.9.2-2.5-1.5-5.6-1.9-9.3-1-.4.1-.7-.1-.8-.5-.1-.4.1-.7.5-.8 4-.9 7.5-.5 10.3 1.2.3.2.4.6.2.9zm1.2-2.7c-.2.4-.7.5-1.1.3-2.9-1.8-7.3-2.3-10.7-1.2-.4.1-.9-.1-1-.5-.1-.4.1-.9.5-1 3.9-1.2 8.7-.6 12 1.4.4.2.5.7.3 1zm.1-2.8C14.2 8.8 8.9 8.6 5.7 9.6c-.5.2-1.1-.1-1.3-.6-.2-.5.1-1.1.6-1.3 3.7-1.1 9.6-.9 13.4 1.4.5.3.6.9.3 1.4-.3.4-.9.5-1.4.3z"/></svg>
           Ouvir no Spotify
@@ -822,33 +820,6 @@ footer{
         <p>Somos a DAZED CEGS e estamos muito felizes em ter você por aqui! Nosso objetivo é tornar sua experiência como colecionador mais organizada, transparente e tranquila, reunindo tudo o que você precisa em um só lugar. Conte com a gente para acompanhar suas CEGs, esclarecer dúvidas e fazer parte de uma comunidade feita por colecionadores, para colecionadores.</p>
         <div class="ft-made">Feito com carinho por colecionadores, para colecionadores. 💜</div>
       </div>
-    </div>
-    <div class="ft-col">
-      <h5>Links Rápidos</h5>
-      <ul>
-        <li><a href="../regras/">Regras Gerais</a></li>
-        <li><a href="../cegs/">Área do Joiner</a></li>
-        <li><a href="../calculadora/">Calculadoras</a></li>
-        <li><a href="../regras/#sec-faq">Perguntas Frequentes</a></li>
-        <li><a href="../regras/#sec-equipe">Equipe DAZED</a></li>
-      </ul>
-    </div>
-    <div class="ft-col">
-      <h5>Ajuda</h5>
-      <ul>
-        <li><a href="#tutorial">Tutoriais do Site</a></li>
-        <li><a href="../regras/#sec-faq">Fale Conosco</a></li>
-        <li><a href="../regras/#sec-faq">Suporte</a></li>
-      </ul>
-    </div>
-    <div class="ft-col">
-      <h5>Nossas Redes</h5>
-      <div class="ft-social">
-        <a href="https://instagram.com/dazed.cegs" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="#C93845" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
-        <a href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="#5865F2"><path d="M20.3 5.4A17.5 17.5 0 0015.7 4l-.3.6a13 13 0 015.1 2.6 15 15 0 00-13 0A13 13 0 018.6 4.6L8.3 4a17.5 17.5 0 00-4.6 1.4C1 9.7.3 13.9.7 18a17.7 17.7 0 005.4 2.7l.8-1.3a11 11 0 01-1.8-.9l.4-.3a12.6 12.6 0 0013 0l.4.3c-.6.4-1.2.6-1.8.9l.8 1.3A17.6 17.6 0 0023.3 18c.5-4.7-.7-8.9-3-12.6zM8.8 15.4c-.9 0-1.6-.8-1.6-1.8s.7-1.8 1.6-1.8 1.6.8 1.6 1.8-.7 1.8-1.6 1.8zm6.4 0c-.9 0-1.6-.8-1.6-1.8s.7-1.8 1.6-1.8 1.6.8 1.6 1.8-.7 1.8-1.6 1.8z"/></svg></a>
-        <a href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="#2B2D42"><path d="M16.6 5.8a4.7 4.7 0 01-3.2-4.6h-3v14.4a2.8 2.8 0 11-2-2.7v-3.1a5.8 5.8 0 105.8 5.8V9.3a7.7 7.7 0 004.4 1.4V7.7a4.7 4.7 0 01-2-1.9z"/></svg></a>
-      </div>
-      <div class="ft-handle">@dazed.cegs</div>
     </div>
   </div>
   <div class="ft-bottom">© 2026 DAZED CEGS. Todos os direitos reservados.</div>
