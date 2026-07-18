@@ -901,7 +901,10 @@
   .status-pendente { color: var(--coral-dark); background: rgba(255,84,96,0.14); }
 
   /* ---------- LIST VIEW (compact) ---------- */
-  .results.view-list { display: flex; flex-direction: column; gap: 12px; }
+  .results.view-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  @media (max-width: 760px) {
+    .results.view-list { grid-template-columns: 1fr; }
+  }
 
   .order-card {
     background: var(--card-bg);
