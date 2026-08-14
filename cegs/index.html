@@ -2684,7 +2684,20 @@
         return;
       }
 
-      window.location.href = data.url;
+      const novaAba = window.open(data.url, '_blank');
+
+      paySubmitBtn.disabled = false;
+      paySubmitBtn.textContent = 'Pagar selecionados';
+
+      if (!novaAba) {
+        // Navegador bloqueou o pop-up: mostra um link clicável em vez de
+        // travar o fluxo, já que window.open pode ser bloqueado por padrão.
+        payStatusMsg.innerHTML = 'Seu navegador bloqueou a nova aba. <a href="' + data.url + '" target="_blank" rel="noopener">Clique aqui para pagar</a>.';
+        payStatusMsg.classList.add('error');
+      } else {
+        payStatusMsg.textContent = 'Pagamento aberto em uma nova aba. Você pode continuar navegando aqui enquanto paga.';
+        payStatusMsg.classList.remove('error');
+      }
     } catch (err) {
       payStatusMsg.textContent = 'Não foi possível gerar o link agora. Tenta de novo em instantes.';
       payStatusMsg.classList.add('error');
