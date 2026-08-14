@@ -1234,6 +1234,48 @@
     flex-shrink: 0;
   }
 
+  .pay-item.is-processando {
+    justify-content: space-between;
+    align-items: flex-start;
+    background: var(--purple-tint);
+    border-color: var(--purple);
+  }
+
+  .pay-item.is-processando .pay-item-valor {
+    text-align: right;
+    margin-bottom: 8px;
+  }
+
+  .pay-item-badge-processando {
+    color: var(--purple-dark);
+    background: rgba(111,112,161,0.14);
+  }
+
+  .pay-item-hint {
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    margin: 6px 0 0;
+    max-width: 220px;
+  }
+
+  .pay-continuar-btn {
+    display: block;
+    margin-left: auto;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: none;
+    background: var(--purple);
+    color: #fff;
+    font-family: 'Poppins', 'Outfit', 'Nunito', sans-serif;
+    font-size: 11.5px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+
+  .pay-continuar-btn:hover { background: var(--purple-dark); transform: scale(1.03); }
+
   .pay-empty {
     text-align: center;
     padding: 24px 12px;
@@ -2607,6 +2649,13 @@
     return total;
   }
 
+  // Guarda a sessao de pagamento em andamento (se houver), consultada toda
+  // vez que o modal abre. linhasEmProcessamento e' um Set com os numeros de
+  // linha que ja tem um checkout iniciado (mostra "Continuar pagamento" em
+  // vez do checkbox) - expira sozinho no servidor apos 10 minutos.
+  let pagamentoAtivoAtual = null;
+  let linhasEmProcessamento = new Set();
+
   function renderPayList() {
     const pendentes = pendentesDoHandle();
 
@@ -2619,9 +2668,28 @@
 
     payList.innerHTML = pendentes.map(p => {
       const liberado = !!p.liberadoParaPagamento;
+      const emProcessamento = linhasEmProcessamento.has(p.linha);
       const checked = paySelected.has(p.linha) ? 'checked' : '';
       const disabled = liberado ? '' : 'disabled';
       const valorTotal = (Number(p.valor) || 0) + (p.multa || 0);
+
+      if (emProcessamento) {
+        return `
+          <div class="pay-item is-processando">
+            <div class="pay-item-info">
+              <p class="pay-item-title">Item: ${p.membro || ''}</p>
+              <p class="pay-item-sub">${p.pob || ''} · ${p.ceg || ''}${p.prazo ? ' · vence ' + p.prazo : ''}</p>
+              <span class="pay-item-badge pay-item-badge-processando">Processando pagamento</span>
+              <p class="pay-item-hint">Você tem até 10 minutos pra concluir. Depois disso, pode selecionar de novo.</p>
+            </div>
+            <div>
+              <div class="pay-item-valor">${formatMoney(valorTotal)}</div>
+              <button type="button" class="pay-continuar-btn" data-url="${pagamentoAtivoAtual ? pagamentoAtivoAtual.url : ''}">Continuar pagamento →</button>
+            </div>
+          </div>
+        `;
+      }
+
       return `
         <div class="pay-item ${liberado ? '' : 'is-bloqueado'}">
           <input type="checkbox" data-linha="${p.linha}" ${checked} ${disabled}>
@@ -2644,6 +2712,13 @@
       });
     });
 
+    payList.querySelectorAll('.pay-continuar-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const url = btn.dataset.url;
+        if (url) window.open(url, '_blank');
+      });
+    });
+
     atualizarFooterPagamento();
   }
 
@@ -2652,11 +2727,28 @@
     paySubmitBtn.disabled = paySelected.size === 0;
   }
 
-  function abrirPayOverlay() {
+  async function abrirPayOverlay() {
     if (!currentHandle) return;
     paySelected = new Set();
+    linhasEmProcessamento = new Set();
+    pagamentoAtivoAtual = null;
     payStatusMsg.textContent = '';
     payStatusMsg.classList.remove('error');
+
+    // Antes de renderizar, confere se ja existe uma sessao de pagamento em
+    // andamento (dentro dos 10 minutos) - se tiver, mostra "Continuar
+    // pagamento" nos itens dela em vez do checkbox normal.
+    try {
+      const res = await fetch(`${API_URL}?action=pagamentoAtivo&at=${encodeURIComponent(currentHandle)}`);
+      const data = await res.json();
+      if (data.temPagamentoAtivo) {
+        pagamentoAtivoAtual = data;
+        linhasEmProcessamento = new Set(data.linhas || []);
+      }
+    } catch (err) {
+      // se a checagem falhar, so' segue sem mostrar sessao ativa
+    }
+
     renderPayList();
     payOverlay.classList.add('is-open');
   }
@@ -2691,10 +2783,19 @@
         return;
       }
 
+      const linhasPagas = Array.from(paySelected);
       const novaAba = window.open(data.url, '_blank');
 
-      paySubmitBtn.disabled = false;
+      // Marca essas linhas como "em processamento" (mostra "Continuar
+      // pagamento" se o joiner voltar em ate 10 minutos) e limpa a
+      // selecao de checkboxes, ja que agora elas viraram sessao ativa.
+      pagamentoAtivoAtual = { url: data.url, linhas: linhasPagas };
+      linhasEmProcessamento = new Set(linhasPagas);
+      paySelected = new Set();
+
+      paySubmitBtn.disabled = true;
       paySubmitBtn.textContent = 'Pagar selecionados';
+      renderPayList();
 
       if (!novaAba) {
         // Navegador bloqueou o pop-up: mostra um link clicável em vez de
