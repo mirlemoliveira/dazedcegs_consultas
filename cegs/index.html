@@ -1276,6 +1276,24 @@
 
   .pay-continuar-btn:hover { background: var(--purple-dark); transform: scale(1.03); }
 
+  .pay-encerrar-btn {
+    display: block;
+    margin-left: auto;
+    margin-top: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink-soft);
+    font-family: 'Poppins', 'Outfit', 'Nunito', sans-serif;
+    font-size: 10.5px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .pay-encerrar-btn:hover { background: rgba(255,84,96,0.08); color: var(--coral-dark); border-color: var(--coral); }
+
   .pay-empty {
     text-align: center;
     padding: 24px 12px;
@@ -2680,11 +2698,12 @@
               <p class="pay-item-title">Item: ${p.membro || ''}</p>
               <p class="pay-item-sub">${p.pob || ''} · ${p.ceg || ''}${p.prazo ? ' · vence ' + p.prazo : ''}</p>
               <span class="pay-item-badge pay-item-badge-processando">Processando pagamento</span>
-              <p class="pay-item-hint">Você tem até 10 minutos pra concluir. Depois disso, pode selecionar de novo.</p>
+              <p class="pay-item-hint">Você tem até 10 minutos pra concluir, ou encerre a sessão pra selecionar outros.</p>
             </div>
             <div>
               <div class="pay-item-valor">${formatMoney(valorTotal)}</div>
               <button type="button" class="pay-continuar-btn" data-url="${pagamentoAtivoAtual ? pagamentoAtivoAtual.url : ''}">Continuar pagamento →</button>
+              <button type="button" class="pay-encerrar-btn">Encerrar sessão</button>
             </div>
           </div>
         `;
@@ -2719,12 +2738,38 @@
       });
     });
 
+    payList.querySelectorAll('.pay-encerrar-btn').forEach(btn => {
+      btn.addEventListener('click', encerrarSessaoPagamento);
+    });
+
     atualizarFooterPagamento();
   }
 
   function atualizarFooterPagamento() {
     payTotalValor.textContent = formatMoney(calcularTotalSelecionadoPagamento());
     paySubmitBtn.disabled = paySelected.size === 0;
+  }
+
+  // Encerra manualmente a sessao de pagamento em andamento, liberando os
+  // itens pra selecao de novo antes dos 10 minutos expirarem sozinhos.
+  async function encerrarSessaoPagamento() {
+    if (!currentHandle) return;
+
+    payStatusMsg.textContent = 'Encerrando sessão...';
+    payStatusMsg.classList.remove('error');
+
+    try {
+      await fetch(`${API_URL}?action=cancelarPagamento&at=${encodeURIComponent(currentHandle)}`);
+    } catch (err) {
+      // mesmo se a chamada falhar, segue liberando a selecao no front-end -
+      // a proxima tentativa de pagar vai reconciliar com o servidor de novo
+    }
+
+    pagamentoAtivoAtual = null;
+    linhasEmProcessamento = new Set();
+    payStatusMsg.textContent = 'Sessão encerrada. Selecione os itens que quer pagar.';
+    payStatusMsg.classList.remove('error');
+    renderPayList();
   }
 
   async function abrirPayOverlay() {
