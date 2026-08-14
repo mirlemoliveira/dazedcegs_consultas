@@ -33,6 +33,18 @@
 
   * { box-sizing: border-box; }
 
+  /* A Area do Joiner mostra so' o que interessa pro joiner (se ele pagou ou
+     nao) - o Status do pedido (andamento com o fornecedor) fica visivel
+     so' pra staff, direto na planilha. Oculto via CSS (nao removido do
+     DOM) pra nao quebrar nenhuma logica de filtro/JS por tras. */
+  .product-stamp,
+  .stamp,
+  .table-stamp,
+  .order-table th:nth-child(5),
+  .order-table td:nth-child(5) {
+    display: none !important;
+  }
+
   html, body {
     margin: 0;
     min-height: 100vh;
@@ -1107,6 +1119,14 @@
 
   .compare-close:hover { background: var(--purple-dark); transform: scale(1.02); }
 
+  .stat-card.is-pago { cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+  .stat-card.is-pago:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(42,107,76,0.15); }
+
+  .pay-item-badge-fornecedor {
+    color: var(--purple-dark);
+    background: rgba(111,112,161,0.14);
+  }
+
   .stat-card.is-pendente {
     cursor: pointer;
     transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
@@ -1294,6 +1314,32 @@
 
   .pay-encerrar-btn:hover { background: rgba(255,84,96,0.08); color: var(--coral-dark); border-color: var(--coral); }
 
+  .pay-item { position: relative; }
+
+  .pay-item-remove-btn {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: none;
+    background: var(--coral);
+    color: #fff;
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(43,43,51,0.18);
+  }
+
+  .pay-item.is-selecionado .pay-item-remove-btn { display: flex; }
+  .pay-item.is-processando .pay-item-remove-processando { display: flex; }
+
+  .pay-item-remove-btn:hover { background: var(--coral-dark); }
+
   .pay-empty {
     text-align: center;
     padding: 24px 12px;
@@ -1464,7 +1510,7 @@
         <div class="stat-card-label">Itens</div>
       </div>
     </div>
-    <div class="stat-card is-pago">
+    <div class="stat-card is-pago" id="statPagoCard">
       <div class="stat-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 12.5l2 2 4-4.5"/></svg>
       </div>
@@ -1571,6 +1617,15 @@
       <button type="button" class="pay-submit-btn" id="paySubmitBtn" disabled>Pagar selecionados</button>
     </div>
     <button type="button" class="pay-close" id="payCloseBtn">Fechar</button>
+  </div>
+</div>
+
+<div class="pay-overlay" id="pagoOverlay">
+  <div class="pay-modal">
+    <h2>Itens pagos</h2>
+    <p class="pay-subtitle">Itens que já foram pagos.</p>
+    <div class="pay-list" id="pagoList"></div>
+    <button type="button" class="pay-close" id="pagoCloseBtn">Fechar</button>
   </div>
 </div>
 
@@ -2310,7 +2365,6 @@
       p.ceg || '-',
       p.pob || '-',
       p.membro || '-',
-      p.status || '-',
       formatValor(p),
       p.prazo || '-',
       p.pagamento || '-'
@@ -2318,7 +2372,7 @@
 
     doc.autoTable({
       startY: 32,
-      head: [['CEG', 'Item', 'Membro', 'Status', 'Valor', 'Prazo', 'Pagamento']],
+      head: [['CEG', 'Item', 'Membro', 'Valor', 'Prazo', 'Pagamento']],
       body: rows,
       styles: { fontSize: 8, cellPadding: 2 },
       headStyles: { fillColor: [111, 112, 161] },
@@ -2573,7 +2627,6 @@
       p.ceg || '-',
       p.pob || '-',
       p.membro || '-',
-      p.status || '-',
       formatValor(p),
       p.prazo || '-',
       p.pagamento || '-'
@@ -2581,7 +2634,7 @@
 
     doc.autoTable({
       startY: 32,
-      head: [['CEG', 'Item', 'Membro', 'Status', 'Valor', 'Prazo', 'Pagamento']],
+      head: [['CEG', 'Item', 'Membro', 'Valor', 'Prazo', 'Pagamento']],
       body: rows,
       styles: { fontSize: 8, cellPadding: 2 },
       headStyles: { fillColor: [111, 112, 161] },
@@ -2604,7 +2657,6 @@
         <div class="cr"><span>Membro</span><span>${(p.membro || '-').toUpperCase()}</span></div>
         <div class="cr"><span>CEG</span><span>${p.ceg || '-'}</span></div>
         <div class="cr"><span>Valor</span><span>${formatValor(p)}</span></div>
-        <div class="cr"><span>Status</span><span>${(p.status || '-').toUpperCase()}</span></div>
       </div>
     `).join('');
     compareOverlay.classList.add('is-open');
@@ -2641,6 +2693,47 @@
   const payCloseBtn = document.getElementById('payCloseBtn');
   const payStatusMsg = document.getElementById('payStatusMsg');
   const statPendenteCard = document.getElementById('statPendenteCard');
+
+  // ---------- ITENS PAGOS (informativo) ----------
+  const statPagoCard = document.getElementById('statPagoCard');
+  const pagoOverlay = document.getElementById('pagoOverlay');
+  const pagoList = document.getElementById('pagoList');
+  const pagoCloseBtn = document.getElementById('pagoCloseBtn');
+
+  function renderPagoList() {
+    const pagos = allPedidos.filter(p => p.pagamento === 'Pago');
+
+    if (!pagos.length) {
+      pagoList.innerHTML = '<div class="pay-empty">Nenhum item pago por aqui ainda.</div>';
+      return;
+    }
+
+    pagoList.innerHTML = pagos.map(p => `
+      <div class="pay-item">
+        <div class="pay-item-info">
+          <p class="pay-item-title">Item: ${p.membro || ''}</p>
+          <p class="pay-item-sub">${p.pob || ''} · ${p.ceg || ''}</p>
+        </div>
+        <div class="pay-item-valor">${formatMoney((Number(p.valor) || 0))}</div>
+      </div>
+    `).join('');
+  }
+
+  if (statPagoCard) {
+    statPagoCard.addEventListener('click', () => {
+      renderPagoList();
+      pagoOverlay.classList.add('is-open');
+    });
+  }
+
+  if (pagoCloseBtn) {
+    pagoCloseBtn.addEventListener('click', () => pagoOverlay.classList.remove('is-open'));
+  }
+  if (pagoOverlay) {
+    pagoOverlay.addEventListener('click', e => {
+      if (e.target === pagoOverlay) pagoOverlay.classList.remove('is-open');
+    });
+  }
 
   let paySelected = new Set(); // guarda "linha" (numero da linha na planilha)
 
@@ -2692,6 +2785,14 @@
       const valorTotal = (Number(p.valor) || 0) + (p.multa || 0);
 
       if (emProcessamento) {
+        // O X aparece sempre. Se tiver mais itens na sessao, remove so' esse
+        // e regenera o link com o valor atualizado (feito no backend). Se
+        // for o unico item da sessao, o backend cancela tudo automaticamente
+        // (nao sobra nada pra gerar link nenhum).
+        const ehUnicoItem = linhasEmProcessamento.size <= 1;
+        const tituloRemover = ehUnicoItem
+          ? 'Remover e cancelar o pagamento'
+          : 'Remover este item (gera novo link com o valor atualizado)';
         return `
           <div class="pay-item is-processando">
             <div class="pay-item-info">
@@ -2705,12 +2806,14 @@
               <button type="button" class="pay-continuar-btn" data-url="${pagamentoAtivoAtual ? pagamentoAtivoAtual.url : ''}">Continuar pagamento →</button>
               <button type="button" class="pay-encerrar-btn">Encerrar sessão</button>
             </div>
+            <button type="button" class="pay-item-remove-btn pay-item-remove-processando" data-linha="${p.linha}" title="${tituloRemover}" aria-label="${tituloRemover}">×</button>
           </div>
         `;
       }
 
+      const selecionado = paySelected.has(p.linha);
       return `
-        <div class="pay-item ${liberado ? '' : 'is-bloqueado'}">
+        <div class="pay-item ${liberado ? '' : 'is-bloqueado'} ${selecionado ? 'is-selecionado' : ''}">
           <input type="checkbox" data-linha="${p.linha}" ${checked} ${disabled}>
           <div class="pay-item-info">
             <p class="pay-item-title">Item: ${p.membro || ''}</p>
@@ -2718,6 +2821,7 @@
             ${liberado ? '' : '<span class="pay-item-badge">Aguardando liberação</span>'}
           </div>
           <div class="pay-item-valor">${formatMoney(valorTotal)}</div>
+          <button type="button" class="pay-item-remove-btn" data-linha="${p.linha}" title="Tirar da seleção" aria-label="Tirar da seleção">×</button>
         </div>
       `;
     }).join('');
@@ -2725,8 +2829,26 @@
     payList.querySelectorAll('input[type="checkbox"]').forEach(chk => {
       chk.addEventListener('change', () => {
         const linha = parseInt(chk.dataset.linha, 10);
-        if (chk.checked) paySelected.add(linha);
-        else paySelected.delete(linha);
+        const item = chk.closest('.pay-item');
+        if (chk.checked) {
+          paySelected.add(linha);
+          if (item) item.classList.add('is-selecionado');
+        } else {
+          paySelected.delete(linha);
+          if (item) item.classList.remove('is-selecionado');
+        }
+        atualizarFooterPagamento();
+      });
+    });
+
+    payList.querySelectorAll('.pay-item-remove-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const linha = parseInt(btn.dataset.linha, 10);
+        const item = btn.closest('.pay-item');
+        const chk = item ? item.querySelector('input[type="checkbox"]') : null;
+        if (chk) chk.checked = false;
+        paySelected.delete(linha);
+        if (item) item.classList.remove('is-selecionado');
         atualizarFooterPagamento();
       });
     });
@@ -2740,6 +2862,13 @@
 
     payList.querySelectorAll('.pay-encerrar-btn').forEach(btn => {
       btn.addEventListener('click', encerrarSessaoPagamento);
+    });
+
+    payList.querySelectorAll('.pay-item-remove-processando').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const linha = parseInt(btn.dataset.linha, 10);
+        removerItemDoPagamento(linha);
+      });
     });
 
     atualizarFooterPagamento();
@@ -2770,6 +2899,43 @@
     payStatusMsg.textContent = 'Sessão encerrada. Selecione os itens que quer pagar.';
     payStatusMsg.classList.remove('error');
     renderPayList();
+  }
+
+  // Remove 1 item especifico de um pagamento em andamento, mantendo os
+  // outros. O backend descarta o link antigo e gera um NOVO automaticamente
+  // com o valor atualizado (sem o item removido).
+  async function removerItemDoPagamento(linha) {
+    if (!currentHandle) return;
+
+    payStatusMsg.textContent = 'Atualizando pagamento...';
+    payStatusMsg.classList.remove('error');
+
+    try {
+      const res = await fetch(`${API_URL}?action=removerItemPagamento&at=${encodeURIComponent(currentHandle)}&linha=${linha}`);
+      const data = await res.json();
+
+      if (data.error) {
+        payStatusMsg.textContent = data.error;
+        payStatusMsg.classList.add('error');
+        return;
+      }
+
+      if (data.cancelado) {
+        pagamentoAtivoAtual = null;
+        linhasEmProcessamento = new Set();
+        payStatusMsg.textContent = 'Item removido. Sessão encerrada, pode selecionar de novo.';
+      } else {
+        pagamentoAtivoAtual = { url: data.url, linhas: data.linhas };
+        linhasEmProcessamento = new Set(data.linhas);
+        payStatusMsg.textContent = 'Item removido. Um novo link foi gerado com o valor atualizado.';
+      }
+
+      payStatusMsg.classList.remove('error');
+      renderPayList();
+    } catch (err) {
+      payStatusMsg.textContent = 'Não foi possível remover o item agora. Tenta de novo em instantes.';
+      payStatusMsg.classList.add('error');
+    }
   }
 
   async function abrirPayOverlay() {
