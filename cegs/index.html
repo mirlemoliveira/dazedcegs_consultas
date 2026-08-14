@@ -1623,7 +1623,7 @@
 <div class="pay-overlay" id="pagoOverlay">
   <div class="pay-modal">
     <h2>Itens pagos</h2>
-    <p class="pay-subtitle">Itens que já foram pagos.</p>
+    <p class="pay-subtitle">Itens que você já pagou, e itens que já foram pagos ao fornecedor.</p>
     <div class="pay-list" id="pagoList"></div>
     <button type="button" class="pay-close" id="pagoCloseBtn">Fechar</button>
   </div>
@@ -2702,21 +2702,27 @@
 
   function renderPagoList() {
     const pagos = allPedidos.filter(p => p.pagamento === 'Pago');
+    const pagosFornecedor = allPedidos.filter(p => p.pagamento !== 'Pago' && p.pagoParaFornecedor);
 
-    if (!pagos.length) {
+    if (!pagos.length && !pagosFornecedor.length) {
       pagoList.innerHTML = '<div class="pay-empty">Nenhum item pago por aqui ainda.</div>';
       return;
     }
 
-    pagoList.innerHTML = pagos.map(p => `
+    const renderItem = (p, badgeTexto, badgeClasse) => `
       <div class="pay-item">
         <div class="pay-item-info">
           <p class="pay-item-title">Item: ${p.membro || ''}</p>
           <p class="pay-item-sub">${p.pob || ''} · ${p.ceg || ''}</p>
+          <span class="pay-item-badge ${badgeClasse}">${badgeTexto}</span>
         </div>
         <div class="pay-item-valor">${formatMoney((Number(p.valor) || 0))}</div>
       </div>
-    `).join('');
+    `;
+
+    pagoList.innerHTML =
+      pagos.map(p => renderItem(p, 'Pago', '')).join('') +
+      pagosFornecedor.map(p => renderItem(p, 'Pago para o fornecedor', 'pay-item-badge-fornecedor')).join('');
   }
 
   if (statPagoCard) {
