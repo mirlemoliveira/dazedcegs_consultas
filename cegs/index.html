@@ -1107,6 +1107,185 @@
 
   .compare-close:hover { background: var(--purple-dark); transform: scale(1.02); }
 
+  .stat-card.is-pendente { cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+  .stat-card.is-pendente:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(43,43,51,0.10); }
+
+  .pay-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(43,43,51,0.45);
+    backdrop-filter: blur(2px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+  }
+
+  .pay-overlay.is-open { display: flex; }
+
+  .pay-modal {
+    background: #fff;
+    border-radius: 20px;
+    max-width: 640px;
+    width: 100%;
+    max-height: 86vh;
+    overflow-y: auto;
+    padding: 28px;
+    box-shadow: 0 24px 60px rgba(43,43,51,0.25);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pay-modal h2 {
+    font-family: 'Poppins', 'Outfit', 'Nunito', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    color: var(--ink);
+  }
+
+  .pay-modal .pay-subtitle {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin: 0 0 18px;
+  }
+
+  .pay-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .pay-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 12px 14px;
+  }
+
+  .pay-item.is-bloqueado { opacity: 0.55; }
+
+  .pay-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--purple);
+    flex-shrink: 0;
+  }
+
+  .pay-item .pay-item-info { flex: 1; min-width: 0; }
+
+  .pay-item .pay-item-title {
+    font-family: 'Poppins', 'Outfit', 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 2px;
+  }
+
+  .pay-item .pay-item-sub {
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  .pay-item .pay-item-badge {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--coral-dark);
+    background: rgba(255,84,96,0.1);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  .pay-item .pay-item-valor {
+    font-family: 'Poppins', 'Outfit', 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+
+  .pay-empty {
+    text-align: center;
+    padding: 24px 12px;
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
+
+  .pay-footer {
+    position: sticky;
+    bottom: 0;
+    background: #fff;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .pay-footer .pay-total-label {
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin: 0 0 2px;
+  }
+
+  .pay-footer .pay-total-valor {
+    font-family: 'Poppins', 'Outfit', 'Nunito', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .pay-submit-btn {
+    padding: 12px 22px;
+    border-radius: 999px;
+    border: none;
+    background: var(--purple);
+    color: #fff;
+    font-family: 'Poppins', 'Outfit', 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease, opacity 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .pay-submit-btn:hover { background: var(--purple-dark); transform: scale(1.02); }
+  .pay-submit-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+  .pay-close {
+    width: 100%;
+    padding: 10px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink-soft);
+    font-family: 'Poppins', 'Outfit', 'Nunito', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .pay-close:hover { background: var(--purple-tint); }
+
+  .pay-status-msg {
+    font-size: 12px;
+    text-align: center;
+    margin: 0 0 10px;
+    min-height: 16px;
+  }
+
+  .pay-status-msg.error { color: var(--coral-dark); }
+
   @media (max-width: 760px) {
     main { padding: 32px 18px 70px; }
     .search-row { flex-direction: column; }
@@ -1220,7 +1399,7 @@
         <div class="stat-card-label">Pago</div>
       </div>
     </div>
-    <div class="stat-card is-pendente">
+    <div class="stat-card is-pendente" id="statPendenteCard">
       <div class="stat-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
       </div>
@@ -1296,6 +1475,23 @@
     <h2>Comparar itens</h2>
     <div class="compare-grid" id="compareGrid"></div>
     <button type="button" class="compare-close" id="compareCloseBtn">Fechar</button>
+  </div>
+</div>
+
+<div class="pay-overlay" id="payOverlay">
+  <div class="pay-modal">
+    <h2>Pagamentos pendentes</h2>
+    <p class="pay-subtitle">Selecione os itens que você quer pagar agora pelo InfinitePay.</p>
+    <p class="pay-status-msg" id="payStatusMsg"></p>
+    <div class="pay-list" id="payList"></div>
+    <div class="pay-footer">
+      <div>
+        <p class="pay-total-label">Total selecionado</p>
+        <p class="pay-total-valor" id="payTotalValor">R$ 0</p>
+      </div>
+      <button type="button" class="pay-submit-btn" id="paySubmitBtn" disabled>Pagar selecionados</button>
+    </div>
+    <button type="button" class="pay-close" id="payCloseBtn">Fechar</button>
   </div>
 </div>
 
@@ -2354,6 +2550,124 @@
   cegFilter.addEventListener('change', () => {
     updateDependentFilters();
     applyFilters();
+  });
+
+  // ---------- PAGAMENTO DE PENDENTES (InfinitePay) ----------
+  // Selecao PROPRIA, separada da selecao de comparar/exportar (selectedUids).
+  const payOverlay = document.getElementById('payOverlay');
+  const payList = document.getElementById('payList');
+  const payTotalValor = document.getElementById('payTotalValor');
+  const paySubmitBtn = document.getElementById('paySubmitBtn');
+  const payCloseBtn = document.getElementById('payCloseBtn');
+  const payStatusMsg = document.getElementById('payStatusMsg');
+  const statPendenteCard = document.getElementById('statPendenteCard');
+
+  let paySelected = new Set(); // guarda "linha" (numero da linha na planilha)
+
+  function pendentesDoHandle() {
+    return allPedidos.filter(p => p.pagamento === 'Pendente');
+  }
+
+  function calcularTotalSelecionadoPagamento() {
+    const pendentes = pendentesDoHandle();
+    let total = 0;
+    pendentes.forEach(p => {
+      if (paySelected.has(p.linha)) total += (Number(p.valor) || 0) + (p.multa || 0);
+    });
+    return total;
+  }
+
+  function renderPayList() {
+    const pendentes = pendentesDoHandle();
+
+    if (!pendentes.length) {
+      payList.innerHTML = '<div class="pay-empty">Nenhum pagamento pendente por aqui. 🎉</div>';
+      paySubmitBtn.disabled = true;
+      payTotalValor.textContent = formatMoney(0);
+      return;
+    }
+
+    payList.innerHTML = pendentes.map(p => {
+      const liberado = !!p.liberadoParaPagamento;
+      const checked = paySelected.has(p.linha) ? 'checked' : '';
+      const disabled = liberado ? '' : 'disabled';
+      const valorTotal = (Number(p.valor) || 0) + (p.multa || 0);
+      return `
+        <div class="pay-item ${liberado ? '' : 'is-bloqueado'}">
+          <input type="checkbox" data-linha="${p.linha}" ${checked} ${disabled}>
+          <div class="pay-item-info">
+            <p class="pay-item-title">Item: ${p.membro || ''}</p>
+            <p class="pay-item-sub">${p.pob || ''} · ${p.ceg || ''}${p.prazo ? ' · vence ' + p.prazo : ''}</p>
+            ${liberado ? '' : '<span class="pay-item-badge">Aguardando liberação</span>'}
+          </div>
+          <div class="pay-item-valor">${formatMoney(valorTotal)}</div>
+        </div>
+      `;
+    }).join('');
+
+    payList.querySelectorAll('input[type="checkbox"]').forEach(chk => {
+      chk.addEventListener('change', () => {
+        const linha = parseInt(chk.dataset.linha, 10);
+        if (chk.checked) paySelected.add(linha);
+        else paySelected.delete(linha);
+        atualizarFooterPagamento();
+      });
+    });
+
+    atualizarFooterPagamento();
+  }
+
+  function atualizarFooterPagamento() {
+    payTotalValor.textContent = formatMoney(calcularTotalSelecionadoPagamento());
+    paySubmitBtn.disabled = paySelected.size === 0;
+  }
+
+  function abrirPayOverlay() {
+    if (!currentHandle) return;
+    paySelected = new Set();
+    payStatusMsg.textContent = '';
+    payStatusMsg.classList.remove('error');
+    renderPayList();
+    payOverlay.classList.add('is-open');
+  }
+
+  if (statPendenteCard) {
+    statPendenteCard.addEventListener('click', abrirPayOverlay);
+  }
+
+  payCloseBtn.addEventListener('click', () => payOverlay.classList.remove('is-open'));
+  payOverlay.addEventListener('click', e => {
+    if (e.target === payOverlay) payOverlay.classList.remove('is-open');
+  });
+
+  paySubmitBtn.addEventListener('click', async () => {
+    if (!paySelected.size || !currentHandle) return;
+
+    paySubmitBtn.disabled = true;
+    paySubmitBtn.textContent = 'Gerando link...';
+    payStatusMsg.textContent = '';
+    payStatusMsg.classList.remove('error');
+
+    try {
+      const linhas = Array.from(paySelected).join(',');
+      const res = await fetch(`${API_URL}?action=criarPagamento&at=${encodeURIComponent(currentHandle)}&linhas=${linhas}`);
+      const data = await res.json();
+
+      if (data.error) {
+        payStatusMsg.textContent = data.error;
+        payStatusMsg.classList.add('error');
+        paySubmitBtn.disabled = false;
+        paySubmitBtn.textContent = 'Pagar selecionados';
+        return;
+      }
+
+      window.location.href = data.url;
+    } catch (err) {
+      payStatusMsg.textContent = 'Não foi possível gerar o link agora. Tenta de novo em instantes.';
+      payStatusMsg.classList.add('error');
+      paySubmitBtn.disabled = false;
+      paySubmitBtn.textContent = 'Pagar selecionados';
+    }
   });
 </script>
 
