@@ -1804,9 +1804,27 @@
     const cegVal = cegFilter.value;
     const scoped = cegVal ? allPedidos.filter(p => (p.ceg || '').trim() === cegVal) : allPedidos;
 
-    const statuses = [...new Set(scoped.map(p => (p.status || '').trim()).filter(Boolean))].sort();
-    statusFilter.innerHTML = '<option value="">Todos os status</option>' +
-      statuses.map(s => `<option value="${escapeAttr(s)}">${s.toUpperCase()}</option>`).join('');
+    // Status "cru" da planilha, tirando o texto literal "Pago" (que vira a
+    // opcao separada "Pago para o fornecedor" logo abaixo, pra nao ficar
+    // duplicado/confuso no dropdown).
+    const statuses = [...new Set(scoped.map(p => (p.status || '').trim()).filter(Boolean))]
+      .filter(s => s.toLowerCase() !== 'pago')
+      .sort();
+
+    let statusOptionsHtml = statuses.map(s => `<option value="${escapeAttr(s)}">${s.toUpperCase()}</option>`).join('');
+
+    // Duas opcoes especiais, separadas do texto bruto da planilha:
+    // "Pago" = joiner pagou voce (checkbox). "Pago para o fornecedor" =
+    // voce ja pagou o conjunto inteiro ao fornecedor (status = "Pago").
+    // So' aparecem se existir pelo menos 1 item correspondente no escopo.
+    if (scoped.some(p => p.pagamento === 'Pago')) {
+      statusOptionsHtml += '<option value="__pago_joiner__">PAGO</option>';
+    }
+    if (scoped.some(p => p.pagoParaFornecedor)) {
+      statusOptionsHtml += '<option value="__pago_fornecedor__">PAGO PARA O FORNECEDOR</option>';
+    }
+
+    statusFilter.innerHTML = '<option value="">Todos os status</option>' + statusOptionsHtml;
 
     const membros = [...new Set(scoped.map(p => (p.membro || '').trim()).filter(Boolean))].sort();
     membroFilter.innerHTML = '<option value="">Todos os membros</option>' +
@@ -1854,9 +1872,12 @@
   }
 
   function activeFilterDefs() {
+    const statusLabel = statusFilter.selectedOptions[0] && statusFilter.value
+      ? statusFilter.selectedOptions[0].textContent
+      : '';
     return [
       { key: 'ceg', label: cegFilter.value, clear: () => { cegFilter.value = ''; updateDependentFilters(); } },
-      { key: 'status', label: statusFilter.value, clear: () => { statusFilter.value = ''; } },
+      { key: 'status', label: statusLabel, clear: () => { statusFilter.value = ''; } },
       { key: 'membro', label: membroFilter.value, clear: () => { membroFilter.value = ''; } },
       { key: 'pob', label: cegShowsPobFilter(cegFilter.value) ? pobFilter.value : '', clear: () => { pobFilter.value = ''; } }
     ].filter(f => f.label);
@@ -1895,12 +1916,34 @@
     const statusVal = statusFilter.value;
     const membroVal = membroFilter.value;
     const pobVal = cegShowsPobFilter(cegVal) ? pobFilter.value : '';
-    const filtered = allPedidos.filter(p =>
-      (!cegVal || (p.ceg || '').trim() === cegVal) &&
-      (!statusVal || (p.status || '').trim() === statusVal) &&
-      (!membroVal || (p.membro || '').trim() === membroVal) &&
-      (!pobVal || (p.pob || '').trim() === pobVal)
-    );
+    // Quando o filtro de status for "Pagamento Liberado", itens que ja
+    // foram pagos individualmente (checkbox) somem da lista - esse filtro
+    // serve pra ver quem AINDA precisa pagar, nao quem ja pagou.
+    const statusValNormalizado = statusVal.trim().toLowerCase();
+    const escondeQuemJaPagou = statusValNormalizado === 'pagamento liberado';
+
+    const filtered = allPedidos.filter(p => {
+      if (cegVal && (p.ceg || '').trim() !== cegVal) return false;
+      if (membroVal && (p.membro || '').trim() !== membroVal) return false;
+      if (pobVal && (p.pob || '').trim() !== pobVal) return false;
+
+      if (statusVal === '__pago_joiner__') {
+        // "Pago": so' quem marcou a caixinha (o comprador pagou voce).
+        // Totalmente separado do status "Pago para o fornecedor".
+        if (p.pagamento !== 'Pago') return false;
+      } else if (statusVal === '__pago_fornecedor__') {
+        // "Pago para o fornecedor": so' os itens cujo Status na planilha
+        // e' "Pago" (voce ja pagou o conjunto inteiro). Independente de o
+        // joiner ja ter pago voce ou nao.
+        if (!p.pagoParaFornecedor) return false;
+      } else if (statusVal) {
+        if ((p.status || '').trim() !== statusVal) return false;
+        if (escondeQuemJaPagou && p.pagamento === 'Pago') return false;
+      }
+
+      return true;
+    });
+
     currentPage = 1;
     renderChips();
     renderCards(sortPedidos(filtered), allPedidos.length);
