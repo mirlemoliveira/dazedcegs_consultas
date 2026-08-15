@@ -1623,7 +1623,7 @@
 <div class="pay-overlay" id="pagoOverlay">
   <div class="pay-modal">
     <h2>Itens pagos</h2>
-    <p class="pay-subtitle">Itens que você já pagou, e itens que já foram pagos ao fornecedor.</p>
+    <p class="pay-subtitle">Itens que você já pagou, e itens que já foram pagos à seller.</p>
     <div class="pay-list" id="pagoList"></div>
     <button type="button" class="pay-close" id="pagoCloseBtn">Fechar</button>
   </div>
@@ -1821,7 +1821,7 @@
       statusOptionsHtml += '<option value="__pago_joiner__">PAGO</option>';
     }
     if (scoped.some(p => p.pagoParaFornecedor)) {
-      statusOptionsHtml += '<option value="__pago_fornecedor__">PAGO PARA O FORNECEDOR</option>';
+      statusOptionsHtml += '<option value="__pago_fornecedor__">PAGO PARA A SELLER</option>';
     }
 
     statusFilter.innerHTML = '<option value="">Todos os status</option>' + statusOptionsHtml;
@@ -2765,7 +2765,7 @@
 
     pagoList.innerHTML =
       pagos.map(p => renderItem(p, 'Pago', '')).join('') +
-      pagosFornecedor.map(p => renderItem(p, 'Pago para o fornecedor', 'pay-item-badge-fornecedor')).join('');
+      pagosFornecedor.map(p => renderItem(p, 'Pago para a seller', 'pay-item-badge-fornecedor')).join('');
   }
 
   if (statPagoCard) {
@@ -2784,10 +2784,17 @@
     });
   }
 
-  let paySelected = new Set(); // guarda "linha" (numero da linha na planilha)
+  let paySelected = new Set(); // guarda "chave" composta imgFolder::linha
 
   function pendentesDoHandle() {
     return allPedidos.filter(p => p.pagamento === 'Pendente');
+  }
+
+  // Monta a chave composta que identifica um item de forma unica entre
+  // varias planilhas/CEGs (o mesmo numero de linha pode existir em mais de
+  // uma delas ao mesmo tempo, entao so' o numero nao basta).
+  function chaveItem(p) {
+    return (p.imgFolder || '') + '::' + p.linha;
   }
 
   // O selo "Pagar agora ->" e o destaque do card so' aparecem quando existe
@@ -2804,15 +2811,15 @@
     const pendentes = pendentesDoHandle();
     let total = 0;
     pendentes.forEach(p => {
-      if (paySelected.has(p.linha)) total += (Number(p.valor) || 0) + (p.multa || 0);
+      if (paySelected.has(chaveItem(p))) total += (Number(p.valor) || 0) + (p.multa || 0);
     });
     return total;
   }
 
   // Guarda a sessao de pagamento em andamento (se houver), consultada toda
-  // vez que o modal abre. linhasEmProcessamento e' um Set com os numeros de
-  // linha que ja tem um checkout iniciado (mostra "Continuar pagamento" em
-  // vez do checkbox) - expira sozinho no servidor apos 10 minutos.
+  // vez que o modal abre. linhasEmProcessamento e' um Set com as CHAVES
+  // (imgFolder::linha) que ja tem um checkout iniciado (mostra "Continuar
+  // pagamento" em vez do checkbox) - expira sozinho no servidor apos 10 min.
   let pagamentoAtivoAtual = null;
   let linhasEmProcessamento = new Set();
 
@@ -2827,9 +2834,10 @@
     }
 
     payList.innerHTML = pendentes.map(p => {
+      const chave = chaveItem(p);
       const liberado = !!p.liberadoParaPagamento;
-      const emProcessamento = linhasEmProcessamento.has(p.linha);
-      const checked = paySelected.has(p.linha) ? 'checked' : '';
+      const emProcessamento = linhasEmProcessamento.has(chave);
+      const checked = paySelected.has(chave) ? 'checked' : '';
       const disabled = liberado ? '' : 'disabled';
       const valorTotal = (Number(p.valor) || 0) + (p.multa || 0);
 
@@ -2855,48 +2863,48 @@
               <button type="button" class="pay-continuar-btn" data-url="${pagamentoAtivoAtual ? pagamentoAtivoAtual.url : ''}">Continuar pagamento →</button>
               <button type="button" class="pay-encerrar-btn">Encerrar sessão</button>
             </div>
-            <button type="button" class="pay-item-remove-btn pay-item-remove-processando" data-linha="${p.linha}" title="${tituloRemover}" aria-label="${tituloRemover}">×</button>
+            <button type="button" class="pay-item-remove-btn pay-item-remove-processando" data-key="${chave}" title="${tituloRemover}" aria-label="${tituloRemover}">×</button>
           </div>
         `;
       }
 
-      const selecionado = paySelected.has(p.linha);
+      const selecionado = paySelected.has(chave);
       return `
         <div class="pay-item ${liberado ? '' : 'is-bloqueado'} ${selecionado ? 'is-selecionado' : ''}">
-          <input type="checkbox" data-linha="${p.linha}" ${checked} ${disabled}>
+          <input type="checkbox" data-key="${chave}" ${checked} ${disabled}>
           <div class="pay-item-info">
             <p class="pay-item-title">Item: ${p.membro || ''}</p>
             <p class="pay-item-sub">${p.pob || ''} · ${p.ceg || ''}${p.prazo ? ' · vence ' + p.prazo : ''}</p>
             ${liberado ? '' : '<span class="pay-item-badge">Aguardando liberação</span>'}
           </div>
           <div class="pay-item-valor">${formatMoney(valorTotal)}</div>
-          <button type="button" class="pay-item-remove-btn" data-linha="${p.linha}" title="Tirar da seleção" aria-label="Tirar da seleção">×</button>
+          <button type="button" class="pay-item-remove-btn" data-key="${chave}" title="Tirar da seleção" aria-label="Tirar da seleção">×</button>
         </div>
       `;
     }).join('');
 
     payList.querySelectorAll('input[type="checkbox"]').forEach(chk => {
       chk.addEventListener('change', () => {
-        const linha = parseInt(chk.dataset.linha, 10);
+        const chave = chk.dataset.key;
         const item = chk.closest('.pay-item');
         if (chk.checked) {
-          paySelected.add(linha);
+          paySelected.add(chave);
           if (item) item.classList.add('is-selecionado');
         } else {
-          paySelected.delete(linha);
+          paySelected.delete(chave);
           if (item) item.classList.remove('is-selecionado');
         }
         atualizarFooterPagamento();
       });
     });
 
-    payList.querySelectorAll('.pay-item-remove-btn').forEach(btn => {
+    payList.querySelectorAll('.pay-item-remove-btn:not(.pay-item-remove-processando)').forEach(btn => {
       btn.addEventListener('click', () => {
-        const linha = parseInt(btn.dataset.linha, 10);
+        const chave = btn.dataset.key;
         const item = btn.closest('.pay-item');
         const chk = item ? item.querySelector('input[type="checkbox"]') : null;
         if (chk) chk.checked = false;
-        paySelected.delete(linha);
+        paySelected.delete(chave);
         if (item) item.classList.remove('is-selecionado');
         atualizarFooterPagamento();
       });
@@ -2915,8 +2923,8 @@
 
     payList.querySelectorAll('.pay-item-remove-processando').forEach(btn => {
       btn.addEventListener('click', () => {
-        const linha = parseInt(btn.dataset.linha, 10);
-        removerItemDoPagamento(linha);
+        const chave = btn.dataset.key;
+        removerItemDoPagamento(chave);
       });
     });
 
@@ -2950,17 +2958,18 @@
     renderPayList();
   }
 
-  // Remove 1 item especifico de um pagamento em andamento, mantendo os
-  // outros. O backend descarta o link antigo e gera um NOVO automaticamente
-  // com o valor atualizado (sem o item removido).
-  async function removerItemDoPagamento(linha) {
+  // Remove 1 item especifico (pela chave imgFolder::linha) de um pagamento
+  // em andamento, mantendo os outros. O backend descarta o link antigo e
+  // gera um NOVO automaticamente com o valor atualizado (sem o item
+  // removido) - ou cancela tudo se era o unico item.
+  async function removerItemDoPagamento(chave) {
     if (!currentHandle) return;
 
     payStatusMsg.textContent = 'Atualizando pagamento...';
     payStatusMsg.classList.remove('error');
 
     try {
-      const res = await fetch(`${API_URL}?action=removerItemPagamento&at=${encodeURIComponent(currentHandle)}&linha=${linha}`);
+      const res = await fetch(`${API_URL}?action=removerItemPagamento&at=${encodeURIComponent(currentHandle)}&linha=${encodeURIComponent(chave)}`);
       const data = await res.json();
 
       if (data.error) {
@@ -3031,8 +3040,8 @@
     payStatusMsg.classList.remove('error');
 
     try {
-      const linhas = Array.from(paySelected).join(',');
-      const res = await fetch(`${API_URL}?action=criarPagamento&at=${encodeURIComponent(currentHandle)}&linhas=${linhas}`);
+      const chaves = Array.from(paySelected).join(',');
+      const res = await fetch(`${API_URL}?action=criarPagamento&at=${encodeURIComponent(currentHandle)}&linhas=${encodeURIComponent(chaves)}`);
       const data = await res.json();
 
       if (data.error) {
@@ -3043,14 +3052,14 @@
         return;
       }
 
-      const linhasPagas = Array.from(paySelected);
+      const chavesPagas = Array.from(paySelected);
       const novaAba = window.open(data.url, '_blank');
 
-      // Marca essas linhas como "em processamento" (mostra "Continuar
+      // Marca essas chaves como "em processamento" (mostra "Continuar
       // pagamento" se o joiner voltar em ate 10 minutos) e limpa a
       // selecao de checkboxes, ja que agora elas viraram sessao ativa.
-      pagamentoAtivoAtual = { url: data.url, linhas: linhasPagas };
-      linhasEmProcessamento = new Set(linhasPagas);
+      pagamentoAtivoAtual = { url: data.url, linhas: chavesPagas };
+      linhasEmProcessamento = new Set(chavesPagas);
       paySelected = new Set();
 
       paySubmitBtn.disabled = true;
