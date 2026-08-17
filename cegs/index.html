@@ -1141,15 +1141,20 @@
     border-color: var(--coral-dark);
   }
 
-  .stat-card.is-pendente.tem-pagavel::after {
-    content: 'Pagar agora →';
+  .stat-card.is-pendente::after {
+    content: 'Sem pagamentos em aberto';
     position: absolute;
     bottom: 8px;
     right: 14px;
     font-size: 10px;
     font-weight: 700;
-    color: var(--coral-dark);
+    color: var(--ink-faint);
     letter-spacing: 0.02em;
+  }
+
+  .stat-card.is-pendente.tem-pagavel::after {
+    content: 'Pagar agora →';
+    color: var(--coral-dark);
   }
 
   .pay-overlay {
@@ -1560,16 +1565,16 @@
       </div>
       <div>
         <div class="stat-card-value" id="totalPendente">R$ 0</div>
-        <div class="stat-card-label">Pendente</div>
+        <div class="stat-card-label">Itens pendentes</div>
       </div>
     </div>
-    <div class="stat-card is-pendente" id="statFreteTaxaCard" style="display:none;">
+    <div class="stat-card is-pendente" id="statFreteTaxaCard">
       <div class="stat-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h13v13H3z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="7.5" cy="19.5" r="1.5"/><circle cx="19.5" cy="19.5" r="1.5"/></svg>
       </div>
       <div>
         <div class="stat-card-value" id="totalFreteTaxaPendente">R$ 0</div>
-        <div class="stat-card-label">Frete e taxas</div>
+        <div class="stat-card-label">Fretes e taxas pendentes</div>
       </div>
     </div>
     <div class="stat-card is-total">
@@ -2041,20 +2046,15 @@
     atualizarCardFreteTaxa();
   }
 
-  // O card "Frete e taxas" so' aparece quando existe pelo menos 1 linha
-  // pendente (frete+taxa somados de uma linha da planilha - a mesma coluna
-  // "Pago" cobre os dois juntos, entao nao da pra pagar frete sem a taxa
-  // da mesma linha, ou vice-versa).
+  // O card "Fretes e taxas pendentes" fica sempre visivel (nunca some) -
+  // quando nao ha nada pendente mostra "Sem pagamentos em aberto" no lugar
+  // do "Pagar agora ->" (mesmo padrao do card de itens pendentes).
   function atualizarCardFreteTaxa() {
     if (!statFreteTaxaCard) return;
     const pendentes = (freteTaxasData.linhas || []).filter(l => !l.pago);
-    if (!pendentes.length) {
-      statFreteTaxaCard.style.display = 'none';
-      return;
-    }
     const total = pendentes.reduce((soma, l) => soma + (Number(l.valor) || 0), 0);
     totalFreteTaxaPendente.textContent = formatMoney(total);
-    statFreteTaxaCard.style.display = 'flex';
+    statFreteTaxaCard.classList.toggle('tem-pagavel', pendentes.length > 0);
   }
 
   function renderPagination(totalItems) {
@@ -2440,10 +2440,11 @@
       paginationEl.style.display = 'none';
       selectAllRow.style.display = 'none';
       // Ainda mostra o grid de estatisticas (so' o card de frete/taxa) se
-      // o joiner nao tem nenhum item de CEG, mas tem frete/taxa pendente -
-      // caso raro, mas evita que fique sem jeito nenhum de pagar.
-      const temFreteTaxaPendente = (freteTaxasData.linhas || []).some(l => !l.pago);
-      if (temFreteTaxaPendente) {
+      // o joiner nao tem nenhum item de CEG, mas tem algum registro de
+      // frete/taxa - caso raro, mas evita que fique sem jeito nenhum de
+      // ver o card (que agora nunca some sozinho).
+      const temFreteTaxa = (freteTaxasData.linhas || []).length > 0;
+      if (temFreteTaxa) {
         statGrid.style.display = 'grid';
         atualizarCardFreteTaxa();
       } else {
