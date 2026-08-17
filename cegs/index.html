@@ -1193,6 +1193,37 @@
     margin: 0 0 18px;
   }
 
+  .pay-filter-tabs {
+    display: flex;
+    gap: 8px;
+    margin: -8px 0 16px;
+    flex-wrap: wrap;
+  }
+
+  .pay-filter-tab {
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-size: 12.5px;
+    font-weight: 600;
+    font-family: inherit;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+
+  .pay-filter-tab:hover {
+    border-color: var(--purple);
+    color: var(--ink);
+  }
+
+  .pay-filter-tab.active {
+    background: var(--coral);
+    color: #fff;
+    border-color: var(--coral);
+  }
+
   .pay-list {
     display: flex;
     flex-direction: column;
@@ -1532,6 +1563,15 @@
         <div class="stat-card-label">Pendente</div>
       </div>
     </div>
+    <div class="stat-card is-pendente" id="statFreteTaxaCard" style="display:none;">
+      <div class="stat-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h13v13H3z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="7.5" cy="19.5" r="1.5"/><circle cx="19.5" cy="19.5" r="1.5"/></svg>
+      </div>
+      <div>
+        <div class="stat-card-value" id="totalFreteTaxaPendente">R$ 0</div>
+        <div class="stat-card-label">Frete e taxas</div>
+      </div>
+    </div>
     <div class="stat-card is-total">
       <div class="stat-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.6 6.6L22 9.3l-5.5 4.6L18.2 21 12 17.3 5.8 21l1.7-7.1L2 9.3l7.4-.7z"/></svg>
@@ -1619,10 +1659,32 @@
   </div>
 </div>
 
+<div class="pay-overlay" id="freteTaxaOverlay">
+  <div class="pay-modal">
+    <h2>Frete e taxas pendentes</h2>
+    <p class="pay-subtitle">Selecione o que você quer pagar agora pelo InfinitePay.</p>
+    <p class="pay-status-msg" id="freteTaxaStatusMsg"></p>
+    <div class="pay-list" id="freteTaxaList"></div>
+    <div class="pay-footer">
+      <div>
+        <p class="pay-total-label">Total selecionado</p>
+        <p class="pay-total-valor" id="freteTaxaTotalValor">R$ 0</p>
+      </div>
+      <button type="button" class="pay-submit-btn" id="freteTaxaSubmitBtn" disabled>Pagar selecionados</button>
+    </div>
+    <button type="button" class="pay-close" id="freteTaxaCloseBtn">Fechar</button>
+  </div>
+</div>
+
 <div class="pay-overlay" id="pagoOverlay">
   <div class="pay-modal">
     <h2>Itens pagos</h2>
     <p class="pay-subtitle">Itens que você já pagou, e itens que já foram pagos à seller.</p>
+    <div class="pay-filter-tabs" id="pagoFilterTabs">
+      <button type="button" class="pay-filter-tab active" data-filtro="todos">Todos</button>
+      <button type="button" class="pay-filter-tab" data-filtro="itens">Itens</button>
+      <button type="button" class="pay-filter-tab" data-filtro="freteTaxa">Frete e taxas</button>
+    </div>
     <div class="pay-list" id="pagoList"></div>
     <button type="button" class="pay-close" id="pagoCloseBtn">Fechar</button>
   </div>
@@ -1662,6 +1724,7 @@
 
   let allPedidos = [];
   let cegsConfig = [];
+  let freteTaxasData = { frete: [], taxa: [], linhas: [] };
   let currentView = 'grid';
   let lastRendered = [];
   let lastTotal = 0;
@@ -1975,6 +2038,23 @@
     lastTotalGeralVal = totalGeralVal;
     applyTotalVisibility();
     statGrid.style.display = 'grid';
+    atualizarCardFreteTaxa();
+  }
+
+  // O card "Frete e taxas" so' aparece quando existe pelo menos 1 linha
+  // pendente (frete+taxa somados de uma linha da planilha - a mesma coluna
+  // "Pago" cobre os dois juntos, entao nao da pra pagar frete sem a taxa
+  // da mesma linha, ou vice-versa).
+  function atualizarCardFreteTaxa() {
+    if (!statFreteTaxaCard) return;
+    const pendentes = (freteTaxasData.linhas || []).filter(l => !l.pago);
+    if (!pendentes.length) {
+      statFreteTaxaCard.style.display = 'none';
+      return;
+    }
+    const total = pendentes.reduce((soma, l) => soma + (Number(l.valor) || 0), 0);
+    totalFreteTaxaPendente.textContent = formatMoney(total);
+    statFreteTaxaCard.style.display = 'flex';
   }
 
   function renderPagination(totalItems) {
@@ -2356,10 +2436,19 @@
       chipsRow.classList.remove('is-open');
       chipsRow.innerHTML = '';
       toolbar.style.display = 'none';
-      statGrid.style.display = 'none';
       downloadPdfBtn.style.display = 'none';
       paginationEl.style.display = 'none';
       selectAllRow.style.display = 'none';
+      // Ainda mostra o grid de estatisticas (so' o card de frete/taxa) se
+      // o joiner nao tem nenhum item de CEG, mas tem frete/taxa pendente -
+      // caso raro, mas evita que fique sem jeito nenhum de pagar.
+      const temFreteTaxaPendente = (freteTaxasData.linhas || []).some(l => !l.pago);
+      if (temFreteTaxaPendente) {
+        statGrid.style.display = 'grid';
+        atualizarCardFreteTaxa();
+      } else {
+        statGrid.style.display = 'none';
+      }
       return;
     }
     populateFilters(allPedidos);
@@ -2426,6 +2515,16 @@
 
   downloadPdfBtn.addEventListener('click', downloadPdf);
 
+  async function buscarFreteTaxas(handle) {
+    try {
+      const resp = await fetch(`https://dazedcegs-backend.onrender.com/frete-taxas?at=${encodeURIComponent(handle)}`);
+      if (!resp.ok) return { frete: [], taxa: [], linhas: [] };
+      return await resp.json();
+    } catch (err) {
+      return { frete: [], taxa: [], linhas: [] };
+    }
+  }
+
   async function search() {
     const handle = input.value.trim().replace(/^@/, '');
     if (!handle) {
@@ -2442,9 +2541,13 @@
     renderSkeleton();
 
     try {
-      const res = await fetch(`${API_URL}?at=${encodeURIComponent(handle)}`);
+      const [res, freteTaxasResultado] = await Promise.all([
+        fetch(`${API_URL}?at=${encodeURIComponent(handle)}`),
+        buscarFreteTaxas(handle)
+      ]);
       if (!res.ok) throw new Error('Falha na consulta');
       const data = await res.json();
+      freteTaxasData = freteTaxasResultado || { frete: [], taxa: [], linhas: [] };
       if (data.error) {
         renderError(data.error);
       } else {
@@ -2735,6 +2838,8 @@
   const payCloseBtn = document.getElementById('payCloseBtn');
   const payStatusMsg = document.getElementById('payStatusMsg');
   const statPendenteCard = document.getElementById('statPendenteCard');
+  const statFreteTaxaCard = document.getElementById('statFreteTaxaCard');
+  const totalFreteTaxaPendente = document.getElementById('totalFreteTaxaPendente');
 
   // ---------- ITENS PAGOS (informativo) ----------
   const statPagoCard = document.getElementById('statPagoCard');
@@ -2742,11 +2847,14 @@
   const pagoList = document.getElementById('pagoList');
   const pagoCloseBtn = document.getElementById('pagoCloseBtn');
 
+  let filtroPagoAtivo = 'todos';
+
   function renderPagoList() {
     const pagos = allPedidos.filter(p => p.pagamento === 'Pago');
     const pagosFornecedor = allPedidos.filter(p => p.pagamento !== 'Pago' && p.pagoParaFornecedor);
+    const freteTaxaPagos = (freteTaxasData.linhas || []).filter(l => l.pago);
 
-    if (!pagos.length && !pagosFornecedor.length) {
+    if (!pagos.length && !pagosFornecedor.length && !freteTaxaPagos.length) {
       pagoList.innerHTML = '<div class="pay-empty">Nenhum item pago por aqui ainda.</div>';
       return;
     }
@@ -2762,13 +2870,47 @@
       </div>
     `;
 
-    pagoList.innerHTML =
-      pagos.map(p => renderItem(p, 'Pago', '')).join('') +
-      pagosFornecedor.map(p => renderItem(p, 'Pago para a seller', 'pay-item-badge-fornecedor')).join('');
+    const renderFreteTaxaItem = (l) => {
+      const partes = [];
+      if (l.valorFrete > 0) partes.push('Frete: ' + formatMoney(l.valorFrete));
+      if (l.valorTaxa > 0) partes.push('Taxa: ' + formatMoney(l.valorTaxa));
+      return `
+        <div class="pay-item">
+          <div class="pay-item-info">
+            <p class="pay-item-title">${l.membro || 'Frete e taxa'}</p>
+            <p class="pay-item-sub">${l.ceg || ''} · ${partes.join(' · ')}</p>
+            <span class="pay-item-badge">Pago</span>
+          </div>
+          <div class="pay-item-valor">${formatMoney(l.valor)}</div>
+        </div>
+      `;
+    };
+
+    let html = '';
+    if (filtroPagoAtivo === 'todos' || filtroPagoAtivo === 'itens') {
+      html += pagos.map(p => renderItem(p, 'Pago', '')).join('');
+      html += pagosFornecedor.map(p => renderItem(p, 'Pago para a seller', 'pay-item-badge-fornecedor')).join('');
+    }
+    if (filtroPagoAtivo === 'todos' || filtroPagoAtivo === 'freteTaxa') {
+      html += freteTaxaPagos.map(renderFreteTaxaItem).join('');
+    }
+
+    pagoList.innerHTML = html || '<div class="pay-empty">Nada por aqui com esse filtro.</div>';
   }
+
+  document.querySelectorAll('.pay-filter-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.pay-filter-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filtroPagoAtivo = btn.dataset.filtro;
+      renderPagoList();
+    });
+  });
 
   if (statPagoCard) {
     statPagoCard.addEventListener('click', () => {
+      filtroPagoAtivo = 'todos';
+      document.querySelectorAll('.pay-filter-tab').forEach(b => b.classList.toggle('active', b.dataset.filtro === 'todos'));
       renderPagoList();
       pagoOverlay.classList.add('is-open');
     });
@@ -3079,6 +3221,224 @@
       payStatusMsg.classList.add('error');
       paySubmitBtn.disabled = false;
       paySubmitBtn.textContent = 'Pagar selecionados';
+    }
+  });
+
+  // ---------- FRETE E TAXAS PENDENTES (mesmo fluxo do InfinitePay) ----------
+  // Reaproveita a MESMA sessao de pagamento (pagamentoAtivoAtual /
+  // linhasEmProcessamento) usada pelos itens normais, porque o backend so'
+  // guarda uma sessao ativa por handle - nao da pra ter duas ao mesmo tempo.
+  const freteTaxaOverlay = document.getElementById('freteTaxaOverlay');
+  const freteTaxaList = document.getElementById('freteTaxaList');
+  const freteTaxaTotalValor = document.getElementById('freteTaxaTotalValor');
+  const freteTaxaSubmitBtn = document.getElementById('freteTaxaSubmitBtn');
+  const freteTaxaCloseBtn = document.getElementById('freteTaxaCloseBtn');
+  const freteTaxaStatusMsg = document.getElementById('freteTaxaStatusMsg');
+
+  let freteTaxaSelected = new Set();
+
+  function pendentesFreteTaxa() {
+    return (freteTaxasData.linhas || []).filter(l => !l.pago);
+  }
+
+  function calcularTotalSelecionadoFreteTaxa() {
+    const pendentes = pendentesFreteTaxa();
+    let total = 0;
+    pendentes.forEach(l => {
+      if (freteTaxaSelected.has(l.chave)) total += Number(l.valor) || 0;
+    });
+    return total;
+  }
+
+  function atualizarFooterFreteTaxa() {
+    freteTaxaTotalValor.textContent = formatMoney(calcularTotalSelecionadoFreteTaxa());
+    freteTaxaSubmitBtn.disabled = freteTaxaSelected.size === 0;
+  }
+
+  function renderFreteTaxaList() {
+    const pendentes = pendentesFreteTaxa();
+
+    if (!pendentes.length) {
+      freteTaxaList.innerHTML = '<div class="pay-empty">Nenhum frete ou taxa pendente por aqui. 🎉</div>';
+      freteTaxaSubmitBtn.disabled = true;
+      freteTaxaTotalValor.textContent = formatMoney(0);
+      return;
+    }
+
+    freteTaxaList.innerHTML = pendentes.map(l => {
+      const chave = l.chave;
+      const emProcessamento = linhasEmProcessamento.has(chave);
+      const checked = freteTaxaSelected.has(chave) ? 'checked' : '';
+
+      const partes = [];
+      if (l.valorFrete > 0) partes.push('Frete: ' + formatMoney(l.valorFrete));
+      if (l.valorTaxa > 0) partes.push('Taxa: ' + formatMoney(l.valorTaxa));
+
+      if (emProcessamento) {
+        const ehUnicoItem = linhasEmProcessamento.size <= 1;
+        const tituloRemover = ehUnicoItem
+          ? 'Remover e cancelar o pagamento'
+          : 'Remover este item (gera novo link com o valor atualizado)';
+        return `
+          <div class="pay-item is-processando">
+            <div class="pay-item-info">
+              <p class="pay-item-title">${l.membro || 'Frete e taxa'}</p>
+              <p class="pay-item-sub">${l.ceg || ''} · ${partes.join(' · ')}</p>
+              <span class="pay-item-badge pay-item-badge-processando">Processando pagamento</span>
+              <p class="pay-item-hint">Você tem até 10 minutos pra concluir, ou encerre a sessão pra selecionar outros.</p>
+            </div>
+            <div>
+              <div class="pay-item-valor">${formatMoney(l.valor)}</div>
+              <button type="button" class="pay-continuar-btn" data-url="${pagamentoAtivoAtual ? pagamentoAtivoAtual.url : ''}">Continuar pagamento →</button>
+              <button type="button" class="pay-encerrar-btn">Encerrar sessão</button>
+            </div>
+            <button type="button" class="pay-item-remove-btn pay-item-remove-processando" data-key="${chave}" title="${tituloRemover}" aria-label="${tituloRemover}">×</button>
+          </div>
+        `;
+      }
+
+      const selecionado = freteTaxaSelected.has(chave);
+      return `
+        <div class="pay-item ${selecionado ? 'is-selecionado' : ''}">
+          <input type="checkbox" data-key="${chave}" ${checked}>
+          <div class="pay-item-info">
+            <p class="pay-item-title">${l.membro || 'Frete e taxa'}</p>
+            <p class="pay-item-sub">${l.ceg || ''} · ${partes.join(' · ')}</p>
+          </div>
+          <div class="pay-item-valor">${formatMoney(l.valor)}</div>
+          <button type="button" class="pay-item-remove-btn" data-key="${chave}" title="Tirar da seleção" aria-label="Tirar da seleção">×</button>
+        </div>
+      `;
+    }).join('');
+
+    freteTaxaList.querySelectorAll('input[type="checkbox"]').forEach(chk => {
+      chk.addEventListener('change', () => {
+        const chave = chk.dataset.key;
+        const item = chk.closest('.pay-item');
+        if (chk.checked) {
+          freteTaxaSelected.add(chave);
+          if (item) item.classList.add('is-selecionado');
+        } else {
+          freteTaxaSelected.delete(chave);
+          if (item) item.classList.remove('is-selecionado');
+        }
+        atualizarFooterFreteTaxa();
+      });
+    });
+
+    freteTaxaList.querySelectorAll('.pay-item-remove-btn:not(.pay-item-remove-processando)').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const chave = btn.dataset.key;
+        const item = btn.closest('.pay-item');
+        const chk = item ? item.querySelector('input[type="checkbox"]') : null;
+        if (chk) chk.checked = false;
+        freteTaxaSelected.delete(chave);
+        if (item) item.classList.remove('is-selecionado');
+        atualizarFooterFreteTaxa();
+      });
+    });
+
+    freteTaxaList.querySelectorAll('.pay-continuar-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const url = btn.dataset.url;
+        if (url) window.open(url, '_blank');
+      });
+    });
+
+    freteTaxaList.querySelectorAll('.pay-encerrar-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        await encerrarSessaoPagamento();
+        renderFreteTaxaList();
+      });
+    });
+
+    freteTaxaList.querySelectorAll('.pay-item-remove-processando').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const chave = btn.dataset.key;
+        await removerItemDoPagamento(chave);
+        renderFreteTaxaList();
+      });
+    });
+
+    atualizarFooterFreteTaxa();
+  }
+
+  async function abrirFreteTaxaOverlay() {
+    if (!currentHandle) return;
+    freteTaxaSelected = new Set();
+    linhasEmProcessamento = new Set();
+    pagamentoAtivoAtual = null;
+    freteTaxaStatusMsg.textContent = '';
+    freteTaxaStatusMsg.classList.remove('error');
+
+    try {
+      const res = await fetch(`${API_URL}?action=pagamentoAtivo&at=${encodeURIComponent(currentHandle)}`);
+      const data = await res.json();
+      if (data.temPagamentoAtivo) {
+        pagamentoAtivoAtual = data;
+        linhasEmProcessamento = new Set(data.linhas || []);
+      }
+    } catch (err) {
+      // se a checagem falhar, so' segue sem mostrar sessao ativa
+    }
+
+    renderFreteTaxaList();
+    freteTaxaOverlay.classList.add('is-open');
+  }
+
+  if (statFreteTaxaCard) {
+    statFreteTaxaCard.addEventListener('click', abrirFreteTaxaOverlay);
+  }
+
+  freteTaxaCloseBtn.addEventListener('click', () => freteTaxaOverlay.classList.remove('is-open'));
+  freteTaxaOverlay.addEventListener('click', e => {
+    if (e.target === freteTaxaOverlay) freteTaxaOverlay.classList.remove('is-open');
+  });
+
+  freteTaxaSubmitBtn.addEventListener('click', async () => {
+    if (!freteTaxaSelected.size || !currentHandle) return;
+
+    freteTaxaSubmitBtn.disabled = true;
+    freteTaxaSubmitBtn.textContent = 'Gerando link...';
+    freteTaxaStatusMsg.textContent = '';
+    freteTaxaStatusMsg.classList.remove('error');
+
+    try {
+      const chaves = Array.from(freteTaxaSelected).join(',');
+      const res = await fetch(`${API_URL}?action=criarPagamento&at=${encodeURIComponent(currentHandle)}&linhas=${encodeURIComponent(chaves)}`);
+      const data = await res.json();
+
+      if (data.error) {
+        freteTaxaStatusMsg.textContent = data.error;
+        freteTaxaStatusMsg.classList.add('error');
+        freteTaxaSubmitBtn.disabled = false;
+        freteTaxaSubmitBtn.textContent = 'Pagar selecionados';
+        return;
+      }
+
+      const chavesPagas = Array.from(freteTaxaSelected);
+      const novaAba = window.open(data.url, '_blank');
+
+      pagamentoAtivoAtual = { url: data.url, linhas: chavesPagas };
+      linhasEmProcessamento = new Set(chavesPagas);
+      freteTaxaSelected = new Set();
+
+      freteTaxaSubmitBtn.disabled = true;
+      freteTaxaSubmitBtn.textContent = 'Pagar selecionados';
+      renderFreteTaxaList();
+
+      if (!novaAba) {
+        freteTaxaStatusMsg.innerHTML = 'Seu navegador bloqueou a nova aba. <a href="' + data.url + '" target="_blank" rel="noopener">Clique aqui para pagar</a>.';
+        freteTaxaStatusMsg.classList.add('error');
+      } else {
+        freteTaxaStatusMsg.textContent = 'Pagamento aberto em uma nova aba. Você pode continuar navegando aqui enquanto paga.';
+        freteTaxaStatusMsg.classList.remove('error');
+      }
+    } catch (err) {
+      freteTaxaStatusMsg.textContent = 'Não foi possível gerar o link agora. Tenta de novo em instantes.';
+      freteTaxaStatusMsg.classList.add('error');
+      freteTaxaSubmitBtn.disabled = false;
+      freteTaxaSubmitBtn.textContent = 'Pagar selecionados';
     }
   });
 </script>
