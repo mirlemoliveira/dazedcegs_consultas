@@ -3059,13 +3059,13 @@
     });
 
     payList.querySelectorAll('.pay-encerrar-btn').forEach(btn => {
-      btn.addEventListener('click', encerrarSessaoPagamento);
+      btn.addEventListener('click', () => encerrarSessaoPagamento(payStatusMsg, renderPayList));
     });
 
     payList.querySelectorAll('.pay-item-remove-processando').forEach(btn => {
       btn.addEventListener('click', () => {
         const chave = btn.dataset.key;
-        removerItemDoPagamento(chave);
+        removerItemDoPagamento(chave, payStatusMsg, renderPayList);
       });
     });
 
@@ -3079,11 +3079,16 @@
 
   // Encerra manualmente a sessao de pagamento em andamento, liberando os
   // itens pra selecao de novo antes dos 10 minutos expirarem sozinhos.
-  async function encerrarSessaoPagamento() {
+  // Recebe qual caixinha de mensagem e qual lista atualizar, porque essa
+  // funcao e' compartilhada entre o modal de itens normais e o de
+  // frete/taxa (cada um tem sua propria caixinha e lista na tela).
+  async function encerrarSessaoPagamento(statusMsgEl, renderFn) {
+    statusMsgEl = statusMsgEl || payStatusMsg;
+    renderFn = renderFn || renderPayList;
     if (!currentHandle) return;
 
-    payStatusMsg.textContent = 'Encerrando sessão...';
-    payStatusMsg.classList.remove('error');
+    statusMsgEl.textContent = 'Encerrando sessão...';
+    statusMsgEl.classList.remove('error');
 
     try {
       await fetch(`${API_URL}?action=cancelarPagamento&at=${encodeURIComponent(currentHandle)}`);
@@ -3094,46 +3099,49 @@
 
     pagamentoAtivoAtual = null;
     linhasEmProcessamento = new Set();
-    payStatusMsg.textContent = 'Sessão encerrada. Selecione os itens que quer pagar.';
-    payStatusMsg.classList.remove('error');
-    renderPayList();
+    statusMsgEl.textContent = 'Sessão encerrada. Selecione os itens que quer pagar.';
+    statusMsgEl.classList.remove('error');
+    renderFn();
   }
 
-  // Remove 1 item especifico (pela chave imgFolder::linha) de um pagamento
-  // em andamento, mantendo os outros. O backend descarta o link antigo e
-  // gera um NOVO automaticamente com o valor atualizado (sem o item
-  // removido) - ou cancela tudo se era o unico item.
-  async function removerItemDoPagamento(chave) {
+  // Remove 1 item especifico (pela chave) de um pagamento em andamento,
+  // mantendo os outros. O backend descarta o link antigo e gera um NOVO
+  // automaticamente com o valor atualizado (sem o item removido) - ou
+  // cancela tudo se era o unico item. Mesma logica de status/render
+  // compartilhada explicada acima.
+  async function removerItemDoPagamento(chave, statusMsgEl, renderFn) {
+    statusMsgEl = statusMsgEl || payStatusMsg;
+    renderFn = renderFn || renderPayList;
     if (!currentHandle) return;
 
-    payStatusMsg.textContent = 'Atualizando pagamento...';
-    payStatusMsg.classList.remove('error');
+    statusMsgEl.textContent = 'Atualizando pagamento...';
+    statusMsgEl.classList.remove('error');
 
     try {
       const res = await fetch(`${API_URL}?action=removerItemPagamento&at=${encodeURIComponent(currentHandle)}&linha=${encodeURIComponent(chave)}`);
       const data = await res.json();
 
       if (data.error) {
-        payStatusMsg.textContent = data.error;
-        payStatusMsg.classList.add('error');
+        statusMsgEl.textContent = data.error;
+        statusMsgEl.classList.add('error');
         return;
       }
 
       if (data.cancelado) {
         pagamentoAtivoAtual = null;
         linhasEmProcessamento = new Set();
-        payStatusMsg.textContent = 'Item removido. Sessão encerrada, pode selecionar de novo.';
+        statusMsgEl.textContent = 'Item removido. Sessão encerrada, pode selecionar de novo.';
       } else {
         pagamentoAtivoAtual = { url: data.url, linhas: data.linhas };
         linhasEmProcessamento = new Set(data.linhas);
-        payStatusMsg.textContent = 'Item removido. Um novo link foi gerado com o valor atualizado.';
+        statusMsgEl.textContent = 'Item removido. Um novo link foi gerado com o valor atualizado.';
       }
 
-      payStatusMsg.classList.remove('error');
-      renderPayList();
+      statusMsgEl.classList.remove('error');
+      renderFn();
     } catch (err) {
-      payStatusMsg.textContent = 'Não foi possível remover o item agora. Tenta de novo em instantes.';
-      payStatusMsg.classList.add('error');
+      statusMsgEl.textContent = 'Não foi possível remover o item agora. Tenta de novo em instantes.';
+      statusMsgEl.classList.add('error');
     }
   }
 
@@ -3346,17 +3354,13 @@
     });
 
     freteTaxaList.querySelectorAll('.pay-encerrar-btn').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        await encerrarSessaoPagamento();
-        renderFreteTaxaList();
-      });
+      btn.addEventListener('click', () => encerrarSessaoPagamento(freteTaxaStatusMsg, renderFreteTaxaList));
     });
 
     freteTaxaList.querySelectorAll('.pay-item-remove-processando').forEach(btn => {
-      btn.addEventListener('click', async () => {
+      btn.addEventListener('click', () => {
         const chave = btn.dataset.key;
-        await removerItemDoPagamento(chave);
-        renderFreteTaxaList();
+        removerItemDoPagamento(chave, freteTaxaStatusMsg, renderFreteTaxaList);
       });
     });
 
