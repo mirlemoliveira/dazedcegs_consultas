@@ -3271,7 +3271,7 @@
   // varias planilhas/CEGs (o mesmo numero de linha pode existir em mais de
   // uma delas ao mesmo tempo, entao so' o numero nao basta).
   function chaveItem(p) {
-    return (p.ceg || p.imgFolder || '') + '::' + (p.linha != null ? p.linha : p.linhaId);
+    return (p.imgFolder || p.ceg || '') + '::' + (p.linha != null ? p.linha : p.linhaId);
   }
 
 
