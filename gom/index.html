@@ -65,8 +65,10 @@ input[type=checkbox],input[type=radio]{accent-color:var(--purple)}
 /* ───── entrada GOM ───── */
 .g-cab{margin-bottom:24px}
 .g-cab h1{margin:0 0 8px}
-.g-cab p{margin:0;color:var(--muted);font-size:14px;max-width:640px}
-.g-entrada{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,440px));gap:22px;align-items:start}
+.g-cab p{margin:0 auto;color:var(--muted);font-size:14px;max-width:560px}
+.g-login{min-height:calc(100vh - 190px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.g-entrada{display:flex;justify-content:center;width:100%}
+.g-entrada .g-card{width:100%;max-width:440px;text-align:left}
 .g-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 1px 3px rgba(43,43,51,.04);display:flex;flex-direction:column;gap:16px}
 .g-card h2{margin:0;font-size:18px;font-weight:700;color:var(--ink)}
 .g-card p{margin:0;color:var(--muted);font-size:13.5px}
@@ -232,12 +234,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--purple)}
       '<p style="margin-top:6px">Digite o código de 6 dígitos do aplicativo autenticador no seu celular. Obrigatória para todas as contas.</p></div>' +
       '<form id="form-gom-2" class="g-form"><div class="g-campo"><label for="g-codigo">Código de 6 dígitos</label><input id="g-codigo" type="text" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="off"></div>' +
       '<p class="g-erro" id="g-erro" role="alert" hidden></p><button class="g-btn primario cheio" type="submit">Confirmar e entrar</button></form></section>';
-    const atalhos = '<section class="g-card" aria-label="Atalhos de demonstração"><div><h2>Atalhos de demonstração</h2>' +
-      '<p style="margin-top:6px">Pule o login para ver o painel como cada pessoa. O menu muda conforme as permissões.</p></div><div class="g-atalhos">' +
-      '<button type="button" class="g-btn" data-acao="entrar-como" data-perfil="admin">Entrar como Administradora</button>' +
-      '<button type="button" class="g-btn" data-acao="entrar-como" data-perfil="bruna">Entrar como Bruna (ADM)</button>' +
-      '<button type="button" class="g-btn" data-acao="entrar-como" data-perfil="esther">Entrar como Esther (ADM)</button></div></section>';
-    return cab + '<div class="g-entrada">' + (passoLogin === 1 ? c1 : c2) + atalhos + '</div>';
+    return '<div class="g-login">' + cab + '<div class="g-entrada">' + (passoLogin === 1 ? c1 : c2) + '</div></div>';
   }
 
 
