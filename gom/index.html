@@ -74,6 +74,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--purple)}
 .g-campo{display:flex;flex-direction:column;gap:6px}
 .g-campo label{font-size:12.5px;font-weight:600;color:var(--muted)}
 .g-atalhos{display:flex;flex-direction:column;gap:10px}
+.g-erro{margin:0;color:var(--coral-dark);font-size:13px;font-weight:600}
 
 /* ───── títulos do painel (mesmo estilo das páginas do site) ───── */
 #app h1{font-family:'Note Book','Oswald',sans-serif!important;font-size:28px!important;font-weight:700!important;line-height:1.2!important;letter-spacing:0!important;color:#4B5078!important}
@@ -191,7 +192,8 @@ input[type=checkbox],input[type=radio]{accent-color:var(--purple)}
       S.perms = { bruna: Object.assign(PADRAO_ADM(), (guardado.perms || {}).bruna), esther: Object.assign(PADRAO_ADM(), (guardado.perms || {}).esther) };
     }
   } catch (e) { /* sem armazenamento: segue em memória */ }
-  const salvar = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* ignora */ } };
+  const salvar = () => { try { const copia = Object.assign({}, S); delete copia.sessao; localStorage.setItem(KEY, JSON.stringify(copia)); } catch (e) { /* ignora */ } };
+  S.sessao = null; salvar(); /* o login vale só para esta visita: ao abrir de novo, pede e-mail e senha */
 
   /* ------------------------------------------------ avisos e janelas */
   let tToast;
@@ -225,11 +227,11 @@ input[type=checkbox],input[type=radio]{accent-color:var(--purple)}
       '<p style="margin-top:6px">Use o e-mail e a senha cadastrados. Depois você confirma com o código de 6 dígitos.</p></div>' +
       '<form id="form-gom-1" class="g-form"><div class="g-campo"><label for="g-email">E-mail</label><input id="g-email" type="email" placeholder="nome@email.com" autocomplete="off"></div>' +
       '<div class="g-campo"><label for="g-senha">Senha</label><input id="g-senha" type="password" placeholder="Sua senha" autocomplete="off"></div>' +
-      '<button class="g-btn primario cheio" type="submit">Entrar</button></form><a class="g-link" href="#/gom">Esqueci a senha</a></section>';
+      '<p class="g-erro" id="g-erro" role="alert" hidden></p><button class="g-btn primario cheio" type="submit">Entrar</button></form><a class="g-link" href="#/gom">Esqueci a senha</a></section>';
     const c2 = '<section class="g-card" aria-label="Verificação em duas etapas"><div><span class="g-chip violeta">Passo 2</span><h2 style="margin-top:8px">Verificação em duas etapas</h2>' +
       '<p style="margin-top:6px">Digite o código de 6 dígitos do aplicativo autenticador no seu celular. Obrigatória para todas as contas.</p></div>' +
       '<form id="form-gom-2" class="g-form"><div class="g-campo"><label for="g-codigo">Código de 6 dígitos</label><input id="g-codigo" type="text" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="off"></div>' +
-      '<button class="g-btn primario cheio" type="submit">Confirmar e entrar</button></form></section>';
+      '<p class="g-erro" id="g-erro" role="alert" hidden></p><button class="g-btn primario cheio" type="submit">Confirmar e entrar</button></form></section>';
     const atalhos = '<section class="g-card" aria-label="Atalhos de demonstração"><div><h2>Atalhos de demonstração</h2>' +
       '<p style="margin-top:6px">Pule o login para ver o painel como cada pessoa. O menu muda conforme as permissões.</p></div><div class="g-atalhos">' +
       '<button type="button" class="g-btn" data-acao="entrar-como" data-perfil="admin">Entrar como Administradora</button>' +
@@ -386,13 +388,17 @@ input[type=checkbox],input[type=radio]{accent-color:var(--purple)}
       botaoPainel(b);
     }
   });
+  const erroLogin = (msg) => { const m = $('#g-erro'); if (m) { m.textContent = msg; m.hidden = false; } };
   document.addEventListener('submit', (e) => {
     const f = e.target;
     if (!f || !f.id) return;
     e.preventDefault();
     if (f.id === 'form-gom-1') {
-      emailLogin = ($('#g-email').value || '').toLowerCase(); passoLogin = 2; render();
+      const mail = ($('#g-email').value || '').trim().toLowerCase(); const senha = $('#g-senha').value || '';
+      if (!mail || !senha) return erroLogin('Digite o e-mail e a senha.');
+      emailLogin = mail; passoLogin = 2; render();
     } else if (f.id === 'form-gom-2') {
+      if (!/^\d{6}$/.test(($('#g-codigo').value || '').trim())) return erroLogin('Digite os 6 números do código.');
       S.sessao = /bruna/.test(emailLogin) ? 'bruna' : /esther/.test(emailLogin) ? 'esther' : 'admin';
       salvar(); passoLogin = 1; ir('/painel/' + telaInicial(S.sessao));
     }
