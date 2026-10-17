@@ -80,7 +80,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--purple)}
 
 /* ───── títulos do painel (mesmo estilo das páginas do site) ───── */
 #app h1{font-family:'Note Book','Oswald',sans-serif!important;font-size:28px!important;font-weight:700!important;line-height:1.2!important;letter-spacing:0!important;color:#4B5078!important}
-.g-content>main>header>div:first-child::before{content:'Painel dos GOMs';display:block;width:fit-content;font-size:11px;letter-spacing:2.2px;text-transform:uppercase;font-weight:600;color:var(--purple);background:var(--purple-tint);padding:6px 14px;border-radius:999px;margin-bottom:12px}
+.g-content>main>header>div:first-child::before{content:'Painel das GOMs';display:block;width:fit-content;font-size:11px;letter-spacing:2.2px;text-transform:uppercase;font-weight:600;color:var(--purple);background:var(--purple-tint);padding:6px 14px;border-radius:999px;margin-bottom:12px}
 
 /* ───── ajustes das telas para o padrão do site ───── */
 #app button[style*="border-radius:8px"],#app a[style*="border-radius:8px"]{border-radius:999px!important}
@@ -285,7 +285,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--purple)}
     const ok = permitidas.some((n) => n.k === tela) && FRAG[tela];
     const lista = permitidas.map((n) => '<a href="#/painel/' + n.k + '"' + (n.k === tela ? ' aria-current="page"' : '') + '>' + icone(n.k) + esc(n.t) + '</a>').join('');
     const outros = Object.keys(PERSONAS).filter((k) => k !== perfil).map((k) => '<button type="button" data-acao="entrar-como" data-perfil="' + k + '">' + esc(PERSONAS[k].nome) + '</button>').join(' · ');
-    const lado = '<aside class="g-side" id="lado" aria-label="Menu do painel"><div class="g-side-topo"><span>Painel dos GOMs</span>' +
+    const lado = '<aside class="g-side" id="lado" aria-label="Menu do painel"><div class="g-side-topo"><span>Painel das GOMs</span>' +
       '<button type="button" class="g-menu-btn" data-acao="menu" aria-expanded="false">Menu</button></div>' +
       '<nav class="g-lista" aria-label="Telas do painel">' + lista + '</nav>' +
       '<div class="g-side-rodape">Você entrou como<br><strong>' + esc(PERSONAS[perfil].nome) + '</strong><br>' + esc(PERSONAS[perfil].acesso) +
@@ -350,7 +350,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--purple)}
     if (p[0] === 'painel') {
       if (!S.sessao) { ROTA = '/gom'; return render(); }
       if (!p[1]) { ROTA = '/painel/' + telaInicial(S.sessao); return render(); }
-      html = viewPainel(p[1]); titulo = 'Dazed CEGs - Painel dos GOMs';
+      html = viewPainel(p[1]); titulo = 'Dazed CEGs - Painel das GOMs';
     } else {
       if (S.sessao) { ROTA = '/painel/' + telaInicial(S.sessao); return render(); }
       html = viewGom();
