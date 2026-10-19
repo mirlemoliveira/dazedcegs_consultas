@@ -582,7 +582,7 @@ const NAV = [
   const dinheiro = (n) => 'R$ ' + n.toFixed(2).replace('.', ',');
   const SITS_ML = ['Livre', 'Preenchida', 'Liberada', 'Paga', 'Em atraso', 'Cancelada'];
   const ROTULO_SIT = { 'Livre': ['livre', 'livres', ''], 'Preenchida': ['preenchida', 'preenchidas', 'violeta'], 'Liberada': ['liberada', 'liberadas', 'warn'], 'Paga': ['paga', 'pagas', 'ok'], 'Em atraso': ['em atraso', 'em atraso', 'bad'], 'Cancelada': ['cancelada', 'canceladas', ''] };
-  const STATUS_ML = ['Pago', 'Enviado para seller', 'Chegou na seller', 'Enviado para warehouse', 'Chegou na warehouse', 'Pronto para envio Brasil', 'Enviado Brasil', 'Chegou na GOM', 'Pronto para envio nacional'];   /* o caminho do item; começa em Pago */
+  const STATUS_ML = ['Pago', 'Enviado para seller', 'Chegou na seller', 'Enviado para warehouse', 'Chegou na warehouse', 'Pronto para envio Brasil', 'Cobrando frete inter', 'Cobrando taxa', 'Enviado Brasil', 'Chegou na GOM', 'Pronto para envio nacional'];   /* o caminho do item; começa em Pago */
   const B_ = 'POBS THE SIN: Bliss'; const D_ = 'Death of Me Pobs';
   const ML = [
     [B_, 'KTOWN4U LD R2', 3, 1, '@exemplo_01', 'Pessoa A', 54, '10/10', 'Paga', 'Chegou na GOM'],
@@ -601,8 +601,8 @@ const NAV = [
     [D_, 'MUSINSA', 2, 1, '@exemplo_13', 'Pessoa M', 48, '29/10', 'Paga', 'Enviado para warehouse'],
     [D_, 'MUSINSA', 2, 2, '@exemplo_14', 'Pessoa N', 48, '29/10', 'Liberada', '—'],
     [D_, 'MUSINSA', 2, 3, '@exemplo_15', 'Pessoa O', 48, '29/10', 'Liberada', '—'],
-    [D_, 'WEVERSE GLOBAL', 1, 1, '@exemplo_16', 'Pessoa P', 62, '20/10', 'Paga', 'Chegou na warehouse'],
-    [D_, 'WEVERSE GLOBAL', 1, 2, '@exemplo_17', 'Pessoa Q', 62, '20/10', 'Paga', 'Pago'],
+    [D_, 'WEVERSE GLOBAL', 1, 1, '@exemplo_16', 'Pessoa P', 62, '20/10', 'Paga', 'Cobrando frete inter'],
+    [D_, 'WEVERSE GLOBAL', 1, 2, '@exemplo_17', 'Pessoa Q', 62, '20/10', 'Paga', 'Cobrando taxa'],
     [D_, 'NY MUSIC VCE R1', 3, 1, '', '', 54, '—', 'Cancelada', '—'],
     [D_, 'NY MUSIC VCE R1', 3, 2, '', '', 54, '—', 'Cancelada', '—']
   ].map((r, k) => ({ id: 'v' + k, ceg: r[0], pob: r[1], set: r[2], membro: r[3], handle: r[4], nome: r[5], valor: r[6], prazo: r[7], sit: r[8], envio: r[9], envio0: r[9], extra: [] }));
