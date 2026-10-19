@@ -583,6 +583,9 @@ const NAV = [
   const SITS_ML = ['Livre', 'Preenchida', 'Liberada', 'Paga', 'Em atraso', 'Cancelada'];
   const ROTULO_SIT = { 'Livre': ['livre', 'livres', ''], 'Preenchida': ['preenchida', 'preenchidas', 'violeta'], 'Liberada': ['liberada', 'liberadas', 'warn'], 'Paga': ['paga', 'pagas', 'ok'], 'Em atraso': ['em atraso', 'em atraso', 'bad'], 'Cancelada': ['cancelada', 'canceladas', ''] };
   const STATUS_ML = ['Pago', 'Enviado para seller', 'Chegou na seller', 'Enviado para warehouse', 'Chegou na warehouse', 'Pronto para envio Brasil', 'Cobrando frete inter', 'Cobrando taxa', 'Enviado Brasil', 'Chegou na GOM', 'Pronto para envio nacional'];   /* o caminho do item; começa em Pago */
+  const STATUS_FILTRO = ['Pagamento liberado'].concat(STATUS_ML);   /* o filtro também acha quem ainda não pagou */
+  /* o que aparece na coluna Status: quem pagou mostra o caminho do item; quem tem o pagamento liberado e ainda não pagou mostra "Pagamento liberado" */
+  const statusExibido = (v) => v.sit === 'Paga' ? v.envio : ((v.sit === 'Liberada' || v.sit === 'Em atraso') ? 'Pagamento liberado' : '—');
   const B_ = 'POBS THE SIN: Bliss'; const D_ = 'Death of Me Pobs';
   const ML = [
     [B_, 'KTOWN4U LD R2', 3, 1, '@exemplo_01', 'Pessoa A', 54, '10/10', 'Paga', 'Chegou na GOM'],
@@ -667,7 +670,7 @@ const NAV = [
   function limparML() { Object.assign(filtroML, { busca: '', ceg: '', pob: '', sit: '' }); sincronizarCamposML(); desenharML(); }
   function baixarPlanilhaML() {
     const vs = vagasML();
-    baixarCsv('masterlist.csv', ['CEG', 'POB', 'Set', 'Claim', 'Membro', '@', 'Nome', 'Valor', 'Prazo', 'Situação', 'Status'], vs.map((v) => [v.ceg, v.pob, 'Set ' + v.set, idClaim(v), 'Membro ' + v.membro, v.handle, v.nome, dinheiro(v.valor), v.prazo, v.sit, v.envio]));
+    baixarCsv('masterlist.csv', ['CEG', 'POB', 'Set', 'Claim', 'Membro', '@', 'Nome', 'Valor', 'Prazo', 'Situação', 'Status'], vs.map((v) => [v.ceg, v.pob, 'Set ' + v.set, idClaim(v), 'Membro ' + v.membro, v.handle, v.nome, dinheiro(v.valor), v.prazo, v.sit, statusExibido(v)]));
     toast('Planilha da Masterlist gerada com ' + pl(vs.length, 'vaga', 'vagas') + ' (demonstração).');
   }
 
@@ -688,7 +691,7 @@ const NAV = [
     const v = ML.find((x) => x.id === id); if (!v) return;
     const podeEditar = temPerm(S.sessao, 'anotar_claims');
     abrirModal('<h2>Histórico da vaga</h2>' +
-      '<p class="g-muted" style="margin:0">' + esc(v.pob) + ', Set ' + v.set + ' · Membro ' + v.membro + ' (' + idClaim(v) + ')<br>' + esc(v.ceg) + (v.handle ? ' · ' + esc(v.handle) : '') + ' · ' + esc(v.sit) + ' · Status: ' + esc(v.envio) + '</p>' +
+      '<p class="g-muted" style="margin:0">' + esc(v.pob) + ', Set ' + v.set + ' · Membro ' + v.membro + ' (' + idClaim(v) + ')<br>' + esc(v.ceg) + (v.handle ? ' · ' + esc(v.handle) : '') + ' · ' + esc(v.sit) + ' · Status: ' + esc(statusExibido(v)) + '</p>' +
       '<ol class="g-hist">' + historicoDaVaga(v).map((e) => '<li><strong>' + esc(e[0]) + '</strong><span>' + esc(e[1]) + ' · ' + esc(e[2]) + '</span></li>').join('') + '</ol>' +
       '<div class="g-acoes"><button type="button" class="g-btn" data-acao="fechar">Fechar</button>' + (podeEditar ? '<a class="g-btn primario" href="#/painel/sets/editar">Abrir em Sets e Claims</a>' : '') + '</div>');
   }
@@ -708,20 +711,20 @@ const NAV = [
       '<section class="ml-card" aria-label="Filtros do POB"><div class="ml-campos">' +
         '<div class="ml-campo"><label for="mlp-busca">Buscar por @ ou nome</label><input id="mlp-busca" type="text" placeholder="Ex.: @exemplo_03" autocomplete="off"></div>' +
         '<div class="ml-campo"><label for="mlp-sit">Situação</label><select id="mlp-sit"><option value="">Todas as situações</option>' + SITS_ML.map(opcaoSit).join('') + '</select></div>' +
-        '<div class="ml-campo"><label for="mlp-envio">Status</label><select id="mlp-envio"><option value="">Todos os status</option>' + STATUS_ML.map(opcaoSit).join('') + '</select></div></div>' +
+        '<div class="ml-campo"><label for="mlp-envio">Status</label><select id="mlp-envio"><option value="">Todos os status</option>' + STATUS_FILTRO.map(opcaoSit).join('') + '</select></div></div>' +
         '<div class="ml-btns"><button type="button" class="g-btn" data-acao="mlp-limpar">Limpar filtros</button><button type="button" class="g-btn" data-acao="mlp-baixar">Baixar planilha</button></div></section>' +
       '<div id="mlp-barra" class="ml-barra" hidden><strong id="mlp-qtd"></strong><label for="mlp-novo">Mudar o status para</label><select id="mlp-novo" class="mlp-sel" style="width:auto;min-width:200px">' + STATUS_ML.map(opcaoSit).join('') + '</select>' +
         '<button type="button" class="g-btn primario" data-acao="mlp-aplicar">Aplicar</button><button type="button" class="g-btn" data-acao="mlp-limpar-sel">Limpar seleção</button></div>' +
       '<div style="overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)"><div role="table" id="mlp-tabela" aria-label="Vagas do POB" style="min-width:880px"></div></div>' +
       '<p id="mlp-vazio" hidden style="margin:0;padding:24px;text-align:center;color:var(--muted)">Nenhuma vaga encontrada com esses filtros.</p></main>';
   }
-  const vagasPobML = () => { const b = semAcento(MLP.busca); return ML.filter((v) => mlpAtual && v.ceg === mlpAtual.ceg && v.pob === mlpAtual.pob && achaPessoa(v, b) && (!MLP.sit || v.sit === MLP.sit) && (!MLP.envio || v.envio === MLP.envio)); };
+  const vagasPobML = () => { const b = semAcento(MLP.busca); return ML.filter((v) => mlpAtual && v.ceg === mlpAtual.ceg && v.pob === mlpAtual.pob && achaPessoa(v, b) && (!MLP.sit || v.sit === MLP.sit) && (!MLP.envio || statusExibido(v) === MLP.envio)); };
   function linhaVagaML(v, editor) {
     const marca = editor && editavelEnvio(v) ? '<input type="checkbox" data-mlp-marca="' + v.id + '" aria-label="Marcar a vaga ' + idClaim(v) + '"' + (mlpSel.has(v.id) ? ' checked' : '') + ' class="mlp-check">' : '';
     const pessoa = v.handle ? '<strong style="font-weight:600">' + esc(v.handle) + '</strong><div class="ml-meta">' + esc(v.nome) + '</div>' : '<span class="ml-meta">—</span>';
     const status = editor && editavelEnvio(v)
       ? '<select class="mlp-sel" data-mlp-status="' + v.id + '" aria-label="Status da vaga ' + idClaim(v) + '">' + STATUS_ML.map((x) => '<option' + (x === v.envio ? ' selected' : '') + '>' + x + '</option>').join('') + '</select>'
-      : '<span>' + esc(v.envio) + '</span>';
+      : '<span>' + esc(statusExibido(v)) + '</span>';
     return '<div role="row" tabindex="0" class="mlp-linha" data-mlp-row data-id="' + v.id + '"><div role="cell">' + marca + '</div><div role="cell"><strong>' + idClaim(v) + '</strong></div><div role="cell">Membro ' + v.membro + '</div><div role="cell">' + pessoa + '</div>' +
       '<div role="cell">' + dinheiro(v.valor) + '</div><div role="cell">' + v.prazo + '</div><div role="cell"><span class="g-chip' + (ROTULO_SIT[v.sit][2] ? ' ' + ROTULO_SIT[v.sit][2] : '') + '">' + v.sit + '</span></div><div role="cell">' + status + '</div></div>';
   }
@@ -774,7 +777,7 @@ const NAV = [
   function limparPobML() { Object.assign(MLP, { busca: '', sit: '', envio: '' }); $('#mlp-busca').value = ''; $('#mlp-sit').value = ''; $('#mlp-envio').value = ''; mlpSel.clear(); desenharPobML(); }
   function baixarPlanilhaPobML() {
     const vs = vagasPobML();
-    baixarCsv('masterlist-' + semAcento(mlpAtual.pob).replace(/[^a-z0-9]+/g, '-') + '.csv', ['Claim', 'Membro', '@', 'Nome', 'Valor', 'Prazo', 'Situação', 'Status'], vs.map((v) => [idClaim(v), 'Membro ' + v.membro, v.handle, v.nome, dinheiro(v.valor), v.prazo, v.sit, v.envio]));
+    baixarCsv('masterlist-' + semAcento(mlpAtual.pob).replace(/[^a-z0-9]+/g, '-') + '.csv', ['Claim', 'Membro', '@', 'Nome', 'Valor', 'Prazo', 'Situação', 'Status'], vs.map((v) => [idClaim(v), 'Membro ' + v.membro, v.handle, v.nome, dinheiro(v.valor), v.prazo, v.sit, statusExibido(v)]));
     toast('Planilha de ' + mlpAtual.pob + ' gerada com ' + pl(vs.length, 'vaga', 'vagas') + ' (demonstração).');
   }
 
