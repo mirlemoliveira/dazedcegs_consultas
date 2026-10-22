@@ -887,7 +887,7 @@ const NAV = [
   /* ---- os pedidos, um cartão por pessoa ---- */
   function cartaoPedido(p) {
     const vs = doPedido(p); const dono = ML.find((v) => v.handle === p.handle); const total = ML.filter((v) => v.handle === p.handle).length; const fora = total - vs.length;
-    const itens = '<ul class="env-itens">' + vs.map((v) => '<li class="env-item"><span class="env-foto" aria-hidden="true">' + ICONE_FOTO + '</span><span class="env-item-txt"><strong>' + esc(v.pob) + '</strong> · Set ' + v.set + ' · Membro ' + v.membro + '<span class="ml-meta">Claim ' + idClaim(v) + ' · ' + esc(v.ceg) + '</span></span></li>').join('') + '</ul>';
+    const itens = '<ul class="env-itens">' + vs.map((v) => '<li class="env-item"><span class="env-foto" aria-hidden="true">' + ICONE_FOTO + '</span><span class="env-item-txt"><span><strong>' + esc(v.pob) + '</strong> · Set ' + v.set + ' · Membro ' + v.membro + '</span><span class="ml-meta">Claim ' + idClaim(v) + ' · ' + esc(v.ceg) + '</span></span></li>').join('') + '</ul>';
     const end = '<div class="env-end"><strong>Entregar para</strong>' + esc(p.end.nome) + '<br>' + esc(p.end.rua) + '<br>' + esc(p.end.bairro) + ' · CEP ' + esc(p.end.cep) + '</div>';
     const botaoWpp = '<button type="button" class="g-btn" data-acao="env-wpp" data-id="' + p.id + '">Chamar no WhatsApp</button>';
     const botaoCancelar = '<button type="button" class="g-btn" data-acao="env-cancelar" data-id="' + p.id + '">Cancelar pedido</button>';
