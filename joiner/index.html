@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Dazed CEGs - Área do Joiner (prévia)</title>
+<link rel="icon" type="image/png" href="../imagens/favicon-icone.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=Josefin+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E8EFF6; --band:#F1F1F7; --surface:#FFFFFF; --ink:#2B2B33; --muted:#5C6270; --line:rgba(43,43,51,0.10); --field-line:rgba(43,43,51,0.28);
+  --primary:#565780; --primary-ink:#4B5078; --on-primary:#FFFFFF; --link:#565780;
+  --tint:#F1F1F7; --tint-ink:#4B5078; --track:#E4E6EE;
+  --ok-bg:#E1F0E8; --ok-ink:#2A6B4C; --ok-ink2:#2A6B4C;
+  --warn-bg:#FBEFD8; --warn-ink:#8A6418; --gray-bg:#F1F1F7; --gray-ink:#5C6270;
+  --bad-bg:#FFE3E5; --bad-ink:#C23440; --disabled-bg:#D9DCE6;
+  --coral:#FF5460; --coral-dark:#C23440; --purple:#6F70A1; --purple-dark:#565780; --purple-tint:#F1F1F7;
+  --shadow:rgba(43,43,51,0.35);
+  --foco:#4B5BAD; --nav-bg:#FFFFFF; --nav-linha:#E5E7EB; --nav-txt:#4A5070; --nav-forte:#1F2340; --acento:#4B5BAD; --titulo:#4B5078; --menu-txt:#4A5070;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:'Poppins','Outfit','Nunito','Inter',-apple-system,sans-serif}
+body{font-size:14.5px;line-height:1.55}
+a{text-decoration:none;color:inherit}
+button,input,select,textarea{font-family:inherit}
+:focus-visible{outline:3px solid var(--foco);outline-offset:2px}
+
+/* ───── NAVBAR (igual à do site) ───── */
+.nav{position:sticky;top:0;z-index:30;background:var(--nav-bg);border-bottom:1px solid var(--nav-linha);display:flex;align-items:center;padding:0 32px;height:64px;gap:0}
+.nav-logo{position:absolute;left:32px;display:flex;align-items:center;line-height:1}
+.nav-logo img{height:52px;width:auto;display:block}
+.nav-links{margin:0 auto;display:flex;align-items:stretch;gap:0}
+.nav-a{display:flex;align-items:center;gap:6px;padding:0 18px;height:64px;font-family:'Poppins','Outfit','Nunito','Inter',sans-serif;font-size:13.5px;font-weight:500;color:var(--nav-txt);border-bottom:2.5px solid transparent;transition:color .15s,border-color .15s;white-space:nowrap;position:relative}
+.nav-a svg{width:16px;height:16px;stroke:var(--nav-txt);fill:none;flex-shrink:0}
+.nav-a:hover{color:var(--nav-forte)}
+.nav-a.active{color:var(--nav-forte);font-weight:600;border-bottom-color:var(--acento)}
+.nav-a.active svg{stroke:var(--nav-forte)}
+@media(max-width:1080px){.nav-a span{display:none}}
+@media(max-width:680px){.nav{padding:0 16px}.nav-logo{left:16px}.nav-a{padding:0 10px}}
+
+
+/* ───── Área do Joiner (prévia) ───── */
+.j-main{max-width:1100px;margin:0 auto;padding:32px 24px 72px;display:flex;flex-direction:column;gap:20px}
+.j-cab h1{margin:0;font-family:'Note Book','Oswald',sans-serif;font-size:28px;font-weight:700;line-height:1.2;color:var(--titulo);text-transform:uppercase}
+.j-cab p{margin:6px 0 0;color:var(--muted);max-width:470px}
+.j-previa{padding:10px 14px;border-radius:10px;background:var(--warn-bg);color:var(--warn-ink);font-size:13.5px}
+.j-busca{display:flex;align-items:center;gap:12px;background:var(--surface);border-radius:18px;padding:22px 24px;box-shadow:0 2px 12px rgba(43,43,51,.06)}
+.j-arroba{flex:0 0 auto;width:52px;height:46px;border-radius:999px;background:var(--tint);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--primary-ink)}
+.j-busca input{flex:1 1 auto;min-width:0;height:46px;padding:0 18px;border:1px solid var(--line);border-radius:999px;font:inherit;font-size:14px;background:var(--surface);color:var(--ink)}
+.j-busca button{flex:0 0 auto;height:46px;padding:0 26px;border:0;border-radius:999px;background:var(--purple);color:#fff;font-weight:600;font-family:inherit;cursor:pointer;box-shadow:0 4px 14px rgba(111,112,161,.35)}
+.j-busca button:hover{background:var(--purple-dark)}
+.j-nome{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px}
+.j-nome h2{margin:0;font-size:22px;color:var(--ink)}
+.j-nome span{color:var(--muted)}
+.j-resumo{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.j-card{background:var(--surface);border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;gap:4px;box-shadow:0 2px 12px rgba(43,43,51,.06)}
+.j-card.destaque{border:2px solid var(--purple)}
+.j-rot{font-size:13px;font-weight:600;color:var(--muted)}
+.j-num{font-size:28px;line-height:1.15;color:var(--ink)}
+.j-sub{font-size:13px;color:var(--muted)}
+.j-link{align-self:flex-start;margin-top:6px;padding:0;border:0;background:none;color:var(--primary-ink);font:inherit;font-weight:600;font-size:13.5px;cursor:pointer;text-decoration:underline}
+.j-total{margin:0;font-size:13.5px;color:var(--muted)}
+.j-abas{display:flex;flex-wrap:wrap;gap:8px}
+.j-aba{min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--field-line);background:var(--surface);color:var(--primary-ink);font:inherit;font-weight:600;font-size:13.5px;cursor:pointer}
+.j-aba[aria-selected=true]{background:var(--tint);border-color:var(--acento);color:var(--nav-forte)}
+.j-painel{display:flex;flex-direction:column;gap:14px}
+.j-bloco{background:var(--surface);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px;box-shadow:0 2px 12px rgba(43,43,51,.06)}
+.j-bloco header{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:8px 12px}
+.j-bloco h3{margin:0;font-size:17px;color:var(--ink)}
+.j-bloco header span.j-mut{display:block;font-size:13px;color:var(--muted)}
+.j-mut{color:var(--muted);font-size:13.5px}
+.j-barra{height:8px;border-radius:999px;background:var(--track);overflow:hidden}
+.j-barra>i{display:block;height:100%;border-radius:999px;background:var(--purple)}
+.j-chips{display:flex;flex-wrap:wrap;gap:6px}
+.j-chip{display:inline-block;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:600;background:var(--gray-bg);color:var(--gray-ink);white-space:nowrap}
+.j-chip.violeta{background:var(--tint);color:var(--primary-ink)}
+.j-chip.ok{background:var(--ok-bg);color:var(--ok-ink)}
+.j-chip.warn{background:var(--warn-bg);color:var(--warn-ink)}
+.j-chip.bad{background:var(--bad-bg);color:var(--bad-ink)}
+.j-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.j-item:first-of-type{border-top:0}
+.j-item label{display:flex;align-items:center;gap:12px;flex:1 1 auto;min-width:0;cursor:pointer}
+.j-foto{flex:0 0 auto;width:48px;height:48px;border-radius:10px;background:var(--band);display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.j-txt{display:flex;flex-direction:column;min-width:0;flex:1 1 auto;font-size:14px}
+.j-txt small{font-size:12.5px;color:var(--muted)}
+.j-valor{font-weight:600;white-space:nowrap}
+.j-check{width:20px;height:20px;accent-color:var(--primary);flex:0 0 auto}
+.j-aviso{margin:0;padding:10px 12px;border-radius:8px;background:var(--warn-bg);color:var(--warn-ink);font-size:13.5px}
+.j-ok{margin:0;padding:10px 12px;border-radius:8px;background:var(--ok-bg);color:var(--ok-ink);font-size:13.5px}
+.j-rodape{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;border-top:1px solid var(--line)}
+.j-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 22px;border-radius:999px;border:1px solid var(--field-line);background:var(--surface);color:var(--primary-ink);font:inherit;font-weight:600;font-size:13px;cursor:pointer}
+.j-btn:hover{background:var(--tint)}
+.j-btn.primario{background:var(--coral);border-color:var(--coral);color:#fff;box-shadow:0 4px 14px rgba(255,84,96,.3)}
+.j-btn.primario:hover{background:var(--coral-dark);border-color:var(--coral-dark)}
+.j-btn[disabled]{background:var(--disabled-bg);border-color:var(--disabled-bg);color:var(--gray-ink);cursor:not-allowed;box-shadow:none}
+.j-vazio{margin:0;padding:28px;text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:16px}
+.j-demo{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding-top:8px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.j-fundo{position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(43,43,51,.55);display:flex;align-items:flex-start;justify-content:center;padding:24px 16px;overflow:auto;z-index:50}
+.j-modal{width:100%;max-width:520px;background:var(--surface);color:var(--ink);border-radius:18px;padding:26px;margin:auto 0;box-shadow:0 20px 60px var(--shadow);display:flex;flex-direction:column;gap:14px}
+.j-modal h2{margin:0;font-size:20px}
+.j-campo{display:flex;flex-direction:column;gap:6px}
+.j-campo label{font-size:13px;font-weight:600;color:var(--muted)}
+.j-campo input{height:44px;padding:0 16px;border:1px solid var(--field-line);border-radius:999px;font:inherit;font-size:14px;background:var(--surface);color:var(--ink)}
+.j-grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.j-erro{margin:0;color:var(--bad-ink);font-size:13.5px}
+.j-acoes{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.j-toast{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:999px;font-size:13.5px;max-width:min(560px,calc(100vw - 32px));z-index:60;box-shadow:0 8px 30px var(--shadow)}
+@media(max-width:640px){.j-main{padding:20px 14px 64px}.j-busca{padding:14px;gap:8px}.j-arroba{display:none}.j-num{font-size:24px}}
+
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="../home/">
+    <img src="../imagens/logo.png" alt="DAZED CEGs">
+  </a>
+  <div class="nav-links">
+    <a class="nav-a" href="../home/">
+      <svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+      <span>Home</span>
+    </a>
+    <a class="nav-a active" href="../cegs/">
+      <svg viewBox="0 0 24 24" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+      <span>Área do Joiner</span>
+    </a>
+    <a class="nav-a" href="../regras/">
+      <svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+      <span>Regras DAZED CEGs</span>
+    </a>
+    <a class="nav-a" href="../calculadora/">
+      <svg viewBox="0 0 24 24" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span>Calculadoras</span>
+    </a>
+    <a class="nav-a" href="../repasses/">
+      <svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+      <span>Repasses</span>
+    </a>
+    <a class="nav-a" href="../sobras/">
+      <svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
+      <span>Sobras</span>
+    </a>
+    <a class="nav-a" href="../gom/">
+      <svg viewBox="0 0 24 24" stroke-width="1.8"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>
+      <span>GOM</span>
+    </a>
+  </div>
+</nav>
+<main class="j-main">
+<header class="j-cab"><h1>Consulta de itens</h1><p>Consulte seus itens, acompanhe os status e visualize seus pagamentos em um só lugar.</p></header>
+<div class="j-previa">Prévia da nova Área do Joiner, com dados de exemplo: nada aqui é cobrado nem enviado. Para testar, busque <strong>@exemplo_01</strong> ou <strong>@exemplo_20</strong>.</div>
+<section class="j-busca" aria-label="Buscar"><span class="j-arroba" aria-hidden="true">@</span><input id="j-q" type="text" placeholder="Buscar por usuário..." autocomplete="off" aria-label="Buscar por usuário"><button type="button" data-j="buscar">Buscar</button></section>
+<div id="j-conteudo" style="display:flex;flex-direction:column;gap:20px"></div>
+</main>
+<script>
+(function () {
+  'use strict';
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => [...(r || document).querySelectorAll(s)];
+  const esc = (t) => String(t == null ? '' : t).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const reais = (n) => 'R$ ' + n.toFixed(2).replace('.', ',');
+  const pl = (n, um, varios) => n + ' ' + (n === 1 ? um : varios);
+  const ICONE_FOTO = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>';
+
+  /* ---------------- dados de exemplo (a versão real lê do banco) ---------------- */
+  const CAMINHO = ['Pago', 'Enviado para seller', 'Chegou na seller', 'Enviado para warehouse', 'Chegou na warehouse', 'Pronto para envio Brasil', 'Cobrando frete inter', 'Cobrando taxa', 'Enviado Brasil', 'Chegou na GOM', 'Pronto para envio nacional', 'Aguardando pagamento frete nacional', 'Frete nacional pago', 'Enviado nacional'];
+  const B = 'POBS THE SIN: Bliss'; const D = 'Death of Me Pobs';
+  const SETS = {
+    s7: { num: 7, ceg: B, pob: 'KTOWN4U LD R2', total: 6, ocupados: [1, 2, 3, 4], valor: 54 },
+    s4: { num: 4, ceg: B, pob: 'GS25', total: 4, ocupados: [1, 2, 3, 4], valor: 54 },
+    s2: { num: 2, ceg: D, pob: 'MUSINSA', total: 3, ocupados: [1, 2, 3], liberado: true, prazo: '29/10', valor: 48 },
+    s9: { num: 9, ceg: B, pob: 'WEVERSE GLOBAL', total: 2, ocupados: [1, 2], liberado: true, prazo: '18/10', valor: 54 },
+    s3: { num: 3, ceg: B, pob: 'KTOWN4U LD R2', total: 6, ocupados: [1, 2, 3, 4, 5, 6], liberado: true, prazo: '10/10', valor: 54 },
+    s1: { num: 1, ceg: B, pob: 'GS25', total: 4, ocupados: [1, 2, 3, 4], liberado: true, prazo: '24/10', valor: 54 },
+    s5: { num: 5, ceg: D, pob: 'WEVERSE GLOBAL', total: 2, ocupados: [1, 2], liberado: true, prazo: '20/10', valor: 62 },
+    s6: { num: 6, ceg: D, pob: 'WEVERSE GLOBAL', total: 3, ocupados: [1, 2, 3], liberado: true, prazo: '20/10', valor: 62 },
+    m3: { num: 3, ceg: D, pob: 'MUSINSA', total: 6, ocupados: [1, 2, 3, 4, 5, 6], liberado: true, prazo: '15/10', valor: 48 }
+  };
+  const PESSOAS = { '@exemplo_01': { nome: 'Pessoa A', final: '8705' }, '@exemplo_20': { nome: 'Pessoa T', final: '6150' } };
+  let seq = 0;
+  const ITENS = [
+    ['@exemplo_01', 's7', 1, false, null], ['@exemplo_01', 's7', 2, false, null],
+    ['@exemplo_01', 's4', 3, false, null],
+    ['@exemplo_01', 's2', 1, false, null], ['@exemplo_01', 's2', 2, false, null],
+    ['@exemplo_01', 's9', 1, false, null, 3],
+    ['@exemplo_01', 's3', 1, true, 'Chegou na GOM'], ['@exemplo_01', 's3', 2, true, 'Pronto para envio nacional'], ['@exemplo_01', 's3', 5, true, 'Pronto para envio nacional'], ['@exemplo_01', 's3', 6, true, 'Aguardando pagamento frete nacional'],
+    ['@exemplo_01', 's1', 1, true, 'Enviado Brasil'], ['@exemplo_01', 's5', 2, true, 'Cobrando frete inter'], ['@exemplo_01', 's6', 1, true, 'Chegou na warehouse'],
+    ['@exemplo_20', 'm3', 1, true, 'Pronto para envio nacional'], ['@exemplo_20', 'm3', 2, true, 'Pronto para envio nacional'], ['@exemplo_20', 'm3', 3, true, 'Pronto para envio nacional'],
+    ['@exemplo_20', 'm3', 4, true, 'Pronto para envio nacional'], ['@exemplo_20', 'm3', 5, true, 'Pronto para envio nacional'], ['@exemplo_20', 'm3', 6, true, 'Pronto para envio nacional']
+  ].map((r) => ({ id: 'i' + (seq++), handle: r[0], set: r[1], membro: r[2], pago: r[3], status: r[4], atraso: r[5] || 0 }));
+  const FRETES = [
+    { id: 'f0', handle: '@exemplo_01', tipo: 'Frete internacional', desc: 'KTOWN4U LD R2 · Set 3', valor: 26.53, prazo: '05/11' },
+    { id: 'f1', handle: '@exemplo_01', tipo: 'Taxa', desc: 'WEVERSE GLOBAL · Set 5', valor: 12, prazo: '05/11' }
+  ];
+
+  /* ---------------- regras ---------------- */
+  const setDe = (it) => SETS[it.set];
+  const claim = (it) => setDe(it).num + '.' + it.membro;
+  const rotulo = (it) => 'Set ' + setDe(it).num + ' · Membro ' + it.membro + ' (' + claim(it) + ')';
+  const estadoSet = (s) => s.cancelado ? 'cancelado' : (s.ocupados.length < s.total ? 'aberto' : (s.liberado ? 'liberado' : 'fechado'));
+  const faltam = (s) => { const f = []; for (let i = 1; i <= s.total; i++) if (s.ocupados.indexOf(i) < 0) f.push('Membro ' + i); return f; };
+  const listaE = (a) => a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' e ' + a[a.length - 1];
+  const multaDe = (it) => it.atraso * 1;                                   /* R$ 1,00 por dia */
+  const devido = (it) => setDe(it).valor + multaDe(it);
+  const NACIONAL = ['Pronto para envio nacional', 'Aguardando pagamento frete nacional', 'Frete nacional pago'];
+  function dadosDe(h) {
+    const itens = ITENS.filter((i) => i.handle === h); const fretes = FRETES.filter((f) => f.handle === h);
+    const naoPagos = itens.filter((i) => !i.pago);
+    return {
+      itens, fretes,
+      pagar: naoPagos.filter((i) => estadoSet(setDe(i)) === 'liberado'),
+      pendSets: [...new Set(naoPagos.filter((i) => ['aberto', 'fechado'].indexOf(estadoSet(setDe(i))) >= 0).map((i) => i.set))],
+      pagos: itens.filter((i) => i.pago && i.status !== 'Enviado nacional'),
+      nacional: itens.filter((i) => i.pago && NACIONAL.indexOf(i.status) >= 0)
+    };
+  }
+
+  /* ---------------- estado da tela ---------------- */
+  const E = { handle: '', aba: 'pagar', pagarSel: new Set(), nacSel: new Set(), nacAberto: true };
+  const normaliza = (t) => { const s = String(t || '').trim().toLowerCase().replace(/^@+/, ''); return s ? '@' + s : ''; };
+
+  /* ---------------- desenho ---------------- */
+  const itemLinha = (it, extra, direita) => '<div class="j-item">' + (extra || '') + '<span class="j-foto">' + ICONE_FOTO + '</span><span class="j-txt"><strong>' + esc(rotulo(it)) + '</strong><small>' + esc(setDe(it).pob) + ' · ' + esc(setDe(it).ceg) + '</small></span>' + (direita || '') + '</div>';
+  function painelSets(d) {
+    if (!d.pendSets.length) return '<p class="j-vazio">Nenhum set pendente. Todos os seus sets já foram fechados.</p>';
+    return d.pendSets.map((sid) => {
+      const s = SETS[sid]; const mine = d.itens.filter((i) => i.set === sid); const st = estadoSet(s); const pct = Math.round(s.ocupados.length * 100 / s.total);
+      const situacao = st === 'aberto'
+        ? '<p class="j-aviso">Faltam: ' + esc(listaE(faltam(s))) + '. Quando todos saírem, o set fecha e o pagamento é liberado.</p>'
+        : '<p class="j-ok">Set fechado: todos os membros saíram. O pagamento será liberado em breve.</p>';
+      return '<section class="j-bloco" data-set="' + sid + '"><header><div><h3>Set ' + s.num + ' · ' + esc(s.pob) + '</h3><span class="j-mut">' + esc(s.ceg) + '</span></div><span class="j-chip ' + (st === 'aberto' ? 'violeta' : 'ok') + '">' + (st === 'aberto' ? 'Set aberto' : 'Set fechado') + '</span></header>' +
+        '<div class="j-barra" role="progressbar" aria-valuemin="0" aria-valuemax="' + s.total + '" aria-valuenow="' + s.ocupados.length + '"><i style="width:' + pct + '%"></i></div><span class="j-mut">' + s.ocupados.length + ' de ' + s.total + ' vagas preenchidas</span>' + situacao +
+        '<div class="j-chips">' + mine.map((i) => '<span class="j-chip violeta">' + esc(claim(i)) + ' · Membro ' + i.membro + '</span>').join('') + '</div></section>';
+    }).join('');
+  }
+  function totalPagar(d) { let t = 0; d.pagar.forEach((i) => { if (E.pagarSel.has(i.id)) t += devido(i); }); d.fretes.forEach((f) => { if (E.pagarSel.has(f.id)) t += f.valor; }); return t; }
+  function painelPagar(d) {
+    if (!d.pagar.length && !d.fretes.length) return '<p class="j-vazio">Nada para pagar agora.</p>';
+    const porSet = [...new Set(d.pagar.map((i) => i.set))].map((sid) => {
+      const s = SETS[sid]; const mine = d.pagar.filter((i) => i.set === sid); const atraso = mine.some((i) => i.atraso);
+      return '<section class="j-bloco"><header><div><h3>Set ' + s.num + ' · ' + esc(s.pob) + '</h3><span class="j-mut">' + esc(s.ceg) + '</span></div><span class="j-chip ' + (atraso ? 'bad' : 'warn') + '">' + (atraso ? 'Em atraso' : 'Pagamento liberado até ' + esc(s.prazo)) + '</span></header>' +
+        mine.map((i) => itemLinha(i, '<input class="j-check" type="checkbox" data-pagar="' + i.id + '" aria-label="Pagar ' + esc(rotulo(i)) + '"' + (E.pagarSel.has(i.id) ? ' checked' : '') + '>',
+          '<span class="j-valor">' + reais(devido(i)) + '</span>')).join('') +
+        (atraso ? '<p class="j-aviso">Prazo de ' + esc(s.prazo) + ' passou: multa de R$ 1,00 por dia (' + reais(mine.reduce((a, i) => a + multaDe(i), 0)) + ' no total).</p>' : '') + '</section>';
+    }).join('');
+    const fretes = d.fretes.length ? '<section class="j-bloco"><header><h3>Fretes e taxas</h3></header>' + d.fretes.map((f) =>
+      '<div class="j-item"><input class="j-check" type="checkbox" data-pagar="' + f.id + '" aria-label="Pagar ' + esc(f.tipo) + '"' + (E.pagarSel.has(f.id) ? ' checked' : '') + '><span class="j-txt"><strong>' + esc(f.tipo) + '</strong><small>' + esc(f.desc) + ' · prazo ' + esc(f.prazo) + '</small></span><span class="j-valor">' + reais(f.valor) + '</span></div>').join('') + '</section>' : '';
+    return porSet + fretes + '<div class="j-rodape"><strong id="j-total-pagar">Total selecionado: ' + reais(totalPagar(d)) + '</strong><button type="button" class="j-btn primario" data-j="pagar">Pagar selecionados</button></div>';
+  }
+  function painelItens(d) {
+    if (!d.pagos.length) return '<p class="j-vazio">Você ainda não tem itens pagos.</p>';
+    return '<section class="j-bloco">' + d.pagos.map((i) => {
+      const etapa = CAMINHO.indexOf(i.status) + 1;
+      return itemLinha(i, '', '<span class="j-chip violeta">' + esc(i.status) + '</span>').replace('</div>', '<div class="j-barra" style="width:100%;flex:0 0 100%" role="progressbar" aria-valuemin="1" aria-valuemax="' + CAMINHO.length + '" aria-valuenow="' + etapa + '"><i style="width:' + Math.round(etapa * 100 / CAMINHO.length) + '%"></i></div></div>').replace('class="j-item"', 'class="j-item" style="flex-wrap:wrap" data-item="' + i.id + '"');
+    }).join('') + '</section>';
+  }
+  function painelNacional(d) {
+    if (!d.nacional.length) return '<p class="j-vazio">Você não tem itens para envio nacional agora.</p>';
+    const prontos = d.nacional.filter((i) => i.status === 'Pronto para envio nacional'); const outros = d.nacional.filter((i) => i.status !== 'Pronto para envio nacional');
+    const aviso = E.nacAberto ? '' : '<p class="j-aviso">Pedidos de envio fechados no momento. Avisaremos quando abrir.</p>';
+    const lista = prontos.length ? '<section class="j-bloco"><header><h3>Prontos para envio</h3><span class="j-mut">' + (E.nacAberto ? 'Escolha os itens que você quer receber agora. Os outros continuam guardados com a gente.' : 'Seus itens e as fotos continuam aqui.') + '</span></header>' + aviso +
+      prontos.map((i) => itemLinha(i, E.nacAberto ? '<input class="j-check" type="checkbox" data-nac="' + i.id + '" aria-label="Enviar ' + esc(rotulo(i)) + '"' + (E.nacSel.has(i.id) ? ' checked' : '') + '>' : '', '')).join('') +
+      (E.nacAberto ? '<div class="j-rodape"><span class="j-mut" id="j-nac-qtd">' + pl(E.nacSel.size, 'item escolhido', 'itens escolhidos') + '</span><button type="button" class="j-btn primario" data-j="solicitar"' + (E.nacSel.size ? '' : ' disabled') + '>Solicitar envio</button></div>' : '') + '</section>' : '';
+    const andamento = outros.length ? '<section class="j-bloco"><header><h3>Em andamento</h3></header>' + outros.map((i) => itemLinha(i, '', '<span class="j-chip ' + (i.status === 'Frete nacional pago' ? 'ok' : 'warn') + '">' + esc(i.status) + '</span>')).join('') +
+      '<p class="j-mut">' + (outros.some((i) => i.status === 'Aguardando pagamento frete nacional') ? 'Recebemos o seu pedido. A cotação do frete aparece aqui, em “Para pagar”, assim que estiver pronta.' : 'Frete pago. Estamos preparando o envio.') + '</p></section>' : '';
+    return lista + andamento;
+  }
+  function desenhar() {
+    const alvo = $('#j-conteudo'); const h = E.handle; if (!h) { alvo.innerHTML = ''; return; }
+    const p = PESSOAS[h];
+    if (!p) { alvo.innerHTML = '<p class="j-vazio" id="j-nao-achou">Não encontramos itens para ' + esc(h) + '. Confira se o @ está escrito igual ao do seu cadastro.</p>'; return; }
+    const d = dadosDe(h);
+    const aPagar = d.pagar.reduce((a, i) => a + devido(i), 0) + d.fretes.reduce((a, f) => a + f.valor, 0);
+    const pagoTotal = d.itens.filter((i) => i.pago).reduce((a, i) => a + setDe(i).valor, 0);
+    const aindaNao = d.itens.filter((i) => !i.pago && estadoSet(setDe(i)) !== 'liberado').reduce((a, i) => a + setDe(i).valor, 0);
+    const abertos = d.pendSets.filter((sid) => estadoSet(SETS[sid]) === 'aberto').length; const fechados = d.pendSets.length - abertos;
+    const abas = [['sets', 'Sets pendentes', d.pendSets.length], ['pagar', 'Para pagar', d.pagar.length + d.fretes.length], ['itens', 'Meus itens', d.pagos.length], ['nacional', 'Nacional', d.nacional.length]];
+    const corpo = { sets: painelSets, pagar: painelPagar, itens: painelItens, nacional: painelNacional }[E.aba](d);
+    alvo.innerHTML = '<div class="j-nome"><h2>' + esc(p.nome) + '</h2><span>' + esc(h) + '</span></div>' +
+      '<section class="j-resumo" aria-label="Resumo">' +
+        '<article class="j-card destaque"><span class="j-rot">Para pagar agora</span><strong class="j-num" id="j-resumo-pagar">' + reais(aPagar) + '</strong><span class="j-sub">' + pl(d.pagar.length, 'item liberado', 'itens liberados') + (d.fretes.length ? ' + frete e taxa' : '') + '</span>' + (aPagar > 0 ? '<button type="button" class="j-link" data-j="ir-pagar">Ver e pagar</button>' : '') + '</article>' +
+        '<article class="j-card"><span class="j-rot">Sets pendentes</span><strong class="j-num" id="j-resumo-sets">' + d.pendSets.length + '</strong><span class="j-sub">' + pl(abertos, 'aberto', 'abertos') + ' · ' + pl(fechados, 'fechado esperando liberação', 'fechados esperando liberação') + '</span></article>' +
+        '<article class="j-card"><span class="j-rot">Itens pagos</span><strong class="j-num" id="j-resumo-pagos">' + d.itens.filter((i) => i.pago).length + '</strong><span class="j-sub">' + reais(pagoTotal) + ' pagos</span></article>' +
+      '</section>' +
+      '<p class="j-total" id="j-total-geral">Total geral: ' + reais(pagoTotal + aPagar + aindaNao) + ' · Pago ' + reais(pagoTotal) + ' · A pagar agora ' + reais(aPagar) + ' · Ainda não liberado ' + reais(aindaNao) + '</p>' +
+      '<div class="j-abas" role="tablist" aria-label="Seus itens">' + abas.map((a) => '<button type="button" role="tab" class="j-aba" data-j="aba" data-aba="' + a[0] + '" aria-selected="' + (a[0] === E.aba ? 'true' : 'false') + '">' + a[1] + ' (' + a[2] + ')</button>').join('') + '</div>' +
+      '<div class="j-painel" role="tabpanel" id="j-painel">' + corpo + '</div>' +
+      '<div class="j-demo">Demonstração: pedidos de envio <strong id="j-demo-estado">' + (E.nacAberto ? 'abertos' : 'fechados') + '</strong> <button type="button" class="j-btn" data-j="demo-nacional">' + (E.nacAberto ? 'Fechar pedidos' : 'Abrir pedidos') + '</button> <span>(na versão real, quem abre e fecha é a equipe, no painel)</span></div>';
+  }
+  function buscar() {
+    E.handle = normaliza($('#j-q').value); E.pagarSel = new Set(); E.nacSel = new Set(); E.aba = 'pagar';
+    if (PESSOAS[E.handle]) {
+      const d = dadosDe(E.handle); d.pagar.forEach((i) => E.pagarSel.add(i.id)); d.fretes.forEach((f) => E.pagarSel.add(f.id));
+      const qtd = { pagar: d.pagar.length + d.fretes.length, sets: d.pendSets.length, itens: d.pagos.length, nacional: d.nacional.length };
+      E.aba = ['pagar', 'sets', 'itens', 'nacional'].find((k) => qtd[k] > 0) || 'pagar';
+    }
+    desenhar();
+  }
+
+  /* ---------------- janelas e avisos ---------------- */
+  function fecharModal() { const f = $('.j-fundo'); if (f) f.remove(); }
+  function abrirModal(html) { fecharModal(); const f = document.createElement('div'); f.className = 'j-fundo'; f.innerHTML = '<div class="j-modal" role="dialog" aria-modal="true">' + html + '</div>'; document.body.appendChild(f); const foco = $('input,button', f); if (foco) foco.focus(); }
+  let tToast = 0;
+  function toast(msg) { let t = $('.j-toast'); if (!t) { t = document.createElement('div'); t.className = 'j-toast'; t.setAttribute('role', 'status'); document.body.appendChild(t); } t.textContent = msg; clearTimeout(tToast); tToast = setTimeout(() => { const x = $('.j-toast'); if (x) x.remove(); }, 4200); }
+  const erroModal = (msg) => { const e = $('#j-e'); if (e) { e.textContent = msg; e.hidden = false; } };
+
+  /* ---------------- pedir envio: confirma o número por SMS (simulado), pede o endereço ---------------- */
+  const FLUXO = { tentativas: 0 };
+  function passoNumero() {
+    FLUXO.tentativas = 0;
+    abrirModal('<h2>Confirmar que é você</h2><p class="j-mut" style="margin:0">Para pedir o envio, informe o número de WhatsApp cadastrado para ' + esc(E.handle) + '. Vamos mandar um código por SMS para ele.</p>' +
+      '<div class="j-campo"><label for="j-tel">Número com DDD</label><input id="j-tel" type="tel" inputmode="numeric" placeholder="(11) 91234-5678" autocomplete="off"></div><p class="j-erro" id="j-e" role="alert" hidden></p>' +
+      '<div class="j-acoes"><button type="button" class="j-btn" data-j="fechar">Cancelar</button><button type="button" class="j-btn primario" data-j="enviar-codigo">Enviar código</button></div>');
+  }
+  function passoCodigo() {
+    const p = PESSOAS[E.handle];
+    abrirModal('<h2>Digite o código</h2><p class="j-mut" style="margin:0">Enviamos um código de 6 dígitos por SMS para o número terminado em ' + esc(p.final) + '. (Na prévia, o código é 123456.)</p>' +
+      '<div class="j-campo"><label for="j-cod">Código</label><input id="j-cod" type="text" inputmode="numeric" maxlength="6" autocomplete="off"></div><p class="j-erro" id="j-e" role="alert" hidden></p>' +
+      '<div class="j-acoes"><button type="button" class="j-btn" data-j="fechar">Cancelar</button><button type="button" class="j-btn primario" data-j="confirmar-codigo">Confirmar</button></div>');
+  }
+  function passoEndereco() {
+    const n = E.nacSel.size;
+    abrirModal('<h2>Para onde enviamos?</h2><p class="j-mut" style="margin:0">Vamos enviar só os ' + pl(n, 'item escolhido', 'itens escolhidos') + '. Os outros continuam guardados com a gente.</p>' +
+      '<div class="j-grade"><div class="j-campo"><label for="j-cep">CEP</label><input id="j-cep" inputmode="numeric" autocomplete="off"></div><div class="j-campo"><label for="j-uf">UF</label><input id="j-uf" maxlength="2" autocomplete="off"></div></div>' +
+      '<div class="j-campo"><label for="j-rua">Rua</label><input id="j-rua" autocomplete="off"></div>' +
+      '<div class="j-grade"><div class="j-campo"><label for="j-num">Número</label><input id="j-num" autocomplete="off"></div><div class="j-campo"><label for="j-comp">Complemento (opcional)</label><input id="j-comp" autocomplete="off"></div></div>' +
+      '<div class="j-grade"><div class="j-campo"><label for="j-bairro">Bairro</label><input id="j-bairro" autocomplete="off"></div><div class="j-campo"><label for="j-cidade">Cidade</label><input id="j-cidade" autocomplete="off"></div></div><p class="j-erro" id="j-e" role="alert" hidden></p>' +
+      '<div class="j-acoes"><button type="button" class="j-btn" data-j="fechar">Cancelar</button><button type="button" class="j-btn primario" data-j="confirmar-endereco">Confirmar pedido</button></div>');
+  }
+  function acao(a, el) {
+    if (a === 'buscar') buscar();
+    else if (a === 'aba') { E.aba = el.getAttribute('data-aba'); desenhar(); }
+    else if (a === 'ir-pagar') { E.aba = 'pagar'; desenhar(); }
+    else if (a === 'pagar') toast(E.pagarSel.size ? 'Na prévia o pagamento está desligado. Na versão real abre o InfinitePay.' : 'Marque o que você quer pagar.');
+    else if (a === 'demo-nacional') { E.nacAberto = !E.nacAberto; if (!E.nacAberto) E.nacSel = new Set(); desenhar(); }
+    else if (a === 'solicitar') { if (E.nacSel.size) passoNumero(); }
+    else if (a === 'fechar') fecharModal();
+    else if (a === 'enviar-codigo') {
+      const dig = ($('#j-tel').value || '').replace(/\D/g, ''); const fim = PESSOAS[E.handle].final;
+      if (dig.length < 10 || dig.length > 11) return erroModal('Digite o número completo, com DDD.');
+      if (dig.slice(-4) !== fim) return erroModal('Esse número não confere com o cadastro. Se você trocou de número, fale com uma ADM.');
+      passoCodigo();
+    } else if (a === 'confirmar-codigo') {
+      if (($('#j-cod').value || '').trim() === '123456') return passoEndereco();
+      FLUXO.tentativas += 1;
+      if (FLUXO.tentativas >= 3) { fecharModal(); toast('Muitas tentativas. Fale com uma ADM para confirmar o seu número.'); return; }
+      erroModal('Código incorreto. Você ainda tem ' + pl(3 - FLUXO.tentativas, 'tentativa', 'tentativas') + '.');
+    } else if (a === 'confirmar-endereco') {
+      const v = (id) => ($(id).value || '').trim();
+      if (v('#j-cep').replace(/\D/g, '').length !== 8) return erroModal('Digite o CEP com 8 números.');
+      if (!v('#j-rua') || !v('#j-num') || !v('#j-bairro') || !v('#j-cidade') || v('#j-uf').length !== 2) return erroModal('Preencha rua, número, bairro, cidade e UF.');
+      const n = E.nacSel.size;
+      ITENS.forEach((i) => { if (E.nacSel.has(i.id)) i.status = 'Aguardando pagamento frete nacional'; });
+      E.nacSel = new Set(); desenhar();
+      abrirModal('<h2>Pedido enviado!</h2><p class="j-ok" style="margin:0">Recebemos o seu pedido com ' + pl(n, 'item', 'itens') + '. Os outros itens continuam guardados com a gente.</p><p class="j-mut" style="margin:0">Assim que a cotação do frete estiver pronta, ela aparece aqui na aba Nacional, em “Em andamento”.</p><div class="j-acoes"><button type="button" class="j-btn primario" data-j="fechar">Fechar</button></div>');
+    }
+  }
+  document.addEventListener('click', (e) => { const el = e.target.closest('[data-j]'); if (el && !el.disabled) acao(el.getAttribute('data-j'), el); });
+  document.addEventListener('change', (e) => {
+    const t = e.target;
+    if (t.matches('[data-pagar]')) { const k = t.getAttribute('data-pagar'); if (t.checked) E.pagarSel.add(k); else E.pagarSel.delete(k); const d = dadosDe(E.handle); $('#j-total-pagar').textContent = 'Total selecionado: ' + reais(totalPagar(d)); }
+    else if (t.matches('[data-nac]')) { const k = t.getAttribute('data-nac'); if (t.checked) E.nacSel.add(k); else E.nacSel.delete(k); $('#j-nac-qtd').textContent = pl(E.nacSel.size, 'item escolhido', 'itens escolhidos'); const b = $('[data-j="solicitar"]'); if (b) b.disabled = !E.nacSel.size; }
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target && e.target.id === 'j-q') { e.preventDefault(); buscar(); } if (e.key === 'Escape') fecharModal(); });
+
+  /* fonte dos títulos (Note Book): vem embutida nas outras páginas do site; busca de uma delas */
+  try {
+    fetch('../repasses/').then((r) => (r.ok ? r.text() : '')).then((t) => {
+      const m = t.match(/@font-face\s*\{[^}]*Note Book[^}]*\}/);
+      if (m) { const s = document.createElement('style'); s.textContent = m[0]; document.head.appendChild(s); }
+    }).catch(() => { /* sem a fonte, usa a de reserva */ });
+  } catch (e) { /* ignora */ }
+})();
+
+</script>
+</body>
+</html>
