@@ -1,0 +1,1 @@
+supabase.js: @supabase/supabase-js 2.119.2 (arquivo dist/umd/supabase.js do pacote no npm, licença MIT). Cópia sem alteração, para a página não depender de site de terceiros.
