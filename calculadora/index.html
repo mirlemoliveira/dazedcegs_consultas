@@ -84,8 +84,12 @@
   .nav-a:hover{color:#1F2340;}
   .nav-a.active{color:#1F2340;font-weight:600;border-bottom-color:#4B5BAD;}
   .nav-a.active svg{stroke:#1F2340;}
-  @media(max-width:1080px){.nav-a span{display:none;}}
+  @media(max-width:1244px){.nav-a span{display:none;}}
   @media(max-width:680px){.nav{padding:0 16px;}.nav-logo{left:16px;}.nav-a{padding:0 10px;}}
+/* celular: com 7 abas, os icones ficam colados a direita para nao encostar no logo */
+@media(max-width:480px){.nav-links{margin:0 0 0 auto;}}
+@media(max-width:389px){.nav-a{padding:0 8px;}}
+@media(max-width:359px){.nav-a{padding:0 6px;}}
 
   /* ---------- MAIN ---------- */
   main {
@@ -538,6 +542,10 @@
     <a class="nav-a" href="../sobras/">
       <svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
       <span>Sobras</span>
+    </a>
+    <a class="nav-a" href="../gom/" aria-label="GOM">
+      <svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>
+      <span>GOM</span>
     </a>
   </div>
 </nav>
