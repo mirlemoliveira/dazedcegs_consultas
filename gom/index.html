@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Dazed CEGs - GOM</title>
+<link rel="icon" type="image/png" href="../imagens/favicon-icone.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=Josefin+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>try{if(localStorage.getItem("dazedcegs_gom_tema")==="escuro")document.documentElement.setAttribute("data-tema","escuro")}catch(e){}</script>
+<style>
+:root{
+  --bg:#E8EFF6; --band:#F1F1F7; --surface:#FFFFFF; --ink:#2B2B33; --muted:#5C6270; --line:rgba(43,43,51,0.10); --field-line:rgba(43,43,51,0.28);
+  --primary:#565780; --primary-ink:#4B5078; --on-primary:#FFFFFF; --link:#565780;
+  --tint:#F1F1F7; --tint-ink:#4B5078; --track:#E4E6EE;
+  --ok-bg:#E1F0E8; --ok-ink:#2A6B4C; --ok-ink2:#2A6B4C;
+  --warn-bg:#FBEFD8; --warn-ink:#8A6418; --gray-bg:#F1F1F7; --gray-ink:#5C6270;
+  --bad-bg:#FFE3E5; --bad-ink:#C23440; --disabled-bg:#D9DCE6;
+  --coral:#FF5460; --coral-dark:#C23440; --purple:#6F70A1; --purple-dark:#565780; --purple-tint:#F1F1F7;
+  --shadow:rgba(43,43,51,0.35);
+  --foco:#4B5BAD; --nav-bg:#FFFFFF; --nav-linha:#E5E7EB; --nav-txt:#4A5070; --nav-forte:#1F2340; --acento:#4B5BAD; --titulo:#4B5078; --menu-txt:#4A5070;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:'Poppins','Outfit','Nunito','Inter',-apple-system,sans-serif}
+body{font-size:14.5px;line-height:1.55}
+a{text-decoration:none;color:inherit}
+button,input,select,textarea{font-family:inherit}
+:focus-visible{outline:3px solid var(--foco);outline-offset:2px}
+
+/* ───── NAVBAR (igual à do site) ───── */
+.nav{position:sticky;top:0;z-index:30;background:var(--nav-bg);border-bottom:1px solid var(--nav-linha);display:flex;align-items:center;padding:0 32px;height:64px;gap:0}
+.nav-logo{position:absolute;left:32px;display:flex;align-items:center;line-height:1}
+.nav-logo img{height:52px;width:auto;display:block}
+.nav-links{margin:0 auto;display:flex;align-items:stretch;gap:0}
+.nav-a{display:flex;align-items:center;gap:6px;padding:0 18px;height:64px;font-family:'Poppins','Outfit','Nunito','Inter',sans-serif;font-size:13.5px;font-weight:500;color:var(--nav-txt);border-bottom:2.5px solid transparent;transition:color .15s,border-color .15s;white-space:nowrap;position:relative}
+.nav-a svg{width:16px;height:16px;stroke:var(--nav-txt);fill:none;flex-shrink:0}
+.nav-a:hover{color:var(--nav-forte)}
+.nav-a.active{color:var(--nav-forte);font-weight:600;border-bottom-color:var(--acento)}
+.nav-a.active svg{stroke:var(--nav-forte)}
+/* com 8 itens (antes eram 7), os nomes ocupam mais espaço: aperta o respiro entre os itens e, em telas menores, mostra só os ícones (antes o corte era 1080px) */
+@media(max-width:1340px){.nav-a{padding:0 12px}}
+@media(max-width:1244px){.nav-a{padding:0 18px}.nav-a span{display:none}}
+/* celular: logo menor e ícones colados à direita, para os 8 caberem sem encostar no logo */
+@media(max-width:680px){.nav{padding:0 12px}.nav-logo{left:12px}.nav-logo img{height:40px}.nav-links{margin:0 0 0 auto}.nav-a{padding:0 8px}}
+@media(max-width:359px){.nav-logo img{height:32px}.nav-a{padding:0 6px}}
+
+/* ───── página ───── */
+.g-main{max-width:1280px;margin:0 auto;padding:36px 32px 90px}
+@media(max-width:680px){.g-main{padding:24px 16px 72px}}
+.g-eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:11px;letter-spacing:2.2px;text-transform:uppercase;color:var(--purple);background:var(--purple-tint);padding:6px 14px;border-radius:999px;margin-bottom:14px;font-weight:600}
+.g-muted{color:var(--muted)}
+.g-link{color:var(--primary-ink);font-size:13px;font-weight:600;text-decoration:underline}
+
+/* ───── campos e botões (padrão do site: pílulas) ───── */
+input[type=text],input[type=email],input[type=password],input[type=search],input[type=number],input[type=date],input[type=time],input[type=tel],select{width:100%;height:44px;padding:0 16px;border:1px solid var(--field-line);border-radius:999px;background:var(--surface);color:var(--ink);font-size:13.5px}
+textarea{width:100%;min-height:96px;padding:12px 16px;border:1px solid var(--field-line);border-radius:14px;background:var(--surface);color:var(--ink);font-size:13.5px;line-height:1.5;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--purple);box-shadow:0 0 0 3px rgba(111,112,161,.15)}
+input[type=checkbox],input[type=radio]{accent-color:var(--purple)}
+.g-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 22px;border-radius:999px;border:1px solid var(--field-line);background:var(--surface);color:var(--primary-ink);font-weight:600;font-size:13px;letter-spacing:.2px;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,background .15s ease}
+.g-btn:hover{background:var(--tint)}
+.g-btn.primario{background:var(--coral);border-color:var(--coral);color:#fff;box-shadow:0 4px 14px rgba(255,84,96,.3)}
+.g-btn.primario:hover{background:var(--coral-dark);border-color:var(--coral-dark);transform:scale(1.03);box-shadow:0 6px 18px rgba(255,84,96,.38)}
+.g-btn.cheio{width:100%}
+.g-btn[disabled]{background:var(--disabled-bg);border-color:var(--disabled-bg);color:var(--gray-ink);cursor:not-allowed;box-shadow:none;transform:none}
+.g-chip{display:inline-block;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:600;background:var(--gray-bg);color:var(--gray-ink);white-space:nowrap}
+.g-chip.violeta{background:var(--tint);color:var(--primary-ink)}
+
+/* ───── entrada GOM ───── */
+.g-cab{margin-bottom:24px}
+.g-cab h1{margin:0 0 8px}
+.g-cab p{margin:0 auto;color:var(--muted);font-size:14px;max-width:560px}
+.g-login{min-height:calc(100vh - 190px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.g-entrada{display:flex;justify-content:center;width:100%}
+.g-entrada .g-card{width:100%;max-width:440px;text-align:left}
+.g-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 1px 3px rgba(43,43,51,.04);display:flex;flex-direction:column;gap:16px}
+.g-card h2{margin:0;font-size:18px;font-weight:700;color:var(--ink)}
+.g-card p{margin:0;color:var(--muted);font-size:13.5px}
+.g-form{display:flex;flex-direction:column;gap:16px}
+.g-campo{display:flex;flex-direction:column;gap:6px}
+.g-campo label{font-size:12.5px;font-weight:600;color:var(--muted)}
+.g-atalhos{display:flex;flex-direction:column;gap:10px}
+.g-card p.g-erro{margin:0;color:var(--coral-dark);font-size:13px;font-weight:600}
+
+/* ───── títulos do painel (mesmo estilo das páginas do site) ───── */
+#app h1{font-family:'Note Book','Oswald',sans-serif!important;font-size:28px!important;font-weight:700!important;line-height:1.2!important;letter-spacing:0!important;color:var(--titulo)!important}
+
+/* ───── ajustes das telas para o padrão do site ───── */
+#app button[style*="border-radius:8px"],#app a[style*="border-radius:8px"]{border-radius:999px!important}
+#app button[style*="background:var(--primary)"],#app a[style*="background:var(--primary)"]{background:var(--coral)!important;border-color:var(--coral)!important;box-shadow:0 4px 14px rgba(255,84,96,.28);font-weight:600!important;letter-spacing:.2px}
+#app button[style*="background:var(--primary)"]:hover{background:var(--coral-dark)!important}
+#app input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=range]):not([type=hidden]),#app select{border-radius:999px!important}
+#app textarea{border-radius:14px!important}
+#app [style*="border-radius:10px"]{border-radius:14px!important}
+
+/* ───── painel ───── */
+.g-shell{display:flex;gap:24px;align-items:flex-start}
+.g-side{flex:0 0 272px;position:sticky;top:88px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 1px 3px rgba(43,43,51,.04);display:flex;flex-direction:column;gap:6px;max-height:calc(100vh - 108px);overflow:auto}
+.g-side-topo{display:flex;justify-content:space-between;align-items:center;padding:6px 10px 10px;font-weight:700;font-size:15px;color:var(--titulo)}
+.g-menu-btn{display:none;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--field-line);background:var(--surface);color:var(--primary-ink);font-weight:600;font-size:13px;cursor:pointer}
+.g-lista{display:flex;flex-direction:column;gap:2px}
+.g-lista a{display:flex;align-items:center;gap:10px;min-height:42px;padding:0 12px;border-radius:12px;font-size:13.5px;font-weight:500;color:var(--menu-txt);border-left:3px solid transparent}
+.g-lista a:hover{background:var(--tint);color:var(--nav-forte)}
+.g-lista a[aria-current=page]{background:var(--tint);color:var(--nav-forte);font-weight:600;border-left-color:var(--acento)}
+.g-side-rodape{margin-top:8px;padding:14px 10px 4px;border-top:1px solid var(--line);font-size:12.5px;line-height:1.6;color:var(--muted)}
+.g-side-rodape strong{color:var(--ink);font-size:14px}
+.g-side-rodape a,.g-side-rodape button{background:none;border:0;padding:0;color:var(--primary-ink);text-decoration:underline;cursor:pointer;font-size:12.5px;min-height:28px}
+.g-content{flex:1 1 0;min-width:0}
+.g-content>main{padding:0!important;gap:24px!important}
+.g-demo{background:var(--warn-bg);color:var(--warn-ink);border-radius:14px;padding:10px 16px;font-size:13px;margin-bottom:22px}
+.g-real{background:var(--surface);border:1px solid var(--line);color:var(--muted);border-radius:14px;padding:10px 16px;font-size:13px;margin-bottom:22px}
+.g-real button{background:none;border:0;padding:0;margin-left:6px;color:var(--primary-ink);text-decoration:underline;cursor:pointer;font:inherit}
+.g-qr{display:flex;flex-direction:column;align-items:center;text-align:center;margin:14px 0}
+.g-qr img{width:200px;height:200px;background:#fff;padding:8px;border-radius:12px;border:1px solid var(--line)}
+.g-chave{display:inline-block;margin-top:4px;padding:4px 8px;border-radius:8px;background:var(--tint);font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;letter-spacing:.06em;user-select:all;word-break:break-all}
+.g-sem-perm{max-width:620px;margin:60px auto;text-align:center}
+@media (max-width:900px){
+  .g-shell{flex-direction:column;align-items:stretch;gap:16px}
+  .g-side{position:static;flex-basis:auto;width:100%;max-height:none}
+  .g-menu-btn{display:inline-flex;align-items:center}
+  .g-lista,.g-side-rodape{display:none}
+  .g-side.aberto .g-lista{display:flex}
+  .g-side.aberto .g-side-rodape{display:block}
+}
+
+/* ───── janelas e avisos ───── */
+.fundo-modal{position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(43,43,51,.55);display:flex;align-items:flex-start;justify-content:center;padding:24px 16px;overflow:auto;z-index:50}
+.modal{width:100%;max-width:580px;background:var(--surface);color:var(--ink);border-radius:18px;padding:26px;margin:auto 0;box-shadow:0 20px 60px var(--shadow);display:flex;flex-direction:column;gap:16px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:999px;font-size:13.5px;max-width:min(560px,calc(100vw - 32px));z-index:60;box-shadow:0 8px 30px var(--shadow)}
+
+/* ───── janelas de nova CEG e nova POB ───── */
+.modal h2{margin:0;font-size:20px;color:var(--ink)}
+.modal p.g-erro{margin:0;color:var(--coral-dark);font-size:13px;font-weight:600}
+.g-acoes{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.g-rotulo{font-size:12.5px;font-weight:600;color:var(--muted)}
+.g-check{display:flex;align-items:center;gap:10px;min-height:44px;font-size:14px;color:var(--ink)}
+.g-check input{width:20px;height:20px}
+
+/* ───── abas da página Sets e claims e etiquetas de estado ───── */
+.g-abas{display:flex;flex-wrap:wrap;gap:8px}
+.g-aba{min-height:44px;padding:0 20px;border-radius:999px;border:1px solid var(--field-line);background:var(--surface);color:var(--primary-ink);font-weight:600;font-size:13.5px;cursor:pointer;transition:background .15s,border-color .15s}
+.g-aba:hover{background:var(--tint)}
+.g-aba[aria-selected=true]{background:var(--tint);border-color:var(--acento);color:var(--nav-forte)}
+.g-chip.ok{background:var(--ok-bg);color:var(--ok-ink)}
+.g-chip.warn{background:var(--warn-bg);color:var(--warn-ink)}
+.g-chip.bad{background:var(--bad-bg);color:var(--bad-ink)}
+
+/* ───── modo noturno (o botão fica no fim de cada tela do painel) ───── */
+html[data-tema="escuro"]{
+  --bg:#12141C; --band:#262A3C; --surface:#1D2030; --ink:#ECEDF3; --muted:#A7ACC0; --line:rgba(255,255,255,0.10); --field-line:rgba(255,255,255,0.30);
+  --primary:#9A9DDA; --primary-ink:#BFC1F2; --on-primary:#12141C; --link:#BFC1F2;
+  --tint:#2A2F47; --tint-ink:#C9CBF5; --track:#353A55;
+  --ok-bg:#16382A; --ok-ink:#7FD6A8; --ok-ink2:#7FD6A8;
+  --warn-bg:#3B3116; --warn-ink:#F2C879; --gray-bg:#2A2E43; --gray-ink:#B8BCD0;
+  --bad-bg:#47202A; --bad-ink:#FF9AA2; --disabled-bg:#3A3F57;
+  --purple:#A9ABDF; --purple-dark:#9A9DDA; --purple-tint:#2A2F47;
+  --shadow:rgba(0,0,0,0.65);
+  --foco:#9EA1F0; --nav-bg:#1A1C28; --nav-linha:rgba(255,255,255,0.10); --nav-txt:#B5B9CE; --nav-forte:#FFFFFF; --acento:#9EA1F0; --titulo:#C9CBF5; --menu-txt:#B5B9CE;
+  color-scheme:dark;
+}
+::placeholder{color:var(--muted);opacity:.75}
+.g-fim{display:flex;align-items:center;gap:12px;margin-top:36px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px}
+.g-switch{position:relative;flex:0 0 auto;width:48px;height:28px;border-radius:999px;border:1px solid var(--field-line);background:var(--track);cursor:pointer;padding:0;transition:background .2s}
+.g-switch-bola{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
+.g-switch[aria-checked=true]{background:var(--acento);border-color:var(--acento)}
+.g-switch[aria-checked=true] .g-switch-bola{transform:translateX(20px)}
+
+#app button[disabled]{opacity:.5;cursor:not-allowed}
+
+/* ───── histórico da vaga (Masterlist) ───── */
+.g-hist{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
+.g-hist li{display:flex;flex-direction:column;gap:2px;padding-left:14px;border-left:3px solid var(--acento);font-size:14px;color:var(--ink)}
+.g-hist li span{font-size:13px;color:var(--muted)}
+
+
+/* ───── Masterlist: POBs em sanfona, uma tabela por POB ───── */
+.ml-resumo{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+button.ml-fch{border:0;font-family:inherit;line-height:1.5;cursor:pointer;box-shadow:inset 0 0 0 1px var(--line)}
+button.ml-fch:hover{box-shadow:inset 0 0 0 1px var(--muted)}
+button.ml-fch[aria-pressed=true]{box-shadow:0 0 0 2px var(--acento)}
+.ml-dica{font-size:13px}
+.ml-lista{display:flex;flex-direction:column;gap:24px}
+.ml-grupo{display:flex;flex-direction:column;gap:8px}
+.ml-ceg{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px;font-size:15px;font-weight:700;color:var(--muted)}
+.ml-ceg .ml-meta{font-weight:400}
+.ml-ferr{margin-left:auto;display:inline-flex;gap:4px}
+.ml-lnk{background:none;border:0;padding:4px 8px;border-radius:8px;font:inherit;font-size:13px;font-weight:600;color:var(--primary-ink);cursor:pointer;text-decoration:underline}
+.ml-lnk:hover{background:var(--tint)}
+.ml-acc{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.ml-pob{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;width:100%;padding:14px 20px;background:transparent;border:0;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.ml-pob:hover{background:var(--tint)}
+.ml-pob svg{flex:0 0 auto;color:var(--muted);transition:transform .15s ease}
+.ml-pob[aria-expanded=true] svg{transform:rotate(90deg)}
+.ml-nome{display:flex;flex-direction:column;gap:2px;min-width:200px}
+.ml-nome strong{font-size:17px}
+.ml-meta{font-size:13.5px;color:var(--muted)}
+.ml-chips{display:flex;flex-wrap:wrap;gap:6px;margin-left:auto}
+.ml-corpo{border-top:1px solid var(--line)}
+.ml-rolagem{overflow-x:auto}
+.ml-tabela{min-width:840px}
+.ml-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:20px}
+.ml-filtros{padding:18px 20px;gap:14px}
+.ml-campos{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.ml-campo{display:flex;flex-direction:column;gap:6px}
+.ml-campo label{font-size:13px;font-weight:600;color:var(--muted)}
+.ml-campo input,.ml-campo select{box-sizing:border-box;width:100%;min-height:44px;padding:0 12px;border:1px solid var(--field-line);border-radius:8px;font:inherit;background:var(--surface);color:var(--ink)}
+.ml-btns{display:flex;flex-wrap:wrap;gap:12px}
+.ml-barra{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 16px;border:1px solid var(--acento);border-radius:14px;background:var(--tint)}
+.ml-barra-fixa{position:sticky;bottom:14px;z-index:6;box-shadow:0 8px 26px var(--shadow)}
+.mlp-linha{display:grid;grid-template-columns:32px 52px minmax(80px,.9fr) minmax(170px,2.2fr) 78px 84px 50px minmax(170px,1.9fr);gap:8px;align-items:center;padding:6px 12px;border-top:1px solid var(--line);font-size:13px}
+.mlp-linha>[role=cell]{overflow-wrap:anywhere}
+.mlp-cab{background:var(--band);font-size:13px;font-weight:600;color:var(--muted);border-top:0}
+.mlp-set{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:9px 16px;background:var(--tint);border-top:1px solid var(--line);font-size:14px}
+.mlp-set strong{font-size:15px}
+[data-mlp-row]{cursor:pointer}
+[data-mlp-row]:hover{background:var(--tint)}
+[data-mlp-row]:focus-visible{outline-offset:-2px}
+.mlp-check{width:20px;height:20px;accent-color:var(--primary)}
+#app select.mlp-sel{box-sizing:border-box;width:100%;height:30px;min-height:0;padding:0 6px 0 10px;border:1px solid var(--field-line);border-radius:8px!important;background:var(--surface);color:var(--ink);font:inherit;font-size:13px;line-height:1.2}
+.mlp-linha strong{line-height:1.35}
+.mlp-linha .ml-meta{font-size:12.5px;line-height:1.3}
+.ml-joiner{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 8px}
+.ml-stat{display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px}
+
+/* ───── Sets e Claims: aba Criar sets mais leve (resumo de uma linha + "Mudar") e aba Editar com ações recolhidas ───── */
+.cs-painel{display:flex;flex-direction:column;gap:20px}
+.cs-painel[hidden],.cs-det-corpo[hidden],.cs-novo-membro[hidden],.cs-erro[hidden]{display:none!important}
+.cs-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:18px}
+.cs-cab h2{margin:0;font-size:20px;letter-spacing:-0.01em}
+.cs-cab p{margin:4px 0 0;font-size:14px;color:var(--muted)}
+.cs-linha{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 170px;gap:16px;align-items:end}
+.cs-campo{display:flex;flex-direction:column;gap:6px;min-width:0}
+.cs-campo label{font-size:13px;font-weight:600;color:var(--muted)}
+.cs-novos{display:flex;flex-wrap:wrap;gap:0 20px;margin-top:-8px}
+.cs-link{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 4px;background:none;border:0;border-radius:8px;font:inherit;font-size:13.5px;font-weight:600;color:var(--primary-ink);cursor:pointer}
+.cs-link:hover{background:var(--tint)}
+.cs-dets{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.cs-det{border-bottom:1px solid var(--line)}
+.cs-det-resumo{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:4px 16px;align-items:center;padding:10px 0}
+.cs-det-rot{font-size:13px;font-weight:600;color:var(--muted)}
+.cs-det-txt{font-size:14.5px;line-height:1.5;overflow-wrap:anywhere}
+.cs-mudar{min-height:40px;min-width:76px;padding:0 16px;border-radius:999px;border:1px solid var(--field-line);background:var(--surface);color:var(--primary-ink);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.cs-mudar:hover{background:var(--tint)}
+.cs-det-corpo{display:flex;flex-direction:column;gap:14px;padding:2px 0 18px}
+.cs-chips{display:flex;flex-wrap:wrap;gap:8px}
+.cs-chip{display:inline-flex;align-items:center;gap:2px;min-height:40px;padding:0 4px 0 16px;border-radius:999px;background:var(--tint);color:var(--primary-ink);font-weight:600;font-size:14px}
+.cs-chip button{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border:0;border-radius:50%;background:transparent;color:var(--primary-ink);padding:0;cursor:pointer}
+.cs-chip button:hover{background:rgba(75,80,120,.14)}
+.cs-add{min-height:40px;padding:0 16px;border-radius:999px;border:1px dashed var(--primary);background:var(--surface);color:var(--primary-ink);font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.cs-add:hover{background:var(--tint)}
+.cs-novo-membro{display:flex;flex-wrap:wrap;align-items:center;gap:10px;max-width:520px}
+.cs-novo-membro .cs-campo{flex:1 1 220px}
+.cs-erro{margin:0;flex:1 0 100%;color:var(--coral-dark);font-size:13px;font-weight:600}
+.cs-nota{margin:0;font-size:13px;line-height:1.5;color:var(--muted)}
+.cs-valores{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
+.cs-check{display:flex;align-items:center;gap:10px;min-height:44px;font-size:14px}
+.cs-check input{width:22px;height:22px;flex:0 0 auto}
+.cs-resumo{padding:14px 16px;border-radius:12px;background:var(--band);font-size:15px;line-height:1.6}
+.cs-acoes{display:flex;flex-wrap:wrap;gap:12px}
+.cs-info{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:0 20px}
+.cs-info summary{display:flex;align-items:center;min-height:50px;cursor:pointer;font-size:14px;font-weight:600;color:var(--primary-ink)}
+.cs-info p{margin:0 0 16px;font-size:14px;line-height:1.6;color:var(--muted)}
+.cs-acao{border-top:1px solid var(--line)}
+.cs-acao summary{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;min-height:50px;cursor:pointer;font-size:15px;font-weight:600}
+.cs-acao-corpo{display:flex;flex-direction:column;gap:12px;padding:2px 0 16px}
+.cs-info summary,.cs-acao summary{list-style:none}
+.cs-info summary::-webkit-details-marker,.cs-acao summary::-webkit-details-marker{display:none}
+.cs-info summary::after,.cs-acao summary::after{content:'';flex:0 0 auto;margin:-4px 4px 0 auto;width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .15s ease}
+.cs-info[open] summary::after,.cs-acao[open] summary::after{margin-top:4px;transform:rotate(-135deg)}
+.cs-info summary:hover,.cs-acao summary:hover{color:var(--ink)}
+@media (max-width:700px){
+  .cs-card{padding:18px}
+  .cs-linha{grid-template-columns:minmax(0,1fr)}
+  .cs-det-resumo{grid-template-columns:minmax(0,1fr) auto}
+  .cs-det-txt{grid-column:1 / -1;order:3}
+  .cs-acoes .g-btn{flex:1 1 100%}
+}
+
+/* ───── Importar CEGs ───── */
+.imp-h2{margin:0;font-size:20px;letter-spacing:-0.01em}
+.imp-h3{margin:0;font-size:18px}
+.imp-h4{margin:6px 0 0;font-size:15px}
+.imp-p{margin:2px 0 0;font-size:14px;color:var(--muted)}
+.imp-previa{display:flex;flex-direction:column;gap:14px;padding-top:20px;border-top:1px solid var(--line)}
+.imp-mapa,.imp-amostra{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.imp-lin{display:grid;gap:10px;align-items:center;padding:8px 14px;border-top:1px solid var(--line);font-size:13.5px}
+.imp-cab{background:var(--band);border-top:0;font-size:13px;font-weight:600;color:var(--muted)}
+.imp-mapa .imp-lin{grid-template-columns:minmax(150px,2fr) minmax(90px,.8fr) minmax(210px,2fr)}
+.imp-amostra{min-width:780px}
+.imp-amostra .imp-lin{grid-template-columns:52px minmax(170px,2fr) minmax(90px,1fr) minmax(120px,1.4fr) 84px minmax(150px,1.6fr)}
+#app select.imp-sel{box-sizing:border-box;width:100%;height:34px;min-height:0;padding:0 12px;font-size:13.5px;border:1px solid var(--field-line);background:var(--surface);color:var(--ink);font-family:inherit}
+.imp-avisos{display:flex;flex-direction:column;gap:8px}
+.imp-aviso{border:1px solid var(--line);border-radius:10px;padding:8px 14px;background:var(--surface)}
+.imp-aviso summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;font-weight:600;font-size:14px}
+.imp-aviso ul{margin:8px 0 2px;padding-left:20px;display:flex;flex-direction:column;gap:4px;font-size:13.5px}
+
+/* ───── Envios nacionais ───── */
+.env-topo{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.env-linha{display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px}
+.env-lista{display:flex;flex-direction:column;gap:16px}
+.env-card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:16px}
+.env-cab{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:10px}
+.env-nome{font-size:17px}
+.env-corpo{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.env-itens{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.env-item{display:flex;align-items:center;gap:12px}
+.env-foto{flex:0 0 auto;width:44px;height:44px;border-radius:8px;background:var(--band);display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.env-item-txt{display:flex;flex-direction:column;font-size:14px}
+.env-end{font-size:14px;line-height:1.5}
+.env-end strong{display:block;font-size:13px;color:var(--muted);margin-bottom:2px}
+.env-aviso{margin:0;padding:10px 12px;border-radius:8px;background:var(--warn-bg);color:var(--warn-ink);font-size:13.5px}
+.env-acao{border-top:1px solid var(--line);padding-top:16px;display:flex;flex-direction:column;gap:12px}
+.env-valor{max-width:260px}
+.env-vazio{margin:0;padding:24px;text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:10px}
+.lib-off{background:var(--disabled-bg) !important;color:var(--muted) !important;cursor:not-allowed}
+
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="../home/">
+    <img src="../imagens/logo.png" alt="DAZED CEGs">
+  </a>
+  <div class="nav-links">
+    <a class="nav-a" href="../home/" aria-label="Home">
+      <svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+      <span>Home</span>
+    </a>
+    <a class="nav-a" href="../cegs/" aria-label="Área do Joiner">
+      <svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+      <span>Área do Joiner</span>
+    </a>
+    <a class="nav-a" href="../regras/" aria-label="Regras DAZED CEGs">
+      <svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+      <span>Regras DAZED CEGs</span>
+    </a>
+    <a class="nav-a" href="../calculadora/" aria-label="Calculadoras">
+      <svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span>Calculadoras</span>
+    </a>
+    <a class="nav-a" href="../repasses/" aria-label="Repasses">
+      <svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+      <span>Repasses</span>
+    </a>
+    <a class="nav-a" href="../sobras/" aria-label="Sobras">
+      <svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
+      <span>Sobras</span>
+    </a>
+    <a class="nav-a active" href="../gom/" aria-label="GOM" aria-current="page">
+      <svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>
+      <span>GOM</span>
+    </a>
+  </div>
+</nav>
+<main class="g-main"><div id="app"></div></main>
+<script src="config.js"></script>
+<script src="vendor/supabase.js"></script>
+<script>
+(function () {
+  'use strict';
+  const FRAG = {"inicio": "<main style=\"flex:999 1 560px;min-width:0;padding:36px 44px;box-sizing:border-box\"><p class=\"g-muted\">Carregando…<\/p><\/main>", "masterlist": "<main style=\"flex:999 1 560px;min-width:0;padding:36px 44px;box-sizing:border-box;display:flex;flex-direction:column;gap:24px\"><header style=\"display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px\"><div><h1 style=\"margin:0;font-size:30px;line-height:1.15;letter-spacing:-0.02em\">Masterlist<\/h1><\/div><span id=\"ml-selo\" style=\"padding:6px 12px;border:1px solid var(--line);border-radius:999px;font-size:13px;color:var(--muted);background:var(--surface)\">Dados de exemplo<\/span><\/header><div id=\"ml-resumo\" class=\"ml-resumo\"><\/div><section class=\"ml-card ml-filtros\" aria-label=\"Filtros\"><div class=\"ml-campos\"><div class=\"ml-campo\"><label for=\"ml-busca\">Buscar por @ ou nome<\/label><input id=\"ml-busca\" type=\"text\" placeholder=\"Ex.: @exemplo_03\" autocomplete=\"off\"><\/div><div class=\"ml-campo\"><label for=\"ml-ceg\">CEG<\/label><select id=\"ml-ceg\"><option value=\"\">Todas as CEGs<\/option><\/select><\/div><div class=\"ml-campo\"><label for=\"ml-pob\">POB<\/label><select id=\"ml-pob\"><option value=\"\">Todas as POBs<\/option><\/select><\/div><div class=\"ml-campo\"><label for=\"ml-status\">Status<\/label><select id=\"ml-status\"><option value=\"\">Todos os status<\/option><\/select><\/div><\/div><div class=\"ml-btns\"><button type=\"button\" class=\"g-btn\" data-acao=\"ml-limpar\">Limpar filtros<\/button><button type=\"button\" class=\"g-btn\" data-acao=\"ml-baixar\">Baixar planilha<\/button><\/div><\/section><div id=\"ml-lista\" class=\"ml-lista\"><\/div><p id=\"ml-vazio\" hidden style=\"margin:0;padding:24px;text-align:center;color:var(--muted)\">Nenhuma vaga encontrada com esses filtros.<\/p><div id=\"ml-barra\" class=\"ml-barra ml-barra-fixa\" hidden><strong id=\"ml-qtd\"><\/strong><label for=\"ml-novo\">Mudar o status para<\/label><select id=\"ml-novo\" class=\"mlp-sel\" style=\"width:auto;min-width:220px\"><\/select><button type=\"button\" class=\"g-btn primario\" data-acao=\"ml-aplicar\">Aplicar<\/button><button type=\"button\" class=\"g-btn\" data-acao=\"ml-limpar-sel\">Limpar seleção<\/button><\/div><\/main>"};
+  const app = document.getElementById('app');
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const brl = (n) => 'R$ ' + (Math.round(n * 100) / 100).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  const pad = (n) => String(n).padStart(2, '0');
+  const fData = (d) => pad(d.getDate()) + '/' + pad(d.getMonth() + 1);
+  const fDataHora = (d) => fData(d) + ' às ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  const normHandle = (s) => '@' + String(s || '').trim().toLowerCase().replace(/\s+/g, '').replace(/^@+/, '');
+
+  /* fonte dos títulos (Note Book): vem embutida nas outras páginas do site; busca de uma delas */
+  try {
+    fetch('../repasses/').then((r) => (r.ok ? r.text() : '')).then((t) => {
+      const m = t.match(/@font-face\s*\{[^}]*Note Book[^}]*\}/);
+      if (m) { const s = document.createElement('style'); s.textContent = m[0]; document.head.appendChild(s); }
+    }).catch(() => { /* sem a fonte, usa a de reserva */ });
+  } catch (e) { /* ignora */ }
+
+
+  /* ------------------------------------------------ estado (guardado só neste navegador) */
+  const KEY = 'dazedcegs_novo_demo_v2';
+  const PADRAO_ADM = () => ({ anotar_claims: true, criar_sets: true, fotos_pob: true, cadastro_pessoas: true, ver_numero_completo: true, pagamentos_atraso: true, pedidos_repasse: true, frete_taxa: true, liberar_pagamento: true, atualizar_status: false, prazo_multa_valor: false, marcar_pago_estornar: false, usuarios_permissoes: false });
+  const novoEstado = () => ({ sessao: null, perms: { bruna: PADRAO_ADM(), esther: PADRAO_ADM() }, pagos: {}, repasses: [], tema: 'auto' });
+  let S = novoEstado();
+  try {
+    const guardado = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (guardado && typeof guardado === 'object') {
+      S = Object.assign(S, guardado);
+      S.perms = { bruna: Object.assign(PADRAO_ADM(), (guardado.perms || {}).bruna), esther: Object.assign(PADRAO_ADM(), (guardado.perms || {}).esther) };
+    }
+  } catch (e) { /* sem armazenamento: segue em memória */ }
+  const salvar = () => { try { const copia = Object.assign({}, S); delete copia.sessao; localStorage.setItem(KEY, JSON.stringify(copia)); } catch (e) { /* ignora */ } };
+  S.sessao = null; salvar(); /* o login vale só para esta visita: ao abrir de novo, pede e-mail e senha */
+
+  /* ------------------------------------------------ avisos e janelas */
+  let tToast;
+  function toast(msg) {
+    let t = $('.toast');
+    if (!t) { t = document.createElement('div'); t.className = 'toast'; t.setAttribute('role', 'status'); document.body.appendChild(t); }
+    t.textContent = msg;
+    clearTimeout(tToast);
+    tToast = setTimeout(() => { const x = $('.toast'); if (x) x.remove(); }, 4200);
+  }
+  function fecharModal() { const f = $('.fundo-modal'); if (f) f.remove(); }
+  function abrirModal(html) {
+    fecharModal();
+    const f = document.createElement('div');
+    f.className = 'fundo-modal';
+    f.innerHTML = '<div class="modal" role="dialog" aria-modal="true">' + html + '</div>';
+    document.body.appendChild(f);
+    f.addEventListener('click', (e) => { if (e.target === f) fecharModal(); });
+    const foco = $('input,button,select,textarea', f);
+    if (foco) foco.focus();
+    return f;
+  }
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') fecharModal(); });
+
+  /* ------------------------------------------------ entrada GOM */
+  let passoLogin = 1; let emailLogin = '';
+  function viewGom() {
+    const cab = '<header class="g-cab"><span class="g-eyebrow">Acesso restrito</span><h1>Área das GOMs</h1></header>';
+    const erro = '<p class="g-erro" id="g-erro" role="alert" hidden></p>';
+    let card;
+    if (CARREGANDO) {
+      card = '<section class="g-card" aria-live="polite"><div><h2>' + esc(CARREGANDO) + '</h2><p class="g-muted" style="margin-top:6px">Só um instante.</p></div></section>';
+    } else if (passoLogin === 1) {
+      card = '<section class="g-card" aria-label="Entrar na administração"><div><h2>Entrar na administração</h2></div>' +
+        '<form id="form-gom-1" class="g-form"><div class="g-campo"><label for="g-email">E-mail</label><input id="g-email" type="email" placeholder="nome@email.com" autocomplete="username"></div>' +
+        '<div class="g-campo"><label for="g-senha">Senha</label><input id="g-senha" type="password" placeholder="Sua senha" autocomplete="current-password"></div>' +
+        erro + '<button class="g-btn primario cheio" type="submit">Entrar</button></form>' +
+        (SB ? '' : '<p class="g-erro" role="alert">O login ainda não está configurado nesta página.</p>') + '</section>';
+    } else if (passoLogin === 2) {
+      card = '<section class="g-card" aria-label="Verificação em duas etapas"><div><span class="g-chip violeta">Passo 2</span><h2 style="margin-top:8px">Verificação em duas etapas</h2>' +
+        '<p style="margin-top:6px">Digite o código de 6 dígitos do aplicativo autenticador no seu celular.</p></div>' +
+        '<form id="form-gom-2" class="g-form"><div class="g-campo"><label for="g-codigo">Código de 6 dígitos</label><input id="g-codigo" type="text" inputmode="numeric" maxlength="8" placeholder="000000" autocomplete="one-time-code"></div>' +
+        erro + '<button class="g-btn primario cheio" type="submit">Confirmar e entrar</button></form></section>';
+    } else {
+      card = '<section class="g-card" aria-label="Ligar o código do autenticador"><div><span class="g-chip violeta">Primeiro acesso</span><h2 style="margin-top:8px">Ligar o código do autenticador</h2>' +
+        '<p style="margin-top:6px">1) No celular, abra um aplicativo autenticador (Google Authenticator, Microsoft Authenticator, Authy...) e escolha adicionar uma conta.<br>2) Leia o QR code abaixo.<br>3) Digite aqui o código de 6 dígitos que o aplicativo mostrar.</p></div>' +
+        (FATOR ? '<div class="g-qr"><img id="g-qr" alt="QR code para o aplicativo autenticador" width="200" height="200"><p class="g-muted" style="margin:8px 0 0;font-size:12.5px">Sem câmera? Digite esta chave no aplicativo:<br><code class="g-chave">' + esc(FATOR.chave) + '</code></p></div>' : '<p class="g-muted">Preparando o código…</p>') +
+        '<form id="form-gom-3" class="g-form"><div class="g-campo"><label for="g-codigo">Código de 6 dígitos</label><input id="g-codigo" type="text" inputmode="numeric" maxlength="8" placeholder="000000" autocomplete="one-time-code"></div>' +
+        erro + '<button class="g-btn primario cheio" type="submit"' + (FATOR ? '' : ' disabled') + '>Confirmar e entrar</button></form></section>';
+    }
+    return '<div class="g-login">' + cab + '<div class="g-entrada">' + card + '</div></div>';
+  }
+
+
+  /* ------------------------------------------------ painel */
+const NAV = [
+    { k: 'inicio', t: 'Início', p: 'TODOS' },
+    { k: 'masterlist', t: 'Masterlist', p: 'TODOS' }
+  ];
+  const PERSONAS = {
+    admin: { nome: 'Administradora', acesso: 'Acesso a todas as CEGs' },
+    bruna: { nome: 'Bruna', acesso: 'Acesso a todas as CEGs' },
+    esther: { nome: 'Esther', acesso: 'Acesso a todas as CEGs' }
+  };
+  const temPerm = (perfil, p) => perfil === 'admin' || p === 'TODOS' ? true : (p === 'ADMIN' ? false : (Array.isArray(p) ? p.some((x) => !!(S.perms[perfil] && S.perms[perfil][x])) : !!(S.perms[perfil] && S.perms[perfil][p])));
+  const telaInicial = (perfil) => { const n = NAV.filter((x) => temPerm(perfil, x.p)); return n.length ? n[0].k : ''; };
+  const IC = {
+    'inicio': '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>',
+    'criar-sets': '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 8v8"/><path d="M8 12h8"/>',
+    'fotos': '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-8 9"/>',
+    'claims': '<path d="M4 20h4L19 9l-4-4L4 16v4z"/>',
+    'claims-editar': '<path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13 20h7"/>',
+    'pessoas': '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/>',
+    'atrasos': '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    'repasses': '<path d="M4 8h14"/><path d="M14 4l4 4-4 4"/><path d="M20 16H6"/><path d="M10 12l-4 4 4 4"/>',
+    'liberar': '<circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/>',
+    'prazo-multa': '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2"/><path d="M9 3h6"/>',
+    'frete': '<path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/>',
+    'frete-lancar': '<path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/>',
+    'usuarios': '<circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><path d="M16 4.5a3.5 3.5 0 010 7"/><path d="M18 14.5c2.2.7 4 2.5 4 5.5"/>',
+    'permissoes': '<path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/>'
+  };
+  const icone = (k) => '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:0 0 auto">' + (IC[({ sets: 'criar-sets', importar: 'frete-lancar' })[k] || k] || '') + '</svg>';
+
+  /* telas com abas (Sets e claims, Fretes e taxas): mostra só as abas que o perfil pode usar e abre a escolhida */
+  function prepararAbas(html, perfil, aba) {
+    const d = document.createElement('div'); d.innerHTML = html;
+    $$('[data-perm]', d).forEach((el) => { if (!temPerm(perfil, el.getAttribute('data-perm'))) el.remove(); });
+    const nomes = $$('.g-aba', d).map((b) => b.getAttribute('data-aba'));
+    const atual = nomes.includes(aba) ? aba : nomes[0];
+    $$('.g-aba', d).forEach((b) => b.setAttribute('aria-selected', b.getAttribute('data-aba') === atual ? 'true' : 'false'));
+    $$('[data-painel]', d).forEach((p) => { if (p.getAttribute('data-painel') !== atual) p.hidden = true; });
+    return d.innerHTML;
+  }
+
+  /* tira da tela os blocos que exigem uma permissão que o perfil não tem */
+  function filtrarPermissoes(html, perfil) {
+    const d = document.createElement('div'); d.innerHTML = html;
+    $$('[data-perm]', d).forEach((el) => { if (!temPerm(perfil, el.getAttribute('data-perm'))) el.remove(); });
+    return d.innerHTML;
+  }
+
+  function viewPainel(tela, aba) {
+    const perfil = S.sessao;
+    const permitidas = NAV.filter((n) => temPerm(perfil, n.p));
+    const ok = permitidas.some((n) => n.k === tela) && FRAG[tela];
+    const lista = permitidas.map((n) => '<a href="#/painel/' + n.k + '"' + (n.k === tela ? ' aria-current="page"' : '') + '>' + icone(n.k) + esc(n.t) + '</a>').join('');
+    const outros = Object.keys(PERSONAS).filter((k) => k !== perfil).map((k) => '<button type="button" data-acao="entrar-como" data-perfil="' + k + '">' + esc(PERSONAS[k].nome) + '</button>').join(' · ');
+    const lado = '<aside class="g-side" id="lado" aria-label="Menu do painel"><div class="g-side-topo"><span>Painel de controle</span>' +
+      '<button type="button" class="g-menu-btn" data-acao="menu" aria-expanded="false">Menu</button></div>' +
+      '<nav class="g-lista" aria-label="Telas do painel">' + lista + '</nav>' +
+      '<div class="g-side-rodape">Você entrou como<br><strong>' + esc(PERSONAS[perfil].nome) + '</strong><br>' + esc(PERSONAS[perfil].acesso) +
+      (perfil !== 'admin' ? '<br>O que você pode fazer é definido pela administradora.' : '') +
+      '<br><br><button type="button" data-acao="sair">Sair</button></div></aside>';
+    const corpo = ok ? FRAG[tela] : '';
+    const conteudo = ok ? (tela === 'sets' || tela === 'frete' || tela === 'envios' ? prepararAbas(corpo, perfil, aba) : (tela === 'inicio' ? filtrarPermissoes(corpo, perfil) : corpo)) :
+      '<div class="g-sem-perm"><h1>Sem permissão para esta tela</h1><p class="g-muted">' + esc(PERSONAS[perfil].nome) + ' não tem essa permissão. A administradora pode liberar na tela Permissões.</p>' +
+      '<p><a class="g-btn primario" href="#/painel/' + telaInicial(perfil) + '">Ir para o início</a></p></div>';
+    return '<div class="g-shell">' + lado + '<div class="g-content"><div class="g-real">' + avisoReal() + '</div>' + conteudo + fimDaPagina() + '</div></div>';
+  }
+
+
+  /* ------------------------------------------------ interações do painel */
+  const CHAVES = { 'Anotar claims': 'anotar_claims', 'Criar sets': 'criar_sets', 'Fotos Pobs': 'fotos_pob', 'Cadastros Joiners': 'cadastro_pessoas', 'Ver número completo': 'ver_numero_completo', 'Pagamentos em atraso': 'pagamentos_atraso', 'Repasses': 'pedidos_repasse', 'Frete e taxa': 'frete_taxa', 'Atualizar status das vagas': 'atualizar_status', 'Liberar pagamento': 'liberar_pagamento', 'Prazo, multa e valor': 'prazo_multa_valor', 'Marcar ou desfazer pago, estornar': 'marcar_pago_estornar', 'Usuários e permissões': 'usuarios_permissoes' };
+  function ligarPermissoes() {
+    $$('input[type=checkbox][aria-label]').forEach((cb) => {
+      const rot = cb.getAttribute('aria-label'); const i = rot.lastIndexOf(', ');
+      const chave = CHAVES[rot.slice(0, i)]; const quem = rot.slice(i + 2).toLowerCase();
+      if (!chave || (quem !== 'bruna' && quem !== 'esther')) return;
+      if (!cb.disabled) cb.checked = !!S.perms[quem][chave];
+      cb.addEventListener('change', () => { S.perms[quem][chave] = cb.checked; salvar(); toast('Permissão ' + (cb.checked ? 'liberada' : 'retirada') + ' para ' + PERSONAS[quem].nome + ': ' + rot.slice(0, i) + '.'); });
+    });
+  }
+  function ligarCriarSets() {
+    if (S.sessao !== 'admin') { const b = $('#btn-nova-ceg'); if (b) b.remove(); }
+    iniciarCegPob();
+    const q = $('#c-qtd'); if (!q) return;
+    const atualizar = () => {
+      if (!(cegAtual && pobAtual)) { estadoCriarSets(); return; }
+      const n = Math.max(1, parseInt(q.value, 10) || 1);
+      const vagas = $$('button[aria-label^="Remover "]').length || 6;
+      const forte = $$('strong').find((s) => /^(Vai criar do Set|Escolha a CEG)/.test(s.textContent));
+      if (forte && forte.parentElement) forte.parentElement.innerHTML = '<strong style="font-weight:700">Vai criar do Set 13 ao Set ' + (12 + n) + '.</strong><br> ' + vagas + (vagas === 1 ? ' vaga' : ' vagas') + ' por set, ' + (vagas * n) + ' no total, todas livres. A numeração continua sozinha a partir do último set da POB.';
+      const b = $$('button').find((x) => /^Criar \d+ sets?$/.test(x.textContent.trim()));
+      if (b) b.textContent = 'Criar ' + n + (n === 1 ? ' set' : ' sets');
+    };
+    ['#c-qtd', '#c-valor', '#c-prazo', '#c-hora', '#c-multa'].forEach((id) => { const el = $(id); if (el) el.addEventListener('input', atualizar); });
+    ligarDetalhesCriar();
+  }
+  /* ------------------------------------------------ Criar sets: membros e valor/prazo/multa viram um resumo de uma linha, com "Mudar" */
+  const SVG_X_CS = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>';
+  const MAX_MEMBROS_CS = 30;
+  const nomesMembrosCS = () => $$('#cs-chips .cs-chip').map((c) => c.getAttribute('data-nome'));
+  const chipMembroCS = (nome) => '<span class="cs-chip" data-nome="' + esc(nome) + '">' + esc(nome) + '<button type="button" data-acao="cs-rem-membro" aria-label="Remover ' + esc(nome) + '">' + SVG_X_CS + '</button></span>';
+  function resumirCriarSets() {
+    const m = $('#cs-res-membros');
+    if (m) {
+      const ns = nomesMembrosCS();
+      /* espaço sem quebra dentro de cada nome: a linha só quebra entre um membro e outro, nunca no meio de "Membro 6" */
+      m.textContent = ns.length ? ns.length + (ns.length === 1 ? ' membro por set: ' : ' membros por set: ') + ns.map((n) => n.replace(/ /g, ' ')).join(', ') : 'Nenhum membro: adicione pelo menos um.';
+    }
+    const v = $('#cs-res-valores');
+    if (v) {
+      const t = (id) => ((($(id) || {}).value) || '').trim(); const mult = $('#c-multiplica');
+      v.textContent = 'R$ ' + (t('#c-valor') || '0,00') + ' por vaga · prazo ' + (t('#c-prazo') || 'sem data') + ' às ' + (t('#c-hora') || '12:00') + ' · multa de R$ ' + (t('#c-multa') || '0,00') + ' por dia' + (mult && mult.checked ? ' por item' : '');
+    }
+  }
+  function alternarDetCS(btn) {
+    const alvo = $('#' + btn.getAttribute('data-alvo')); if (!alvo) return;
+    const abrir = alvo.hidden; alvo.hidden = !abrir;
+    btn.setAttribute('aria-expanded', abrir ? 'true' : 'false'); btn.textContent = abrir ? 'Fechar' : 'Mudar';
+    if (abrir) { const f = alvo.querySelector('input:not([type=checkbox])'); if (f) f.focus(); }
+  }
+  /* quem monta o resumo "Vai criar do Set ..." escuta o campo da quantidade; mexer nos membros pede para ele refazer a conta */
+  function refazerContaCS() { const q = $('#c-qtd'); if (q) q.dispatchEvent(new Event('input', { bubbles: true })); }
+  function removerMembroCS(btn) {
+    const chip = btn.closest('.cs-chip'); if (!chip) return;
+    if (nomesMembrosCS().length <= 1) { toast('O set precisa ter pelo menos um membro.'); return; }
+    chip.remove(); resumirCriarSets(); refazerContaCS();
+  }
+  function abrirNovoMembroCS() {
+    const c = $('#cs-novo-membro'); if (!c) return;
+    c.hidden = !c.hidden;
+    if (!c.hidden) { const i = $('#c-membro-novo'); if (i) i.focus(); }
+  }
+  function incluirMembroCS() {
+    const i = $('#c-membro-novo'); const er = $('#cs-membro-erro'); if (!i) return;
+    const nome = i.value.replace(/\s+/g, ' ').trim();
+    const sem = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+    const falha = (msg) => { if (er) { er.textContent = msg; er.hidden = false; } };
+    if (!nome) return falha('Digite o nome do membro.');
+    if (nomesMembrosCS().some((n) => sem(n) === sem(nome))) return falha('Esse membro já está na lista.');
+    if (nomesMembrosCS().length >= MAX_MEMBROS_CS) return falha('O máximo é ' + MAX_MEMBROS_CS + ' membros por set.');
+    const add = $('#cs-chips .cs-add'); if (!add) return;
+    add.insertAdjacentHTML('beforebegin', chipMembroCS(nome));
+    i.value = ''; if (er) er.hidden = true; i.focus();
+    resumirCriarSets(); refazerContaCS();
+  }
+  function ligarDetalhesCriar() {
+    resumirCriarSets();
+    ['#c-valor', '#c-prazo', '#c-hora', '#c-multa'].forEach((id) => { const el = $(id); if (el) el.addEventListener('input', resumirCriarSets); });
+    const mult = $('#c-multiplica'); if (mult) mult.addEventListener('change', resumirCriarSets);
+    const ni = $('#c-membro-novo');
+    if (ni) ni.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); incluirMembroCS(); }
+      else if (e.key === 'Escape') { const c = $('#cs-novo-membro'); if (c) c.hidden = true; const add = $('#cs-chips .cs-add'); if (add) add.focus(); }
+    });
+    if (ni) ni.addEventListener('input', () => { const er = $('#cs-membro-erro'); if (er) er.hidden = true; });
+  }
+  function botaoPainel(b) {
+    const t = b.textContent.replace(/\s+/g, ' ').trim();
+    if (b.closest('.fundo-modal')) {
+      if (/^Cancelar$/.test(t)) return fecharModal();
+      if (/^Criar CEG$/.test(t)) return confirmarNovaCeg();
+      if (/^Criar POB$/.test(t)) return confirmarNovoPob();
+      if (/^Criar login$/.test(t)) return confirmarNovoLogin();
+      if (/^Criar cadastro e vincular/.test(t)) { fecharModal(); return toast('Cadastro criado e vinculado (demonstração).'); }
+      return toast('"' + t + '": demonstração, ainda não grava nada.');
+    }
+    if (/^Adicionar CEG nova$/.test(t)) return abrirNovaCeg();
+    if (/^Adicionar POB nova$/.test(t)) return abrirNovoPob();
+    if (/^Criar login$/.test(t)) return abrirNovoLogin();
+    if (/^Criar cadastro$/.test(t)) return abrirModal(FRAG._dialogo_cadastro);
+    if (/WhatsApp/.test(t)) return toast('Abriria o WhatsApp com a mensagem pronta (demonstração).');
+    if (/^Desfazer/.test(t)) return toast('Desfeito (demonstração).');
+    if (/^Liberar( \d+ sets?| sets)$/.test(t)) return toast('Liberaria os sets marcados e registraria quem liberou e quando (demonstração).');
+    if (/^Criar \d+ sets?$/.test(t)) return toast('Criaria os sets em rascunho (demonstração).');
+    if (/^Salvar permissões/.test(t)) return toast('As permissões já valem na hora, ao marcar e desmarcar (demonstração).');
+    toast('"' + t + '": botão de demonstração, ainda não grava nada.');
+  }
+
+  /* ------------------------------------------------ CEGs e POBs da tela Criar sets (demonstração) */
+  /* cada POB pertence a uma CEG; o mesmo nome pode existir em CEGs diferentes */
+  const CEGS_POBS = {
+    'POBS THE SIN: Bliss': ['KTOWN4U LD R2', 'GS25', 'MUSINSA', 'WEVERSE GLOBAL'],
+    'Death of Me Pobs': ['MUSINSA', 'WEVERSE GLOBAL']
+  };
+  let cegAtual = ''; let pobAtual = '';   /* começam no traço: nada vem escolhido */
+  function popularCegs() {
+    const sel = $('#c-ceg'); if (!sel) return;
+    sel.innerHTML = '<option value="">—</option>' + Object.keys(CEGS_POBS).map((n) => '<option>' + esc(n) + '</option>').join('');
+    sel.value = cegAtual;
+  }
+  function popularPobs() {
+    const sel = $('#c-pob'); if (!sel) return;
+    if (!cegAtual) { sel.innerHTML = '<option value="" selected>—</option>'; sel.disabled = true; pobAtual = ''; estadoCriarSets(); return; }
+    sel.disabled = false;
+    const lista = CEGS_POBS[cegAtual] || [];
+    if (!lista.length) { sel.innerHTML = '<option value="" disabled selected>Crie a primeira POB desta CEG</option>'; pobAtual = ''; estadoCriarSets(); return; }
+    sel.innerHTML = '<option value="">—</option>' + lista.map((n) => '<option>' + esc(n) + '</option>').join('');
+    if (!lista.includes(pobAtual)) pobAtual = '';
+    sel.value = pobAtual;
+    estadoCriarSets();
+  }
+  /* sem CEG e POB escolhidas, não dá para criar sets: o botão fica desativado e o resumo pede a escolha */
+  function estadoCriarSets() {
+    const campoQtd = $('#c-qtd'); if (!campoQtd) return;
+    const pronto = !!(cegAtual && pobAtual);
+    $$('button').filter((x) => /^Criar \d+ sets?$/.test(x.textContent.trim()) || /^Duplicar o Set/.test(x.textContent.trim())).forEach((x) => { x.disabled = !pronto; });
+    if (!pronto) {
+      const forte = $$('strong').find((x) => /^(Vai criar do Set|Escolha a CEG)/.test(x.textContent));
+      if (forte && forte.parentElement) forte.parentElement.innerHTML = '<strong style="font-weight:700">Escolha a CEG e a POB.</strong><br> O resumo dos sets aparece aqui antes de criar.';
+    } else { campoQtd.dispatchEvent(new Event('input', { bubbles: true })); }
+  }
+  function iniciarCegPob() {
+    popularCegs(); popularPobs();
+    const c = $('#c-ceg'); const p = $('#c-pob');
+    if (c) c.addEventListener('change', () => { cegAtual = c.value; pobAtual = ''; popularPobs(); });
+    if (p) p.addEventListener('change', () => { pobAtual = p.value; estadoCriarSets(); });
+  }
+  function erroModal(msg) { const x = $('#m-erro'); if (x) { x.textContent = msg; x.hidden = false; } }
+  function nomeLimpo(id) { const c = $(id); return ((c && c.value) || '').replace(/\s+/g, ' ').trim(); }
+  function enterConfirma(id, fn) { const c = $(id); if (c) c.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); fn(); } }); }
+  const BOTOES_MODAL = '<div class="g-acoes"><button type="button" class="g-btn">Cancelar</button><button type="button" class="g-btn primario">@@OK@@</button></div>';
+  function abrirNovaCeg() {
+    abrirModal('<h2>Nova CEG</h2>' +
+      '<div class="g-campo"><label for="m-ceg-nome">Nome da CEG</label><input id="m-ceg-nome" type="text" placeholder="Ex.: POBS THE SIN: Bliss" autocomplete="off"></div>' +
+      '<p class="g-erro" id="m-erro" role="alert" hidden></p>' + BOTOES_MODAL.replace('@@OK@@', 'Criar CEG'));
+    enterConfirma('#m-ceg-nome', confirmarNovaCeg);
+  }
+  function confirmarNovaCeg() {
+    const nome = nomeLimpo('#m-ceg-nome');
+    if (!nome) return erroModal('Digite o nome da CEG.');
+    if (Object.keys(CEGS_POBS).some((n) => n.toLowerCase() === nome.toLowerCase())) return erroModal('Já existe uma CEG com esse nome.');
+    CEGS_POBS[nome] = []; cegAtual = nome; pobAtual = '';
+    popularCegs(); popularPobs();
+    fecharModal();
+    toast('CEG "' + nome + '" criada. Agora adicione a primeira POB (demonstração).');
+  }
+  function abrirNovoPob() {
+    const opcoes = '<option value=""' + (cegAtual ? '' : ' selected') + '>—</option>' + Object.keys(CEGS_POBS).map((n) => '<option' + (n === cegAtual ? ' selected' : '') + '>' + esc(n) + '</option>').join('');
+    abrirModal('<h2>Nova POB</h2>' +
+      '<div class="g-campo"><label for="m-pob-nome">Nome da POB</label><input id="m-pob-nome" type="text" placeholder="Ex.: WEVERSE GLOBAL" autocomplete="off"></div>' +
+      '<div class="g-campo"><label for="m-pob-ceg">Vincular à CEG</label><select id="m-pob-ceg">' + opcoes + '</select></div>' +
+      '<p class="g-erro" id="m-erro" role="alert" hidden></p>' + BOTOES_MODAL.replace('@@OK@@', 'Criar POB'));
+    enterConfirma('#m-pob-nome', confirmarNovoPob);
+  }
+  function confirmarNovoPob() {
+    const nome = nomeLimpo('#m-pob-nome'); const ceg = ($('#m-pob-ceg') || {}).value || '';
+    if (!nome) return erroModal('Digite o nome da POB.');
+    if (!CEGS_POBS[ceg]) return erroModal('Escolha a CEG da POB.');
+    if (CEGS_POBS[ceg].some((n) => n.toLowerCase() === nome.toLowerCase())) return erroModal('Já existe uma POB com esse nome nesta CEG.');
+    CEGS_POBS[ceg].push(nome); cegAtual = ceg; pobAtual = nome;
+    popularCegs(); popularPobs();
+    fecharModal();
+    toast('POB "' + nome + '" criada na CEG "' + ceg + '" (demonstração).');
+  }
+
+
+
+  /* ------------------------------------------------ tela Usuários (demonstração): criar login e visão geral */
+  const USUARIOS_CRIADOS = [];
+  const linhasUsuarios = () => $$('[role=table][aria-label="Usuários do painel"] [role=row]').slice(1);
+  function atualizarResumoUsuarios() {
+    const alvo = $('#u-resumo'); if (!alvo) return;
+    const linhas = linhasUsuarios();
+    const estado = (l) => ((($$('[role=cell]', l)[2]) || {}).textContent || '').trim();
+    const ativos = linhas.filter((l) => /^Ativa/.test(estado(l))).length;
+    const pendentes = linhas.filter((l) => /Convite/.test(estado(l))).length;
+    const bloqueados = linhas.filter((l) => /Bloquead/.test(estado(l))).length;
+    const c = (t, cls) => '<span class="g-chip' + (cls ? ' ' + cls : '') + '">' + t + '</span>';
+    alvo.innerHTML = c(linhas.length + (linhas.length === 1 ? ' login' : ' logins')) +
+      c(ativos + (ativos === 1 ? ' ativo' : ' ativos'), 'ok') +
+      c(pendentes + (pendentes === 1 ? ' convite pendente' : ' convites pendentes'), pendentes ? 'warn' : '') +
+      c(bloqueados + (bloqueados === 1 ? ' bloqueado' : ' bloqueados'), bloqueados ? 'bad' : '');
+  }
+  function adicionarLinhaUsuario(u) {
+    const linhas = linhasUsuarios(); const modelo = linhas[linhas.length - 1]; if (!modelo) return;
+    const novo = modelo.cloneNode(true); const cel = $$('[role=cell]', novo);
+    cel[0].innerHTML = '<strong>' + esc(u.nome) + '</strong>'; cel[1].textContent = 'ADM';
+    cel[2].innerHTML = '<span style="display:inline-block;padding:4px 10px;border-radius:999px;font-size:13px;font-weight:600;background:var(--warn-bg);color:var(--warn-ink)">Convite enviado</span>';
+    cel[3].textContent = 'ainda não entrou';
+    modelo.parentNode.appendChild(novo);
+  }
+  function ligarUsuarios() { USUARIOS_CRIADOS.forEach(adicionarLinhaUsuario); atualizarResumoUsuarios(); }
+  function abrirNovoLogin() {
+    abrirModal('<h2>Criar login</h2>' +
+      '<div class="g-campo"><label for="m-lg-nome">Nome</label><input id="m-lg-nome" type="text" placeholder="Ex.: Camila" autocomplete="off"></div>' +
+      '<div class="g-campo"><label for="m-lg-mail">E-mail</label><input id="m-lg-mail" type="email" placeholder="nome@email.com" autocomplete="off"></div>' +
+      '<p class="g-muted" style="margin:0;font-size:13px">A pessoa recebe um e-mail para criar a senha e ativar a verificação em duas etapas. Ela vê todas as CEGs, e o que pode fazer você define em Permissões.</p>' +
+      '<p class="g-erro" id="m-erro" role="alert" hidden></p>' + BOTOES_MODAL.replace('@@OK@@', 'Criar login'));
+    enterConfirma('#m-lg-mail', confirmarNovoLogin);
+  }
+  function confirmarNovoLogin() {
+    const nome = nomeLimpo('#m-lg-nome'); const mail = ((($('#m-lg-mail') || {}).value) || '').trim().toLowerCase();
+    if (!nome) return erroModal('Digite o nome.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) return erroModal('Digite um e-mail válido.');
+    if (USUARIOS_CRIADOS.some((u) => u.mail === mail)) return erroModal('Já existe um login com esse e-mail.');
+    const u = { nome, mail };
+    USUARIOS_CRIADOS.push(u); adicionarLinhaUsuario(u); atualizarResumoUsuarios(); fecharModal();
+    toast('Login criado para ' + nome + '. O convite foi enviado para ' + mail + ' (demonstração).');
+  }
+
+
+
+  /* ------------------------------------------------ modo noturno (vale para o painel inteiro, a escolha fica guardada) */
+  const CHAVE_TEMA = 'dazedcegs_gom_tema';
+  const temaEscuro = () => document.documentElement.getAttribute('data-tema') === 'escuro';
+  function aplicarTema(escuro, guardar) {
+    if (escuro) document.documentElement.setAttribute('data-tema', 'escuro'); else document.documentElement.removeAttribute('data-tema');
+    $$('[data-acao="tema"]').forEach((b) => b.setAttribute('aria-checked', escuro ? 'true' : 'false'));
+    if (guardar) { try { localStorage.setItem(CHAVE_TEMA, escuro ? 'escuro' : 'claro'); } catch (e) { /* ignora */ } }
+  }
+  try { if (localStorage.getItem(CHAVE_TEMA) === 'escuro') document.documentElement.setAttribute('data-tema', 'escuro'); } catch (e) { /* ignora */ }
+  const fimDaPagina = () => '<footer class="g-fim"><button type="button" class="g-switch" role="switch" aria-checked="' + (temaEscuro() ? 'true' : 'false') + '" aria-label="Modo noturno" data-acao="tema"><span class="g-switch-bola"></span></button><span>Modo noturno</span></footer>';
+
+
+
+  /* ------------------------------------------------ Masterlist: lista de POBs por CEG; cada POB abre numa página própria, igual à master list de hoje */
+  IC.masterlist = '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M9 10v10"/>';
+  const semAcento = (t) => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const pl = (n, um, varios) => n + ' ' + (n === 1 ? um : varios);
+  const dinheiro = (n) => 'R$ ' + n.toFixed(2).replace('.', ',');
+  const STATUS_ML = ['Pago', 'Comprado', 'Enviado para seller', 'Chegou na seller', 'Enviado para warehouse', 'Chegou na warehouse', 'Pronto para envio Brasil', 'Cobrando frete inter', 'Cobrando taxa', 'Enviado Brasil', 'Chegou na GOM', 'Liberado envio nacional', 'Aguardando pagamento frete nacional', 'Frete nacional pago', 'Finalizado - Enviado Joiner'];   /* o caminho do item; começa em Pago */
+  const ML = [];   /* versão real: as vagas entram depois do login (carregarDoBanco) */
+  const pessoaDe = (v) => v.handle ? v.handle + ' ' + v.nome : '';
+  const achaPessoa = (v, busca) => !busca || semAcento(v.handle + ' ' + v.nome).includes(busca);
+  const estadoDoSet = (vs) => { const t = new Set(vs.map((v) => v.sit)); if (t.size === 1 && t.has('Cancelada')) return 'Cancelado'; if (t.size === 1 && t.has('Paga')) return 'Pago'; return ['Liberada', 'Paga', 'Em atraso'].some((x) => t.has(x)) ? 'Liberado' : 'Rascunho'; };
+  const editavelEnvio = (v) => v.sit === 'Paga';   /* o status só anda depois que o pagamento foi confirmado */
+  const podeStatus = () => false;   /* versão real, etapa 1: só leitura */
+  const quemMexe = () => (PERSONAS[S.sessao] || {}).nome || 'Equipe';
+  const SETA_ML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
+
+  function baixarCsv(arquivo, cab, linhas) {
+    const csv = [cab].concat(linhas).map((r) => r.map((c) => '"' + String(c === undefined || c === null ? '' : c).replace(/"/g, '""') + '"').join(';')).join('\r\n');
+    try {
+      const url = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' }));
+      const a = document.createElement('a'); a.href = url; a.download = arquivo; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch (e) { /* sem download neste ambiente: fica só o aviso */ }
+  }
+
+  /* ---- Masterlist: um campo só de Status, números que filtram e POBs em sanfona ---- */
+  const ESTADOS_ML = ['Livre', 'Preenchida', 'Pagamento liberado', 'Em atraso', 'Paga', 'Cancelada'];
+  const estadoDe = (v) => v.sit === 'Liberada' ? 'Pagamento liberado' : v.sit;
+  const CLASSE_ESTADO = { 'Livre': '', 'Preenchida': 'violeta', 'Pagamento liberado': 'warn', 'Em atraso': 'bad', 'Paga': 'ok', 'Cancelada': '' };
+  const ROTULO_ESTADO = { 'Livre': ['livre', 'livres'], 'Preenchida': ['preenchida', 'preenchidas'], 'Pagamento liberado': ['com pagamento liberado', 'com pagamento liberado'], 'Em atraso': ['em atraso', 'em atraso'], 'Paga': ['paga', 'pagas'], 'Cancelada': ['cancelada', 'canceladas'] };
+  const statusExibido = (v) => v.sit === 'Paga' ? v.envio : estadoDe(v);   /* o que aparece na coluna Status: uma coisa só por vaga */
+  const temItem = (v) => v.sit !== 'Paga' && v.envio && v.envio !== '—' && v.envio !== 'Pago';   /* vaga sem pagamento confirmado, mas com item já andando (vem da planilha) */
+  const milhar = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  const plm = (n, um, varios) => milhar(n) + ' ' + (n === 1 ? um : varios);
+  const contarML = (vs) => { const c = {}; vs.forEach((v) => { const e = estadoDe(v); c[e] = (c[e] || 0) + 1; }); return c; };
+  const chipEstado = (e, n) => '<span class="g-chip' + (CLASSE_ESTADO[e] ? ' ' + CLASSE_ESTADO[e] : '') + '">' + plm(n, ROTULO_ESTADO[e][0], ROTULO_ESTADO[e][1]) + '</span>';
+  const chipsDe = (c) => ESTADOS_ML.filter((e) => c[e]).map((e) => chipEstado(e, c[e])).join('');
+  const idClaim = (v) => (v.avulso ? 'A' : v.set) + '.' + v.membro;
+  const nomeMembro = (v) => v.membroNome || ('Membro ' + v.membro);
+
+  /* ---- POBs e vagas: índice refeito quando entra uma CEG importada ---- */
+  const ML_POBS = []; const pobsPorChave = new Map(); const vagasPorPob = new Map(); let proximoPob = 0;
+  function reconstruirPobsML() {
+    const antigos = new Map(ML_POBS.map((p) => [p.ceg + '\u0001' + p.pob, p.id]));
+    ML_POBS.length = 0; pobsPorChave.clear(); vagasPorPob.clear();
+    ML.forEach((v) => {
+      const k = v.ceg + '\u0001' + v.pob; let p = pobsPorChave.get(k);
+      if (!p) { p = { id: antigos.get(k) || ('p' + (proximoPob++)), ceg: v.ceg, pob: v.pob }; pobsPorChave.set(k, p); ML_POBS.push(p); vagasPorPob.set(p.id, []); }
+      vagasPorPob.get(p.id).push(v);
+    });
+  }
+  const pobDe = (v) => pobsPorChave.get(v.ceg + '\u0001' + v.pob);
+  reconstruirPobsML();
+
+  /* ---- filtros: busca, CEG, POB e um Status só ---- */
+  const filtroML = { busca: '', ceg: '', pob: '', status: '' };   /* "Livre", "Pagamento liberado", "Em atraso", "Paga" (todas) ou "=Chegou na GOM" (um passo) */
+  const abertosML = new Set();    /* POBs abertas na sanfona */
+  const fechadosAuto = new Set(); /* POBs que a pessoa fechou enquanto um filtro as abria sozinho */
+  const refiltrar = () => { fechadosAuto.clear(); desenharML(); };
+  const mlpSel = new Set();       /* vagas marcadas para trocar o status de uma vez */
+  const casaStatusML = (v, f) => !f || (f === 'Paga' ? v.sit === 'Paga' : (f.charAt(0) === '=' ? (v.sit === 'Paga' && v.envio === f.slice(1)) : estadoDe(v) === f));
+  const baseML = () => { const b = semAcento(filtroML.busca); return ML.filter((v) => achaPessoa(v, b) && (!filtroML.ceg || v.ceg === filtroML.ceg) && (!filtroML.pob || v.pob === filtroML.pob)); };
+  const vagasML = () => baseML().filter((v) => casaStatusML(v, filtroML.status));
+  const opcoesML = (sel, valores, todos) => { sel.innerHTML = '<option value="">' + todos + '</option>' + valores.map((v) => '<option>' + esc(v) + '</option>').join(''); };
+  const pobsDaCegML = () => [...new Set(ML.filter((v) => !filtroML.ceg || v.ceg === filtroML.ceg).map((v) => v.pob))];
+  function opcoesStatusML() {
+    const o = (v, t) => '<option value="' + esc(v) + '">' + esc(t) + '</option>';
+    return '<option value="">Todos os status</option>' +
+      '<optgroup label="Antes de pagar">' + o('Livre', 'Livre') + o('Preenchida', 'Preenchida') + o('Pagamento liberado', 'Pagamento liberado') + o('Em atraso', 'Em atraso') + '</optgroup>' +
+      '<optgroup label="Depois de pagar">' + o('Paga', 'Todas as pagas') + STATUS_ML.map((s) => o('=' + s, s)).join('') + '</optgroup>' +
+      '<optgroup label="Outros">' + o('Cancelada', 'Cancelada') + '</optgroup>';
+  }
+  function sincronizarCamposML() {
+    opcoesML($('#ml-ceg'), [...new Set(ML.map((v) => v.ceg))], 'Todas as CEGs'); $('#ml-ceg').value = filtroML.ceg;
+    opcoesML($('#ml-pob'), pobsDaCegML(), 'Todas as POBs'); if (!pobsDaCegML().includes(filtroML.pob)) filtroML.pob = ''; $('#ml-pob').value = filtroML.pob;
+    $('#ml-status').innerHTML = opcoesStatusML(); $('#ml-status').value = filtroML.status;
+    $('#ml-busca').value = filtroML.busca;
+    $('#ml-novo').innerHTML = STATUS_ML.map((x) => '<option>' + esc(x) + '</option>').join('');
+  }
+
+  /* ---- a tabela de uma POB: vagas por set, uma coluna de Status ---- */
+  const uniforme = (vs, campo) => { const t = new Set(vs.map((v) => v[campo])); return t.size === 1 ? vs[0][campo] : null; };
+  function linhaVagaML(v, editor) {
+    const marca = editor && editavelEnvio(v) ? '<input type="checkbox" data-mlp-marca="' + v.id + '" aria-label="Marcar a vaga ' + idClaim(v) + '"' + (mlpSel.has(v.id) ? ' checked' : '') + ' class="mlp-check">' : '';
+    const vazio = '<span class="ml-meta">—</span>';
+    const joiner = v.handle ? '<strong>' + esc(v.handle) + '</strong>' + (v.nome ? '<span class="ml-meta">' + esc(v.nome) + '</span>' : '') : (v.nome ? '<span>' + esc(v.nome) + '</span><span class="ml-meta">sem @</span>' : vazio);
+    const numero = v.final ? 'final ' + esc(v.final) : vazio;
+    let status;
+    if (v.sit === 'Paga') {
+      status = editor
+        ? '<select class="mlp-sel" data-mlp-status="' + v.id + '" aria-label="Status da vaga ' + idClaim(v) + '">' + STATUS_ML.map((x) => '<option' + (x === v.envio ? ' selected' : '') + '>' + x + '</option>').join('') + '</select>'
+        : '<span>' + esc(v.envio) + '</span>';
+    } else {
+      const e = estadoDe(v);
+      status = '<span class="g-chip' + (CLASSE_ESTADO[e] ? ' ' + CLASSE_ESTADO[e] : '') + '">' + e + '</span>' + (temItem(v) ? '<span class="ml-meta">item: ' + esc(v.envio) + '</span>' : '');
+    }
+    return '<div role="row" tabindex="0" class="mlp-linha" data-mlp-row data-id="' + v.id + '"><div role="cell">' + marca + '</div><div role="cell"><strong>' + idClaim(v) + '</strong></div><div role="cell">' + esc(nomeMembro(v)) + '</div>' +
+      '<div role="cell" class="ml-joiner">' + joiner + '</div><div role="cell">' + numero + '</div><div role="cell">' + (v.valor ? dinheiro(v.valor) : vazio) + '</div><div role="cell">' + esc(v.prazo) + '</div><div role="cell" class="ml-stat">' + status + '</div></div>';
+  }
+  function tabelaPobML(id, dos) {
+    const editor = podeStatus(); const todas = vagasPorPob.get(id) || [];
+    const cab = '<div role="row" class="mlp-linha mlp-cab"><div role="columnheader"></div>' + ['Claim', 'Membro', 'Joiner', 'Número', 'Valor', 'Prazo', 'Status'].map((c) => '<div role="columnheader">' + c + '</div>').join('') + '</div>';
+    const chaves = []; const grupos = new Map();
+    dos.forEach((v) => { const k = v.avulso ? 'A' : String(v.set); if (!grupos.has(k)) { grupos.set(k, []); chaves.push(k); } grupos.get(k).push(v); });
+    const corpo = chaves.map((k) => {
+      const mostradas = grupos.get(k); const doSet = todas.filter((v) => (v.avulso ? 'A' : String(v.set)) === k); const marcaveis = mostradas.filter(editavelEnvio);
+      const sel = editor && marcaveis.length ? '<input type="checkbox" data-mlp-marca-set="' + k + '" data-pob="' + id + '" aria-label="Marcar todas as vagas do ' + (k === 'A' ? 'grupo de avulsos' : 'Set ' + k) + '"' + (marcaveis.every((v) => mlpSel.has(v.id)) ? ' checked' : '') + ' class="mlp-check">' : '';
+      const pz = uniforme(doSet, 'prazo'); const vl = uniforme(doSet, 'valor');
+      const partes = [k === 'A' ? 'vagas avulsas' : estadoDoSet(doSet), pz ? 'prazo ' + pz : 'prazos variados', vl === null ? 'valores variados' : (vl ? dinheiro(vl) + ' por vaga' : 'sem valor'), mostradas.length === doSet.length ? plm(doSet.length, 'vaga', 'vagas') : mostradas.length + ' de ' + plm(doSet.length, 'vaga', 'vagas')];
+      return '<div role="row" class="mlp-set">' + sel + '<strong>' + (k === 'A' ? 'Avulsos' : 'Set ' + k) + '</strong><span class="ml-meta">' + partes.join(' · ') + '</span><span class="ml-chips">' + chipsDe(contarML(mostradas)) + '</span></div>' + mostradas.map((v) => linhaVagaML(v, editor)).join('');
+    }).join('');
+    return '<div class="ml-rolagem"><div role="table" aria-label="Vagas de ' + esc(pobsPorId(id).pob) + '" class="ml-tabela">' + cab + corpo + '</div></div>';
+  }
+  const pobsPorId = (id) => ML_POBS.find((x) => x.id === id);
+
+  /* ---- a lista: CEGs, e dentro de cada uma as POBs em sanfona ---- */
+  function desenharResumoML(base, dica) {
+    const c = contarML(base);
+    $('#ml-resumo').innerHTML = '<span class="g-chip">' + plm(base.length, 'vaga', 'vagas') + '</span>' +
+      ESTADOS_ML.filter((e) => c[e] || filtroML.status === e).map((e) => '<button type="button" class="g-chip ml-fch' + (CLASSE_ESTADO[e] ? ' ' + CLASSE_ESTADO[e] : '') + '" data-acao="ml-chip" data-estado="' + esc(e) + '" aria-pressed="' + (filtroML.status === e ? 'true' : 'false') + '">' + plm(c[e] || 0, ROTULO_ESTADO[e][0], ROTULO_ESTADO[e][1]) + '</button>').join('') +
+      (base.length ? '<span class="ml-meta ml-dica">' + esc(dica || 'Clique num número para ver só essas vagas.') + '</span>' : '');
+  }
+  function desenharML() {
+    if (!$('#ml-lista')) return [];
+    const base = baseML(); const vs = base.filter((v) => casaStatusML(v, filtroML.status));
+    const filtrando = semAcento(filtroML.busca).trim() !== '' || !!filtroML.status || !!filtroML.pob;
+    desenharResumoML(base, filtrando && vs.length > 250 ? 'Muitas vagas: abra a POB que quer ver, ou use Abrir todas.' : '');
+    const porCeg = new Map();
+    vs.forEach((v) => { const g = porCeg.get(v.ceg) || porCeg.set(v.ceg, new Map()).get(v.ceg); const id = pobDe(v).id; (g.get(id) || g.set(id, []).get(id)).push(v); });
+    const abrirTodos = filtrando && vs.length <= 250;   /* com um filtro que acha poucas vagas, as POBs delas já abrem sozinhas */
+    $('#ml-lista').innerHTML = [...porCeg.keys()].map((ceg) => {
+      const pobs = porCeg.get(ceg); const total = [...pobs.values()].reduce((a, d) => a + d.length, 0);
+      return '<section class="ml-grupo" data-ml-ceg="' + esc(ceg) + '" aria-label="' + esc(ceg) + '"><h2 class="ml-ceg">' + esc(ceg) + '<span class="ml-meta">' + plm(pobs.size, 'POB', 'POBs') + ' · ' + plm(total, 'vaga', 'vagas') + '</span>' + (pobs.size > 1 ? '<span class="ml-ferr"><button type="button" class="ml-lnk" data-acao="ml-abrir-todos" data-ceg="' + esc(ceg) + '">Abrir todas</button><button type="button" class="ml-lnk" data-acao="ml-fechar-todos" data-ceg="' + esc(ceg) + '">Fechar todas</button></span>' : '') + '</h2>' +
+        [...pobs.keys()].map((id) => {
+          const p = pobsPorId(id); const dos = pobs.get(id); const aberto = abertosML.has(id) || (abrirTodos && !fechadosAuto.has(id)); const todas = vagasPorPob.get(id) || [];
+          const sets = new Set(dos.filter((v) => !v.avulso).map((v) => v.set)).size; const av = dos.filter((v) => v.avulso).length;
+          const meta = [sets ? plm(sets, 'set', 'sets') : '', av ? plm(av, 'avulsa', 'avulsas') : '', dos.length === todas.length ? plm(dos.length, 'vaga', 'vagas') : dos.length + ' de ' + plm(todas.length, 'vaga', 'vagas')].filter(Boolean).join(' · ');
+          return '<div class="ml-acc" data-ml-acc="' + id + '"><button type="button" class="ml-pob" data-acao="ml-abrir" data-id="' + id + '" aria-expanded="' + (aberto ? 'true' : 'false') + '">' + SETA_ML + '<span class="ml-nome"><strong>' + esc(p.pob) + '</strong><span class="ml-meta">' + meta + '</span></span><span class="ml-chips">' + chipsDe(contarML(dos)) + '</span></button>' +
+            (aberto ? '<div class="ml-corpo">' + tabelaPobML(id, dos) + '</div>' : '') + '</div>';
+        }).join('') + '</section>';
+    }).join('');
+    $('#ml-vazio').hidden = vs.length > 0; $('#ml-lista').hidden = vs.length === 0;
+    $('#ml-selo').textContent = 'Dados reais do banco (somente leitura)';
+    [...mlpSel].forEach((id) => { if (!vs.some((v) => v.id === id)) mlpSel.delete(id); });
+    const barra = $('#ml-barra'); barra.hidden = !(podeStatus() && mlpSel.size > 0); $('#ml-qtd').textContent = plm(mlpSel.size, 'vaga marcada', 'vagas marcadas');
+    return vs;
+  }
+  function alternarPobML(id) {
+    const btn0 = $('[data-acao="ml-abrir"][data-id="' + id + '"]'); const estavaAberto = !!btn0 && btn0.getAttribute('aria-expanded') === 'true';
+    if (estavaAberto) { abertosML.delete(id); fechadosAuto.add(id); } else { abertosML.add(id); fechadosAuto.delete(id); }
+    const y = window.scrollY; desenharML(); window.scrollTo(0, y);
+    const b = $('[data-acao="ml-abrir"][data-id="' + id + '"]'); if (b) b.focus({ preventScroll: true });
+  }
+  function abrirFecharTodosML(ceg, abrir) {
+    const ids = [...new Set(vagasML().filter((v) => v.ceg === ceg).map((v) => pobDe(v).id))];
+    ids.forEach((id) => { if (abrir) { abertosML.add(id); fechadosAuto.delete(id); } else { abertosML.delete(id); fechadosAuto.add(id); } });
+    const y = window.scrollY; desenharML(); window.scrollTo(0, y);
+  }
+  function ligarMasterlist(foco) {
+    if (!$('#ml-lista')) return;
+    if (foco && pobsPorId(foco)) { abertosML.add(foco); const p = pobsPorId(foco); filtroML.ceg = p.ceg; if (filtroML.pob && filtroML.pob !== p.pob) filtroML.pob = ''; }
+    sincronizarCamposML(); desenharML();
+    $('#ml-busca').addEventListener('input', () => { filtroML.busca = $('#ml-busca').value; refiltrar(); });
+    $('#ml-ceg').addEventListener('change', () => { filtroML.ceg = $('#ml-ceg').value; filtroML.pob = ''; sincronizarCamposML(); refiltrar(); });
+    $('#ml-pob').addEventListener('change', () => { filtroML.pob = $('#ml-pob').value; if (filtroML.pob) { const v = ML.find((x) => x.pob === filtroML.pob && (!filtroML.ceg || x.ceg === filtroML.ceg)); if (v && pobDe(v)) abertosML.add(pobDe(v).id); } refiltrar(); });
+    $('#ml-status').addEventListener('change', () => { filtroML.status = $('#ml-status').value; refiltrar(); });
+    $('#ml-lista').addEventListener('change', (e) => {
+      const t = e.target;
+      if (t.matches('[data-mlp-status]')) {
+        const v = ML.find((x) => x.id === t.getAttribute('data-mlp-status'));
+        if (v && mudarStatusVaga(v.id, t.value)) { toast('Status da vaga ' + idClaim(v) + (v.handle ? ' (' + v.handle + ')' : '') + ': ' + t.value + ' (demonstração).'); desenharML(); }
+      } else if (t.matches('[data-mlp-marca]')) {
+        const id = t.getAttribute('data-mlp-marca'); if (t.checked) mlpSel.add(id); else mlpSel.delete(id); desenharML();
+      } else if (t.matches('[data-mlp-marca-set]')) {
+        const k = t.getAttribute('data-mlp-marca-set'); const pid = t.getAttribute('data-pob');
+        vagasML().filter((v) => pobDe(v).id === pid && (v.avulso ? 'A' : String(v.set)) === k && editavelEnvio(v)).forEach((v) => { if (t.checked) mlpSel.add(v.id); else mlpSel.delete(v.id); });
+        desenharML();
+      }
+    });
+    if (foco && pobsPorId(foco)) setTimeout(() => { const el = $('[data-ml-acc="' + foco + '"]'); if (el) el.scrollIntoView({ block: 'start' }); }, 120);
+  }
+  function limparML() { Object.assign(filtroML, { busca: '', ceg: '', pob: '', status: '' }); sincronizarCamposML(); refiltrar(); }
+  function baixarPlanilhaML() {
+    const vs = vagasML();
+    baixarCsv('masterlist.csv', ['CEG', 'POB', 'Set', 'Claim', 'Membro', 'Nome', '@', 'Final do número', 'Valor', 'Prazo', 'Status'], vs.map((v) => [v.ceg, v.pob, v.avulso ? 'Avulsos' : 'Set ' + v.set, idClaim(v), nomeMembro(v), v.nome, v.handle, v.final, v.valor ? dinheiro(v.valor) : '', v.prazo, statusExibido(v)]));
+    toast('Planilha da Masterlist gerada com ' + plm(vs.length, 'vaga', 'vagas') + (ML.some((v) => v.origem) ? '.' : ' (demonstração).'));
+  }
+
+  /* ---- histórico da vaga ---- */
+  function historicoDaVaga(v) {
+    if (v.origem === 'banco') {
+      const pago = v.pagoOrig === true ? 'paga' : 'não paga';
+      const ev = [['Vaga da ' + v.ceg + ' lida do banco (linha ' + v.linha + ' da planilha original)', 'Banco', CARGA.quando ? 'hoje, ' + hhmm(CARGA.quando) : 'agora'], ['Na carga inicial da planilha: ' + pago + ', status "' + (v.statusOrig || 'em branco') + '"', 'Importação', '21/11/2026']];
+      if (v.sit === 'Em atraso') ev.push(['Prazo passou em ' + v.prazo + ': pagamento ainda não confirmado', 'Sistema', 'calculado agora']);
+      return ev;
+    }
+    if (v.origem === 'planilha') {
+      const pago = v.pagoOrig === true ? 'paga' : (v.pagoOrig === false ? 'não paga' : 'pagamento em branco');
+      const ev = [['Importada da planilha "' + v.ceg + '" (linha ' + v.linha + ')', 'Importação', v.importadaEm || 'agora'], ['Na planilha: ' + pago + ', status "' + (v.statusOrig || 'em branco') + '"', 'Importação', v.importadaEm || 'agora']];
+      if (v.sit === 'Em atraso') ev.push(['Prazo passou em ' + v.prazo + ': pagamento ainda não confirmado', 'Sistema', 'calculado ao importar']);
+      return ev.concat(v.extra);
+    }
+    const ev = [['Vaga criada em Set ' + v.set + ' de ' + v.pob + ' (rascunho)', 'Esther', '02/10 20:12']];
+    const anotou = () => ev.push([v.handle + ' anotada na vaga', 'Bruna', '02/10 21:40']);
+    const liberou = () => ev.push(['Set liberado para pagamento', 'Administradora', '03/10 10:02']);
+    if (v.sit === 'Preenchida') anotou();
+    if (v.sit === 'Liberada') { anotou(); liberou(); }
+    if (v.sit === 'Paga') { anotou(); liberou(); ev.push(['Pagamento confirmado pelo InfinitePay (NSU registrado)', 'Sistema', '05/10 14:31']); }
+    if (v.sit === 'Em atraso') { anotou(); liberou(); ev.push(['Prazo passou em ' + v.prazo + ': multa de R$ 1,00 por dia correndo', 'Sistema', 'todo dia']); }
+    if (v.sit === 'Cancelada') ev.push(['Set cancelado: a vaga não foi garantida e não conta como sobra', 'Administradora', '05/10 09:15']);
+    if (v.envio0 !== 'Pago' && v.envio0 !== '—') ev.push(['Status alterado para "' + v.envio0 + '"', 'Administradora', '08/10 09:30']);
+    return ev.concat(v.extra);
+  }
+  function abrirHistoricoVaga(id) {
+    const v = ML.find((x) => x.id === id); if (!v) return;
+    const podeEditar = temPerm(S.sessao, 'anotar_claims');
+    abrirModal('<h2>Histórico da vaga</h2>' +
+      '<p class="g-muted" style="margin:0">' + esc(v.pob) + ', ' + (v.avulso ? 'vaga avulsa' : 'Set ' + v.set) + ' · ' + esc(nomeMembro(v)) + ' (' + idClaim(v) + ')<br>' + esc(v.ceg) + (v.handle ? ' · ' + esc(v.handle) : '') + ' · Status: ' + esc(statusExibido(v)) + '</p>' +
+      '<ol class="g-hist">' + historicoDaVaga(v).map((e) => '<li><strong>' + esc(e[0]) + '</strong><span>' + esc(e[1]) + ' · ' + esc(e[2]) + '</span></li>').join('') + '</ol>' +
+      '<div class="g-acoes"><button type="button" class="g-btn" data-acao="fechar">Fechar</button>' + (podeEditar && !v.origem ? '<a class="g-btn primario" href="#/painel/sets/editar">Abrir em Sets e Claims</a>' : '') + '</div>');
+  }
+  function mudarStatusVaga(id, novo) {
+    const v = ML.find((x) => x.id === id); if (!v || !editavelEnvio(v) || !podeStatus() || v.envio === novo) return false;
+    v.extra.push(['Status alterado de "' + v.envio + '" para "' + novo + '"', quemMexe(), 'agora' + (v.origem ? '' : ' (demonstração)')]); v.envio = novo; return true;
+  }
+  function aplicarLoteML() {
+    const novo = $('#ml-novo').value; let n = 0; const total = mlpSel.size;
+    [...mlpSel].forEach((id) => { if (mudarStatusVaga(id, novo)) n++; });
+    mlpSel.clear(); desenharML();
+    toast(total === 0 ? 'Marque as vagas antes de aplicar um status.' : (n === 0 ? 'Nenhuma vaga mudou: todas já estavam com esse status.' : plm(n, 'vaga alterada', 'vagas alteradas') + ' para "' + novo + '"' + (ML.some((v) => v.origem) ? ' (só neste navegador).' : ' (demonstração).')));
+  }
+  /* uma CEG vinda da planilha entra na Masterlist só na memória deste navegador (some ao recarregar a página) */
+  function carregarCegNaMasterlist(vagas, nomeCeg) {
+    for (let i = ML.length - 1; i >= 0; i--) { if (ML[i].origem === 'planilha' && ML[i].ceg === nomeCeg) ML.splice(i, 1); }
+    vagas.forEach((v) => ML.push(v));
+    reconstruirPobsML(); mlpSel.clear(); abertosML.clear();
+    Object.assign(filtroML, { busca: '', ceg: nomeCeg, pob: '', status: '' });
+  }
+
+  /* ------------------------------------------------ Importar CEG: leitor da planilha (roda no navegador; nada é enviado nem gravado) */
+  /*IMP-INI*/
+  function csvParaLinhas(txt) {
+    txt = String(txt || '').replace(/^﻿/, '');
+    const amostra = txt.slice(0, 6000).split(/\r?\n/).slice(0, 14).join('\n');
+    const conta = (ch) => amostra.split(ch).length - 1;
+    const sep = conta(';') > conta(',') && conta(';') >= conta('\t') ? ';' : (conta('\t') > conta(',') ? '\t' : ',');
+    const linhas = []; let linha = []; let cel = ''; let aspas = false;
+    for (let i = 0; i < txt.length; i++) {
+      const c = txt[i];
+      if (aspas) { if (c === '"') { if (txt[i + 1] === '"') { cel += '"'; i++; } else aspas = false; } else cel += c; }
+      else if (c === '"' && cel === '') aspas = true;
+      else if (c === sep) { linha.push(cel); cel = ''; }
+      else if (c === '\n' || c === '\r') { if (c === '\r' && txt[i + 1] === '\n') i++; linha.push(cel); linhas.push(linha); linha = []; cel = ''; }
+      else cel += c;
+    }
+    if (cel !== '' || linha.length) { linha.push(cel); linhas.push(linha); }
+    return linhas;
+  }
+  const parseValorPlanilha = (s) => { const t = String(s || '').replace(/[^\d,.]/g, ''); if (!/\d/.test(t)) return 0; const n = t.indexOf(',') >= 0 ? parseFloat(t.replace(/\./g, '').replace(',', '.')) : parseFloat(t); return isFinite(n) ? n : 0; };
+  const RE_SET_PLANILHA = /^set\.?\s*(\d+)$/i;
+  const RE_FOTO_ITENS = /^foto itens?$/i;
+  /* lê a aba de uma CEG no formato da planilha de hoje: "set. N", linha "Membro", e as vagas (Membro, Joiner + @, Telefone, Valor, Prazo, Pagamento, Status, POB na coluna J) */
+  function lerPlanilhaCeg(linhas) {
+    const cel = (r, i) => (r[i] == null ? '' : String(r[i]).replace(/[ \t]+/g, ' ').replace(/\s+/g, ' ').trim());
+    const res = { ceg: '', linhas: linhas.length, vagas: [], secoes: [], pobs: [], avisos: [], pessoas: 0, tamPadrao: 0 };
+    const aviso = (tipo, linha, texto) => res.avisos.push({ tipo, linha, texto });
+    const topo = (linhas[0] || []).map((x, i) => cel(linhas[0], i)).filter(Boolean);
+    res.ceg = topo[0] || '';
+    let pob = ''; let secao = -1; let setN = 0; let modo = 'set'; let ultimoSet = 0;
+    const novaSecao = (linha) => { secao++; res.secoes.push({ pob: '', linha }); };
+    const nomeiaSecao = () => { if (secao >= 0 && !res.secoes[secao].pob) res.secoes[secao].pob = pob; };
+    linhas.forEach((r, i) => {
+      if (i === 0 || !r.some((x) => String(x == null ? '' : x).trim())) return;
+      const b = cel(r, 1); const c = cel(r, 2); const d = cel(r, 3); const e = cel(r, 4); const f = cel(r, 5); const g = cel(r, 6); const h = cel(r, 7); const j = cel(r, 9);
+      const soTitulo = !(c || d || e || f || g || h);
+      const m = RE_SET_PLANILHA.exec(b);
+      if (m && soTitulo) {
+        const n = parseInt(m[1], 10);
+        if (secao < 0 || (n === 1 && ultimoSet !== 1)) novaSecao(i + 1);
+        setN = n; modo = 'set'; ultimoSet = n; return;
+      }
+      if (soTitulo && /^(pedidos )?avulsos?$/i.test(b)) { modo = 'avulso'; setN = 0; if (secao < 0) novaSecao(i + 1); return; }
+      if (b.toLowerCase() === 'membro') { if (j && !RE_FOTO_ITENS.test(j)) { pob = j; nomeiaSecao(); } return; }
+      if (!b) { aviso('sem-membro', i + 1, 'Linha com dados, mas sem o nome do membro: ficou de fora.'); return; }
+      if (j && !RE_FOTO_ITENS.test(j)) { pob = j; nomeiaSecao(); }
+      if (secao < 0) { aviso('fora-de-set', i + 1, 'Linha antes do primeiro set: ficou de fora.'); return; }
+      nomeiaSecao();
+      res.vagas.push({ linha: i + 1, secao, pob, set: modo === 'avulso' ? 0 : setN, modo, membroNome: b, celula: c, final: d, valor: e, prazo: f, pago: g, status: h });
+    });
+    /* o mesmo nome de POB em duas partes da planilha vira "NOME (2)", para não misturar os sets */
+    const partes = {};
+    res.vagas.forEach((v) => { const k = v.pob || 'Sem POB'; partes[k] = partes[k] || []; if (!partes[k].includes(v.secao)) partes[k].push(v.secao); });
+    Object.keys(partes).forEach((k) => { if (partes[k].length > 1) aviso('pob-repetido', 0, k + ' aparece em ' + partes[k].length + ' partes da planilha. Entrou como "' + k + '" e "' + k + ' (2)"' + (partes[k].length > 2 ? ' etc.' : '') + '.'); });
+    res.vagas.forEach((v) => {
+      const k = v.pob || 'Sem POB'; const idx = partes[k].indexOf(v.secao); v.pobNome = idx === 0 ? k : k + ' (' + (idx + 1) + ')';
+      const hs = v.celula.match(/@[^\s,;]+/g) || [];
+      v.handle = hs.length ? hs[0].replace(/[.)\]]+$/, '') : '';
+      v.nome = v.celula.replace(/@[^\s,;]+/g, ' ').replace(/\s+/g, ' ').trim();
+      if (hs.length > 1) aviso('varios-arrobas', v.linha, 'Mais de um @ na mesma vaga: ficou o primeiro.');
+      if (!v.handle && v.nome) aviso('sem-arroba', v.linha, 'Tem nome, mas não tem @: a vaga entrou sem @.');
+      v.finalNum = /^\d{4}$/.test(v.final) ? v.final : v.final.replace(/\D/g, '').slice(-4);
+      v.valorNum = parseValorPlanilha(v.valor);
+      v.pagoBool = /^(true|verdadeiro|sim|x|1)$/i.test(v.pago) ? true : (/^(false|falso|nao|não|0)$/i.test(v.pago) ? false : null);
+      v.prazoOk = /^\d{1,2}\/\d{1,2}$/.test(v.prazo) ? v.prazo : '';
+    });
+    /* POBs e sets, na ordem da planilha */
+    const mapa = new Map();
+    res.vagas.forEach((v) => {
+      let p = mapa.get(v.pobNome); if (!p) { p = { nome: v.pobNome, secao: v.secao, sets: new Map() }; mapa.set(v.pobNome, p); }
+      const ks = v.modo === 'avulso' ? 'A' : String(v.set);
+      let s = p.sets.get(ks); if (!s) { s = { set: v.modo === 'avulso' ? 0 : v.set, avulso: v.modo === 'avulso', vagas: [] }; p.sets.set(ks, s); }
+      s.vagas.push(v); v.membro = s.vagas.length; v.avulso = s.avulso; v.setNum = s.set;
+    });
+    res.pobs = [...mapa.values()].map((p) => ({ nome: p.nome, secao: p.secao, sets: [...p.sets.values()] }));
+    const tams = {}; res.pobs.forEach((p) => p.sets.forEach((s) => { if (!s.avulso) tams[s.vagas.length] = (tams[s.vagas.length] || 0) + 1; }));
+    res.tamPadrao = Number(Object.keys(tams).sort((x, y) => tams[y] - tams[x])[0]) || 0;
+    res.pobs.forEach((p) => p.sets.forEach((s) => { if (!s.avulso && res.tamPadrao && s.vagas.length !== res.tamPadrao) aviso('set-fora-do-padrao', s.vagas[0].linha, p.nome + ', set ' + s.set + ': ' + s.vagas.length + ' vagas (o normal é ' + res.tamPadrao + ').'); }));
+    res.vagas.forEach((v) => {
+      if (v.pagoBool === true && !v.handle && !v.nome) aviso('paga-sem-dono', v.linha, 'Vaga marcada como paga, mas sem nome nem @.');
+      if (v.pagoBool !== true && !v.handle && !v.nome && v.status) aviso('livre-com-item', v.linha, 'Vaga sem dono, mas com status de item ("' + v.status + '").');
+      if (v.pagoBool === null) aviso('pagamento-vazio', v.linha, 'A coluna Pagamento está vazia: ficou como não paga.');
+      if (!v.valorNum) aviso('valor-invalido', v.linha, 'Valor vazio ou ilegível ("' + v.valor + '").');
+      if (!v.prazoOk) aviso('prazo-vazio', v.linha, 'Prazo vazio ou ilegível.');
+      if (v.handle && !v.finalNum) aviso('sem-final', v.linha, 'Vaga com @ e sem o final do telefone.');
+    });
+    res.pessoas = new Set(res.vagas.filter((v) => v.handle).map((v) => v.handle.toLowerCase())).size;
+    res.statusPlanilha = {};
+    res.vagas.forEach((v) => { const k = v.status || ''; const o = (res.statusPlanilha[k] = res.statusPlanilha[k] || { n: 0, pagas: 0 }); o.n++; if (v.pagoBool === true) o.pagas++; });
+    return res;
+  }
+  /* status da planilha -> status do site (o que não casa fica para a pessoa escolher na prévia) */
+  const MAPA_STATUS_PADRAO = { 'finalizado': 'Finalizado - Enviado Joiner', 'enviado joiner': 'Finalizado - Enviado Joiner', 'enviado nacional': 'Finalizado - Enviado Joiner', 'pronto para envio nacional': 'Liberado envio nacional', 'liberado para envio nacional': 'Liberado envio nacional' };   /* só variações do mesmo nome; o resto casa pelo nome igual ou fica para a pessoa escolher */
+  function statusPadraoDoSite(raw) {
+    const k = semAcento(raw).replace(/\s+/g, ' ').trim(); if (!k) return '';
+    const igual = STATUS_ML.find((x) => semAcento(x) === k); if (igual) return igual;
+    return MAPA_STATUS_PADRAO[k] || '';
+  }
+  /* vira as linhas da Masterlist: sit (Livre, Liberada, Em atraso, Paga) é calculada pela planilha, nunca "adivinhada" */
+  function montarVagasML(res, opc) {
+    const hoje = opc.hoje || new Date(); const mapa = opc.mapa || {}; const ceg = opc.ceg || res.ceg || 'CEG importada';
+    const hm = /^(\d{1,2}):(\d{2})$/.exec(String(opc.hora || '23:59').trim()) || [0, 23, 59]; const hh = Math.min(23, +hm[1]); const mm = Math.min(59, +hm[2]);
+    const passou = (dm) => { const m = /^(\d{1,2})\/(\d{1,2})$/.exec(dm || ''); if (!m) return false; const ano = hoje.getFullYear(); let d = new Date(ano, +m[2] - 1, +m[1], hh, mm); if (d - hoje > 120 * 864e5) d = new Date(ano - 1, +m[2] - 1, +m[1], hh, mm); return d < hoje; };
+    const pad = (x) => String(x).padStart(2, '0'); const agora = pad(hoje.getDate()) + '/' + pad(hoje.getMonth() + 1) + ' ' + pad(hoje.getHours()) + ':' + pad(hoje.getMinutes());
+    const out = []; let n = 0;
+    res.pobs.forEach((p) => p.sets.forEach((s) => s.vagas.forEach((v) => {
+      const dono = !!(v.handle || v.nome);
+      const sit = v.pagoBool === true ? 'Paga' : (!dono ? 'Livre' : (passou(v.prazoOk) ? 'Em atraso' : 'Liberada'));
+      let envio = Object.prototype.hasOwnProperty.call(mapa, v.status || '') ? mapa[v.status || ''] : statusPadraoDoSite(v.status);
+      if (!envio) envio = sit === 'Paga' ? 'Pago' : '—';
+      out.push({ id: 'i' + (n++), ceg, pob: p.nome, set: s.set, avulso: s.avulso, membro: v.membro, membroNome: v.membroNome, handle: v.handle, nome: v.nome, final: v.finalNum, valor: v.valorNum, prazo: v.prazoOk || '—', sit, envio, envio0: envio, extra: [], origem: 'planilha', linha: v.linha, statusOrig: v.status, pagoOrig: v.pagoBool, importadaEm: agora, multa: String(opc.multa || '').trim() });
+    })));
+    return out;
+  }
+  /*IMP-FIM*/
+
+  /* ---- tela Importar CEGs: escolhe o arquivo, mostra a prévia e carrega na Masterlist (só neste navegador) ---- */
+  const IMP = { res: null, mapa: {}, arquivo: '' };
+  const ROTULO_AVISO = {
+    'pob-repetido': 'POB que aparece mais de uma vez', 'set-fora-do-padrao': 'Sets com número de vagas diferente do normal', 'sem-arroba': 'Vaga com nome, mas sem @',
+    'paga-sem-dono': 'Vaga paga, sem nome nem @', 'livre-com-item': 'Vaga sem dono, mas com status de item', 'pagamento-vazio': 'Coluna Pagamento em branco', 'valor-invalido': 'Valor vazio ou ilegível',
+    'prazo-vazio': 'Prazo vazio ou ilegível', 'sem-final': 'Vaga com @ e sem o final do telefone', 'varios-arrobas': 'Mais de um @ na mesma vaga', 'sem-membro': 'Linha sem o nome do membro', 'fora-de-set': 'Linha antes do primeiro set'
+  };
+  const chipImp = (t, cls) => '<span class="g-chip' + (cls ? ' ' + cls : '') + '">' + t + '</span>';
+  const opcoesStatusSite = (atual) => '<option value="">Escolher…</option>' + STATUS_ML.map((s) => '<option' + (s === atual ? ' selected' : '') + '>' + esc(s) + '</option>').join('');
+  const opcoesImp = () => ({ ceg: (($('#imp-nome') || {}).value || '').trim() || IMP.res.ceg || 'CEG importada', mapa: IMP.mapa, hora: ($('#imp-hora') || {}).value, multa: ($('#imp-multa') || {}).value, hoje: new Date() });
+  const statusSemEscolha = () => Object.keys(IMP.res.statusPlanilha).filter((k) => k !== '' && !IMP.mapa[k]);
+  function desenharPreviaImp() {
+    const alvo = $('#imp-previa'); if (!alvo) return;
+    if (!IMP.res) { alvo.innerHTML = ''; return; }
+    const r = IMP.res; const vagas = montarVagasML(r, opcoesImp());
+    const c = {}; vagas.forEach((v) => { c[v.sit] = (c[v.sit] || 0) + 1; });
+    const nSets = r.pobs.reduce((a, p) => a + p.sets.filter((s) => !s.avulso).length, 0); const nAv = r.vagas.filter((v) => v.avulso).length;
+    const chips = chipImp(plm(r.pobs.length, 'POB', 'POBs')) + chipImp(plm(nSets, 'set', 'sets')) + chipImp(plm(r.vagas.length, 'vaga', 'vagas')) + (nAv ? chipImp(plm(nAv, 'avulsa', 'avulsas')) : '') + chipImp(plm(r.pessoas, 'pessoa', 'pessoas')) +
+      chipImp(plm(c.Paga || 0, 'paga', 'pagas'), 'ok') + (c.Liberada ? chipImp(plm(c.Liberada, 'com pagamento liberado', 'com pagamento liberado'), 'warn') : '') + (c['Em atraso'] ? chipImp(c['Em atraso'] + ' em atraso', 'bad') : '') + (c.Livre ? chipImp(plm(c.Livre, 'livre', 'livres')) : '');
+    const brutos = Object.keys(r.statusPlanilha).sort((a, b) => r.statusPlanilha[b].n - r.statusPlanilha[a].n);
+    const mapa = '<div role="table" aria-label="Status da planilha" class="imp-mapa"><div role="row" class="imp-lin imp-cab"><div role="columnheader">Na planilha</div><div role="columnheader">Vagas</div><div role="columnheader">No site</div></div>' +
+      brutos.map((k) => '<div role="row" class="imp-lin"><div role="cell"><strong>' + (k ? esc(k) : '(em branco)') + '</strong></div><div role="cell">' + milhar(r.statusPlanilha[k].n) + (r.statusPlanilha[k].pagas !== r.statusPlanilha[k].n ? '<span class="ml-meta"> · ' + milhar(r.statusPlanilha[k].pagas) + ' pagas</span>' : '') + '</div><div role="cell">' +
+        (k ? '<select class="imp-sel" data-imp-mapa="' + esc(k) + '" aria-label="Status do site para ' + esc(k) + '">' + opcoesStatusSite(IMP.mapa[k]) + '</select>' : '<span class="ml-meta">Pago, se estiver paga. Sem status, se não estiver.</span>') + '</div></div>').join('') + '</div>';
+    const porTipo = {}; r.avisos.forEach((a) => { (porTipo[a.tipo] = porTipo[a.tipo] || []).push(a); });
+    const avisos = Object.keys(porTipo).length ? Object.keys(porTipo).map((t) => '<details class="imp-aviso"><summary><span>' + esc(ROTULO_AVISO[t] || t) + '</span>' + chipImp(porTipo[t].length, 'warn') + '</summary><ul>' +
+      porTipo[t].slice(0, 8).map((a) => '<li>' + (a.linha ? 'Linha ' + a.linha + ': ' : '') + esc(a.texto) + '</li>').join('') + (porTipo[t].length > 8 ? '<li class="ml-meta">e mais ' + (porTipo[t].length - 8) + '. Todas estão na lista para baixar.</li>' : '') + '</ul></details>').join('') : '<p class="ml-meta">Nenhum aviso.</p>';
+    const amostra = vagas.slice(0, 8);
+    const tabela = '<div class="ml-rolagem imp-rolagem"><div role="table" aria-label="Prévia da importação" class="imp-amostra"><div role="row" class="imp-lin imp-cab"><div role="columnheader">Linha</div><div role="columnheader">POB e set</div><div role="columnheader">Membro</div><div role="columnheader">Joiner</div><div role="columnheader">Valor</div><div role="columnheader">Status no site</div></div>' +
+      amostra.map((v) => '<div role="row" class="imp-lin"><div role="cell">' + v.linha + '</div><div role="cell">' + esc(v.pob) + ', ' + (v.avulso ? 'avulsa' : 'set ' + v.set) + '</div><div role="cell">' + esc(nomeMembro(v)) + '</div><div role="cell">' + (v.handle ? '<strong>' + esc(v.handle) + '</strong>' : '<span class="ml-meta">—</span>') + '</div><div role="cell">' + (v.valor ? dinheiro(v.valor) : '—') + '</div><div role="cell"><span class="g-chip' + (CLASSE_ESTADO[estadoDe(v)] ? ' ' + CLASSE_ESTADO[estadoDe(v)] : '') + '">' + esc(statusExibido(v)) + '</span></div></div>').join('') + '</div></div>';
+    const faltam = statusSemEscolha();
+    alvo.innerHTML = '<div class="imp-previa"><h3 class="imp-h3">Prévia' + (IMP.arquivo ? '<span class="ml-meta"> · ' + esc(IMP.arquivo) + '</span>' : '') + '</h3><div class="ml-resumo">' + chips + '</div>' +
+      '<h4 class="imp-h4">Como os status da planilha viram status do site</h4>' + mapa +
+      '<p class="ml-meta">Só entra como paga a vaga marcada como paga na planilha. Quem não está paga entra como livre, com pagamento liberado ou em atraso, conforme o @ e o prazo.</p>' +
+      '<h4 class="imp-h4">Avisos da leitura (' + r.avisos.length + ')</h4><div class="imp-avisos">' + avisos + '</div>' +
+      '<h4 class="imp-h4">As primeiras vagas</h4>' + tabela +
+      '<div class="ml-btns"><button type="button" class="g-btn primario" data-acao="imp-carregar"' + (faltam.length ? ' disabled' : '') + '>Carregar na Masterlist para conferir</button>' + (r.avisos.length ? '<button type="button" class="g-btn" data-acao="imp-avisos">Baixar lista de avisos</button>' : '') + '</div>' +
+      '<p class="ml-meta" id="imp-nota">' + (faltam.length ? 'Escolha o status do site para: ' + faltam.map(esc).join(', ') + '.' : 'Carregar mostra a CEG na Masterlist só neste navegador. Nada é gravado: ao recarregar a página, ela some.') + '</p></div>';
+  }
+  async function lerArquivoImp(arquivo) {
+    const buf = await arquivo.arrayBuffer(); const u8 = new Uint8Array(buf.slice(0, 4));
+    if (u8[0] === 0x50 && u8[1] === 0x4b) throw new Error('Esse arquivo é do Excel (.xlsx). Por enquanto envie a aba da CEG como CSV: no Google Sheets, Arquivo, Baixar, Valores separados por vírgula (.csv).');
+    let txt = new TextDecoder('utf-8').decode(buf);
+    if (txt.indexOf('�') >= 0) { try { txt = new TextDecoder('windows-1252').decode(buf); } catch (e) { /* fica como está */ } }
+    return txt;
+  }
+  async function aoEscolherArquivoImp(arquivo) {
+    const estado = $('#imp-estado'); if (!arquivo) return;
+    if (arquivo.size > 25 * 1024 * 1024) { IMP.res = null; desenharPreviaImp(); estado.textContent = 'Arquivo grande demais (mais de 25 MB). Envie só a aba da CEG.'; return; }
+    estado.textContent = 'Lendo ' + arquivo.name + '…';
+    try {
+      const res = lerPlanilhaCeg(csvParaLinhas(await lerArquivoImp(arquivo)));
+      if (!res.vagas.length) { IMP.res = null; desenharPreviaImp(); estado.textContent = 'Não achei vagas nesse arquivo. Confira se é a aba da CEG, com "set. 1", "Membro" e as colunas de Joiner, Telefone, Valor, Prazo, Pagamento e Status.'; return; }
+      IMP.res = res; IMP.arquivo = arquivo.name; IMP.mapa = {};
+      Object.keys(res.statusPlanilha).forEach((k) => { if (k) IMP.mapa[k] = statusPadraoDoSite(k); });
+      if (!($('#imp-nome').value || '').trim()) $('#imp-nome').value = res.ceg || arquivo.name.replace(/\.[^.]+$/, '');
+      estado.textContent = 'Arquivo lido: ' + arquivo.name + '. Confira a prévia abaixo; nada foi enviado nem gravado.';
+      desenharPreviaImp();
+    } catch (e) { IMP.res = null; desenharPreviaImp(); estado.textContent = (e && e.message) || 'Não consegui ler esse arquivo.'; }
+  }
+  function ligarImportar() {
+    const arq = $('#imp-arquivo'); if (!arq) return;
+    if (IMP.res) { $('#imp-nome').value = $('#imp-nome').value || IMP.res.ceg; $('#imp-estado').textContent = 'Arquivo lido: ' + IMP.arquivo + '. Confira a prévia abaixo; nada foi enviado nem gravado.'; }
+    desenharPreviaImp();
+    arq.addEventListener('change', () => { aoEscolherArquivoImp(arq.files && arq.files[0]); arq.value = ''; });
+    ['#imp-hora', '#imp-multa', '#imp-nome'].forEach((id) => { $(id).addEventListener('input', () => { if (IMP.res) desenharPreviaImp(); }); });
+    $('#imp-previa').addEventListener('change', (e) => {
+      const t = e.target; if (!t.matches('[data-imp-mapa]')) return;
+      IMP.mapa[t.getAttribute('data-imp-mapa')] = t.value; desenharPreviaImp();
+    });
+  }
+  function carregarImp() {
+    if (!IMP.res) return;
+    if (statusSemEscolha().length) return toast('Escolha o status do site para os status que faltam.');
+    const o = opcoesImp();
+    if (ML.some((v) => !v.origem && v.ceg === o.ceg)) return toast('Já existe uma CEG de exemplo com o nome "' + o.ceg + '". Troque o nome da CEG.');
+    const vagas = montarVagasML(IMP.res, o); carregarCegNaMasterlist(vagas, o.ceg);
+    const primeiro = vagas.length ? pobDe(vagas[0]) : null; if (primeiro) abertosML.add(primeiro.id);
+    toast(plm(vagas.length, 'vaga carregada', 'vagas carregadas') + ' na Masterlist, só neste navegador.');
+    ir('/painel/masterlist');
+  }
+  function baixarAvisosImp() {
+    if (!IMP.res) return;
+    baixarCsv('avisos-importacao.csv', ['Aviso', 'Linha da planilha', 'Detalhe'], IMP.res.avisos.map((a) => [ROTULO_AVISO[a.tipo] || a.tipo, a.linha || '', a.texto]));
+    toast('Lista com ' + plm(IMP.res.avisos.length, 'aviso', 'avisos') + ' gerada.');
+  }
+  function baixarModeloImp() {
+    const membros = ['Jungwon', 'Heeseung', 'Jay', 'Jake', 'Sunghoon', 'Sunoo', 'Ni-ki'];
+    const linhas = [['', 'Exemplo de CEG'], [], ['', 'set. 1'], ['', 'Membro', 'Joiner + @', 'Telefone', 'Valor', 'Prazo', 'Pagamento', 'Status', '', 'Foto Itens']];
+    membros.forEach((m, i) => linhas.push(['', m, i < 5 ? 'Pessoa ' + 'ABCDE'[i] + ' @exemplo_0' + (i + 1) : '', i < 5 ? String(1000 + i * 111) : '', 'R$ 45,00', '20/12', i < 4 ? 'TRUE' : 'FALSE', i < 4 ? 'Chegou na Warehouse' : '', '', i === 0 ? 'NOME DA POB' : '']));
+    linhas.push([], ['', 'set. 2'], ['', 'Membro', 'Joiner + @', 'Telefone', 'Valor', 'Prazo', 'Pagamento', 'Status']);
+    membros.forEach((m, i) => linhas.push(['', m, i < 2 ? 'Pessoa ' + 'FG'[i] + ' @exemplo_1' + i : '', i < 2 ? String(2000 + i * 77) : '', 'R$ 45,00', '20/12', i < 2 ? 'TRUE' : 'FALSE', i < 2 ? 'Comprado' : '']));
+    const csv = linhas.map((r) => r.map((c) => /[",\n]/.test(c) ? '"' + String(c).replace(/"/g, '""') + '"' : c).join(',')).join('\r\n');
+    try { const url = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' })); const a = document.createElement('a'); a.href = url; a.download = 'modelo-planilha-ceg.csv'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000); } catch (e) { /* sem download neste ambiente */ }
+    toast('Modelo gerado: é só trocar os dados de exemplo pelos da sua CEG.');
+  }
+
+  /* ------------------------------------------------ Fotos Pobs: a escolha de CEG e POB começa no traço */
+  let fotoCeg = ''; let fotoPob = '';
+  function ligarFotos() {
+    const c = $('#f-ceg'); const p = $('#f-pob'); if (!c || !p) return;
+    const pintar = () => {
+      c.innerHTML = '<option value="">—</option>' + Object.keys(CEGS_POBS).map((n) => '<option>' + esc(n) + '</option>').join(''); c.value = fotoCeg;
+      if (!fotoCeg) { p.innerHTML = '<option value="">—</option>'; p.disabled = true; fotoPob = ''; }
+      else {
+        const lista = CEGS_POBS[fotoCeg] || []; p.disabled = false;
+        p.innerHTML = lista.length ? '<option value="">—</option>' + lista.map((n) => '<option>' + esc(n) + '</option>').join('') : '<option value="" disabled selected>Nenhuma POB nesta CEG</option>';
+        if (!lista.includes(fotoPob)) fotoPob = '';
+        p.value = fotoPob;
+      }
+      const ok = !!(fotoCeg && fotoPob);
+      $('#f-conteudo').hidden = !ok; $('#f-dica').hidden = ok;
+      if (ok) $('#f-titulo').textContent = 'Fotos da POB ' + fotoPob + ' · ' + fotoCeg;
+    };
+    c.addEventListener('change', () => { fotoCeg = c.value; fotoPob = ''; pintar(); });
+    p.addEventListener('change', () => { fotoPob = p.value; pintar(); });
+    pintar();
+  }
+
+
+
+  /* ------------------------------------------------ Envios nacionais: pedidos de envio dos joiners (abrir e fechar, cotação, pagamento, embalar, enviado) */
+  IC.envios = '<path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/>';
+  const ICONE_FOTO = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>';
+  const ENV_ABAS = ['cotacoes', 'pagamento', 'embalar', 'enviados'];
+  const ETAPA_DA_ABA = { cotacoes: 'cotacao', pagamento: 'pagamento', embalar: 'embalar', enviados: 'enviado' };
+  const ENV_VAZIO = { cotacoes: 'Nenhuma cotação pendente.', pagamento: 'Nenhum pedido aguardando pagamento.', embalar: 'Nada para embalar agora.', enviados: 'Nenhum envio ainda.' };
+  const ENV = { aberto: true, fecha: '2026-10-25T12:00', pedidos: [] };   /* a chave "abertos ou fechados" e a hora para fechar sozinho */
+  const vagasDe = (h, filtro) => ML.filter((v) => v.handle === h && (!filtro || filtro(v))).map((v) => v.id);
+  const ENDERECO = (nome, rua, bairro, cep) => ({ nome, rua, bairro, cep });
+  ENV.pedidos = [
+    { id: 'e1', handle: '@exemplo_20', etapa: 'cotacao', quando: '20/10, 21:05', vagas: vagasDe('@exemplo_20', (v) => v.membro <= 5), end: ENDERECO('Pessoa T', 'Rua das Flores, 120, ap. 31', 'Jardim Exemplo · Guarulhos/SP', '07010-000') },
+    { id: 'e2', handle: '@exemplo_21', etapa: 'pagamento', quando: '20/10, 18:10', cotadoEm: '20/10, 19:40', frete: 31.9, vagas: vagasDe('@exemplo_21'), end: ENDERECO('Pessoa U', 'Av. Exemplo, 455', 'Centro · Campinas/SP', '13010-000') },
+    { id: 'e3', handle: '@exemplo_22', etapa: 'embalar', quando: '19/10, 22:30', cotadoEm: '20/10, 09:15', pagoEm: '20/10, 20:15', frete: 24, vagas: vagasDe('@exemplo_22', (v) => v.membro <= 2), end: ENDERECO('Pessoa V', 'Rua Modelo, 78', 'Vila Teste · Belo Horizonte/MG', '30110-000') },
+    { id: 'e4', handle: '@exemplo_23', etapa: 'enviado', quando: '17/10, 14:00', cotadoEm: '17/10, 15:20', pagoEm: '17/10, 16:02', enviadoEm: '19/10, 10:40', frete: 18.5, rastreio: 'BR123456789BR', vagas: vagasDe('@exemplo_23'), end: ENDERECO('Pessoa W', 'Rua Amostra, 9, casa 2', 'Bairro Novo · Curitiba/PR', '80010-000') }
+  ];
+  window.__envioDe = (h) => ML.filter((v) => v.handle === h).map((v) => v.envio).join(' / ');   /* gancho de leitura para os testes */
+  const fmtReais = (n) => 'R$ ' + n.toFixed(2).replace('.', ',');
+  const lerValor = (t) => { let s = String(t || '').trim(); if (s.indexOf(',') >= 0) s = s.replace(/\./g, '').replace(',', '.'); const n = Number(s); return s && isFinite(n) ? n : NaN; };
+  const dh = (iso) => { const m = /^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)/.exec(iso || ''); return m ? m[3] + '/' + m[2] + ' às ' + m[4] + ':' + m[5] : ''; };
+  const envAbertoAgora = () => ENV.aberto && (!ENV.fecha || Date.now() < new Date(ENV.fecha).getTime());
+  const doPedido = (p) => p.vagas.map((id) => ML.find((v) => v.id === id)).filter(Boolean);
+  function definirEnvioVaga(v, novo, quem) {
+    if (v.envio === novo) return;
+    v.extra.push(['Status alterado de "' + v.envio + '" para "' + novo + '"', quem, 'agora (demonstração)']);
+    v.envio = novo;
+  }
+
+  /* ---- a chave: pedidos abertos ou fechados ---- */
+  function desenharEnvControle() {
+    const alvo = $('#env-controle'); if (!alvo) return;
+    const aberto = envAbertoAgora(); const passou = ENV.aberto && ENV.fecha && !aberto;
+    const texto = aberto ? (ENV.fecha ? 'Fecha sozinho em ' + dh(ENV.fecha) + '.' : 'Sem hora para fechar: ficam abertos até você fechar.') : (passou ? 'Fechou sozinho em ' + dh(ENV.fecha) + '.' : 'Ninguém consegue pedir envio agora.');
+    const campo = '<div class="ml-campo env-valor"><label for="env-fecha">' + (aberto ? 'Fechar sozinho em' : 'Fechar sozinho em (opcional)') + '</label><input id="env-fecha" type="datetime-local" value="' + (aberto ? esc(ENV.fecha) : '') + '"></div>';
+    const botoes = aberto
+      ? '<button type="button" class="g-btn" data-acao="env-horario">Salvar horário</button><button type="button" class="g-btn" data-acao="env-fechar">Fechar pedidos agora</button><button type="button" class="g-btn" data-acao="env-copiar">Copiar aviso para o grupo</button>'
+      : '<button type="button" class="g-btn primario" data-acao="env-abrir">Abrir pedidos</button>';
+    alvo.innerHTML = '<div class="env-topo"><span class="g-chip' + (aberto ? ' ok' : '') + '">' + (aberto ? 'Pedidos de envio abertos' : 'Pedidos de envio fechados') + '</span><span class="ml-meta">' + texto + '</span></div>' +
+      (aberto ? '' : '<p class="ml-meta" style="margin:0">Na Área do Joiner os itens e as fotos continuam aparecendo, mas no lugar do botão de pedir envio aparece: “Pedidos de envio fechados no momento. Avisaremos quando abrir.”</p>') +
+      '<div class="env-linha">' + campo + '<div class="ml-btns">' + botoes + '</div></div><p class="g-erro" id="env-erro" role="alert" hidden></p>';
+  }
+
+  /* ---- os pedidos, um cartão por pessoa ---- */
+  function cartaoPedido(p) {
+    const vs = doPedido(p); const dono = ML.find((v) => v.handle === p.handle); const total = ML.filter((v) => v.handle === p.handle).length; const fora = total - vs.length;
+    const itens = '<ul class="env-itens">' + vs.map((v) => '<li class="env-item"><span class="env-foto" aria-hidden="true">' + ICONE_FOTO + '</span><span class="env-item-txt"><span><strong>' + esc(v.pob) + '</strong> · Set ' + v.set + ' · Membro ' + v.membro + '</span><span class="ml-meta">Claim ' + idClaim(v) + ' · ' + esc(v.ceg) + '</span></span></li>').join('') + '</ul>';
+    const end = '<div class="env-end"><strong>Entregar para</strong>' + esc(p.end.nome) + '<br>' + esc(p.end.rua) + '<br>' + esc(p.end.bairro) + ' · CEP ' + esc(p.end.cep) + '</div>';
+    const botaoWpp = '<button type="button" class="g-btn" data-acao="env-wpp" data-id="' + p.id + '">Chamar no WhatsApp</button>';
+    const botaoCancelar = '<button type="button" class="g-btn" data-acao="env-cancelar" data-id="' + p.id + '">Cancelar pedido</button>';
+    let acao = '';
+    if (p.etapa === 'cotacao') {
+      acao = '<div class="env-acao"><div class="ml-campo env-valor"><label for="env-f-' + p.id + '">Valor do frete (R$)</label><input id="env-f-' + p.id + '" type="text" inputmode="decimal" placeholder="Ex.: 28,50" autocomplete="off"></div>' +
+        '<div class="ml-btns"><button type="button" class="g-btn primario" data-acao="env-cotar" data-id="' + p.id + '">Enviar cotação</button>' + botaoWpp + botaoCancelar + '</div><p class="g-erro" id="env-e-' + p.id + '" role="alert" hidden></p></div>';
+    } else if (p.etapa === 'pagamento') {
+      acao = '<div class="env-acao"><p style="margin:0">Cotação de <strong>' + fmtReais(p.frete) + '</strong> enviada em ' + esc(p.cotadoEm) + '. A cobrança já aparece na Área do Joiner; quando o InfinitePay confirmar, o pedido vai sozinho para “Para embalar”.</p>' +
+        '<div class="ml-btns"><button type="button" class="g-btn" data-acao="env-pagar" data-id="' + p.id + '">Simular pagamento (demonstração)</button>' + botaoWpp + botaoCancelar + '</div></div>';
+    } else if (p.etapa === 'embalar') {
+      acao = '<div class="env-acao"><p style="margin:0"><strong>Embale só estes ' + vs.length + (vs.length === 1 ? ' item' : ' itens') + '.</strong> Frete de ' + fmtReais(p.frete) + ' pago em ' + esc(p.pagoEm) + '.</p>' +
+        '<div class="ml-campo env-valor"><label for="env-r-' + p.id + '">Código de rastreio (opcional)</label><input id="env-r-' + p.id + '" type="text" placeholder="Ex.: BR123456789BR" autocomplete="off"></div>' +
+        '<p class="ml-meta" style="margin:0">Ao liberar, os itens viram “Finalizado - Enviado Joiner” para você e para a pessoa, e o código aparece na Área do Joiner.</p>' +
+        '<div class="ml-btns"><button type="button" class="g-btn primario" data-acao="env-enviar" data-id="' + p.id + '">Liberar rastreio e finalizar</button></div></div>';
+    } else {
+      acao = '<div class="env-acao"><p style="margin:0"><strong>Finalizado</strong> em ' + esc(p.enviadoEm) + ' · Frete ' + fmtReais(p.frete) + (p.rastreio ? ' · Rastreio <strong>' + esc(p.rastreio) + '</strong>' : ' · Sem código de rastreio') + '. Os itens ficaram como “Finalizado - Enviado Joiner”, aqui e na Área do Joiner.</p></div>';
+    }
+    const aviso = fora > 0 && p.etapa !== 'enviado' ? '<p class="env-aviso">' + (p.etapa === 'embalar' ? 'Embale só os itens pedidos. ' : '') + pl(fora, 'item dela ficou', 'itens dela ficaram') + ' fora do pedido e continua' + (fora === 1 ? '' : 'm') + ' em “Liberado envio nacional”.</p>' : '';
+    return '<section class="env-card" data-env-pedido="' + p.id + '" aria-label="Pedido de ' + esc(dono.nome) + '">' +
+      '<header class="env-cab"><div><strong class="env-nome">' + esc(dono.nome) + '</strong><span class="ml-meta" style="display:block">' + esc(p.handle) + ' · final ' + esc(dono.final) + ' · pedido em ' + esc(p.quando) + '</span></div><span class="g-chip violeta">' + vs.length + ' de ' + total + (total === 1 ? ' item' : ' itens') + '</span></header>' +
+      '<div class="env-corpo">' + itens + end + '</div>' + aviso + acao + '</section>';
+  }
+  function desenharEnvLista() {
+    ENV_ABAS.forEach((k) => {
+      const lista = ENV.pedidos.filter((p) => p.etapa === ETAPA_DA_ABA[k]);
+      const n = $('[data-env-n="' + k + '"]'); if (n) n.textContent = '(' + lista.length + ')';
+      const el = $('#env-l-' + k); if (el) el.innerHTML = lista.length ? lista.map(cartaoPedido).join('') : '<p class="env-vazio">' + ENV_VAZIO[k] + '</p>';
+    });
+  }
+  function ligarEnvios() { if (!$('#env-controle')) return; desenharEnvControle(); desenharEnvLista(); }
+
+  /* ---- ações ---- */
+  function erroPedido(id, msg) { const e = $('#env-e-' + id); if (e) { e.textContent = msg; e.hidden = false; } }
+  function copiarAviso() {
+    if (!envAbertoAgora()) { toast('Abra os pedidos antes de copiar o aviso.'); return; }
+    const texto = 'Pedidos de envio nacional abertos' + (ENV.fecha ? ' até ' + dh(ENV.fecha) : '') + '. Peça pelo site: https://dazedcegs.com.br/cegs/ (aba Nacional).';
+    try { navigator.clipboard.writeText(texto).then(() => toast('Aviso copiado: ' + texto), () => toast('Aviso: ' + texto)); } catch (e) { toast('Aviso: ' + texto); }
+  }
+  function acaoEnvios(acao, id) {
+    const p = ENV.pedidos.find((x) => x.id === id);
+    if (acao === 'env-abrir' || acao === 'env-horario') {
+      const campo = $('#env-fecha'); const valor = campo ? campo.value : '';
+      if (valor && new Date(valor).getTime() <= Date.now()) { const e = $('#env-erro'); e.textContent = 'Escolha uma data e uma hora que ainda não passaram.'; e.hidden = false; return; }
+      ENV.fecha = valor; if (acao === 'env-abrir') ENV.aberto = true;
+      desenharEnvControle();
+      toast(acao === 'env-abrir' ? 'Pedidos de envio abertos' + (valor ? ' até ' + dh(valor) : '') + ' (demonstração).' : (valor ? 'Fecha sozinho em ' + dh(valor) + '.' : 'Sem hora para fechar: ficam abertos até você fechar.'));
+    } else if (acao === 'env-fechar') {
+      ENV.aberto = false; ENV.fecha = ''; desenharEnvControle(); toast('Pedidos de envio fechados. Os pedidos que já chegaram seguem normalmente.');
+    } else if (acao === 'env-copiar') { copiarAviso(); }
+    else if (!p) { return; }
+    else if (acao === 'env-wpp') { toast('Abriria o WhatsApp de ' + p.handle + ' (demonstração).'); }
+    else if (acao === 'env-cotar') {
+      const campo = $('#env-f-' + p.id); const valor = lerValor(campo ? campo.value : '');
+      if (!(valor > 0) || valor > 999) { erroPedido(p.id, 'Digite o valor do frete, por exemplo 28,50.'); return; }
+      p.frete = valor; p.etapa = 'pagamento'; p.cotadoEm = 'agora (demonstração)'; desenharEnvLista();
+      toast('Cotação de ' + fmtReais(valor) + ' enviada para ' + p.handle + '. Ela já aparece na Área do Joiner (demonstração).');
+    } else if (acao === 'env-pagar') {
+      p.etapa = 'embalar'; p.pagoEm = 'agora (demonstração)'; doPedido(p).forEach((v) => definirEnvioVaga(v, 'Frete nacional pago', 'Sistema')); desenharEnvLista();
+      toast('Pagamento do frete confirmado (simulado). Os ' + p.vagas.length + ' itens ficaram em “Frete nacional pago”.');
+    } else if (acao === 'env-enviar') {
+      const campo = $('#env-r-' + p.id); p.rastreio = campo ? campo.value.trim() : '';
+      p.etapa = 'enviado'; p.enviadoEm = 'agora (demonstração)'; doPedido(p).forEach((v) => definirEnvioVaga(v, 'Finalizado - Enviado Joiner', quemMexe())); desenharEnvLista();
+      toast((p.rastreio ? 'Rastreio liberado (' + p.rastreio + ').' : 'Envio finalizado, sem código de rastreio.') + ' Os ' + p.vagas.length + ' itens ficaram “Finalizado - Enviado Joiner”, para você e para a pessoa.');
+    } else if (acao === 'env-cancelar') {
+      abrirModal('<h2>Cancelar o pedido?</h2><p class="g-muted" style="margin:0">Os ' + p.vagas.length + ' itens de ' + esc(p.end.nome) + ' voltam para “Liberado envio nacional” e ela poderá pedir de novo.</p><div class="g-acoes"><button type="button" class="g-btn" data-acao="fechar">Voltar</button><button type="button" class="g-btn primario" data-acao="env-cancelar-ok" data-id="' + p.id + '">Cancelar pedido</button></div>');
+    } else if (acao === 'env-cancelar-ok') {
+      doPedido(p).forEach((v) => definirEnvioVaga(v, 'Liberado envio nacional', quemMexe()));
+      ENV.pedidos = ENV.pedidos.filter((x) => x.id !== p.id); fecharModal(); desenharEnvLista();
+      toast('Pedido cancelado. Os itens voltaram para “Liberado envio nacional”.');
+    }
+  }
+
+
+
+  /* ------------------------------------------------ rotas */
+  let ROTA = '/gom';
+  try { if (location.hash && location.hash.length > 1) ROTA = location.hash.slice(1); } catch (e) { /* ignora */ }
+  const rota = () => ROTA.split('/').filter(Boolean).map((x) => { try { return decodeURIComponent(x); } catch (e) { return x; } });
+  const marcarEndereco = () => { try { if (location.hash !== '#' + ROTA) history.replaceState(null, '', '#' + ROTA); } catch (e) { /* ignora */ } };
+  /* endereços antigos continuam funcionando e levam para a tela nova */
+  const ALIAS = { 'criar-sets': ['sets', 'criar'], 'claims': ['sets', 'anotar'], 'claims-editar': ['sets', 'editar'], 'prazo-multa': ['sets', 'criar'], 'frete-lancar': ['importar'] };
+  function trocarAba(nome, tela) {
+    const raiz = $('.g-content'); if (!raiz) return;
+    const dela = (el) => (el.getAttribute('data-tela') || 'sets') === tela;
+    $$('.g-aba', raiz).filter(dela).forEach((b) => b.setAttribute('aria-selected', b.getAttribute('data-aba') === nome ? 'true' : 'false'));
+    $$('[data-painel]', raiz).filter(dela).forEach((x) => { x.hidden = x.getAttribute('data-painel') !== nome; });
+    ROTA = '/painel/' + tela + '/' + nome; marcarEndereco();
+  }
+  function ir(caminho) { ROTA = String(caminho || '/gom').replace(/^#/, '') || '/gom'; render(); }
+  /* ------------------------------------------------ Liberar pagamento (demonstração): o resumo acompanha as caixinhas marcadas */
+  function ligarLiberar() {
+    const tabela = $('[aria-label="Sets para liberar"]'); const resumo = $('[aria-label="Resumo da liberação"]');
+    if (!tabela || !resumo) return;
+    const h = resumo.querySelector('h2'); const txt = resumo.querySelector('p'); const btn = resumo.querySelectorAll('button')[1];
+    const dinheiro = (n) => 'R$ ' + n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const num = (s) => parseFloat(String(s).replace(/\./g, '').replace(',', '.')) || 0;
+    const plural = (n, um, varios) => n + ' ' + (n === 1 ? um : varios);
+    const atualizar = () => {
+      const marcadas = Array.from(tabela.querySelectorAll('input[type="checkbox"]')).filter((c) => c.checked && !c.disabled);
+      const n = marcadas.length;
+      if (!n) {
+        h.textContent = 'Nenhum set escolhido';
+        txt.textContent = 'Marque os sets em revisão que você quer liberar para pagamento.';
+        btn.textContent = 'Liberar sets'; btn.disabled = true; btn.classList.add('lib-off');
+        return;
+      }
+      let claims = 0; let total = 0; const prazos = []; const multas = [];
+      marcadas.forEach((c) => {
+        const cel = c.closest('[role="row"]').querySelectorAll('[role="cell"]');
+        claims += parseInt(cel[2].textContent, 10) || 0;
+        const v = cel[3].textContent.match(/R\$\s*([\d.]+,\d{2})/); total += v ? num(v[1]) : 0;
+        const pz = (cel[4].textContent.match(/\d{1,2}\/\d{1,2}/) || ['sem prazo'])[0];
+        const f = prazos.find((x) => x.d === pz); if (f) f.n += 1; else prazos.push({ d: pz, n: 1 });
+        const m = cel[4].textContent.match(/R\$\s*([\d.]+,\d{2})/); if (m && multas.indexOf(m[1]) === -1) multas.push(m[1]);
+      });
+      prazos.sort((a, b) => b.n - a.n);
+      const lista = prazos.map((x) => x.d + ' (' + plural(x.n, 'set', 'sets') + ')');
+      const prazosTxt = lista.length > 1 ? lista.slice(0, -1).join(', ') + ' e ' + lista[lista.length - 1] : lista[0];
+      const multaTxt = multas.length === 1 ? 'com multa de R$ ' + multas[0] + ' por dia depois do prazo' : 'com multas diferentes por set';
+      h.textContent = 'Você vai liberar ' + plural(n, 'set', 'sets');
+      txt.textContent = plural(claims, 'claim', 'claims') + ', no valor total de ' + dinheiro(total) + '. Prazos em ' + prazosTxt + ', ' + multaTxt + '.';
+      btn.textContent = 'Liberar ' + plural(n, 'set', 'sets'); btn.disabled = false; btn.classList.remove('lib-off');
+    };
+    tabela.addEventListener('change', atualizar);
+    atualizar();
+  }
+
+  function render() {
+    fecharModal();
+    const p = rota(); let html = ''; let titulo = 'Dazed CEGs - GOM';
+    if (p[0] === 'painel') {
+      if (!S.sessao) { ROTA = '/gom'; return render(); }
+      if (!p[1]) { ROTA = '/painel/' + telaInicial(S.sessao); return render(); }
+      if (ALIAS[p[1]]) { ROTA = '/painel/' + ALIAS[p[1]].join('/'); return render(); }
+      html = viewPainel(p[1], p[2]); titulo = 'Dazed CEGs - Painel de controle';
+    } else {
+      if (S.sessao) { ROTA = '/painel/' + telaInicial(S.sessao); return render(); }
+      html = viewGom();
+    }
+    app.innerHTML = html;
+    if (passoLogin === 3 && FATOR && $('#g-qr')) { try { $('#g-qr').src = FATOR.qr; } catch (e) { /* ignora */ } }
+    document.title = titulo;
+    if (p[1] === 'sets' || p[1] === 'frete' || p[1] === 'envios') { const sel = $('.g-aba[aria-selected="true"]'); if (sel) ROTA = '/painel/' + p[1] + '/' + sel.getAttribute('data-aba'); }
+    marcarEndereco();
+    const subir = () => { try { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } catch (e) { /* ignora */ } };
+    subir(); requestAnimationFrame(subir); setTimeout(subir, 80);
+    if (p[0] === 'painel') { if (p[1] === 'permissoes') ligarPermissoes(); if (p[1] === 'sets') ligarCriarSets(); if (p[1] === 'usuarios') ligarUsuarios(); if (p[1] === 'envios') ligarEnvios(); if (p[1] === 'masterlist') ligarMasterlist(p[2]); if (p[1] === 'importar') ligarImportar(); if (p[1] === 'fotos') ligarFotos(); if (p[1] === 'liberar') ligarLiberar(); }
+  }
+
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a[href^="#/"]');
+    if (link) { e.preventDefault(); ir(link.getAttribute('href').slice(1)); return; }
+    const linhaML = e.target.closest('[data-mlp-row]');
+    if (linhaML && !e.target.closest('input,select,label,button,a')) { abrirHistoricoVaga(linhaML.getAttribute('data-id')); return; }
+    const a = e.target.closest('[data-acao]');
+    if (a) {
+      const acao = a.getAttribute('data-acao');
+      if (acao === 'fechar') fecharModal();
+      else if (acao === 'menu') { const l = $('#lado'); if (l) { l.classList.toggle('aberto'); a.setAttribute('aria-expanded', l.classList.contains('aberto') ? 'true' : 'false'); } }
+      else if (acao === 'tema') aplicarTema(!temaEscuro(), true);
+      else if (acao.indexOf('env-') === 0) acaoEnvios(acao, a.getAttribute('data-id'));
+      else if (acao === 'ml-limpar') limparML();
+      else if (acao === 'ml-baixar') baixarPlanilhaML();
+      else if (acao === 'ml-abrir') alternarPobML(a.getAttribute('data-id'));
+      else if (acao === 'ml-chip') { const est = a.getAttribute('data-estado'); filtroML.status = filtroML.status === est ? '' : est; const ss = $('#ml-status'); if (ss) ss.value = filtroML.status; refiltrar(); }
+      else if (acao === 'ml-abrir-todos') abrirFecharTodosML(a.getAttribute('data-ceg'), true);
+      else if (acao === 'ml-fechar-todos') abrirFecharTodosML(a.getAttribute('data-ceg'), false);
+      else if (acao === 'ml-aplicar') aplicarLoteML();
+      else if (acao === 'ml-limpar-sel') { mlpSel.clear(); desenharML(); }
+      else if (acao === 'imp-escolher') { const ii = $('#imp-arquivo'); if (ii) ii.click(); }
+      else if (acao === 'imp-carregar') carregarImp();
+      else if (acao === 'imp-avisos') baixarAvisosImp();
+      else if (acao === 'imp-modelo') baixarModeloImp();
+      else if (acao === 'cs-mudar') alternarDetCS(a);
+      else if (acao === 'cs-add-membro') abrirNovoMembroCS();
+      else if (acao === 'cs-incluir-membro') incluirMembroCS();
+      else if (acao === 'cs-rem-membro') removerMembroCS(a);
+      else if (acao === 'aba') trocarAba(a.getAttribute('data-aba'), a.getAttribute('data-tela') || 'sets');
+      else if (acao === 'sair') { sairReal().then(() => { S.sessao = null; salvar(); passoLogin = 1; ir('/gom'); }); }
+      else if (acao === 'recarregar') { a.disabled = true; carregarDoBanco().then(() => { toast('Dados atualizados.'); render(); }).catch((err) => { toast('Não consegui atualizar: ' + traduzErro(err)); a.disabled = false; }); }
+      return;
+    }
+    const b = e.target.closest('button');
+    if (b && !b.disabled && (b.closest('.g-content') || b.closest('.fundo-modal'))) {
+      if (b.closest('.fundo-modal') && b.hasAttribute('data-acao')) return;
+      botaoPainel(b);
+    }
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target && e.target.matches && e.target.matches('[data-mlp-row]')) { e.preventDefault(); abrirHistoricoVaga(e.target.getAttribute('data-id')); } });
+  const erroLogin = (msg) => { const m = $('#g-erro'); if (m) { m.textContent = msg; m.hidden = false; } };
+  /* ------------------------------------------------ VERSÃO REAL, etapa 1: login no Supabase (senha + código do autenticador) e leitura da POBS D:U.
+     Só leitura: nada nesta página grava no banco. O cadeado do banco (RLS) só deixa ler quem está na lista de GOMs e entrou com o código. */
+  const CFG = window.GOM_CONFIG || {};
+  let SB = null;
+  try { if (window.supabase && CFG.url && CFG.key) SB = window.supabase.createClient(CFG.url, CFG.key, { auth: { persistSession: false, autoRefreshToken: true, detectSessionInUrl: false } }); } catch (e) { SB = null; }
+  const CEG_REAL = 'POBS D:U';
+  const TABELA_REAL = 'ceg_du_yzy_shanghai_pobs';
+  const COLUNAS_REAL = 'id,pob,membro,joiner_nome,joiner_handle,telefone_final,valor,prazo,pagamento,status,linha_planilha,set_numero,avulso,posicao';
+  const CARGA = { quando: null, total: 0 };
+  let FATOR = null;       /* código do autenticador em cadastro (primeiro acesso) */
+  let CARREGANDO = '';    /* texto do cartão do login enquanto algo demora */
+
+  function traduzErro(err) {
+    const m = String((err && (err.message || err.error_description)) || '').toLowerCase(); const c = String((err && (err.code || err.error_code)) || '').toLowerCase();
+    if (c === 'invalid_credentials' || m.indexOf('invalid login') >= 0) return 'E-mail ou senha incorretos.';
+    if (c === 'email_not_confirmed') return 'Este e-mail ainda não foi confirmado.';
+    if (c === 'mfa_verification_failed' || c === 'mfa_challenge_expired' || m.indexOf('invalid totp') >= 0 || m.indexOf('invalid code') >= 0) return 'Código incorreto ou vencido. Espere o próximo código do aplicativo e tente de novo.';
+    if (c === 'over_request_rate_limit' || m.indexOf('rate limit') >= 0 || (err && err.status === 429)) return 'Muitas tentativas seguidas. Espere alguns minutos e tente de novo.';
+    if (m.indexOf('failed to fetch') >= 0 || m.indexOf('network') >= 0) return 'Sem conexão com o servidor. Confira a internet e tente de novo.';
+    return 'Não foi possível concluir agora. Tente de novo em instantes.';
+  }
+
+  /* ---- ler as vagas do banco (1.000 por vez) e montar as mesmas vagas que o importador monta ---- */
+  async function lerVagasDoBanco() {
+    const todas = []; const tam = 1000;
+    for (let ini = 0; ; ini += tam) {
+      const r = await SB.from(TABELA_REAL).select(COLUNAS_REAL).order('linha_planilha', { ascending: true }).range(ini, ini + tam - 1);
+      if (r.error) throw r.error;
+      (r.data || []).forEach((x) => todas.push(x));
+      if (!r.data || r.data.length < tam) break;
+    }
+    return todas;
+  }
+  function vagasDeLinhas(linhas, agora) {
+    return linhas.map((r) => {
+      const dono = !!(r.joiner_handle || r.joiner_nome);
+      let prazo = '—'; let passou = false;
+      const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(r.prazo || '');
+      if (m) { prazo = m[3] + '/' + m[2]; passou = new Date(+m[1], +m[2] - 1, +m[3], 23, 59) < agora; }   /* com o ano de verdade: jan/fev de 2027 não contam como passado */
+      const sit = r.pagamento === true ? 'Paga' : (!dono ? 'Livre' : (passou ? 'Em atraso' : 'Liberada'));
+      const envio = r.status || (sit === 'Paga' ? 'Pago' : '—');
+      return { id: 'b' + r.id, ceg: CEG_REAL, pob: r.pob, set: r.avulso ? 0 : (r.set_numero || 0), avulso: r.avulso === true, membro: r.posicao, membroNome: r.membro || '', handle: r.joiner_handle ? '@' + r.joiner_handle : '', nome: r.joiner_nome || '', final: r.telefone_final || '', valor: r.valor === null || r.valor === undefined ? 0 : Number(r.valor), prazo, sit, envio, envio0: envio, extra: [], origem: 'banco', linha: r.linha_planilha, statusOrig: r.status || '', pagoOrig: r.pagamento === true, importadaEm: '', multa: '' };
+    });
+  }
+  async function carregarDoBanco() {
+    const linhas = await lerVagasDoBanco();
+    const agora = new Date();
+    ML.length = 0;
+    carregarCegNaMasterlist(vagasDeLinhas(linhas, agora), CEG_REAL);
+    CARGA.quando = agora; CARGA.total = linhas.length;
+    montarInicioReal();
+  }
+  const hhmm = (d) => pad(d.getHours()) + ':' + pad(d.getMinutes());
+  const avisoReal = () => (CARGA.total ? 'Dados reais da ' + CEG_REAL + ', lidos do banco' + (CARGA.quando ? ' às ' + hhmm(CARGA.quando) : '') + '. Somente leitura: nada aqui grava no banco.' : 'O banco não devolveu nenhuma vaga. Se isto não é esperado, avise quem cuida do sistema.') + ' <button type="button" data-acao="recarregar">Atualizar agora</button>';
+  function montarInicioReal() {
+    const c = contarML(ML);
+    const chip = (t, cls) => '<span class="g-chip' + (cls ? ' ' + cls : '') + '">' + t + '</span>';
+    const pobs = new Set(ML.map((v) => v.pob)).size; const pessoas = new Set(ML.filter((v) => v.handle).map((v) => v.handle)).size;
+    FRAG.inicio = '<main style="flex:999 1 560px;min-width:0;padding:36px 44px;box-sizing:border-box;display:flex;flex-direction:column;gap:24px">' +
+      '<header><h1 style="margin:0;font-size:30px;line-height:1.15;letter-spacing:-0.02em">Início</h1><p class="g-muted" style="margin:8px 0 0">' + esc(CEG_REAL) + ': ' + plm(pobs, 'POB', 'POBs') + ', ' + plm(ML.length, 'vaga', 'vagas') + ' e ' + plm(pessoas, 'pessoa', 'pessoas') + '.</p></header>' +
+      '<section class="g-card" aria-label="Situação das vagas"><div><h2>Situação das vagas</h2></div><div class="ml-resumo">' +
+      ESTADOS_ML.filter((e) => c[e]).map((e) => chip(plm(c[e], ROTULO_ESTADO[e][0], ROTULO_ESTADO[e][1]), CLASSE_ESTADO[e])).join('') + '</div>' +
+      '<p><a class="g-btn primario" href="#/painel/masterlist">Abrir a Masterlist</a></p></section></main>';
+  }
+
+  /* ---- entrar: senha, depois o código do autenticador (no primeiro acesso, ligar o código antes) ---- */
+  async function sairReal() { try { if (SB) await SB.auth.signOut(); } catch (e) { /* ignora */ } ML.length = 0; reconstruirPobsML(); CARGA.quando = null; CARGA.total = 0; FATOR = null; CARREGANDO = ''; }
+  async function entrarSenha(email, senha) {
+    if (!SB) return erroLogin('O login ainda não está configurado nesta página.');
+    const btn = $('#form-gom-1 button[type="submit"]'); if (btn) btn.disabled = true;
+    try {
+      const r = await SB.auth.signInWithPassword({ email, password: senha });
+      if (r.error) { erroLogin(traduzErro(r.error)); return; }
+      emailLogin = email;
+      const a = await SB.auth.mfa.getAuthenticatorAssuranceLevel();
+      if (a.error || !a.data) { await sairReal(); passoLogin = 1; render(); erroLogin(traduzErro(a.error)); return; }
+      if (a.data.currentLevel === 'aal2') { await concluirLogin(); return; }
+      passoLogin = a.data.nextLevel === 'aal2' ? 2 : 3; FATOR = null; render();
+      if (passoLogin === 3) iniciarCadastroCodigo();
+    } catch (e) { erroLogin(traduzErro(e)); } finally { if (btn) btn.disabled = false; }
+  }
+  /* O banco devolve o QR como imagem SVG dentro de um endereço "data:". Se o SVG vier "cru" (com # nas cores e < >), o navegador corta o endereço no #
+     e a imagem não aparece. Aqui o SVG cru é codificado; se já vier codificado ou em base64, passa como está. */
+  function qrSeguro(uri) {
+    const s = String(uri || ''); const i = s.indexOf(',');
+    if (!/^data:image\/svg\+xml/i.test(s) || i < 0 || /;base64/i.test(s.slice(0, i))) return s;
+    const corpo = s.slice(i + 1);
+    return /^\s*</.test(corpo) ? 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(corpo) : s;
+  }
+  async function iniciarCadastroCodigo() {
+    try {
+      const lf = await SB.auth.mfa.listFactors();
+      const sobras = ((lf.data && lf.data.all) || []).filter((f) => f.factor_type === 'totp' && f.status !== 'verified');
+      for (const f of sobras) { await SB.auth.mfa.unenroll({ factorId: f.id }); }   /* tentativas antigas que ficaram sem confirmar */
+      const r = await SB.auth.mfa.enroll({ factorType: 'totp', issuer: 'DAZED CEGs', friendlyName: 'Autenticador ' + new Date().toLocaleString('sv-SE').slice(0, 16) });   /* issuer = o nome que aparece no aplicativo do celular */
+      if (r.error || !r.data) { erroLogin(traduzErro(r.error)); return; }
+      FATOR = { id: r.data.id, qr: qrSeguro(r.data.totp.qr_code), chave: r.data.totp.secret };
+      render();
+    } catch (e) { erroLogin(traduzErro(e)); }
+  }
+  async function confirmarCodigo(codigo, cadastro) {
+    const btn = $('#g-codigo') && $('#g-codigo').form ? $('#g-codigo').form.querySelector('button[type="submit"]') : null; if (btn) btn.disabled = true;
+    try {
+      let fid = null;
+      if (cadastro) fid = FATOR && FATOR.id;
+      else { const lf = await SB.auth.mfa.listFactors(); const f = ((lf.data && lf.data.totp) || [])[0]; fid = f && f.id; }
+      if (!fid) { erroLogin('Não achei o código ligado a esta conta. Saia e entre de novo.'); return; }
+      const v = await SB.auth.mfa.challengeAndVerify({ factorId: fid, code: codigo });
+      if (v.error) { erroLogin(traduzErro(v.error)); return; }
+      FATOR = null;
+      await concluirLogin();
+    } catch (e) { erroLogin(traduzErro(e)); } finally { if (btn) btn.disabled = false; }
+  }
+  async function concluirLogin() {
+    const falha = async (msg) => { await sairReal(); passoLogin = 1; render(); erroLogin(msg); };
+    try {
+      const a = await SB.auth.mfa.getAuthenticatorAssuranceLevel();
+      if (!a.data || a.data.currentLevel !== 'aal2') return falha('A verificação em duas etapas não foi concluída. Entre de novo.');
+      const u = await SB.from('gom_usuarios').select('papel,ativo').maybeSingle();
+      if (u.error || !u.data || u.data.ativo !== true) return falha('Esta conta não está liberada para a área das GOMs.');
+      if (u.data.papel !== 'dona') return falha('O acesso das ADMs ainda não foi liberado nesta página.');
+      CARREGANDO = 'Carregando as vagas da ' + CEG_REAL; render();
+      await carregarDoBanco();
+      CARREGANDO = ''; S.sessao = 'admin'; passoLogin = 1; ir('/painel/' + telaInicial(S.sessao));
+    } catch (e) { await falha('Entrou, mas não consegui ler as vagas: ' + traduzErro(e)); }
+  }
+  document.addEventListener('submit', (e) => {
+    const f = e.target;
+    if (!f || !f.id) return;
+    e.preventDefault();
+    if (f.id === 'form-gom-1') {
+      const mail = ($('#g-email').value || '').trim().toLowerCase(); const senha = $('#g-senha').value || '';
+      if (!mail || !senha) return erroLogin('Digite o e-mail e a senha.');
+      entrarSenha(mail, senha);
+    } else if (f.id === 'form-gom-2' || f.id === 'form-gom-3') {
+      const cod = ($('#g-codigo').value || '').replace(/\s+/g, '');
+      if (!/^\d{6}$/.test(cod)) return erroLogin('Digite os 6 números do código.');
+      confirmarCodigo(cod, f.id === 'form-gom-3');
+    }
+  });
+  window.__real = { sairReal, carregarDoBanco, get sessao() { return S.sessao; } };   /* ganchos de leitura para os testes */
+
+  window.__ir = ir; window.__rota = () => ROTA;
+
+  render();
+})();
+
+</script>
+</body>
+</html>
