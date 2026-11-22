@@ -151,7 +151,7 @@ button,input,select,textarea{font-family:inherit}
 </div>
 </nav>
 <main class="j-main">
-<header class="j-cab"><h1>Sets abertos</h1><p>Veja os sets que ainda estão em andamento: quem já pegou cada membro e o que ainda está livre. Você não precisa informar o seu @.</p></header>
+<header class="j-cab"><h1>Sets abertos</h1><p>Veja os sets que ainda estão em aberto.</p></header>
 <section class="s-filtros" id="s-filtros" aria-label="Filtro e busca" hidden>
 <select id="s-ceg" class="s-select" aria-label="Filtrar por CEG"></select>
 <div class="s-achar" role="search" aria-label="Achar o meu @ (opcional)"><span class="j-arroba" aria-hidden="true">@</span><input id="s-q" type="text" placeholder="Achar o meu @ (opcional)" autocomplete="off" aria-label="Achar o seu @ nos sets abertos (opcional)"><button type="button" data-s="buscar">Achar</button></div>
@@ -159,7 +159,6 @@ button,input,select,textarea{font-family:inherit}
 <div id="s-busca-res" role="status"></div>
 <div class="s-atualiza" id="s-atualiza" hidden><p class="j-mut" id="s-atualizado"></p><button type="button" class="j-btn" id="s-atualizar" data-s="atualizar">Atualizar</button></div>
 <div id="s-lista" style="display:flex;flex-direction:column;gap:20px"></div>
-<p class="j-mut s-nota">Aqui aparece só o @ de quem já pegou cada membro. Nome, telefone e endereço nunca aparecem. Quando um set fecha ou muda de status, ele sai desta lista. Para acompanhar os seus sets que já fecharam, o pagamento e o envio, busque o seu @ na <a class="s-link" href="../cegs/">Área do Joiner</a>.</p>
 <noscript><p class="j-vazio">Para ver os sets abertos, ative o JavaScript do navegador.</p></noscript>
 </main>
 <script>
@@ -235,7 +234,7 @@ function lista() {
     return;
   }
   const vis = SETS.filter((s) => !E.ceg || s.ceg === E.ceg);
-  if (!vis.length) { alvo.innerHTML = '<p class="j-vazio" id="s-vazio">' + (E.ceg ? 'Nenhum set aberto nesta CEG no momento.' : 'Nenhum set aberto no momento. Quando abrir um set novo, ele aparece aqui.') + '</p>'; return; }
+  if (!vis.length) { alvo.innerHTML = '<p class="j-vazio" id="s-vazio">' + (E.ceg ? 'Nenhum set aberto nesta CEG no momento.' : 'Nenhum set aberto no momento.') + '</p>'; return; }
   alvo.innerHTML = CEGS.filter((c) => vis.some((s) => s.ceg === c)).map((c, i) => {
     const grupo = vis.filter((s) => s.ceg === c).sort((a, b) => a.pob.localeCompare(b.pob, 'pt-BR') || a.num - b.num);
     return '<section class="s-grupo" aria-labelledby="g' + i + '"><h2 id="g' + i + '">' + esc(c) + ' <small>' + pl(grupo.length, 'set aberto', 'sets abertos') + '</small></h2>' + grupo.map(cartao).join('') + '</section>';
