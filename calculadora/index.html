@@ -84,12 +84,12 @@
   .nav-a:hover{color:#1F2340;}
   .nav-a.active{color:#1F2340;font-weight:600;border-bottom-color:#4B5BAD;}
   .nav-a.active svg{stroke:#1F2340;}
-  @media(max-width:1244px){.nav-a span{display:none;}}
-  @media(max-width:680px){.nav{padding:0 16px;}.nav-logo{left:16px;}.nav-a{padding:0 10px;}}
-/* celular: com 7 abas, os icones ficam colados a direita para nao encostar no logo */
-@media(max-width:480px){.nav-links{margin:0 0 0 auto;}}
-@media(max-width:389px){.nav-a{padding:0 8px;}}
-@media(max-width:359px){.nav-a{padding:0 6px;}}
+  /* com 8 abas, os nomes ocupam mais espaco: aperta o respiro entre as abas e, em telas menores, mostra so os icones */
+@media(max-width:1340px){.nav-a{padding:0 12px;}}
+@media(max-width:1244px){.nav-a{padding:0 18px;}.nav-a span{display:none;}}
+  @media(max-width:680px){.nav{padding:0 12px;}.nav-logo{left:12px;}.nav-logo img{height:40px;}.nav-links{margin:0 0 0 auto;}.nav-a{padding:0 8px;}}
+/* celular: logo menor e icones colados a direita, para as 8 abas caberem sem encostar no logo */
+@media(max-width:359px){.nav-logo img{height:32px;}.nav-a{padding:0 6px;}}
 
   /* ---------- MAIN ---------- */
   main {
@@ -526,6 +526,10 @@
     <a class="nav-a" href="../cegs/">
       <svg viewBox="0 0 24 24" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
       <span>Área do Joiner</span>
+    </a>
+    <a class="nav-a" href="../sets-abertos/" aria-label="Sets Abertos">
+      <svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 12h6"/><path d="M9 16h6"/></svg>
+      <span>Sets Abertos</span>
     </a>
     <a class="nav-a" href="../regras/">
       <svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
