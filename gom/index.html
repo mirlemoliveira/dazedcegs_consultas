@@ -1695,7 +1695,17 @@ const NAV = [
      Esta página nunca grava direto nas tabelas, e nada aqui mexe na Área do Joiner. As telas que ainda não foram ligadas ao banco seguem com dados de exemplo e faixa amarela. */
   const CFG = window.GOM_CONFIG || {};
   let SB = null;
-  try { if (window.supabase && CFG.url && CFG.key) SB = window.supabase.createClient(CFG.url, CFG.key, { auth: { persistSession: false, autoRefreshToken: true, detectSessionInUrl: false } }); } catch (e) { SB = null; }
+  /* O login continua quando a página é recarregada (F5 / Ctrl+F5): a sessão fica guardada só NESTA ABA (sessionStorage), nunca no localStorage
+     (que sobrevive ao fechar o navegador). Fechar a aba ou clicar em Sair acaba o acesso. Se o navegador não deixar guardar, a sessão fica só na memória
+     (como antes: recarregar pede o login de novo). Ao reabrir, a sessão é conferida de novo no servidor (ver retomarSessao). */
+  const ARMAZ = (() => { try { const k = '__gom_teste'; window.sessionStorage.setItem(k, '1'); window.sessionStorage.removeItem(k); return window.sessionStorage; } catch (e) { return null; } })();
+  const OPCOES_AUTH = { persistSession: false, autoRefreshToken: true, detectSessionInUrl: false };
+  if (ARMAZ) { OPCOES_AUTH.persistSession = true; OPCOES_AUTH.storage = ARMAZ; }
+  try { if (window.supabase && CFG.url && CFG.key) SB = window.supabase.createClient(CFG.url, CFG.key, { auth: OPCOES_AUTH }); } catch (e) { SB = null; }
+  /* as chaves da sessão do Supabase no sessionStorage (sb-<projeto>-auth-token e as que acompanham) */
+  const chavesSessao = () => { const r = []; try { for (let i = 0; i < ARMAZ.length; i++) { const k = ARMAZ.key(i) || ''; if (/^sb-.+-auth-token/.test(k)) r.push(k); } } catch (e) { /* ignora */ } return r; };
+  const haSessaoGuardada = () => !!ARMAZ && chavesSessao().length > 0;
+  const limparSessaoGuardada = () => { try { chavesSessao().forEach((k) => ARMAZ.removeItem(k)); } catch (e) { /* ignora */ } };
   const CARGA = { quando: null, total: 0 };
   const TELAS_REAIS = ['inicio', 'masterlist', 'sets', 'liberar', 'pessoas', 'atrasos'];   /* o resto do menu ainda é teste: dados de exemplo */
   const avisoTeste = (tela) => (tela === 'importar' ? 'Tela de teste: a planilha é lida só neste navegador e nada é gravado no banco.' : 'Tela de teste, com dados de exemplo. Os botões ainda não gravam nada no banco.');
@@ -1873,7 +1883,8 @@ const NAV = [
   }
   const hhmm = (d) => pad(d.getHours()) + ':' + pad(d.getMinutes());
   const avisoReal = () => (CARGA.total ? 'Dados reais, lidos do banco' + (CARGA.quando ? ' às ' + hhmm(CARGA.quando) : '') + '. O que você muda aqui é gravado e fica registrado com quem fez e quando.' : 'O banco não devolveu nenhuma vaga. Se isto não é esperado, avise quem cuida do sistema.') + ' <button type="button" data-acao="recarregar">Atualizar agora</button>';
-  async function sairReal() { try { if (SB) await SB.auth.signOut(); } catch (e) { /* ignora */ } DB.cegs = []; DB.pobs = []; DB.sets = []; DB.vagas = []; DB.acoes = []; DB.pessoas = []; DB.pessoasOk = false; limparSensivelPE(); ML.length = 0; reindexar(); CARGA.quando = null; CARGA.total = 0; FATOR = null; CARREGANDO = ''; }
+  /* escopo: sem nada = encerra o acesso em todos os aparelhos (botão Sair); 'local' = só esta aba (limpezas ao reabrir a página) */
+  async function sairReal(escopo) { try { if (SB) await (escopo ? SB.auth.signOut({ scope: escopo }) : SB.auth.signOut()); } catch (e) { /* ignora */ } limparSessaoGuardada(); DB.cegs = []; DB.pobs = []; DB.sets = []; DB.vagas = []; DB.acoes = []; DB.pessoas = []; DB.pessoasOk = false; limparSensivelPE(); ML.length = 0; reindexar(); CARGA.quando = null; CARGA.total = 0; FATOR = null; CARREGANDO = ''; }
 
   /* ---- formatos ---- */
   const nBR = (n) => Number(n).toFixed(2).replace('.', ',');
@@ -3135,8 +3146,11 @@ const NAV = [
       await concluirLogin();
     } catch (e) { erroLogin(traduzErro(e)); } finally { if (btn) btn.disabled = false; }
   }
-  async function concluirLogin() {
-    const falha = async (msg) => { await sairReal(); passoLogin = 1; render(); erroLogin(msg); };
+  /* Endereço (#/painel/tela[/aba]) que vale depois de entrar: só telas que existem e só letras, números, traço e sublinhado; qualquer outra coisa leva à tela inicial. */
+  const rotaPainelValida = (r) => { const p = String(r || '').split('/').filter(Boolean); return p.length >= 2 && p.length <= 3 && p[0] === 'painel' && p.every((x) => /^[A-Za-z0-9_-]+$/.test(x)) && !!(FRAG[p[1]] || ALIAS[p[1]]); };
+  /* destino: para onde ir depois de entrar (só ao retomar a sessão, depois de recarregar a página); retomada: true quando a sessão já existia */
+  async function concluirLogin(destino, retomada) {
+    const falha = async (msg) => { await sairReal(retomada ? 'local' : undefined); passoLogin = 1; render(); erroLogin(msg); };
     try {
       const a = await SB.auth.mfa.getAuthenticatorAssuranceLevel();
       if (!a.data || a.data.currentLevel !== 'aal2') return falha('A verificação em duas etapas não foi concluída. Entre de novo.');
@@ -3145,8 +3159,25 @@ const NAV = [
       if (u.data.papel !== 'dona') return falha('O acesso das ADMs ainda não foi liberado nesta página.');
       CARREGANDO = 'Carregando as vagas'; render();
       await carregarDoBanco();
-      CARREGANDO = ''; S.sessao = 'admin'; passoLogin = 1; ir('/painel/' + telaInicial(S.sessao));
-    } catch (e) { await falha('Entrou, mas não consegui ler as vagas: ' + traduzErro(e)); }
+      CARREGANDO = ''; S.sessao = 'admin'; passoLogin = 1; ir(rotaPainelValida(destino) ? String(destino) : '/painel/' + telaInicial(S.sessao));
+    } catch (e) { await falha((retomada ? 'Não consegui reabrir as vagas: ' : 'Entrou, mas não consegui ler as vagas: ') + traduzErro(e)); }
+  }
+  /* ---- ao abrir ou recarregar a página: se esta aba já tem uma sessão guardada, ela é conferida de novo no servidor (código do autenticador em dia e conta na lista das GOMs,
+     exatamente como no login) antes de mostrar qualquer coisa; se algo não bater, volta para o login. Não há nenhum atalho: a sessão guardada só vale se o servidor aceitar. ---- */
+  async function retomarSessao(rotaPedida) {
+    const volta = () => { CARREGANDO = ''; passoLogin = 1; S.sessao = null; render(); };
+    try {
+      const s = await SB.auth.getSession();                      /* se o acesso venceu, o próprio Supabase renova aqui; se não der, devolve sem sessão */
+      if (!s || s.error || !s.data || !s.data.session) { if (s && !s.error) limparSessaoGuardada(); volta(); return; }   /* sem erro e sem sessão = o que estava guardado não presta: limpa; com erro (ex.: sem internet) não apaga, para tentar de novo ao recarregar */
+      const a = await SB.auth.mfa.getAuthenticatorAssuranceLevel();
+      if (a.error || !a.data || a.data.currentLevel !== 'aal2') { await sairReal('local'); volta(); return; }   /* só a senha, sem o código: não vale */
+      await concluirLogin(rotaPedida, true);
+    } catch (e) { volta(); }
+  }
+  function iniciarPagina() {
+    const pedida = ROTA;      /* o endereço de antes de recarregar (#/painel/...), para voltar para a mesma tela */
+    if (SB && haSessaoGuardada()) { CARREGANDO = 'Retomando o seu acesso'; render(); retomarSessao(pedida); }
+    else render();
   }
   document.addEventListener('submit', (e) => {
     const f = e.target;
@@ -3713,7 +3744,7 @@ const NAV = [
 
   window.__ir = ir; window.__rota = () => ROTA;
 
-  render();
+  iniciarPagina();
 })();
 
 </script>
