@@ -230,6 +230,8 @@ input[type=checkbox],input[type=radio]{accent-color:var(--purple)}
 .sc-site>div:first-child{flex:1 1 320px;min-width:0}
 .sc-site.no-site{background:var(--tint)}
 .sc-site.cancelado{background:var(--bad-bg);color:var(--bad-ink)}
+.sc-site.em-aberto{background:#E6F0FB}
+.g-chip.aberto{background:#E2EEFB;color:#1D5A9E}
 .sc-vazio{padding:18px 12px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
 .sc-lista-res .ok{color:var(--ok-ink)}
 .pe-duas{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start}
@@ -1758,10 +1760,11 @@ const NAV = [
   }
 
   /* ---- os dados do banco ficam na memória; depois de cada gravação só o que mudou é lido de novo ---- */
-  const DB = { cegs: [], pobs: [], sets: [], vagas: [], acoes: [], pessoas: [], pessoasOk: false, siteOk: false };
+  const DB = { cegs: [], pobs: [], sets: [], vagas: [], acoes: [], pessoas: [], pessoasOk: false, siteOk: false, abertoOk: false };
   const IX = { ceg: new Map(), pob: new Map(), set: new Map(), vaga: new Map(), vagasDoSet: new Map(), setsDaPob: new Map(), pobsDaCeg: new Map(), porHandle: new Map(), ultimaPorHandle: new Map(), pessoa: new Map(), pessoaPorHandle: new Map() };
   const COL_SETS_V1 = 'id,ceg_id,pob_id,numero,estado,valor,prazo,hora_limite,multa_dia,multa_por_item,lote,oculto,criado_em,liberado_em';
   const COL_SETS_V2 = COL_SETS_V1 + ',no_site,no_site_em,cancelado_em';
+  const COL_SETS_V3 = COL_SETS_V2 + ',aberto_em';
   const COL = {
     gom_cegs: 'id,nome,ativo',
     gom_pobs: 'id,ceg_id,nome,membros',
@@ -1798,14 +1801,16 @@ const NAV = [
   async function lerPessoas() {
     try { DB.pessoas = await lerPaginas('gom_pessoas'); DB.pessoasOk = true; } catch (e) { DB.pessoas = []; DB.pessoasOk = false; }
   }
-  /* os sets: se o SQL 05 (no site e cancelado) ainda não foi rodado, a coluna nova não existe; a página lê sem ela e esconde os botões novos */
+  /* os sets: se o SQL 05 (no site e cancelado) ou o SQL 07 (set em aberto) ainda não foi rodado, a coluna nova não existe; a página lê sem ela e esconde os botões novos */
   async function lerSets() {
-    COL.gom_sets = COL_SETS_V2;
-    try { const x = await lerPaginas('gom_sets'); DB.siteOk = true; return x; }
-    catch (e) {
-      if (!e || (String(e.code) !== '42703' && String(e.code) !== 'PGRST204' && !/column/i.test(String(e.message || '')))) throw e;
-      COL.gom_sets = COL_SETS_V1; DB.siteOk = false; return lerPaginas('gom_sets');
+    const faltaColuna = (e) => !!e && (String(e.code) === '42703' || String(e.code) === 'PGRST204' || /column/i.test(String(e.message || '')));
+    const niveis = [[COL_SETS_V3, true, true], [COL_SETS_V2, true, false], [COL_SETS_V1, false, false]];
+    for (let i = 0; i < niveis.length; i += 1) {
+      COL.gom_sets = niveis[i][0];
+      try { const x = await lerPaginas('gom_sets'); DB.siteOk = niveis[i][1]; DB.abertoOk = niveis[i][2]; return x; }
+      catch (e) { if (i === niveis.length - 1 || !faltaColuna(e)) throw e; }
     }
+    return [];
   }
   async function lerTudo() {
     const r = await Promise.all([lerPaginas('gom_cegs'), lerPaginas('gom_pobs'), lerSets(), lerPaginas('gom_vagas'), lerAcoes(), lerPessoas()]);
@@ -1892,7 +1897,7 @@ const NAV = [
   const dataCurta = (iso) => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || ''); return m ? m[3] + '/' + m[2] : '—'; };
   const horaCurta = (t) => String(t || '12:00').slice(0, 5);
   const momentoBR = (iso) => { const d = new Date(iso); return isNaN(d) ? '' : pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear() + ' às ' + pad(d.getHours()) + ':' + pad(d.getMinutes()); };
-  const ROT_SET = { rascunho: 'Rascunho', revisao: 'Em revisão', liberado: 'Liberado', cancelado: 'Cancelado' };
+  const ROT_SET = { rascunho: 'Rascunho', aberto: 'Set em aberto', revisao: 'Em revisão', liberado: 'Liberado', cancelado: 'Cancelado' };
   const quandoRel = (iso) => {
     const d = new Date(iso); if (isNaN(d)) return '';
     const hoje = new Date(); const ontem = new Date(); ontem.setDate(hoje.getDate() - 1);
@@ -1925,15 +1930,19 @@ const NAV = [
     const vivas = DB.vagas.filter((v) => !vagaCancelada(v));
     const pobs = DB.pobs.length; const pessoas = new Set(vivas.filter((v) => v.joiner_handle).map((v) => v.joiner_handle)).size;
     const emRev = DB.sets.filter((s) => s.estado === 'revisao'); const rasc = DB.sets.filter((s) => s.estado === 'rascunho');
+    const emAberto = DB.abertoOk ? DB.sets.filter((s) => s.estado === 'aberto') : [];
     const feitos = (s) => (IX.vagasDoSet.get(s.id) || []).filter((v) => v.joiner_handle).length;
     const nomeSet = (s) => 'Set ' + s.numero + ' de ' + ((IX.pob.get(s.pob_id) || {}).nome || '?');
     const pront = temPerm(S.sessao, 'liberar_pagamento')
       ? '<section class="g-card" aria-label="Prontos para liberar"><div><h2>Prontos para liberar</h2><p>' + (emRev.length ? plm(emRev.length, 'set completo espera', 'sets completos esperam') + ' a liberação do pagamento.' : 'Nenhum set esperando liberação agora.') + '</p></div>' +
         (emRev.length ? '<p><a class="g-btn primario" href="#/painel/liberar">Abrir Liberar pagamento</a></p>' : '') + '</section>' : '';
-    const noSite = DB.siteOk ? DB.sets.filter((s) => s.no_site === true && (s.estado === 'rascunho' || s.estado === 'revisao')) : [];
-    const siteCard = DB.siteOk ? '<section class="g-card" aria-label="Sets no site"><div><h2>Sets no site</h2><p>' + (noSite.length ? plm(noSite.length, 'set está', 'sets estão') + ' no site: os joiners veem quem pegou cada vaga, mas ainda não podem pagar.' : 'Nenhum set no site esperando liberação de pagamento.') + '</p></div>' +
+    const noSite = DB.siteOk ? DB.sets.filter((s) => s.no_site === true && (s.estado === 'rascunho' || s.estado === 'aberto' || s.estado === 'revisao')) : [];
+    const siteCard = DB.siteOk ? '<section class="g-card" aria-label="Sets no site"><div><h2>Sets no site</h2><p>' + (noSite.length ? plm(noSite.length, 'set está', 'sets estão') + ' no site (Área do Joiner): os joiners veem quem pegou cada vaga, mas ainda não podem pagar.' : 'Nenhum set no site esperando liberação de pagamento.') + '</p></div>' +
       (noSite.length && temPerm(S.sessao, 'liberar_pagamento') ? '<p><a class="g-btn" href="#/painel/liberar">Abrir Liberar pagamento</a></p>' : '') + '</section>' : '';
-    const rascCard = '<section class="g-card" aria-label="Sets em rascunho"><div><h2>Sets em rascunho</h2><p>' + (rasc.length ? (DB.siteOk ? 'Sets ainda sendo preenchidos. Os joiners só veem um set depois que você sobe para o site ou libera o pagamento.' : 'Ninguém vê estes sets até serem enviados para revisão e liberados.') : 'Nenhum set em rascunho.') + '</p></div>' +
+    const naPagina = emAberto.filter((s) => s.no_site !== true); const jaNoSite = emAberto.length - naPagina.length;
+    const abertoCard = DB.abertoOk ? '<section class="g-card" aria-label="Sets em aberto"><div><h2>Sets em aberto</h2><p>' + (emAberto.length ? plm(naPagina.length, 'set aparece', 'sets aparecem') + ' na página Sets Abertos do site, com as vagas livres e o @ de quem já pegou.' + (jaNoSite ? ' ' + plm(jaNoSite, 'set em aberto já está', 'sets em aberto já estão') + ' no site (Área do Joiner) e por isso não ' + (jaNoSite === 1 ? 'aparece' : 'aparecem') + ' na página.' : '') : 'Nenhum set em aberto. O set que você colocar em aberto aparece na página Sets Abertos do site.') + '</p></div>' +
+      (emAberto.length ? '<div class="ini-lista">' + emAberto.slice(-6).reverse().map((s) => '<div class="ini-linha"><div><strong>' + esc(nomeSet(s)) + '</strong><div class="ml-meta">' + feitos(s) + ' de ' + (IX.vagasDoSet.get(s.id) || []).length + ' vagas preenchidas' + (s.no_site === true ? ' · já no site' : '') + '</div></div><button type="button" class="g-btn" data-acao="sc-abrir-set" data-id="' + s.id + '">Abrir</button></div>').join('') + '</div>' + (emAberto.length > 6 ? '<p class="ml-meta">E mais ' + (emAberto.length - 6) + ' em aberto.</p>' : '') : '') + '</section>' : '';
+    const rascCard = '<section class="g-card" aria-label="Sets em rascunho"><div><h2>Sets em rascunho</h2><p>' + (rasc.length ? (DB.abertoOk ? 'Sets ainda sendo preenchidos. Os joiners só veem um set depois que você coloca em aberto, sobe para o site ou libera o pagamento.' : DB.siteOk ? 'Sets ainda sendo preenchidos. Os joiners só veem um set depois que você sobe para o site ou libera o pagamento.' : 'Ninguém vê estes sets até serem enviados para revisão e liberados.') : 'Nenhum set em rascunho.') + '</p></div>' +
       (rasc.length ? '<div class="ini-lista">' + rasc.slice(-6).reverse().map((s) => '<div class="ini-linha"><div><strong>' + esc(nomeSet(s)) + '</strong><div class="ml-meta">' + feitos(s) + ' de ' + (IX.vagasDoSet.get(s.id) || []).length + ' vagas preenchidas</div></div><button type="button" class="g-btn" data-acao="sc-abrir-set" data-id="' + s.id + '">Abrir</button></div>').join('') + '</div>' + (rasc.length > 6 ? '<p class="ml-meta">E mais ' + (rasc.length - 6) + ' em rascunho.</p>' : '') : '') + '</section>';
     const ativ = DB.acoes.slice(0, 8);
     const ativCard = '<section class="g-card" aria-label="Atividade recente"><div><h2>Atividade recente</h2><p>Cada ação fica registrada com quem fez e quando.</p></div>' +
@@ -1941,7 +1950,7 @@ const NAV = [
     FRAG.inicio = '<main class="sc-main">' +
       '<header><h1>Início</h1><p class="g-muted" style="margin:8px 0 0">' + plm(DB.cegs.length, 'CEG', 'CEGs') + ', ' + plm(pobs, 'POB', 'POBs') + ', ' + plm(vivas.length, 'vaga', 'vagas') + ' e ' + plm(pessoas, 'pessoa', 'pessoas') + '.</p></header>' +
       '<section class="g-card" aria-label="Situação das vagas"><div><h2>Situação das vagas</h2></div><div class="ml-resumo">' + ESTADOS_ML.filter((e) => c[e]).map((e) => chip(plm(c[e], ROTULO_ESTADO[e][0], ROTULO_ESTADO[e][1]), CLASSE_ESTADO[e])).join('') + '</div>' +
-      '<p><a class="g-btn" href="#/painel/masterlist">Abrir a Masterlist</a></p></section>' + pront + siteCard +
+      '<p><a class="g-btn" href="#/painel/masterlist">Abrir a Masterlist</a></p></section>' + pront + abertoCard + siteCard +
       '<div class="ini-duas">' + rascCard + ativCard + '</div>' +
       '<p class="g-muted" style="margin:0">As telas Masterlist, Sets e Claims, Liberar pagamento, Cadastros Joiners e Pagamentos em atraso já estão ligadas ao banco. As outras telas do menu seguem com dados de exemplo e vão sendo ligadas uma de cada vez.</p></main>';
     return FRAG.inicio;
@@ -2007,9 +2016,9 @@ const NAV = [
   const ABAS_SC = [['criar', 'Criar sets', 'criar_sets'], ['anotar', 'Anotar claims', 'anotar_claims'], ['editar', 'Editar claim', 'anotar_claims']];
   const SC = {
     aba: 'criar', modo: 'set', membro: '', soLivres: false, mais: null, ceg: 0, pob: 0, set: 0, vaga: 0, editSet: false, colar: '', colarRes: null, linhas: {}, edit: null, fila: Promise.resolve(),
-    criar: { ceg: 0, pob: 0, qtd: '10', membros: null, valor: '', prazo: '', hora: '12:00', multa: '0,00', porItem: false, abertoMembros: false, abertoValores: false, novoMembro: false, erroMembro: '', padraoDe: 0 }
+    criar: { ceg: 0, pob: 0, qtd: '10', membros: null, valor: '', prazo: '', hora: '12:00', multa: '0,00', porItem: false, abrir: false, abertoMembros: false, abertoValores: false, novoMembro: false, erroMembro: '', padraoDe: 0 }
   };
-  const TIPOS_DESFAZ = ['mudar_status', 'anotar_claim', 'editar_claim', 'trocar_dono', 'limpar_vaga', 'colar_claims', 'confirmar_claim', 'corrigir_membro', 'criar_sets', 'enviar_revisao', 'devolver_rascunho', 'liberar_sets', 'editar_set', 'subir_site', 'tirar_site', 'cancelar_set', 'reabrir_set'];
+  const TIPOS_DESFAZ = ['mudar_status', 'anotar_claim', 'editar_claim', 'trocar_dono', 'limpar_vaga', 'colar_claims', 'confirmar_claim', 'corrigir_membro', 'criar_sets', 'enviar_revisao', 'devolver_rascunho', 'liberar_sets', 'editar_set', 'subir_site', 'tirar_site', 'cancelar_set', 'reabrir_set', 'abrir_set', 'tirar_aberto'];
   /* as gravações andam uma de cada vez, na ordem em que foram pedidas (assim "sair da linha" e "enviar para revisão" nunca se atropelam) */
   const enfileirar = (fn) => { const p = SC.fila.then(fn); SC.fila = p.catch(() => {}); return p; };
   const porNomeSC = (a, b) => semAcento(a.nome).localeCompare(semAcento(b.nome));
@@ -2022,8 +2031,8 @@ const NAV = [
   const nomePobSC = (id) => (IX.pob.get(id) || {}).nome || '?';
   const nomeCegSC = (id) => (IX.ceg.get(id) || {}).nome || '?';
   const rotSetSC = (s) => 'Set ' + s.numero + ' de ' + nomePobSC(s.pob_id);
-  const classeSet = { rascunho: '', revisao: 'warn', liberado: 'ok', cancelado: 'bad' };
-  const noSiteSC = (s) => !!s && DB.siteOk && s.no_site === true && (s.estado === 'rascunho' || s.estado === 'revisao');   /* subido para o site, mas sem pagamento aberto */
+  const classeSet = { rascunho: '', aberto: 'aberto', revisao: 'warn', liberado: 'ok', cancelado: 'bad' };
+  const noSiteSC = (s) => !!s && DB.siteOk && s.no_site === true && (s.estado === 'rascunho' || s.estado === 'aberto' || s.estado === 'revisao');   /* subido para o site, mas sem pagamento aberto */
   const chipSet = (s) => '<span class="g-chip' + (classeSet[s.estado] ? ' ' + classeSet[s.estado] : '') + '">' + ROT_SET[s.estado] + '</span>' + (noSiteSC(s) ? '<span class="g-chip violeta">No site</span>' : '');
   const normHandleSC = (s) => String(s || '').trim().toLowerCase().replace(/\s+/g, '').replace(/^@+/, '');
   const opcaoSC = (v, t, sel) => '<option value="' + esc(v) + '"' + (sel ? ' selected' : '') + '>' + esc(t) + '</option>';
@@ -2053,7 +2062,7 @@ const NAV = [
   function setInicialSC(pobId) {
     const todos = setsDaPobSC(pobId); if (!todos.length) return 0;
     const ativos = todos.filter((s) => s.estado !== 'cancelado'); const ss = ativos.length ? ativos : todos;
-    return (ss.find((s) => s.estado === 'rascunho') || ss.find((s) => s.estado === 'revisao') || ss[ss.length - 1]).id;
+    return (ss.find((s) => s.estado === 'rascunho' || s.estado === 'aberto') || ss.find((s) => s.estado === 'revisao') || ss[ss.length - 1]).id;
   }
   /* os membros da POB (na ordem da lista da POB, mais qualquer nome que só exista em algum set) */
   function membrosDaPobSC(pobId) {
@@ -2163,7 +2172,7 @@ const NAV = [
     const membros = membrosCriarSC();
     const chips = membros.map((m) => '<span class="cs-chip" data-nome="' + esc(m) + '">' + esc(m) + '<button type="button" data-acao="sc-rem-membro" data-nome="' + esc(m) + '" aria-label="Remover ' + esc(m) + '">' + SVG_X_CS + '</button></span>').join('');
     const mais = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>';
-    return '<section class="cs-card" aria-label="Novo lote de sets"><div class="cs-cab"><h2>Novo lote de sets</h2><p>Os sets nascem em rascunho e ficam todos livres' + (DB.siteOk ? ', fora do site. Anote os claims, suba para o site quando quiser mostrar o set aos joiners e, com tudo conferido, envie para revisão e libere o pagamento.' : '. Só depois de anotar os claims e conferir é que você envia o set para revisão e libera o pagamento.') + '</p></div>' +
+    return '<section class="cs-card" aria-label="Novo lote de sets"><div class="cs-cab"><h2>Novo lote de sets</h2><p>Os sets nascem em rascunho e ficam todos livres' + (DB.abertoOk ? '. Coloque o set em aberto quando quiser que ele apareça na página Sets Abertos do site. Anote os claims; quando o set fechar, suba para o site (Área do Joiner) e, com tudo conferido, envie para revisão e libere o pagamento.' : DB.siteOk ? ', fora do site. Anote os claims, suba para o site quando quiser mostrar o set aos joiners e, com tudo conferido, envie para revisão e libere o pagamento.' : '. Só depois de anotar os claims e conferir é que você envia o set para revisão e libera o pagamento.') + '</p></div>' +
       '<div class="cs-linha"><div class="cs-campo"><label for="c-ceg">CEG</label><select id="c-ceg" data-sc="criar.ceg"><option value="">—</option>' + cegs.map((x) => opcaoSC(x.id, x.nome, x.id === c.ceg)).join('') + '</select></div>' +
       '<div class="cs-campo"><label for="c-pob">POB</label><select id="c-pob" data-sc="criar.pob"' + (c.ceg ? '' : ' disabled') + '><option value="">' + (c.ceg ? (pobs.length ? '—' : 'Crie a primeira POB desta CEG') : '—') + '</option>' + pobs.map((x) => opcaoSC(x.id, x.nome, x.id === c.pob)).join('') + '</select></div>' +
       '<div class="cs-campo"><label for="c-qtd">Quantidade de sets</label><input id="c-qtd" type="text" inputmode="numeric" value="' + esc(c.qtd) + '" data-sc="criar.qtd" autocomplete="off"></div></div>' +
@@ -2182,8 +2191,9 @@ const NAV = [
       '<label class="cs-check"><input id="c-multiplica" type="checkbox" data-sc="criar.porItem"' + (c.porItem ? ' checked' : '') + '>Multiplicar a multa pelo número de itens (sets completos)</label>' +
       '<p class="cs-nota">Já vêm com o último valor usado nesta POB. Depois que os sets forem criados, valor, prazo e multa só mudam direto no próprio set.</p></div></div></div>' +
       '<div class="cs-resumo" id="cs-resumo" aria-live="polite"></div>' +
+      (DB.abertoOk ? '<label class="cs-check"><input id="c-abrir" type="checkbox" data-sc="criar.abrir"' + (c.abrir ? ' checked' : '') + '>Já colocar em aberto (os sets aparecem na página Sets Abertos, com todas as vagas livres)</label>' : '') +
       '<div class="cs-acoes"><button type="button" class="g-btn primario" id="sc-btn-criar" data-acao="sc-criar" disabled>Criar sets</button></div></section>' +
-      '<details class="cs-info"><summary>Como funciona o caminho de um set?</summary><p>1) O set nasce em rascunho, com todas as vagas livres. 2) Você anota quem pegou cada vaga na aba Anotar claims; o painel avisa se um @ repete, se o final do telefone é diferente do que já existe ou se a pessoa também está em outro set da mesma POB.' + (DB.siteOk ? ' 3) Quando quiser, suba o set para o site: os joiners veem quem pegou cada vaga, mas ainda não pagam. 4) Com tudo conferido, envie o set para revisão. 5) Na tela Liberar pagamento a administradora libera os sets. Se o set não fechar, cancele o set.' : ' 3) Com tudo conferido, envie o set para revisão. 4) Na tela Liberar pagamento a administradora libera os sets.') + ' Cada passo fica registrado, com quem fez e quando, e dá para desfazer em Últimas mudanças.</p></details>';
+      '<details class="cs-info"><summary>Como funciona o caminho de um set?</summary><p>1) O set nasce em rascunho, com todas as vagas livres. 2) Você anota quem pegou cada vaga na aba Anotar claims; o painel avisa se um @ repete, se o final do telefone é diferente do que já existe ou se a pessoa também está em outro set da mesma POB.' + (DB.abertoOk ? ' 3) Para os joiners verem as vagas livres e quem já pegou, coloque o set em aberto: ele aparece na página Sets Abertos do site. 4) Quando o set fechar, suba o set para o site (Área do Joiner): os joiners veem quem pegou cada vaga, mas ainda não pagam, e o set sai da página Sets Abertos. 5) Com tudo conferido, envie o set para revisão. 6) Na tela Liberar pagamento a administradora libera os sets. Se o set não fechar, cancele o set.' : DB.siteOk ? ' 3) Quando quiser, suba o set para o site: os joiners veem quem pegou cada vaga, mas ainda não pagam. 4) Com tudo conferido, envie o set para revisão. 5) Na tela Liberar pagamento a administradora libera os sets. Se o set não fechar, cancele o set.' : ' 3) Com tudo conferido, envie o set para revisão. 4) Na tela Liberar pagamento a administradora libera os sets.') + ' Cada passo fica registrado, com quem fez e quando, e dá para desfazer em Últimas mudanças.</p></details>';
   }
   function atualizarResumoCriarSC() {
     const c = SC.criar; const r = validarCriarSC();
@@ -2215,6 +2225,7 @@ const NAV = [
       '<div class="ms-campos"><div class="cs-campo"><label for="ms-qtd">Quantos sets a mais?</label><input id="ms-qtd" type="text" inputmode="numeric" value="' + esc(m.qtd) + '" data-sc="mais.qtd" autocomplete="off"></div>' +
       '<div class="cs-campo"><label for="ms-prazo">Prazo de pagamento</label><input id="ms-prazo" type="text" inputmode="numeric" placeholder="dd/mm/aaaa" value="' + esc(m.prazo) + '" data-sc="mais.prazo" autocomplete="off"></div></div>' +
       '<div class="cs-resumo" id="ms-resumo" aria-live="polite"></div>' +
+      (DB.abertoOk ? '<label class="cs-check"><input id="ms-aberto" type="checkbox" data-sc="mais.abrir"' + (m.abrir ? ' checked' : '') + '>Já colocar em aberto (os sets aparecem na página Sets Abertos, com todas as vagas livres)</label>' : '') +
       (DB.siteOk ? '<label class="cs-check"><input id="ms-site" type="checkbox" data-sc="mais.subir"' + (m.subir ? ' checked' : '') + '>Já subir para o site (os joiners veem os sets e quem pegar as vagas, mas ainda não pagam)</label>' : '') +
       '<p class="cs-nota"><button type="button" class="cs-link" data-acao="sc-mais-mudar">Mudar membros, valor, horário ou multa</button></p>' +
       '<p class="g-erro" id="m-erro" role="alert" hidden></p>' +
@@ -2245,7 +2256,7 @@ const NAV = [
     if (!temPerm(S.sessao, 'criar_sets')) return toast('Você não tem permissão para criar sets.');
     const ref = setReferenciaSC(pob.id); if (!ref) return toast('Esta POB ainda não tem sets. Crie os primeiros na aba Criar sets.');
     const futuro = ref.prazo && new Date(ref.prazo + 'T23:59:00') >= new Date();
-    SC.mais = { pob: pob.id, qtd: '1', prazo: futuro ? dataBR(ref.prazo) : '', subir: false };
+    SC.mais = { pob: pob.id, qtd: '1', prazo: futuro ? dataBR(ref.prazo) : '', subir: false, abrir: false };
     abrirModal(htmlMaisSC()); atualizarResumoMaisSC(); enterConfirma('#ms-qtd', criarMaisSetsSC); enterConfirma('#ms-prazo', criarMaisSetsSC);
   }
   /* quem quiser mudar membros, valor, horário ou multa vai para a aba Criar sets, já com a POB, a quantidade e o prazo escolhidos */
@@ -2256,15 +2267,17 @@ const NAV = [
   }
   function criarMaisSetsSC() {
     const r = validarMaisSC(); if (!r.pronto) return erroModal(r.msg);
-    const subir = DB.siteOk && !!SC.mais.subir; const b = $('#ms-criar'); if (b) b.disabled = true;
+    const subir = DB.siteOk && !!SC.mais.subir; const abrir = DB.abertoOk && !!SC.mais.abrir; const b = $('#ms-criar'); if (b) b.disabled = true;
     enfileirar(async () => {
       const res = await rpc('gom_criar_sets', { p_pob: r.pob.id, p_qtd: r.qtd, p_membros: r.membros, p_valor: r.valor, p_prazo: r.prazo, p_hora: r.hora, p_multa: r.multa, p_multa_por_item: r.porItem });
       if (!res.ok) { if (b) b.disabled = false; return erroModal(res.msg); }
-      const d = res.dados || {}; const ids = d.ids || []; let subiu = false; let erroSite = '';
+      const d = res.dados || {}; const ids = d.ids || []; let subiu = false; let erroSite = ''; let abriu = false; let erroAberto = '';
       if (subir && ids.length) { const rs = await rpc('gom_site_sets', { p_sets: ids, p_subir: true }); subiu = rs.ok; if (!rs.ok) erroSite = rs.msg; }
+      if (abrir && ids.length) { const ra = await rpc('gom_abrir_sets', { p_sets: ids, p_abrir: true }); abriu = ra.ok; if (!ra.ok) erroAberto = ra.msg; }
       try { await atualizar({ pobs: true, sets: ids }); } catch (e) { toast('Os sets foram criados, mas não consegui atualizar a tela. Use "Atualizar agora".'); }
       fecharModal(); SC.mais = null;
-      toast((r.qtd === 1 ? 'Criei o Set ' + d.primeiro + ' em rascunho' : 'Criei ' + r.qtd + ' sets em rascunho: do Set ' + d.primeiro + ' ao Set ' + d.ultimo) + (subiu ? ', já no site' : '') + '.' + (erroSite ? ' Não consegui subir para o site: ' + erroSite : ''));
+      const onde = abriu ? 'em aberto' : 'em rascunho';
+      toast((r.qtd === 1 ? 'Criei o Set ' + d.primeiro + ' ' + onde : 'Criei ' + r.qtd + ' sets ' + onde + ': do Set ' + d.primeiro + ' ao Set ' + d.ultimo) + (subiu ? ', já no site' : '') + '.' + (erroSite ? ' Não consegui subir para o site: ' + erroSite : '') + (erroAberto ? ' Não consegui colocar em aberto: ' + erroAberto : ''));
       const novo = ids[0];
       if (SC.aba === 'anotar' && SC.modo === 'membro') desenharSets(); else if (novo && IX.set.has(novo)) irParaSetSC('anotar', novo); else desenharSets();
     });
@@ -2312,10 +2325,12 @@ const NAV = [
     enfileirar(async () => {
       const res = await rpc('gom_criar_sets', { p_pob: r.pob.id, p_qtd: r.qtd, p_membros: r.membros, p_valor: r.valor, p_prazo: r.prazo, p_hora: r.hora, p_multa: r.multa, p_multa_por_item: r.porItem });
       if (!res.ok) { toast(res.msg); atualizarResumoCriarSC(); return; }
-      const d = res.dados || {};
+      const d = res.dados || {}; let abriu = false; let erroAberto = '';
+      if (DB.abertoOk && SC.criar.abrir && (d.ids || []).length) { const ra = await rpc('gom_abrir_sets', { p_sets: d.ids, p_abrir: true }); abriu = ra.ok; if (!ra.ok) erroAberto = ra.msg; }
       try { await atualizar({ pobs: true, sets: d.ids || [] }); } catch (e) { toast('Os sets foram criados, mas não consegui atualizar a tela. Use "Atualizar agora".'); }
-      toast(r.qtd === 1 ? 'Criei o Set ' + d.primeiro + ' em rascunho.' : 'Criei ' + r.qtd + ' sets em rascunho: do Set ' + d.primeiro + ' ao Set ' + d.ultimo + '.');
-      SC.criar.membros = null;
+      const onde = abriu ? 'em aberto' : 'em rascunho';
+      toast((r.qtd === 1 ? 'Criei o Set ' + d.primeiro + ' ' + onde + '.' : 'Criei ' + r.qtd + ' sets ' + onde + ': do Set ' + d.primeiro + ' ao Set ' + d.ultimo + '.') + (erroAberto ? ' Não consegui colocar em aberto: ' + erroAberto : ''));
+      SC.criar.membros = null; SC.criar.abrir = false;   /* o próximo lote começa de novo em rascunho: nada vai para a página Sets Abertos sem você marcar */
       const novo = (d.ids || [])[0]; if (novo && IX.set.has(novo)) irParaSetSC('anotar', novo); else desenharSets();
     });
   }
@@ -2337,8 +2352,9 @@ const NAV = [
   /* ---- cabeçalho do set: etapas, dados do set, andamento ---- */
   function htmlEtapasSC(set, vs) {
     if (set.estado === 'cancelado') return '';
-    const pagas = vs.filter((v) => v.pagamento).length; const i = { rascunho: 1, revisao: 2, liberado: 3 }[set.estado];
+    const pagas = vs.filter((v) => v.pagamento).length; const i = DB.abertoOk ? { rascunho: 1, aberto: 2, revisao: 3, liberado: 4 }[set.estado] : { rascunho: 1, revisao: 2, liberado: 3 }[set.estado];
     const e = (n, t, extra) => '<div class="sc-etapa' + (n < i ? ' feita' : (n === i ? ' atual' : '')) + '"><b>' + n + '</b>' + t + (extra || '') + '</div>';
+    if (DB.abertoOk) return '<div class="sc-etapas" aria-label="Etapa do set">' + e(1, 'Rascunho') + e(2, 'Set em aberto') + e(3, 'Em revisão') + e(4, 'Liberado') + '<div class="sc-etapa' + (pagas ? ' feita' : '') + '"><b>5</b>Pago' + (pagas ? ': ' + pagas + ' de ' + preenchidasSC(vs) : '') + '</div></div>';
     return '<div class="sc-etapas" aria-label="Etapa do set">' + e(1, 'Rascunho') + e(2, 'Em revisão') + e(3, 'Liberado') + '<div class="sc-etapa' + (pagas ? ' feita' : '') + '"><b>4</b>Pago' + (pagas ? ': ' + pagas + ' de ' + preenchidasSC(vs) : '') + '</div></div>';
   }
   function htmlDadosSetSC(set) {
@@ -2381,6 +2397,18 @@ const NAV = [
     const bt = (podeSubirSC() ? '<button type="button" class="g-btn' + (no ? '' : ' primario') + '" data-acao="' + (no ? 'sc-site-tirar' : 'sc-site-subir') + '">' + (no ? 'Tirar do site' : 'Subir para o site') + '</button>' : '') +
       (podeCancelarSC() ? '<button type="button" class="g-btn" data-acao="sc-set-cancelar">Cancelar set</button>' : '');
     return '<div class="sc-site' + (no ? ' no-site' : '') + '" id="sc-site"><div>' + txt + '</div>' + (bt ? '<div class="cs-acoes">' + bt + '</div>' : '') + '</div>';
+  }
+  /* ---- Set em aberto: aparece na página Sets Abertos do site (fica ao lado do "Subir para o site", que leva o set fechado para a Área do Joiner) ---- */
+  const podeAbrirSC = () => DB.abertoOk && (temPerm(S.sessao, 'criar_sets') || temPerm(S.sessao, 'liberar_pagamento'));
+  function htmlAbertoSC(set) {
+    if (!DB.abertoOk || set.estado === 'cancelado' || set.estado === 'liberado') return '';
+    const aberto = set.estado === 'aberto'; const noSite = set.no_site === true;
+    let txt;
+    if (!aberto) txt = '<strong>Fora da página Sets Abertos.</strong> Para os joiners verem as vagas livres e quem já pegou, coloque o set em aberto.';
+    else if (noSite) txt = '<strong>Set em aberto, mas já está no site (Área do Joiner).</strong> Por isso ele não aparece na página Sets Abertos. Para voltar a aparecer lá, tire o set do site.';
+    else txt = '<strong>Set em aberto' + (set.aberto_em ? ' desde ' + momentoBR(set.aberto_em) : '') + '.</strong> Aparece na página Sets Abertos do site, com as vagas livres e o @ de quem já pegou.';
+    const bt = podeAbrirSC() ? '<button type="button" class="g-btn' + (aberto ? '' : ' primario') + '" data-acao="' + (aberto ? 'sc-aberto-tirar' : 'sc-aberto-abrir') + '">' + (aberto ? 'Tirar de aberto' : 'Colocar em aberto') + '</button>' : '';
+    return '<div class="sc-site' + (aberto ? ' em-aberto' : '') + '" id="sc-aberto"><div>' + txt + '</div>' + (bt ? '<div class="cs-acoes">' + bt + '</div>' : '') + '</div>';
   }
   function htmlTopoSetSC(set, vs) {
     return '<div class="sc-crumb"><span>' + esc(nomeCegSC(set.ceg_id)) + '</span><span aria-hidden="true">›</span><span>' + esc(nomePobSC(set.pob_id)) + '</span><span aria-hidden="true">›</span><strong>Set ' + set.numero + '</strong> ' + chipSet(set) + '</div>' + htmlEtapasSC(set, vs);
@@ -2444,7 +2472,7 @@ const NAV = [
   }
   function htmlRodapeSetSC(set, vs) {
     const n = preenchidasSC(vs); const av = vs.filter(temAvisoSC).length;
-    if (set.estado === 'rascunho') {
+    if (set.estado === 'rascunho' || set.estado === 'aberto') {
       const pode = n > 0 && av === 0 && (temPerm(S.sessao, 'criar_sets') || temPerm(S.sessao, 'anotar_claims'));
       const msg = av > 0 ? 'Resolva ' + plm(av, 'aviso', 'avisos') + ' para enviar o set para revisão.' : (n === 0 ? 'Anote pelo menos um claim para enviar o set para revisão.' : 'Tudo conferido. Pode enviar o set para revisão.');
       return '<div class="sc-rodape" id="sc-rodape"><div class="cs-acoes"><button type="button" class="g-btn primario" data-acao="sc-enviar-revisao"' + (pode ? '' : ' disabled') + '>Enviar para revisão</button></div><p class="cs-nota" id="sc-rodape-msg">' + msg + '</p></div>';
@@ -2465,7 +2493,7 @@ const NAV = [
     const set = setAtualSC();
     if (!set) return sel + '<section class="sc-card"><p class="g-muted" style="margin:0">' + (DB.sets.length ? 'Escolha a CEG, a POB e o set para anotar os claims.' : 'Ainda não há sets. Crie os sets na aba Criar sets.') + '</p></section>';
     const vs = vagasDoSetSC(set.id); const travado = set.estado === 'cancelado';
-    return sel + '<section class="sc-card" aria-label="Set escolhido"><div id="sc-topo">' + htmlTopoSetSC(set, vs) + '</div>' + htmlSiteSC(set) + '<div><h2 style="margin:0">' + esc(rotSetSC(set)) + '</h2><p class="g-muted" style="margin:4px 0 0">' +
+    return sel + '<section class="sc-card" aria-label="Set escolhido"><div id="sc-topo">' + htmlTopoSetSC(set, vs) + '</div>' + htmlAbertoSC(set) + htmlSiteSC(set) + '<div><h2 style="margin:0">' + esc(rotSetSC(set)) + '</h2><p class="g-muted" style="margin:4px 0 0">' +
       (travado ? 'Set cancelado: só consulta.' : 'Digite o @, o nome e o final do telefone. A vaga é salva sozinha quando você sai da linha (Enter ou Tab desce para a próxima). Se o @ já foi anotado antes, o nome e o final aparecem sozinhos.') + '</p></div>' +
       '<div id="sc-dados">' + htmlDadosSetSC(set) + '</div><div id="sc-andamento">' + htmlAndamentoSC(vs) + '</div>' + htmlTabelaSC(set, vs) + htmlRodapeSetSC(set, vs) + '</section>' + htmlColarSC(set);
   }
@@ -2501,6 +2529,7 @@ const NAV = [
     const vs = vagasDoSetSC(setId);
     vs.forEach((v) => { const g = document.querySelector('[data-sc-grupo="' + v.id + '"]'); if (!g) return; const emFoco = g.contains(document.activeElement); if (emFoco) return; const t = document.createElement('div'); t.innerHTML = grupoVagaSC(v, set); const novo = t.firstChild; g.replaceWith(novo); });
     const topo = $('#sc-topo'); if (topo) topo.innerHTML = htmlTopoSetSC(set, vs);
+    const abt = $('#sc-aberto'); if (abt) abt.outerHTML = htmlAbertoSC(set);
     const site = $('#sc-site'); if (site) site.outerHTML = htmlSiteSC(set);
     const and = $('#sc-andamento'); if (and) and.innerHTML = htmlAndamentoSC(vs);
     const rod = $('#sc-rodape'); if (rod) rod.outerHTML = htmlRodapeSetSC(set, vs);
@@ -2577,6 +2606,18 @@ const NAV = [
       const pul = ((r.dados || {}).pulados || [])[0];
       if (pul) return toast(rotSetSC(set) + (pul.motivo === 'liberado' ? ': já está liberado (no site, com o pagamento aberto).' : ': está cancelado.'));
       toast(rotSetSC(set) + (subir ? ': subiu para o site. Os joiners veem quem pegou cada vaga, mas só pagam depois que você liberar.' : ': saiu do site.'));
+    });
+  }
+  function abrirEmAbertoSC(abrir) {
+    const set = setAtualSC(); if (!set) return;
+    salvarLinhasPendentesSC();
+    enfileirar(async () => {
+      const r = await rpc('gom_abrir_sets', { p_sets: [set.id], p_abrir: abrir });
+      await relerEDesenharSC({ sets: [set.id] });
+      if (!r.ok) return toast(r.msg);
+      const pul = ((r.dados || {}).pulados || [])[0];
+      if (pul) return toast(rotSetSC(set) + (pul.motivo === 'liberado' ? ': já está liberado.' : ': está cancelado.'));
+      toast(rotSetSC(set) + (abrir ? (set.no_site === true ? ': agora é um set em aberto, mas já está no site (Área do Joiner) e por isso não aparece na página Sets Abertos. Para aparecer lá, tire o set do site.' : ': agora é um set em aberto e aparece na página Sets Abertos.') : ': saiu de aberto e voltou para rascunho.'));
     });
   }
   function pedirCancelarSetSC() {
@@ -2789,7 +2830,7 @@ const NAV = [
     const set = setAtualSC(); const sel = htmlSeletorSC();
     if (!set) return sel + '<section class="sc-card"><p class="g-muted" style="margin:0">' + (DB.sets.length ? 'Escolha a CEG, a POB e o set para editar um claim.' : 'Ainda não há sets.') + '</p></section>' + htmlMudancasSC();
     const vs = vagasDoSetSC(set.id); const v = vagaAtualSC();
-    return sel + '<div class="sc-duas"><section class="sc-card sc-esq" aria-label="Claims do Set ' + set.numero + '"><div id="sc-topo">' + htmlTopoSetSC(set, vs) + '</div>' + htmlSiteSC(set) + '<div><h2 style="margin:0">' + esc(rotSetSC(set)) + '</h2><p class="g-muted" style="margin:4px 0 0">Escolha um claim para editar. ' + plm(preenchidasSC(vs), 'vaga preenchida', 'vagas preenchidas') + ' de ' + vs.length + '.</p></div>' + htmlTabelaEditarSC(set, vs) + '</section>' +
+    return sel + '<div class="sc-duas"><section class="sc-card sc-esq" aria-label="Claims do Set ' + set.numero + '"><div id="sc-topo">' + htmlTopoSetSC(set, vs) + '</div>' + htmlAbertoSC(set) + htmlSiteSC(set) + '<div><h2 style="margin:0">' + esc(rotSetSC(set)) + '</h2><p class="g-muted" style="margin:4px 0 0">Escolha um claim para editar. ' + plm(preenchidasSC(vs), 'vaga preenchida', 'vagas preenchidas') + ' de ' + vs.length + '.</p></div>' + htmlTabelaEditarSC(set, vs) + '</section>' +
       (v ? '<section class="sc-card sc-dir">' + htmlPainelEditarSC(v, set) + '</section>' : '<section class="sc-card sc-dir"><p class="g-muted" style="margin:0">Escolha uma vaga na lista para ver os detalhes e editar.</p></section>') + '</div>' + htmlMudancasSC();
   }
   function salvarClaimSC() {
@@ -2870,7 +2911,15 @@ const NAV = [
     else if (k === 'criar.pob') { c.pob = parseInt(valor, 10) || 0; aplicarPadroesCriarSC(); desenharSets(); }
     else if (k === 'criar.porItem') { c.porItem = !!valor; atualizarResumoCriarSC(); }
     else if (k.indexOf('criar.') === 0) { c[k.slice(6)] = valor; atualizarResumoCriarSC(); }
-    else if (k.indexOf('mais.') === 0) { if (SC.mais) { SC.mais[k.slice(5)] = valor; atualizarResumoMaisSC(); } }
+    else if (k.indexOf('mais.') === 0) {
+      if (SC.mais) {
+        SC.mais[k.slice(5)] = valor;
+        /* colocar em aberto e subir para o site juntos não faz sentido: o set que vai para a Área do Joiner sai da página Sets Abertos. Marcar um desmarca o outro. */
+        if (k === 'mais.abrir' && valor) { SC.mais.subir = false; const o = $('#ms-site'); if (o) o.checked = false; }
+        if (k === 'mais.subir' && valor) { SC.mais.abrir = false; const o = $('#ms-aberto'); if (o) o.checked = false; }
+        atualizarResumoMaisSC();
+      }
+    }
     else if (k === 'colar') { SC.colar = valor; if (SC.colarRes) { SC.colarRes = null; const r = $('#sc-colar-res'); if (r) r.innerHTML = ''; const b = $('#sc-btn-salvar-colar'); if (b) { b.disabled = true; b.textContent = 'Salvar linhas'; } } }
     else if (k === 'e-handle' || k === 'e-nome' || k === 'e-final') aoDigitarEdicaoSC(el);
   }
@@ -2880,6 +2929,8 @@ const NAV = [
     switch (acao) {
       case 'sc-aba': SC.aba = a.getAttribute('data-aba'); SC.editSet = false; desenharSets(false); return true;
       case 'sc-modo': SC.modo = a.getAttribute('data-modo') === 'membro' ? 'membro' : 'set'; SC.edit = null; desenharSets(false); return true;
+      case 'sc-aberto-abrir': abrirEmAbertoSC(true); return true;
+      case 'sc-aberto-tirar': abrirEmAbertoSC(false); return true;
       case 'sc-site-subir': subirSiteSC(true); return true;
       case 'sc-site-tirar': subirSiteSC(false); return true;
       case 'sc-set-cancelar': pedirCancelarSetSC(); return true;
@@ -2946,7 +2997,7 @@ const NAV = [
      Liberar NÃO marca ninguém como pago: só abre o pagamento (e trava valor e dono para as ADMs). Subir para o site só mostra o set e quem pegou cada vaga.
      Tudo fica registrado, com quem fez e quando. */
   const LB = { ceg: 0, estado: 'revisao', busca: '', marcados: new Set(), limite: 200 };
-  const PESO_ESTADO_LB = { revisao: 0, rascunho: 1, liberado: 2, cancelado: 3 };
+  const PESO_ESTADO_LB = { revisao: 0, aberto: 1, rascunho: 2, liberado: 3, cancelado: 4 };
   const passaEstadoLB = (s) => LB.estado === 'todos' || (LB.estado === 'nosite' ? noSiteSC(s) : s.estado === LB.estado);
   function setsFiltradosLB() {
     const b = semAcento(LB.busca).trim();
@@ -2956,10 +3007,10 @@ const NAV = [
   }
   const prontoParaLiberarLB = (s) => s.estado === 'revisao' && !vagasDoSetSC(s.id).some(temAvisoSC) && preenchidasSC(vagasDoSetSC(s.id)) > 0;
   /* quais sets podem ser marcados: com a opção do site, qualquer set em rascunho ou em revisão; sem ela (antes do SQL 05), só os prontos para liberar */
-  const marcavelLB = (s) => (DB.siteOk ? (s.estado === 'rascunho' || s.estado === 'revisao') : prontoParaLiberarLB(s));
+  const marcavelLB = (s) => (DB.siteOk ? (s.estado === 'rascunho' || s.estado === 'aberto' || s.estado === 'revisao') : prontoParaLiberarLB(s));
   const totalSetLB = (s) => vagasDoSetSC(s.id).filter((v) => v.joiner_handle).reduce((t, v) => t + (v.valor === null || v.valor === undefined ? 0 : Number(v.valor)), 0);
   function linhaSetLB(s) {
-    const vs = vagasDoSetSC(s.id); const n = preenchidasSC(vs); const av = vs.filter(temAvisoSC).length; const aberto = s.estado === 'rascunho' || s.estado === 'revisao';
+    const vs = vagasDoSetSC(s.id); const n = preenchidasSC(vs); const av = vs.filter(temAvisoSC).length; const aberto = s.estado === 'rascunho' || s.estado === 'aberto' || s.estado === 'revisao';
     const nome = esc(nomePobSC(s.pob_id) + ', Set ' + s.numero);
     const multa = Number(s.multa_dia || 0);
     const claims = n === vs.length ? String(n) : n + ' de ' + vs.length;
@@ -2987,7 +3038,9 @@ const NAV = [
     const sel = marc.filter(prontoParaLiberarLB);
     const subir = DB.siteOk ? marc.filter((s) => s.no_site !== true) : [];
     const tirar = DB.siteOk ? marc.filter((s) => s.no_site === true) : [];
-    if (!marc.length) return { n: 0, marc, sel, subir, tirar, titulo: 'Nenhum set escolhido', texto: DB.siteOk ? 'Marque os sets que você quer liberar para pagamento ou subir para o site.' : 'Marque os sets em revisão que você quer liberar para pagamento.' };
+    const abrir = DB.abertoOk ? marc.filter((s) => s.estado === 'rascunho' || s.estado === 'revisao') : [];   /* podem ser colocados em aberto */
+    const fechar = DB.abertoOk ? marc.filter((s) => s.estado === 'aberto') : [];   /* podem ser tirados de aberto */
+    if (!marc.length) return { n: 0, marc, sel, subir, tirar, abrir, fechar, titulo: 'Nenhum set escolhido', texto: DB.abertoOk ? 'Marque os sets que você quer liberar para pagamento, colocar em aberto ou subir para o site.' : DB.siteOk ? 'Marque os sets que você quer liberar para pagamento ou subir para o site.' : 'Marque os sets em revisão que você quer liberar para pagamento.' };
     let claims = 0; let total = 0; const prazos = []; const multas = [];
     sel.forEach((s) => {
       claims += preenchidasSC(vagasDoSetSC(s.id)); total += totalSetLB(s);
@@ -2999,7 +3052,7 @@ const NAV = [
     const prazosTxt = lista.length > 1 ? lista.slice(0, -1).join(', ') + ' e ' + lista[lista.length - 1] : lista[0];
     const multaTxt = multas.length === 1 ? 'Multa: ' + multas[0] + ', depois do prazo.' : 'Multas diferentes entre os sets.';
     const detalhe = pl(claims, 'claim', 'claims') + ', no valor total de ' + brl(total) + '. Prazos: ' + prazosTxt + '. ' + multaTxt;
-    if (!DB.siteOk) return { n: sel.length, marc, sel, subir, tirar, sets: sel, claims, total, titulo: 'Você vai liberar ' + pl(sel.length, 'set', 'sets'), texto: detalhe };
+    if (!DB.siteOk) return { n: sel.length, marc, sel, subir, tirar, abrir, fechar, sets: sel, claims, total, titulo: 'Você vai liberar ' + pl(sel.length, 'set', 'sets'), texto: detalhe };
     const naoProntos = marc.length - sel.length;
     const partes = [];
     if (sel.length) partes.push('Prontos para liberar o pagamento: ' + pl(sel.length, 'set', 'sets') + ' (' + detalhe + ')');
@@ -3007,26 +3060,30 @@ const NAV = [
       const jaNoSite = marc.filter((s) => !prontoParaLiberarLB(s) && s.no_site === true).length; const podeSubir = naoProntos - jaNoSite;
       const destino = podeSubir && jaNoSite ? ': ' + (podeSubir === 1 ? '1 pode subir para o site' : podeSubir + ' podem subir para o site') + ' e ' + (jaNoSite === 1 ? '1 já está no site' : jaNoSite + ' já estão no site')
         : (podeSubir ? ': ' + (podeSubir === 1 ? 'ele pode' : 'eles podem') + ' subir para o site' : ': ' + (jaNoSite === 1 ? 'ele já está no site' : 'eles já estão no site'));
-      partes.push((naoProntos === 1 ? '1 set ainda não está pronto' : naoProntos + ' sets ainda não estão prontos') + ' para liberar (rascunho, com avisos ou sem claims)' + destino + '.');
+      partes.push((naoProntos === 1 ? '1 set ainda não está pronto' : naoProntos + ' sets ainda não estão prontos') + ' para liberar (' + (DB.abertoOk ? 'rascunho, em aberto, com avisos ou sem claims' : 'rascunho, com avisos ou sem claims') + ')' + destino + '.');
     }
-    return { n: sel.length, marc, sel, subir, tirar, sets: sel, claims, total, titulo: pl(marc.length, 'set marcado', 'sets marcados'), texto: partes.join(' ') };
+    return { n: sel.length, marc, sel, subir, tirar, abrir, fechar, sets: sel, claims, total, titulo: pl(marc.length, 'set marcado', 'sets marcados'), texto: partes.join(' ') };
   }
   function htmlResumoLB() {
     const r = resumoLB();
     const notaLiberar = r.n ? '<p class="cs-nota" style="margin-top:10px">Liberar não marca ninguém como pago: só abre o pagamento.' + (DB.siteOk ? ' Se o set ainda não estava no site, ele passa a aparecer para os joiners.' : '') + ' Depois de liberar, as ADMs não editam valor nem dono dos claims; só você. A ação fica registrada com data e hora, e dá para desfazer em Sets e Claims (Últimas mudanças) enquanto nenhum pagamento tiver chegado.</p>' : '';
     const notaSite = DB.siteOk && (r.subir.length || r.tirar.length) ? '<p class="cs-nota" style="margin-top:10px">Subir para o site mostra o set e quem pegou cada vaga aos joiners, sem abrir o pagamento. O pagamento só abre quando você libera.</p>' : '';
+    const notaAberto = DB.abertoOk && (r.abrir.length || r.fechar.length) ? '<p class="cs-nota" style="margin-top:10px">Colocar em aberto mostra o set na página Sets Abertos do site (as vagas livres e o @ de quem já pegou), sem abrir o pagamento. Set que já está no site (Área do Joiner) não aparece nessa página.</p>' : '';
     const bts = '<button type="button" class="g-btn primario" data-acao="lb-liberar"' + (r.n ? '' : ' disabled') + '>' + (r.n ? 'Liberar ' + pl(r.n, 'set', 'sets') : 'Liberar sets') + '</button>' +
+      (DB.abertoOk && r.abrir.length ? '<button type="button" class="g-btn" data-acao="lb-aberto" data-abrir="1">Colocar ' + pl(r.abrir.length, 'set', 'sets') + ' em aberto</button>' : '') +
+      (DB.abertoOk && r.fechar.length ? '<button type="button" class="g-btn" data-acao="lb-aberto" data-abrir="0">Tirar ' + pl(r.fechar.length, 'set', 'sets') + ' de aberto</button>' : '') +
       (DB.siteOk && r.subir.length ? '<button type="button" class="g-btn" data-acao="lb-site" data-subir="1">Subir ' + pl(r.subir.length, 'set', 'sets') + ' para o site</button>' : '') +
       (DB.siteOk && r.tirar.length ? '<button type="button" class="g-btn" data-acao="lb-site" data-subir="0">Tirar ' + pl(r.tirar.length, 'set', 'sets') + ' do site</button>' : '');
-    return '<section class="sc-card" id="lb-resumo-card" aria-label="Resumo da liberação"><div><h2 style="margin:0">' + esc(r.titulo) + '</h2><p class="g-muted" style="margin:4px 0 0">' + esc(r.texto) + '</p>' + notaLiberar + notaSite + '</div>' +
+    return '<section class="sc-card" id="lb-resumo-card" aria-label="Resumo da liberação"><div><h2 style="margin:0">' + esc(r.titulo) + '</h2><p class="g-muted" style="margin:4px 0 0">' + esc(r.texto) + '</p>' + notaLiberar + notaAberto + notaSite + '</div>' +
       '<div class="cs-acoes">' + bts + '</div></section>';
   }
   function htmlLiberarReal() {
     const cegs = listaCegsSC();
     if (LB.ceg && !IX.ceg.has(LB.ceg)) LB.ceg = 0;
     if (!DB.siteOk && (LB.estado === 'nosite' || LB.estado === 'cancelado')) LB.estado = 'revisao';
-    const estados = [['revisao', 'Em revisão'], ['rascunho', 'Rascunho']].concat(DB.siteOk ? [['nosite', 'No site, sem pagamento aberto']] : []).concat([['liberado', 'Liberado']]).concat(DB.siteOk ? [['cancelado', 'Cancelado']] : []).concat([['todos', 'Todos']]);
-    return '<main class="sc-main" id="lb-main"><header class="sc-cab"><div><h1>Liberar pagamento</h1><p class="sc-sub">' + (DB.siteOk ? 'Escolha os sets e confirme. Subir para o site mostra o set aos joiners sem abrir o pagamento; liberar abre o pagamento para quem pegou as vagas.' : 'Escolha os sets e confirme. Depois de liberar, o pagamento fica aberto para quem pegou as vagas.') + '</p></div><div class="sc-chips"><span class="g-chip violeta">Somente administradora</span></div></header>' +
+    if (!DB.abertoOk && LB.estado === 'aberto') LB.estado = 'revisao';
+    const estados = [['revisao', 'Em revisão']].concat(DB.abertoOk ? [['aberto', 'Set em aberto']] : []).concat([['rascunho', 'Rascunho']]).concat(DB.siteOk ? [['nosite', 'No site, sem pagamento aberto']] : []).concat([['liberado', 'Liberado']]).concat(DB.siteOk ? [['cancelado', 'Cancelado']] : []).concat([['todos', 'Todos']]);
+    return '<main class="sc-main" id="lb-main"><header class="sc-cab"><div><h1>Liberar pagamento</h1><p class="sc-sub">' + (DB.abertoOk ? 'Escolha os sets e confirme. Colocar em aberto mostra o set na página Sets Abertos; subir para o site leva o set fechado para a Área do Joiner, sem abrir o pagamento; liberar abre o pagamento para quem pegou as vagas.' : DB.siteOk ? 'Escolha os sets e confirme. Subir para o site mostra o set aos joiners sem abrir o pagamento; liberar abre o pagamento para quem pegou as vagas.' : 'Escolha os sets e confirme. Depois de liberar, o pagamento fica aberto para quem pegou as vagas.') + '</p></div><div class="sc-chips"><span class="g-chip violeta">Somente administradora</span></div></header>' +
       '<section class="sc-card" aria-label="Filtros"><div class="sc-sel">' +
       '<div class="cs-campo"><label for="f-ceg">CEG</label><select id="f-ceg" data-lb="ceg"><option value="">Todas as CEGs</option>' + cegs.map((c) => opcaoSC(c.id, c.nome, c.id === LB.ceg)).join('') + '</select></div>' +
       '<div class="cs-campo"><label for="f-estado">Estado do set</label><select id="f-estado" data-lb="estado">' + estados.map((o) => opcaoSC(o[0], o[1], o[0] === LB.estado)).join('') + '</select></div>' +
@@ -3088,7 +3145,30 @@ const NAV = [
       toast((alt ? (subir ? plm(alt, 'set subiu', 'sets subiram') + ' para o site. Os joiners veem quem pegou cada vaga, mas só pagam depois que você liberar.' : plm(alt, 'set saiu', 'sets saíram') + ' do site.') : 'Nada mudou.') + (pul ? ' ' + plm(pul, 'set ficou', 'sets ficaram') + ' de fora (já liberado ou cancelado).' : ''));
     });
   }
+  /* colocar em aberto / tirar de aberto (vários sets de uma vez): aparece (ou deixa de aparecer) na página Sets Abertos; não abre o pagamento */
+  function pedirAbertoLB(abrir) {
+    const r = resumoLB(); const ss = abrir ? r.abrir : r.fechar; if (!ss.length) return toast('Marque os sets primeiro.');
+    const n = ss.length; const jaNoSite = abrir ? ss.filter((s) => s.no_site === true).length : 0;
+    abrirModal('<h2>' + (abrir ? 'Colocar ' + pl(n, 'set', 'sets') + ' em aberto?' : 'Tirar ' + pl(n, 'set', 'sets') + ' de aberto?') + '</h2><p>' +
+      (abrir ? (n === 1 ? 'O set passa' : 'Os sets passam') + ' a aparecer na página Sets Abertos do site, com as vagas livres e o @ de quem já pegou. Ninguém consegue pagar: o pagamento só abre quando você libera.' + (jaNoSite ? ' ' + (jaNoSite === 1 ? '1 deles já está no site (Área do Joiner) e por isso não aparece na página.' : jaNoSite + ' deles já estão no site (Área do Joiner) e por isso não aparecem na página.') : '')
+        : (n === 1 ? 'O set deixa' : 'Os sets deixam') + ' de aparecer na página Sets Abertos e ' + (n === 1 ? 'volta' : 'voltam') + ' para rascunho. Nenhum claim muda.') +
+      '</p><p class="g-muted" style="margin:0">Fica registrado e dá para desfazer em Sets e Claims (Últimas mudanças).</p>' +
+      '<div class="g-acoes"><button type="button" class="g-btn" data-acao="fechar">Cancelar</button><button type="button" class="g-btn primario" data-acao="lb-aberto-ok" data-abrir="' + (abrir ? '1' : '0') + '">' + (abrir ? 'Colocar em aberto' : 'Tirar de aberto') + '</button></div>');
+  }
+  function abertoLB(abrir) {
+    const r = resumoLB(); const ids = (abrir ? r.abrir : r.fechar).map((s) => s.id); fecharModal(); if (!ids.length) return;
+    enfileirar(async () => {
+      const res = await rpc('gom_abrir_sets', { p_sets: ids, p_abrir: abrir });
+      try { await atualizar({ sets: ids }); } catch (e) { toast('Gravei, mas não consegui atualizar a tela. Use "Atualizar agora".'); }
+      LB.marcados.clear(); desenharListaLB();
+      if (!res.ok) return toast(res.msg);
+      const d = res.dados || {}; const alt = d.alterados || 0; const pul = (d.pulados || []).length;
+      toast((alt ? (abrir ? plm(alt, 'set agora está', 'sets agora estão') + ' em aberto e aparece' + (alt === 1 ? '' : 'm') + ' na página Sets Abertos.' : plm(alt, 'set saiu', 'sets saíram') + ' de aberto e ' + (alt === 1 ? 'voltou' : 'voltaram') + ' para rascunho.') : 'Nada mudou.') + (pul ? ' ' + plm(pul, 'set ficou', 'sets ficaram') + ' de fora (já liberado ou cancelado).' : ''));
+    });
+  }
   function acaoLiberar(acao, a) {
+    if (acao === 'lb-aberto') { pedirAbertoLB(a.getAttribute('data-abrir') === '1'); return true; }
+    if (acao === 'lb-aberto-ok') { abertoLB(a.getAttribute('data-abrir') === '1'); return true; }
     if (acao === 'lb-liberar') { pedirLiberarLB(); return true; }
     if (acao === 'lb-liberar-ok') { liberarLB(); return true; }
     if (acao === 'lb-site') { pedirSiteLB(a.getAttribute('data-subir') === '1'); return true; }
