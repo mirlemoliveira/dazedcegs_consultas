@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Dazed CEGs - Sets Abertos</title>
+<link rel="icon" type="image/png" href="../imagens/favicon-icone.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://dazedcegs-backend.onrender.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=Josefin+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#E8EFF6; --band:#F1F1F7; --surface:#FFFFFF; --ink:#2B2B33; --muted:#5C6270; --line:rgba(43,43,51,0.10); --field-line:rgba(43,43,51,0.28);
+--primary:#565780; --primary-ink:#4B5078; --on-primary:#FFFFFF; --link:#565780;
+--tint:#F1F1F7; --tint-ink:#4B5078; --track:#E4E6EE;
+--ok-bg:#E1F0E8; --ok-ink:#2A6B4C; --ok-ink2:#2A6B4C;
+--warn-bg:#FBEFD8; --warn-ink:#8A6418; --gray-bg:#F1F1F7; --gray-ink:#5C6270;
+--bad-bg:#FFE3E5; --bad-ink:#C23440; --disabled-bg:#D9DCE6;
+--coral:#FF5460; --coral-dark:#C23440; --purple:#6F70A1; --purple-dark:#565780; --purple-tint:#F1F1F7;
+--shadow:rgba(43,43,51,0.35);
+--foco:#4B5BAD; --nav-bg:#FFFFFF; --nav-linha:#E5E7EB; --nav-txt:#4A5070; --nav-forte:#1F2340; --acento:#4B5BAD; --titulo:#4B5078; --menu-txt:#4A5070;
+color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:'Poppins','Outfit','Nunito','Inter',-apple-system,sans-serif}
+body{font-size:14.5px;line-height:1.55}
+a{text-decoration:none;color:inherit}
+button,input,select,textarea{font-family:inherit}
+:focus-visible{outline:3px solid var(--foco);outline-offset:2px}
+
+/* ───── NAVBAR (igual à do site, agora com a aba Sets Abertos) ───── */
+.nav{position:sticky;top:0;z-index:30;background:var(--nav-bg);border-bottom:1px solid var(--nav-linha);display:flex;align-items:center;padding:0 32px;height:64px;gap:0}
+.nav-logo{position:absolute;left:32px;display:flex;align-items:center;line-height:1}
+.nav-logo img{height:52px;width:auto;display:block}
+.nav-links{margin:0 auto;display:flex;align-items:stretch;gap:0}
+.nav-a{display:flex;align-items:center;gap:6px;padding:0 18px;height:64px;font-family:'Poppins','Outfit','Nunito','Inter',sans-serif;font-size:13.5px;font-weight:500;color:var(--nav-txt);border-bottom:2.5px solid transparent;transition:color .15s,border-color .15s;white-space:nowrap;position:relative}
+.nav-a svg{width:16px;height:16px;stroke:var(--nav-txt);fill:none;flex-shrink:0}
+.nav-a:hover{color:var(--nav-forte)}
+.nav-a.active{color:var(--nav-forte);font-weight:600;border-bottom-color:var(--acento)}
+.nav-a.active svg{stroke:var(--nav-forte)}
+/* com 8 itens (antes eram 7), os nomes ocupam mais espaço: aperta o respiro entre os itens e, em telas menores, mostra só os ícones (antes o corte era 1080px) */
+@media(max-width:1340px){.nav-a{padding:0 12px}}
+@media(max-width:1244px){.nav-a{padding:0 18px}.nav-a span{display:none}}
+/* celular: logo menor e ícones colados à direita, para os 8 caberem sem encostar no logo */
+@media(max-width:680px){.nav{padding:0 12px}.nav-logo{left:12px}.nav-logo img{height:40px}.nav-links{margin:0 0 0 auto}.nav-a{padding:0 8px}}
+@media(max-width:359px){.nav-logo img{height:32px}.nav-a{padding:0 6px}}
+
+/* ───── Área do Joiner (mesmo visual da Consulta de itens) ───── */
+.j-main{max-width:1100px;margin:0 auto;padding:32px 24px 72px;display:flex;flex-direction:column;gap:20px}
+.j-cab h1{margin:0;font-family:'Note Book','Oswald',sans-serif;font-size:28px;font-weight:700;line-height:1.2;color:var(--titulo);text-transform:uppercase}
+.j-cab p{margin:6px 0 0;color:var(--muted);max-width:560px}
+.j-arroba{flex:0 0 auto;width:48px;height:44px;border-radius:999px;background:var(--tint);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--primary-ink)}
+.j-card{background:var(--surface);border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;gap:4px;box-shadow:0 2px 12px rgba(43,43,51,.06)}
+.j-card.destaque{border:2px solid var(--purple);padding:16px 18px}
+.j-rot{font-size:13px;font-weight:600;color:var(--muted)}
+.j-bloco{background:var(--surface);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px;box-shadow:0 2px 12px rgba(43,43,51,.06)}
+.j-bloco header{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:8px 12px}
+.j-bloco h3{margin:0;font-size:17px;color:var(--ink)}
+.j-mut{color:var(--muted);font-size:13.5px}
+.j-barra{height:8px;border-radius:999px;background:var(--track);overflow:hidden}
+.j-barra>i{display:block;height:100%;border-radius:999px;background:var(--purple)}
+.j-chip{display:inline-block;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:600;background:var(--gray-bg);color:var(--gray-ink);white-space:nowrap}
+.j-chip.violeta{background:var(--tint);color:var(--primary-ink)}
+.j-aviso{margin:0;padding:10px 12px;border-radius:8px;background:var(--warn-bg);color:var(--warn-ink);font-size:13.5px}
+.j-ok{margin:0;padding:10px 12px;border-radius:8px;background:var(--ok-bg);color:var(--ok-ink);font-size:13.5px}
+.j-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 22px;border-radius:999px;border:1px solid var(--field-line);background:var(--surface);color:var(--primary-ink);font:inherit;font-weight:600;font-size:13px;cursor:pointer}
+.j-btn:hover{background:var(--tint)}
+.j-btn[disabled]{background:var(--disabled-bg);border-color:var(--disabled-bg);color:var(--gray-ink);cursor:not-allowed;box-shadow:none}
+.j-vazio{margin:0;padding:28px;text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:16px}
+.j-toast{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:999px;font-size:13.5px;max-width:min(560px,calc(100vw - 32px));z-index:60;box-shadow:0 8px 30px var(--shadow);pointer-events:none}
+
+/* ───── Sets Abertos ───── */
+.s-link{color:var(--primary-ink);font-weight:600;text-decoration:underline}
+.s-tit{font-size:17px;line-height:1.35;color:var(--ink)}
+.s-resumo ul{margin:6px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:13.5px}
+.s-filtros{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px}
+.s-select{height:44px;min-width:260px;max-width:100%;padding:0 44px 0 18px;border:1px solid var(--field-line);border-radius:999px;background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%234B5078' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 18px center;font-size:13.5px;font-weight:600;color:var(--primary-ink);-webkit-appearance:none;appearance:none;cursor:pointer}
+.s-achar{display:flex;align-items:center;gap:8px;flex:1 1 360px;min-width:0;max-width:580px;margin-left:auto}
+.s-achar input{flex:1 1 auto;min-width:0;height:44px;padding:0 18px;border:1px solid var(--field-line);border-radius:999px;font:inherit;font-size:14px;background:var(--surface);color:var(--ink)}
+.s-achar button{flex:0 0 auto;height:44px;padding:0 24px;border:0;border-radius:999px;background:var(--purple);color:#fff;font-weight:600;font-size:13.5px;cursor:pointer;box-shadow:0 4px 14px rgba(111,112,161,.35)}
+.s-achar button:hover{background:var(--purple-dark)}
+.s-grupo{display:flex;flex-direction:column;gap:14px}
+.s-grupo>h2{margin:10px 0 0;font-size:19px;line-height:1.3;color:var(--ink);display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px}
+.s-grupo>h2 small{font-size:13px;font-weight:500;color:var(--muted)}
+.s-set{scroll-margin-top:84px}
+.s-set.s-meu{border:2px solid var(--purple);padding:18px}
+.s-membros{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.s-m{display:flex;flex-direction:column;gap:2px;min-width:0;padding:10px 12px;border-radius:12px;background:var(--tint);border:1px solid var(--line)}
+.s-n{font-size:12px;font-weight:600;color:var(--muted)}
+.s-h{font-size:14px;font-weight:600;color:var(--ink);overflow-wrap:anywhere}
+.s-m.livre{background:transparent;border:1px dashed var(--field-line)}
+.s-m.livre .s-h{font-weight:500;color:var(--muted)}
+.s-m.meu{background:var(--surface);border:2px solid var(--purple);padding:9px 11px}
+.s-voce{align-self:flex-start;margin-top:2px;padding:1px 9px;border-radius:999px;background:var(--purple);color:#fff;font-size:11.5px;font-weight:600}
+.s-nota{margin:0}
+.s-atualiza{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px}
+.s-atualiza p{margin:0;flex:1 1 320px}
+.s-atualiza .j-btn{min-height:36px;padding:0 16px}
+.s-falha{color:var(--warn-ink);font-weight:600}
+.j-vazio .j-btn{min-width:160px}
+@media(max-width:640px){
+.j-main{padding:20px 14px 64px}
+.s-select{width:100%}
+.s-achar{flex:1 1 100%;margin-left:0;max-width:none}
+.s-achar .j-arroba{display:none}
+.s-membros{grid-template-columns:repeat(2,minmax(0,1fr))}
+.j-bloco{padding:16px}.s-set.s-meu{padding:14px}
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+<a class="nav-logo" href="../home/">
+<img src="../imagens/logo.png" alt="DAZED CEGs">
+</a>
+<div class="nav-links">
+<a class="nav-a" href="../home/" aria-label="Home">
+<svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+<span>Home</span>
+</a>
+<a class="nav-a" href="../cegs/" aria-label="Área do Joiner">
+<svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+<span>Área do Joiner</span>
+</a>
+<a class="nav-a active" href="../sets-abertos/" aria-label="Sets Abertos" aria-current="page">
+<svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 12h6"/><path d="M9 16h6"/></svg>
+<span>Sets Abertos</span>
+</a>
+<a class="nav-a" href="../regras/" aria-label="Regras DAZED CEGs">
+<svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+<span>Regras DAZED CEGs</span>
+</a>
+<a class="nav-a" href="../calculadora/" aria-label="Calculadoras">
+<svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+<span>Calculadoras</span>
+</a>
+<a class="nav-a" href="../repasses/" aria-label="Repasses">
+<svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+<span>Repasses</span>
+</a>
+<a class="nav-a" href="../sobras/" aria-label="Sobras">
+<svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
+<span>Sobras</span>
+</a>
+<a class="nav-a" href="../gom/" aria-label="GOM">
+<svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>
+<span>GOM</span>
+</a>
+</div>
+</nav>
+<main class="j-main">
+<header class="j-cab"><h1>Sets abertos</h1><p>Veja os sets que ainda estão em andamento: quem já pegou cada membro e o que ainda está livre. Você não precisa informar o seu @.</p></header>
+<section class="s-filtros" id="s-filtros" aria-label="Filtro e busca" hidden>
+<select id="s-ceg" class="s-select" aria-label="Filtrar por CEG"></select>
+<div class="s-achar" role="search" aria-label="Achar o meu @ (opcional)"><span class="j-arroba" aria-hidden="true">@</span><input id="s-q" type="text" placeholder="Achar o meu @ (opcional)" autocomplete="off" aria-label="Achar o seu @ nos sets abertos (opcional)"><button type="button" data-s="buscar">Achar</button></div>
+</section>
+<div id="s-busca-res" role="status"></div>
+<div class="s-atualiza" id="s-atualiza" hidden><p class="j-mut" id="s-atualizado"></p><button type="button" class="j-btn" id="s-atualizar" data-s="atualizar">Atualizar</button></div>
+<div id="s-lista" style="display:flex;flex-direction:column;gap:20px"></div>
+<p class="j-mut s-nota">Aqui aparece só o @ de quem já pegou cada membro. Nome, telefone e endereço nunca aparecem. Quando um set fecha ou muda de status, ele sai desta lista. Para acompanhar os seus sets que já fecharam, o pagamento e o envio, busque o seu @ na <a class="s-link" href="../cegs/">Área do Joiner</a>.</p>
+<noscript><p class="j-vazio">Para ver os sets abertos, ative o JavaScript do navegador.</p></noscript>
+</main>
+<script>
+(function () {
+'use strict';
+const API = 'https://dazedcegs-backend.onrender.com/sets-abertos';
+const $ = (s, r) => (r || document).querySelector(s);
+const esc = (t) => String(t == null ? '' : t).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const pl = (n, um, varios) => n + ' ' + (n === 1 ? um : varios);
+const listaE = (a) => a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' e ' + a[a.length - 1];
+const normaliza = (t) => { const s = String(t || '').trim().toLowerCase().replace(/^@+/, ''); return s ? '@' + s : ''; };
+
+/* ---------------- dados ----------------
+   Vêm do servidor do site (rota /sets-abertos). Só chegam os sets que a GOM colocou em "Set em aberto" e que ainda não subiram para a Área do Joiner:
+   quando o set sobe para a Área do Joiner, vai para revisão, é liberado, cancelado ou tirado de aberto, ele sai da lista e o @ de quem pegou cada membro deixa de aparecer aqui.
+   Nome, telefone, valor e prazo não chegam ao navegador. */
+let SETS = []; let CEGS = [];
+const E = { handle: '', ceg: '' };
+const R = { pronto: false, carregando: false, erro: false, acordando: false, falhou: false, quando: '', ultima: 0, sig: '' };
+
+const idDe = (s) => { let h = 5381; const t = s.ceg + '|' + s.pob + '|' + s.num; for (let i = 0; i < t.length; i++) h = ((h << 5) + h + t.charCodeAt(i)) >>> 0; return 's' + s.num + '-' + h.toString(36); };
+function dosDados(api) {
+  return (Array.isArray(api) ? api : []).map((s) => {
+    const membros = (Array.isArray(s && s.membros) ? s.membros : []).map((m, i) => ({ pos: (m && m.pos) || i + 1, nome: String((m && m.membro) || ''), handle: (m && m.handle) || '' }));
+    return { id: idDe(s), num: s.num, ceg: String(s.ceg || ''), pob: String(s.pob || ''), membros };
+  }).filter((s) => s.membros.length);
+}
+
+/* ---------------- regras ---------------- */
+const claimCod = (s, m) => s.num + '.' + m.pos;
+const livres = (s) => s.membros.filter((m) => !m.handle);
+const meusMembros = (s, h) => s.membros.filter((m) => m.handle === h);
+const faltantes = (s) => listaE(livres(s).map((m) => m.nome));
+const por = (id) => SETS.find((s) => s.id === id);
+
+function dataHora(iso) {
+  const d = new Date(iso); if (!iso || isNaN(d)) return '';
+  const dia = (x) => x.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', timeZone: 'America/Sao_Paulo' });
+  const hora = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' });
+  return (dia(d) === dia(new Date()) ? 'hoje' : 'em ' + dia(d)) + ' às ' + hora;
+}
+
+/* ---------------- desenho ---------------- */
+function cartao(s) {
+  const total = s.membros.length; const f = livres(s); const occ = total - f.length; const pct = Math.round(occ * 100 / total); const meus = E.handle ? meusMembros(s, E.handle) : [];
+  const celulas = s.membros.map((m) => {
+    const rot = '<span class="s-n">' + esc(m.nome) + ' · ' + claimCod(s, m) + '</span>';
+    if (m.handle) { const meu = m.handle === E.handle; return '<li class="s-m' + (meu ? ' meu' : '') + '">' + rot + '<span class="s-h">' + esc(m.handle) + '</span>' + (meu ? '<span class="s-voce">você</span>' : '') + '</li>'; }
+    return '<li class="s-m livre">' + rot + '<span class="s-h">livre</span></li>';
+  }).join('');
+  const rodape = f.length ? '<p class="j-aviso">' + (f.length === 1 ? 'Falta' : 'Faltam') + ': ' + esc(faltantes(s)) + '.</p>' : '<p class="j-ok">Todas as vagas já foram pegas. Em breve este set fecha e sai da lista.</p>';
+  return '<section class="j-bloco s-set' + (meus.length ? ' s-meu' : '') + '" id="set-' + s.id + '" aria-labelledby="t-' + s.id + '"><header><h3 id="t-' + s.id + '">Set ' + s.num + ' · ' + esc(s.pob) + '</h3><span class="j-chip violeta">' + occ + ' de ' + total + ' preenchidas</span></header>' +
+    '<div class="j-barra" role="progressbar" aria-label="Vagas preenchidas do Set ' + s.num + '" aria-valuemin="0" aria-valuemax="' + total + '" aria-valuenow="' + occ + '"><i style="width:' + pct + '%"></i></div>' +
+    '<ul class="s-membros" aria-label="Membros do Set ' + s.num + '">' + celulas + '</ul>' + rodape + '</section>';
+}
+function resumoBusca() {
+  const alvo = $('#s-busca-res');
+  if (!E.handle || !R.pronto) { alvo.innerHTML = ''; return; }
+  const meus = SETS.filter((s) => meusMembros(s, E.handle).length);
+  if (!meus.length) {
+    alvo.innerHTML = '<p class="j-vazio" id="s-nao-achou">Não encontramos ' + esc(E.handle) + ' nos sets abertos. Se o seu set já fechou, ele saiu desta lista: busque o seu @ na <a class="s-link" href="../cegs/">Área do Joiner</a>.</p>';
+    return;
+  }
+  alvo.innerHTML = '<article class="j-card destaque s-resumo" id="s-achou"><span class="j-rot">' + esc(E.handle) + '</span><strong class="s-tit">Você está em ' + pl(meus.length, 'set que ainda não fechou', 'sets que ainda não fecharam') + '.</strong><ul>' +
+    meus.map((s) => { const f = livres(s); return '<li><a class="s-link" href="#set-' + s.id + '">Set ' + s.num + ' · ' + esc(s.pob) + '</a> (' + esc(s.ceg) + '): você tem ' + esc(listaE(meusMembros(s, E.handle).map((m) => claimCod(s, m)))) + '. ' + (s.membros.length - f.length) + ' de ' + s.membros.length + ' vagas preenchidas' + (f.length ? '; ' + (f.length === 1 ? 'falta ' : 'faltam ') + esc(faltantes(s)) : '') + '.</li>'; }).join('') + '</ul></article>';
+}
+function lista() {
+  const alvo = $('#s-lista');
+  if (!R.pronto) {
+    alvo.innerHTML = R.erro
+      ? '<div class="j-vazio" id="s-erro" role="alert"><p style="margin:0 0 14px">Não consegui carregar os sets abertos agora. Verifique a internet e tente de novo.</p><button type="button" class="j-btn" data-s="atualizar">Tentar de novo</button></div>'
+      : '<p class="j-vazio" id="s-carregando" role="status">Carregando os sets abertos…' + (R.acordando ? '<br>O servidor do site pode levar até 1 minuto para acordar. Aguarde, por favor.' : '') + '</p>';
+    return;
+  }
+  const vis = SETS.filter((s) => !E.ceg || s.ceg === E.ceg);
+  if (!vis.length) { alvo.innerHTML = '<p class="j-vazio" id="s-vazio">' + (E.ceg ? 'Nenhum set aberto nesta CEG no momento.' : 'Nenhum set aberto no momento. Quando abrir um set novo, ele aparece aqui.') + '</p>'; return; }
+  alvo.innerHTML = CEGS.filter((c) => vis.some((s) => s.ceg === c)).map((c, i) => {
+    const grupo = vis.filter((s) => s.ceg === c).sort((a, b) => a.pob.localeCompare(b.pob, 'pt-BR') || a.num - b.num);
+    return '<section class="s-grupo" aria-labelledby="g' + i + '"><h2 id="g' + i + '">' + esc(c) + ' <small>' + pl(grupo.length, 'set aberto', 'sets abertos') + '</small></h2>' + grupo.map(cartao).join('') + '</section>';
+  }).join('');
+}
+function controles() {
+  const tem = R.pronto && SETS.length > 0;
+  $('#s-filtros').hidden = !tem; $('#s-atualiza').hidden = !R.pronto;
+  if (tem) {
+    if (E.ceg && CEGS.indexOf(E.ceg) < 0) E.ceg = '';
+    const sel = $('#s-ceg'); const chave = CEGS.join('|');
+    if (sel.getAttribute('data-chave') !== chave) { sel.innerHTML = '<option value="">Todas as CEGs</option>' + CEGS.map((c) => '<option value="' + esc(c) + '">' + esc(c) + '</option>').join(''); sel.setAttribute('data-chave', chave); }
+    [...sel.options].forEach((o) => { const n = o.value ? SETS.filter((s) => s.ceg === o.value).length : SETS.length; o.textContent = (o.value || 'Todas as CEGs') + ' (' + n + ')'; });
+    sel.value = E.ceg;
+  }
+  if (!R.pronto) return;
+  const qtd = SETS.filter((s) => !E.ceg || s.ceg === E.ceg).length; const quando = dataHora(R.quando);
+  $('#s-atualizado').innerHTML = (SETS.length
+    ? esc(pl(qtd, 'set aberto', 'sets abertos')) + ' agora. ' + (quando ? 'Atualizado ' + esc(quando) + ', com as anotações das ADMs. ' : '') + 'Um claim feito agora pode demorar um pouco para aparecer: até lá, o membro aparece como livre.'
+    : (quando ? 'Atualizado ' + esc(quando) + '.' : ''))
+    + (R.falhou ? ' <span class="s-falha">Não consegui atualizar agora: esta é a última lista que carreguei.</span>' : '');
+  const b = $('#s-atualizar'); b.disabled = R.carregando; b.textContent = R.carregando ? 'Atualizando…' : 'Atualizar';
+}
+function desenhar(tudo) { controles(); if (tudo !== false) { resumoBusca(); lista(); } }
+
+/* ---------------- buscar no servidor ---------------- */
+async function carregar() {
+  if (R.carregando) return;
+  R.carregando = true; R.erro = false;
+  if (!R.pronto) { R.acordando = false; setTimeout(() => { if (R.carregando && !R.pronto) { R.acordando = true; desenhar(); } }, 6000); }
+  desenhar(!R.pronto);
+  const ctrl = new AbortController(); const limite = setTimeout(() => ctrl.abort(), 75000);
+  let mudou = !R.pronto;
+  try {
+    const r = await fetch(API, { signal: ctrl.signal, cache: 'no-store', headers: { Accept: 'application/json' } });
+    const j = await r.json();
+    if (!r.ok || !j || j.ok !== true || !Array.isArray(j.sets)) throw new Error('resposta inesperada');
+    const novos = dosDados(j.sets); const sig = JSON.stringify(novos);
+    mudou = mudou || sig !== R.sig || R.falhou;
+    SETS = novos; R.sig = sig; CEGS = []; novos.forEach((s) => { if (CEGS.indexOf(s.ceg) < 0) CEGS.push(s.ceg); });
+    R.quando = String(j.atualizado_em || ''); R.pronto = true; R.falhou = false; R.ultima = Date.now();
+  } catch (e) {
+    if (R.pronto) { R.falhou = true; mudou = true; } else { R.erro = true; }
+  } finally {
+    clearTimeout(limite); R.carregando = false; R.acordando = false; desenhar(mudou);
+  }
+}
+
+/* ---------------- ações ---------------- */
+function buscar() { E.handle = normaliza($('#s-q').value); if (E.handle) E.ceg = ''; desenhar(); }
+
+document.addEventListener('click', (e) => {
+  const ir = e.target.closest('a[href^="#set-"]');
+  if (ir) {
+    const id = ir.getAttribute('href').slice(1);
+    if (!document.getElementById(id)) { E.ceg = ''; desenhar(); }
+    const alvo = document.getElementById(id);
+    if (alvo) { e.preventDefault(); alvo.scrollIntoView({ block: 'start' }); }
+    return;
+  }
+  const el = e.target.closest('[data-s]'); if (!el || el.disabled) return;
+  const a = el.getAttribute('data-s');
+  if (a === 'buscar') buscar();
+  else if (a === 'atualizar') carregar();
+});
+$('#s-ceg').addEventListener('change', (e) => { E.ceg = e.target.value; desenhar(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target && e.target.id === 's-q') { e.preventDefault(); buscar(); } });
+/* com a página aberta e visível, a lista se atualiza sozinha a cada ~2 minutos */
+setInterval(() => { if (!document.hidden && R.pronto && !R.erro && Date.now() - R.ultima > 110000) carregar(); }, 20000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden && R.pronto && Date.now() - R.ultima > 60000) carregar(); });
+
+desenhar();
+carregar();
+
+/* fonte dos títulos (Note Book): vem embutida nas outras páginas do site; busca de uma delas */
+try {
+  fetch('../repasses/').then((r) => (r.ok ? r.text() : '')).then((t) => {
+    const m = t.match(/@font-face\s*\{[^}]*Note Book[^}]*\}/);
+    if (m) { const s = document.createElement('style'); s.textContent = m[0]; document.head.appendChild(s); }
+  }).catch(() => { /* sem a fonte, usa a de reserva */ });
+} catch (e) { /* ignora */ }
+})();
+</script>
+</body>
+</html>
