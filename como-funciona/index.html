@@ -89,12 +89,18 @@
 
   .topnav-avatar svg { width: 18px; height: 18px; }
 
-  @media (max-width: 1100px) { .topnav-link span { display: none; } }
+  @media (max-width: 1244px) { .topnav-link span { display: none; } }
   @media (max-width: 760px) {
     .topnav { padding: 14px 18px; }
     .topnav-logo span { display: none; }
     .topnav-links { gap: 2px; }
     .topnav-link { padding: 9px 9px; }
+  }
+  /* com 7 abas, em celular pequeno o menu precisa de menos respiro para caber */
+  @media (max-width: 400px) {
+    .topnav { padding: 14px 12px; }
+    .topnav-links { gap: 0; }
+    .topnav-link { padding: 9px 6px; }
   }
 
   /* ---------- MAIN ---------- */
@@ -198,6 +204,10 @@
     <a href="../cegs/" class="topnav-link">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
       <span>Área do Joiner</span>
+    </a>
+    <a href="../sets-abertos/" class="topnav-link" aria-label="Sets Abertos">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 12h6"/><path d="M9 16h6"/></svg>
+      <span>Sets Abertos</span>
     </a>
     <a href="../regras/" class="topnav-link">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
